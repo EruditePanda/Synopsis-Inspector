@@ -19,7 +19,25 @@
 		1B98741B1D4A8F590015E54C /* MetadataSortDescriptors.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B98741A1D4A8F590015E54C /* MetadataSortDescriptors.m */; };
 		1B98741E1D4A9AFB0015E54C /* SynopsisMetadataItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B98741D1D4A9AFB0015E54C /* SynopsisMetadataItem.m */; };
 		1BBB10D21D527CBE00C22439 /* CGLayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BBB10D11D527CBE00C22439 /* CGLayerView.m */; };
+		1BBB10F21D5558EB00C22439 /* Synopsis.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BBB10ED1D5558C400C22439 /* Synopsis.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1BBB10EC1D5558C400C22439 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1BBB10E81D5558C400C22439 /* Synopsis-Framework.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1BBB10DD1D5542A200C22439;
+			remoteInfo = Synopsis;
+		};
+		1BBB10EF1D5558E500C22439 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1BBB10E81D5558C400C22439 /* Synopsis-Framework.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 1BBB10DC1D5542A200C22439;
+			remoteInfo = Synopsis;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		1B0D64351D4FB14C00A1AB5D /* GZIP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GZIP.h; sourceTree = "<group>"; };
@@ -43,6 +61,7 @@
 		1B98741D1D4A9AFB0015E54C /* SynopsisMetadataItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SynopsisMetadataItem.m; sourceTree = "<group>"; };
 		1BBB10D01D527CBE00C22439 /* CGLayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGLayerView.h; sourceTree = "<group>"; };
 		1BBB10D11D527CBE00C22439 /* CGLayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CGLayerView.m; sourceTree = "<group>"; };
+		1BBB10E81D5558C400C22439 /* Synopsis-Framework.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "Synopsis-Framework.xcodeproj"; path = "Synopsis-Framework/Synopsis/Synopsis-Framework.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1BBB10F21D5558EB00C22439 /* Synopsis.framework in Frameworks */,
 				1B0D64391D4FB21F00A1AB5D /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -69,6 +89,7 @@
 		1B9873E81D47A5540015E54C = {
 			isa = PBXGroup;
 			children = (
+				1BBB10E81D5558C400C22439 /* Synopsis-Framework.xcodeproj */,
 				1B9873F31D47A5540015E54C /* Synopsis Inspector */,
 				1B9873F21D47A5540015E54C /* Products */,
 			);
@@ -116,6 +137,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		1BBB10E91D5558C400C22439 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1BBB10ED1D5558C400C22439 /* Synopsis.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -130,6 +159,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				1BBB10F01D5558E500C22439 /* PBXTargetDependency */,
 			);
 			name = "Synopsis Inspector";
 			productName = Synopslight;
@@ -161,12 +191,28 @@
 			mainGroup = 1B9873E81D47A5540015E54C;
 			productRefGroup = 1B9873F21D47A5540015E54C /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 1BBB10E91D5558C400C22439 /* Products */;
+					ProjectRef = 1BBB10E81D5558C400C22439 /* Synopsis-Framework.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				1B9873F01D47A5540015E54C /* Synopsis Inspector */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		1BBB10ED1D5558C400C22439 /* Synopsis.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Synopsis.framework;
+			remoteRef = 1BBB10EC1D5558C400C22439 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		1B9873EF1D47A5540015E54C /* Resources */ = {
@@ -198,6 +244,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1BBB10F01D5558E500C22439 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Synopsis;
+			targetProxy = 1BBB10EF1D5558E500C22439 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		1B9873FC1D47A5540015E54C /* MainMenu.xib */ = {
