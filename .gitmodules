@@ -1,0 +1,3 @@
+[submodule "Synopsis Inspector/Synopsis-Framework"]
+	path = Synopsis Inspector/Synopsis-Framework
+	url = https://github.com/Synopsis/Synopsis-Framework.git
