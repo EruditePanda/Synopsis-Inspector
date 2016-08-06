@@ -92,6 +92,34 @@
     [self.collectionView reloadData];
 }
 
+- (IBAction)saturationSortUsingSelectedCell:(id)sender
+{
+    NSSortDescriptor* perceptualHashSort = [NSSortDescriptor synopsisColorSaturationSortDescriptor];
+    
+    [self.resultsArray sortUsingDescriptors:@[perceptualHashSort]];
+    
+    [self.collectionView reloadData];
+}
+
+- (IBAction)hueSortUsingSelectedCell:(id)sender
+{
+    NSSortDescriptor* perceptualHashSort = [NSSortDescriptor synopsisColorHueSortDescriptor];
+    
+    [self.resultsArray sortUsingDescriptors:@[perceptualHashSort]];
+    
+    [self.collectionView reloadData];
+}
+
+- (IBAction)brightnessSortUsingSelectedCell:(id)sender
+{
+    NSSortDescriptor* perceptualHashSort = [NSSortDescriptor synopsisColorBrightnessSortDescriptor];
+    
+    [self.resultsArray sortUsingDescriptors:@[perceptualHashSort]];
+    
+    [self.collectionView reloadData];
+}
+
+
 #pragma mark -  Metadata Query Delegate
 
 - (id)metadataQuery:(NSMetadataQuery *)query replacementObjectForResultObject:(NSMetadataItem *)result

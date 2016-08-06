@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
     </dependencies>
     <objects>
@@ -682,11 +683,11 @@
                             <scrollView wantsLayer="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fRo-0M-OuZ">
                                 <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                                 <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="Yw9-Kg-dix">
-                                    <rect key="frame" x="0.0" y="0.0" width="465" height="360"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <collectionView selectable="YES" allowsEmptySelection="NO" id="Zca-Ua-Xm8">
-                                            <rect key="frame" x="0.0" y="0.0" width="465" height="360"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="10" minimumLineSpacing="10" id="Q9n-85-Gqk">
                                                 <size key="itemSize" width="400" height="200"/>
@@ -704,7 +705,7 @@
                                     <rect key="frame" x="-100" y="-100" width="233" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="0sy-jS-7Et">
+                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="0sy-jS-7Et">
                                     <rect key="frame" x="465" y="77" width="15" height="283"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -737,28 +738,33 @@
                             <action selector="perceptualHAshSortUsingSelectedCell:" target="Voe-Tx-rLC" id="HiH-bl-Gpq"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="8C5C1670-F20C-45CE-B265-FA479779B560" label="Color Sort" paletteLabel="Color Sort" tag="-1" id="O1H-Sg-47M">
+                    <toolbarItem implicitItemIdentifier="8C5C1670-F20C-45CE-B265-FA479779B560" label="Saturation Sort" paletteLabel="Saturation Sort" tag="-1" id="O1H-Sg-47M">
                         <connections>
-                            <action selector="perceptualHAshSortUsingSelectedCell:" target="Voe-Tx-rLC" id="AgN-tB-l04"/>
+                            <action selector="saturationSortUsingSelectedCell:" target="Voe-Tx-rLC" id="B2q-E5-lr6"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="F2AB7FFF-9081-446D-8F90-453657E530A8" label="Histogram Sort" paletteLabel="Histogram Sort" tag="-1" id="FSS-QP-a3O">
+                    <toolbarItem implicitItemIdentifier="9F5CF487-1E4E-444C-802D-94888B16F638" label="Hue Sort" paletteLabel="Hue Sort" tag="-1" id="Zcg-Uc-HtM">
                         <connections>
-                            <action selector="perceptualHAshSortUsingSelectedCell:" target="Voe-Tx-rLC" id="Cm9-AV-LDz"/>
+                            <action selector="hueSortUsingSelectedCell:" target="Voe-Tx-rLC" id="4jd-VL-O7D"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="5428B973-A39F-43D4-AB52-247B94D078A9" label="Best Fit Sort" paletteLabel="Best Fit Sort" tag="-1" id="rCf-te-0id">
+                    <toolbarItem implicitItemIdentifier="F8253122-EF2C-4C95-8A10-9676379185BD" label="Brightness Sort" paletteLabel="Brightness Sort" tag="-1" id="f0F-zV-DYJ">
                         <connections>
-                            <action selector="perceptualHAshSortUsingSelectedCell:" target="Voe-Tx-rLC" id="rig-0x-vsg"/>
+                            <action selector="brightnessSortUsingSelectedCell:" target="Voe-Tx-rLC" id="mUq-CQ-1Im"/>
                         </connections>
                     </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="F2AB7FFF-9081-446D-8F90-453657E530A8" label="Histogram Sort" paletteLabel="Histogram Sort" tag="-1" id="FSS-QP-a3O"/>
+                    <toolbarItem implicitItemIdentifier="5428B973-A39F-43D4-AB52-247B94D078A9" label="Best Fit Sort" paletteLabel="Best Fit Sort" tag="-1" id="rCf-te-0id"/>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
                     <toolbarItem reference="rCf-te-0id"/>
                     <toolbarItem reference="mSf-oc-9ma"/>
                     <toolbarItem reference="w3K-79-FKe"/>
                     <toolbarItem reference="FSS-QP-a3O"/>
+                    <toolbarItem reference="mSf-oc-9ma"/>
+                    <toolbarItem reference="Zcg-Uc-HtM"/>
                     <toolbarItem reference="O1H-Sg-47M"/>
+                    <toolbarItem reference="f0F-zV-DYJ"/>
                     <toolbarItem reference="K3I-ac-OeR"/>
                 </defaultToolbarItems>
             </toolbar>
