@@ -16,10 +16,10 @@
 		1B9873FE1D47A5540015E54C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B9873FC1D47A5540015E54C /* MainMenu.xib */; };
 		1B9874171D48014C0015E54C /* SynopsisCollectionViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B9874151D48014C0015E54C /* SynopsisCollectionViewItem.m */; };
 		1B9874181D48014C0015E54C /* SynopsisCollectionViewItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B9874161D48014C0015E54C /* SynopsisCollectionViewItem.xib */; };
-		1B98741B1D4A8F590015E54C /* MetadataSortDescriptors.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B98741A1D4A8F590015E54C /* MetadataSortDescriptors.m */; };
 		1B98741E1D4A9AFB0015E54C /* SynopsisMetadataItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B98741D1D4A9AFB0015E54C /* SynopsisMetadataItem.m */; };
 		1BBB10D21D527CBE00C22439 /* CGLayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BBB10D11D527CBE00C22439 /* CGLayerView.m */; };
 		1BBB10F21D5558EB00C22439 /* Synopsis.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BBB10ED1D5558C400C22439 /* Synopsis.framework */; };
+		1BBB10F91D555DDC00C22439 /* Synopsis.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1BBB10ED1D5558C400C22439 /* Synopsis.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +39,19 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		1BBB10F81D555DD400C22439 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				1BBB10F91D555DDC00C22439 /* Synopsis.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		1B0D64351D4FB14C00A1AB5D /* GZIP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GZIP.h; sourceTree = "<group>"; };
 		1B0D64361D4FB14C00A1AB5D /* GZIP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GZIP.m; sourceTree = "<group>"; };
@@ -55,8 +68,6 @@
 		1B9874141D48014C0015E54C /* SynopsisCollectionViewItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynopsisCollectionViewItem.h; sourceTree = "<group>"; };
 		1B9874151D48014C0015E54C /* SynopsisCollectionViewItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SynopsisCollectionViewItem.m; sourceTree = "<group>"; };
 		1B9874161D48014C0015E54C /* SynopsisCollectionViewItem.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SynopsisCollectionViewItem.xib; sourceTree = "<group>"; };
-		1B9874191D4A8F590015E54C /* MetadataSortDescriptors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetadataSortDescriptors.h; sourceTree = "<group>"; };
-		1B98741A1D4A8F590015E54C /* MetadataSortDescriptors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetadataSortDescriptors.m; sourceTree = "<group>"; };
 		1B98741C1D4A9AFB0015E54C /* SynopsisMetadataItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynopsisMetadataItem.h; sourceTree = "<group>"; };
 		1B98741D1D4A9AFB0015E54C /* SynopsisMetadataItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SynopsisMetadataItem.m; sourceTree = "<group>"; };
 		1BBB10D01D527CBE00C22439 /* CGLayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGLayerView.h; sourceTree = "<group>"; };
@@ -110,8 +121,6 @@
 				1B9873F51D47A5540015E54C /* AppDelegate.m */,
 				1B98741C1D4A9AFB0015E54C /* SynopsisMetadataItem.h */,
 				1B98741D1D4A9AFB0015E54C /* SynopsisMetadataItem.m */,
-				1B9874191D4A8F590015E54C /* MetadataSortDescriptors.h */,
-				1B98741A1D4A8F590015E54C /* MetadataSortDescriptors.m */,
 				1B9874141D48014C0015E54C /* SynopsisCollectionViewItem.h */,
 				1B9874151D48014C0015E54C /* SynopsisCollectionViewItem.m */,
 				1B9874161D48014C0015E54C /* SynopsisCollectionViewItem.xib */,
@@ -155,6 +164,7 @@
 				1B9873ED1D47A5540015E54C /* Sources */,
 				1B9873EE1D47A5540015E54C /* Frameworks */,
 				1B9873EF1D47A5540015E54C /* Resources */,
+				1BBB10F81D555DD400C22439 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -238,7 +248,6 @@
 				1B0D64371D4FB14C00A1AB5D /* GZIP.m in Sources */,
 				1B9873F61D47A5540015E54C /* AppDelegate.m in Sources */,
 				1B9874171D48014C0015E54C /* SynopsisCollectionViewItem.m in Sources */,
-				1B98741B1D4A8F590015E54C /* MetadataSortDescriptors.m in Sources */,
 				1B98741E1D4A9AFB0015E54C /* SynopsisMetadataItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

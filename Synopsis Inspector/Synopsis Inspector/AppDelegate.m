@@ -10,7 +10,7 @@
 #import "SynopsisCollectionViewItem.h"
 #import "SynopsisMetadataItem.h"
 
-#import "MetadataSortDescriptors.h"
+#import <Synopsis/Synopsis.h>
 
 @interface AppDelegate ()
 
@@ -85,7 +85,7 @@
     NSIndexSet *path = [self.collectionView selectionIndexes];
     SynopsisMetadataItem* item = [self.resultsArray objectAtIndex:[path firstIndex]];
     
-    NSSortDescriptor* perceptualHashSort = [SynopsisMetadataSortDescriptors hashSortDescriptorRelativeTo:[item valueForKey:kSynopsisPerceptualHashKey]];
+    NSSortDescriptor* perceptualHashSort = [NSSortDescriptor synopsisHashSortDescriptorRelativeTo:[item valueForKey:kSynopsisPerceptualHashKey]];
     
     [self.resultsArray sortUsingDescriptors:@[perceptualHashSort]];
     
