@@ -6,12 +6,9 @@
 //  Copyright © 2016 v002. All rights reserved.
 //
 
+#import <Synopsis/Synopsis.h>
 #import "SynopsisMetadataItem.h"
 #import "GZIP.h"
-
-NSString* const kSynopsisPerceptualHashKey = @"info_v002_synopsis_perceptual_hash";
-NSString* const kSynopsisDominantColorValuesKey = @"info_v002_synopsis_dominant_colors";
-NSString* const kSynopsisHistogramKey = @"info_v002_synopsis_histogram";
 
 @interface SynopsisMetadataItem ()
 {
@@ -85,20 +82,23 @@ NSString* const kSynopsisHistogramKey = @"info_v002_synopsis_histogram";
 - (id) valueForKey:(NSString *)key
 {
     NSDictionary* standardDictionary = [self.globalSynopsisMetadata objectForKey:@"info.v002.Synopsis.OpenCVAnalyzer"];
+
+    if([key isEqualToString:kSynopsisGlobalMetadataSortKey])
+       return standardDictionary;
     
-    if([key isEqualToString:kSynopsisPerceptualHashKey])
+    if([key isEqualToString:kSynopsisPerceptualHashSortKey])
     {
-        return [standardDictionary objectForKey:@"Hash"];
+        return [standardDictionary objectForKey:kSynopsisPerceptualHashDictKey];
     }
 
-    if([key isEqualToString:kSynopsisDominantColorValuesKey])
+    if([key isEqualToString:kSynopsisDominantColorValuesSortKey])
     {
-        return [standardDictionary objectForKey:@"DominantColors"];
+        return [standardDictionary objectForKey:kSynopsisDominantColorValuesDictKey];
     }
 
-    if([key isEqualToString:kSynopsisHistogramKey])
+    if([key isEqualToString:kSynopsisHistogramSortKey])
     {
-        return [standardDictionary objectForKey:@"Histogram"];
+        return [standardDictionary objectForKey:kSynopsisHistogramDictKey];
     }
 
     return [super valueForKey:key];

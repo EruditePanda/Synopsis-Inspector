@@ -11,13 +11,7 @@
 
 // Thin wrapper for NSMetadataItem to implement Key Value access to HFS + Extended attribute's (which Synopsis Can leverage)  
 
-// Supported Synopsis Keys
-extern NSString* const kSynopsisPerceptualHashKey;
-extern NSString* const kSynopsisDominantColorValuesKey;
-extern NSString* const kSynopsisHistogramKey;
-
 @interface SynopsisMetadataItem : NSMetadataItem
-
 
 - (CGLayerRef) cachedLayerRef;
 - (void) setCachedLayerRef:(CGLayerRef) layerRef;

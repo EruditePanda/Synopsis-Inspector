@@ -754,7 +754,11 @@
                         </connections>
                     </toolbarItem>
                     <toolbarItem implicitItemIdentifier="F2AB7FFF-9081-446D-8F90-453657E530A8" label="Histogram Sort" paletteLabel="Histogram Sort" tag="-1" id="FSS-QP-a3O"/>
-                    <toolbarItem implicitItemIdentifier="5428B973-A39F-43D4-AB52-247B94D078A9" label="Best Fit Sort" paletteLabel="Best Fit Sort" tag="-1" id="rCf-te-0id"/>
+                    <toolbarItem implicitItemIdentifier="5428B973-A39F-43D4-AB52-247B94D078A9" label="Best Fit Sort" paletteLabel="Best Fit Sort" tag="-1" id="rCf-te-0id">
+                        <connections>
+                            <action selector="bestMatchSortUsingSelectedCell:" target="Voe-Tx-rLC" id="UTH-lf-ecp"/>
+                        </connections>
+                    </toolbarItem>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
                     <toolbarItem reference="rCf-te-0id"/>

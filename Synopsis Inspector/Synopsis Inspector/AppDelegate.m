@@ -80,12 +80,25 @@
     // Insert code here to tear down your application
 }
 
+- (IBAction)bestMatchSortUsingSelectedCell:(id)sender
+{
+    NSIndexSet *path = [self.collectionView selectionIndexes];
+    SynopsisMetadataItem* item = [self.resultsArray objectAtIndex:[path firstIndex]];
+    
+    NSSortDescriptor* perceptualHashSort = [NSSortDescriptor synopsisBestMatchSortDescriptorRelativeTo:[item valueForKey:kSynopsisGlobalMetadataSortKey]];
+    
+    [self.resultsArray sortUsingDescriptors:@[perceptualHashSort]];
+    
+    [self.collectionView reloadData];
+}
+
+
 - (IBAction)perceptualHAshSortUsingSelectedCell:(id)sender
 {
     NSIndexSet *path = [self.collectionView selectionIndexes];
     SynopsisMetadataItem* item = [self.resultsArray objectAtIndex:[path firstIndex]];
     
-    NSSortDescriptor* perceptualHashSort = [NSSortDescriptor synopsisHashSortDescriptorRelativeTo:[item valueForKey:kSynopsisPerceptualHashKey]];
+    NSSortDescriptor* perceptualHashSort = [NSSortDescriptor synopsisHashSortDescriptorRelativeTo:[item valueForKey:kSynopsisPerceptualHashSortKey]];
     
     [self.resultsArray sortUsingDescriptors:@[perceptualHashSort]];
     
