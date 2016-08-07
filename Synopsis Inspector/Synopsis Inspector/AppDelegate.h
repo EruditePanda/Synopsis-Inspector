@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface AppDelegate : NSObject <NSApplicationDelegate, NSCollectionViewDataSource, NSMetadataQueryDelegate>
+@interface AppDelegate : NSObject <NSApplicationDelegate, NSCollectionViewDataSource, NSCollectionViewDelegate, NSMetadataQueryDelegate>
 
 @end
 

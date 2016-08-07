@@ -18,18 +18,8 @@
 - (void) awakeFromNib
 {
     [self setState:NSVisualEffectStateActive];
-//    self.blendingMode = NSVisualEffectBlendingModeWithinWindow;
-    [self.window setAppearance:[NSAppearance appearanceNamed:NSAppearanceNameVibrantLight]];
-    [self setMaterial:NSVisualEffectMaterialLight];
-    // set our mask image'
-//    self.maskImage = [NSImage imageNamed:NSImageNameActionTemplate];
-//    self.maskImage = [NSImage imageWithSize:self.bounds.size flipped:NO drawingHandler:^BOOL(NSRect bounds)
-//    {
-//        NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:bounds  xRadius:100 yRadius:100];
-//        
-//        [path fill];
-//        return YES;
-//        
-//    }];
+    self.blendingMode = NSVisualEffectBlendingModeWithinWindow;
+    [self.window setAppearance:[NSAppearance appearanceNamed:NSAppearanceNameVibrantDark]];
+    [self setMaterial:NSVisualEffectMaterialUltraDark];
 }
 @end

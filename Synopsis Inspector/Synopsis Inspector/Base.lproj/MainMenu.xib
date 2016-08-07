@@ -14,7 +14,10 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
             <connections>
+                <outlet property="bestFitSort" destination="rCf-te-0id" id="fj1-fL-zkF"/>
                 <outlet property="collectionView" destination="Zca-Ua-Xm8" id="s6B-EV-cbE"/>
+                <outlet property="hashSort" destination="w3K-79-FKe" id="t1I-ec-HMH"/>
+                <outlet property="histogramSort" destination="FSS-QP-a3O" id="aYd-TB-dXQ"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
@@ -673,20 +676,20 @@
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="335" y="390" width="480" height="360"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1177"/>
-            <view key="contentView" id="EiT-Mj-1SZ" customClass="CustomVisualEffectView">
+            <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="r0q-a9-4ZZ">
+                    <visualEffectView appearanceType="vibrantDark" blendingMode="withinWindow" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="fGu-kV-DJW" customClass="CustomVisualEffectView">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                         <subviews>
-                            <scrollView wantsLayer="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fRo-0M-OuZ">
+                            <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" scrollerKnobStyle="dark" translatesAutoresizingMaskIntoConstraints="NO" id="fRo-0M-OuZ">
                                 <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                                 <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="Yw9-Kg-dix">
                                     <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <collectionView selectable="YES" allowsEmptySelection="NO" id="Zca-Ua-Xm8">
+                                        <collectionView selectable="YES" id="Zca-Ua-Xm8">
                                             <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="10" minimumLineSpacing="10" id="Q9n-85-Gqk">
@@ -712,18 +715,18 @@
                             </scrollView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="fRo-0M-OuZ" firstAttribute="top" secondItem="r0q-a9-4ZZ" secondAttribute="top" id="MFa-DX-vBk"/>
-                            <constraint firstAttribute="trailing" secondItem="fRo-0M-OuZ" secondAttribute="trailing" id="U7m-CQ-wHw"/>
-                            <constraint firstAttribute="bottom" secondItem="fRo-0M-OuZ" secondAttribute="bottom" id="VDa-5t-Qdh"/>
-                            <constraint firstItem="fRo-0M-OuZ" firstAttribute="leading" secondItem="r0q-a9-4ZZ" secondAttribute="leading" id="sDN-3B-r5G"/>
+                            <constraint firstItem="fRo-0M-OuZ" firstAttribute="top" secondItem="fGu-kV-DJW" secondAttribute="top" id="Dmu-x0-WaZ"/>
+                            <constraint firstItem="fRo-0M-OuZ" firstAttribute="leading" secondItem="fGu-kV-DJW" secondAttribute="leading" id="iBi-JN-XKC"/>
+                            <constraint firstAttribute="trailing" secondItem="fRo-0M-OuZ" secondAttribute="trailing" id="umq-rw-lMm"/>
+                            <constraint firstAttribute="bottom" secondItem="fRo-0M-OuZ" secondAttribute="bottom" id="xgv-Y0-4Gy"/>
                         </constraints>
-                    </customView>
+                    </visualEffectView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="r0q-a9-4ZZ" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="C1Q-hR-nQA"/>
-                    <constraint firstAttribute="bottom" secondItem="r0q-a9-4ZZ" secondAttribute="bottom" id="IM8-UY-3VD"/>
-                    <constraint firstItem="r0q-a9-4ZZ" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="L3y-Lq-SVl"/>
-                    <constraint firstAttribute="trailing" secondItem="r0q-a9-4ZZ" secondAttribute="trailing" id="PIf-ny-duS"/>
+                    <constraint firstAttribute="bottom" secondItem="fGu-kV-DJW" secondAttribute="bottom" id="L1J-6A-NNQ"/>
+                    <constraint firstItem="fGu-kV-DJW" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="V43-aZ-tbq"/>
+                    <constraint firstItem="fGu-kV-DJW" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="nZx-Uc-Hy5"/>
+                    <constraint firstAttribute="trailing" secondItem="fGu-kV-DJW" secondAttribute="trailing" id="zcy-RV-wuy"/>
                 </constraints>
             </view>
             <toolbar key="toolbar" implicitIdentifier="9CAFC0F7-09F2-4B74-9587-2421ED09A603" autosavesConfiguration="NO" showsBaselineSeparator="NO" displayMode="iconAndLabel" sizeMode="regular" id="gyV-R0-miV">
@@ -733,32 +736,28 @@
                     <toolbarItem implicitItemIdentifier="NSToolbarPrintItem" id="p2K-PI-9fA"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="mSf-oc-9ma"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="K3I-ac-OeR"/>
-                    <toolbarItem implicitItemIdentifier="BFB2B402-8E66-4762-A6DF-767EC98EA500" label="Hash Sort" paletteLabel="Hash Sort" tag="-1" id="w3K-79-FKe">
+                    <toolbarItem implicitItemIdentifier="BFB2B402-8E66-4762-A6DF-767EC98EA500" label="Hash" paletteLabel="Hash" tag="-1" image="Hash" id="w3K-79-FKe">
                         <connections>
                             <action selector="perceptualHAshSortUsingSelectedCell:" target="Voe-Tx-rLC" id="HiH-bl-Gpq"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="8C5C1670-F20C-45CE-B265-FA479779B560" label="Saturation Sort" paletteLabel="Saturation Sort" tag="-1" id="O1H-Sg-47M">
+                    <toolbarItem implicitItemIdentifier="8C5C1670-F20C-45CE-B265-FA479779B560" label="Saturation" paletteLabel="Saturation" tag="-1" image="Saturation" id="O1H-Sg-47M">
                         <connections>
                             <action selector="saturationSortUsingSelectedCell:" target="Voe-Tx-rLC" id="B2q-E5-lr6"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="9F5CF487-1E4E-444C-802D-94888B16F638" label="Hue Sort" paletteLabel="Hue Sort" tag="-1" id="Zcg-Uc-HtM">
+                    <toolbarItem implicitItemIdentifier="9F5CF487-1E4E-444C-802D-94888B16F638" label="Hue" paletteLabel="Hue" tag="-1" image="Hue" id="Zcg-Uc-HtM">
                         <connections>
                             <action selector="hueSortUsingSelectedCell:" target="Voe-Tx-rLC" id="4jd-VL-O7D"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="F8253122-EF2C-4C95-8A10-9676379185BD" label="Brightness Sort" paletteLabel="Brightness Sort" tag="-1" id="f0F-zV-DYJ">
+                    <toolbarItem implicitItemIdentifier="F8253122-EF2C-4C95-8A10-9676379185BD" label="Brightness" paletteLabel="Brightness" tag="-1" image="Brightness" id="f0F-zV-DYJ">
                         <connections>
                             <action selector="brightnessSortUsingSelectedCell:" target="Voe-Tx-rLC" id="mUq-CQ-1Im"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="F2AB7FFF-9081-446D-8F90-453657E530A8" label="Histogram Sort" paletteLabel="Histogram Sort" tag="-1" id="FSS-QP-a3O"/>
-                    <toolbarItem implicitItemIdentifier="5428B973-A39F-43D4-AB52-247B94D078A9" label="Best Fit Sort" paletteLabel="Best Fit Sort" tag="-1" id="rCf-te-0id">
-                        <connections>
-                            <action selector="bestMatchSortUsingSelectedCell:" target="Voe-Tx-rLC" id="UTH-lf-ecp"/>
-                        </connections>
-                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="F2AB7FFF-9081-446D-8F90-453657E530A8" label="Histogram" paletteLabel="Histogram" tag="-1" image="Histogram" id="FSS-QP-a3O"/>
+                    <toolbarItem implicitItemIdentifier="5428B973-A39F-43D4-AB52-247B94D078A9" label="Smart" paletteLabel="Smart" tag="-1" image="Smart" id="rCf-te-0id"/>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
                     <toolbarItem reference="rCf-te-0id"/>
@@ -774,4 +773,12 @@
             </toolbar>
         </window>
     </objects>
+    <resources>
+        <image name="Brightness" width="512" height="512"/>
+        <image name="Hash" width="512" height="512"/>
+        <image name="Histogram" width="512" height="512"/>
+        <image name="Hue" width="512" height="512"/>
+        <image name="Saturation" width="512" height="512"/>
+        <image name="Smart" width="512" height="512"/>
+    </resources>
 </document>

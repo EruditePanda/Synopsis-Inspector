@@ -16,6 +16,12 @@
 
 @property (weak) IBOutlet NSWindow *window;
 @property (weak) IBOutlet NSCollectionView* collectionView;
+
+// Sorting that requires selection of an item to sort relative to:
+@property (weak) IBOutlet NSToolbarItem* bestFitSort;
+@property (weak) IBOutlet NSToolbarItem* hashSort;
+@property (weak) IBOutlet NSToolbarItem* histogramSort;
+
 @property (strong) NSMutableArray* resultsArray;
 
 @property (strong) NSMetadataQuery* continuousMetadataSearch;
@@ -75,61 +81,89 @@
     [self.collectionView registerNib:synopsisResultNib forItemWithIdentifier:@"SynopsisCollectionViewItem"];
 }
 
-
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     // Insert code here to tear down your application
 }
+
+#pragma mark - Sorting
 
 - (IBAction)bestMatchSortUsingSelectedCell:(id)sender
 {
     NSIndexSet *path = [self.collectionView selectionIndexes];
     SynopsisMetadataItem* item = [self.resultsArray objectAtIndex:[path firstIndex]];
     
-    NSSortDescriptor* perceptualHashSort = [NSSortDescriptor synopsisBestMatchSortDescriptorRelativeTo:[item valueForKey:kSynopsisGlobalMetadataSortKey]];
+    NSSortDescriptor* bestMatchSortDescriptor = [NSSortDescriptor synopsisBestMatchSortDescriptorRelativeTo:[item valueForKey:kSynopsisGlobalMetadataSortKey]];
     
-    [self.resultsArray sortUsingDescriptors:@[perceptualHashSort]];
+    [self.resultsArray sortUsingDescriptors:@[bestMatchSortDescriptor]];
     
     [self.collectionView reloadData];
 }
 
-
-- (IBAction)perceptualHAshSortUsingSelectedCell:(id)sender
+- (IBAction)perceptualHashSortUsingSelectedCell:(id)sender
 {
     NSIndexSet *path = [self.collectionView selectionIndexes];
     SynopsisMetadataItem* item = [self.resultsArray objectAtIndex:[path firstIndex]];
     
     NSSortDescriptor* perceptualHashSort = [NSSortDescriptor synopsisHashSortDescriptorRelativeTo:[item valueForKey:kSynopsisPerceptualHashSortKey]];
-    
     [self.resultsArray sortUsingDescriptors:@[perceptualHashSort]];
     
     [self.collectionView reloadData];
 }
 
-- (IBAction)saturationSortUsingSelectedCell:(id)sender
+- (IBAction)histogramSortUsingSelectingCell:(id)sender
 {
-    NSSortDescriptor* perceptualHashSort = [NSSortDescriptor synopsisColorSaturationSortDescriptor];
+    NSIndexSet *path = [self.collectionView selectionIndexes];
+    SynopsisMetadataItem* item = [self.resultsArray objectAtIndex:[path firstIndex]];
     
-    [self.resultsArray sortUsingDescriptors:@[perceptualHashSort]];
+    NSSortDescriptor* histogtamSort = [NSSortDescriptor synopsisHistogramSortDescriptorRelativeTo:[item valueForKey:kSynopsisHistogramSortKey]];
+    [self.resultsArray sortUsingDescriptors:@[histogtamSort]];
     
     [self.collectionView reloadData];
+}
+
+
+- (IBAction)saturationSortUsingSelectedCell:(id)sender
+{
+    NSArray* previous = self.resultsArray;
+    [self.resultsArray sortUsingDescriptors:@[[NSSortDescriptor synopsisColorSaturationSortDescriptor]]];
+    
+    [self animateSort:previous];
 }
 
 - (IBAction)hueSortUsingSelectedCell:(id)sender
 {
-    NSSortDescriptor* perceptualHashSort = [NSSortDescriptor synopsisColorHueSortDescriptor];
-    
-    [self.resultsArray sortUsingDescriptors:@[perceptualHashSort]];
-    
-    [self.collectionView reloadData];
+    NSArray* previous = self.resultsArray;
+    [self.resultsArray sortUsingDescriptors:@[[NSSortDescriptor synopsisColorHueSortDescriptor]]];
+    [self animateSort:previous];
 }
+
 
 - (IBAction)brightnessSortUsingSelectedCell:(id)sender
 {
-    NSSortDescriptor* perceptualHashSort = [NSSortDescriptor synopsisColorBrightnessSortDescriptor];
+    NSArray* previous = self.resultsArray;
+    [self.resultsArray sortUsingDescriptors:@[[NSSortDescriptor synopsisColorBrightnessSortDescriptor]]];
+    [self animateSort:previous];
+}
+
+- (void) animateSort:(NSArray*)previous
+{
+    [self.collectionView performBatchUpdates:^{
+        
+        for (NSInteger i = 0; i < previous.count; i++)
+        {
+            NSIndexPath* fromIndexPath = [NSIndexPath indexPathForItem:i inSection:0];
+            
+            NSInteger j = [self.resultsArray indexOfObject:previous[i]];
+            
+            NSIndexPath* toIndexPath = [NSIndexPath indexPathForItem:j inSection:0];
+            
+            [self.collectionView moveItemAtIndexPath:fromIndexPath toIndexPath:toIndexPath];
+        }
+        
+    } completionHandler:^(BOOL finished) {
+        [self.collectionView reloadData];
+    }];
     
-    [self.resultsArray sortUsingDescriptors:@[perceptualHashSort]];
-    
-    [self.collectionView reloadData];
 }
 
 
@@ -198,6 +232,30 @@
     item.representedObject = representedObject;
     
     return item;
+}
+
+- (void)collectionView:(NSCollectionView *)collectionView didSelectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths NS_AVAILABLE_MAC(10_11);
+{
+    [self.bestFitSort setTarget:self];
+    [self.bestFitSort setAction:@selector(bestMatchSortUsingSelectedCell:)];
+
+    [self.hashSort setTarget:self];
+    [self.hashSort setAction:@selector(perceptualHashSortUsingSelectedCell:)];
+
+    [self.histogramSort setTarget:self];
+    [self.histogramSort setAction:@selector(histogramSortUsingSelectingCell:)];
+}
+
+- (void)collectionView:(NSCollectionView *)collectionView didDeselectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths NS_AVAILABLE_MAC(10_11);
+{
+    [self.bestFitSort setTarget:nil];
+    [self.bestFitSort setAction:nil];
+    
+    [self.hashSort setTarget:nil];
+    [self.hashSort setAction:nil];
+
+    [self.histogramSort setTarget:nil];
+    [self.histogramSort setAction:nil];
 }
 
 
