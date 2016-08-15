@@ -676,25 +676,25 @@
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="335" y="390" width="480" height="360"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1177"/>
-            <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
+            <view key="contentView" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <visualEffectView appearanceType="vibrantDark" blendingMode="withinWindow" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="fGu-kV-DJW" customClass="CustomVisualEffectView">
+                    <visualEffectView wantsLayer="YES" appearanceType="vibrantDark" blendingMode="withinWindow" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="fGu-kV-DJW" customClass="CustomVisualEffectView">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                         <subviews>
                             <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" scrollerKnobStyle="dark" translatesAutoresizingMaskIntoConstraints="NO" id="fRo-0M-OuZ">
-                                <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
+                                <rect key="frame" x="0.0" y="37" width="480" height="323"/>
                                 <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="Yw9-Kg-dix">
-                                    <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="480" height="323"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <collectionView selectable="YES" id="Zca-Ua-Xm8">
-                                            <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="480" height="323"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="10" minimumLineSpacing="10" id="Q9n-85-Gqk">
                                                 <size key="itemSize" width="400" height="200"/>
-                                                <edgeInsets key="sectionInset" left="10" right="10" top="10" bottom="10"/>
+                                                <edgeInsets key="sectionInset" left="0.0" right="10" top="0.0" bottom="10"/>
                                             </collectionViewFlowLayout>
                                             <color key="primaryBackgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
                                             <connections>
@@ -703,6 +703,7 @@
                                             </connections>
                                         </collectionView>
                                     </subviews>
+                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="RT5-Sb-dCz">
                                     <rect key="frame" x="-100" y="-100" width="233" height="15"/>
@@ -713,19 +714,38 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
+                            <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="New-6b-HZz">
+                                <rect key="frame" x="361" y="14" width="99" height="15"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="99" id="XjD-ZK-VJf"/>
+                                    <constraint firstAttribute="height" constant="14" id="nUn-GV-w1a"/>
+                                </constraints>
+                                <sliderCell key="cell" controlSize="mini" state="on" alignment="left" maxValue="100" doubleValue="42.183010057471265" tickMarkPosition="above" sliderType="linear" id="hQj-Z7-AFC"/>
+                            </slider>
+                            <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="0bP-5f-bdN">
+                                <rect key="frame" x="0.0" y="35" width="480" height="5"/>
+                                <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                                <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <font key="titleFont" metaFont="system"/>
+                            </box>
                         </subviews>
                         <constraints>
                             <constraint firstItem="fRo-0M-OuZ" firstAttribute="top" secondItem="fGu-kV-DJW" secondAttribute="top" id="Dmu-x0-WaZ"/>
                             <constraint firstItem="fRo-0M-OuZ" firstAttribute="leading" secondItem="fGu-kV-DJW" secondAttribute="leading" id="iBi-JN-XKC"/>
                             <constraint firstAttribute="trailing" secondItem="fRo-0M-OuZ" secondAttribute="trailing" id="umq-rw-lMm"/>
-                            <constraint firstAttribute="bottom" secondItem="fRo-0M-OuZ" secondAttribute="bottom" id="xgv-Y0-4Gy"/>
+                            <constraint firstAttribute="bottom" secondItem="fRo-0M-OuZ" secondAttribute="bottom" constant="37" id="xgv-Y0-4Gy"/>
                         </constraints>
                     </visualEffectView>
                 </subviews>
                 <constraints>
+                    <constraint firstAttribute="trailing" secondItem="0bP-5f-bdN" secondAttribute="trailing" id="959-xp-z0w"/>
                     <constraint firstAttribute="bottom" secondItem="fGu-kV-DJW" secondAttribute="bottom" id="L1J-6A-NNQ"/>
+                    <constraint firstItem="0bP-5f-bdN" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="T5h-SI-jje"/>
+                    <constraint firstAttribute="trailing" secondItem="New-6b-HZz" secondAttribute="trailing" constant="20" id="Tv8-F0-CFu"/>
                     <constraint firstItem="fGu-kV-DJW" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="V43-aZ-tbq"/>
+                    <constraint firstAttribute="bottom" secondItem="New-6b-HZz" secondAttribute="bottom" constant="15" id="j61-qp-xba"/>
                     <constraint firstItem="fGu-kV-DJW" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="nZx-Uc-Hy5"/>
+                    <constraint firstAttribute="bottom" secondItem="0bP-5f-bdN" secondAttribute="bottom" constant="37" id="oq5-yV-Zaa"/>
                     <constraint firstAttribute="trailing" secondItem="fGu-kV-DJW" secondAttribute="trailing" id="zcy-RV-wuy"/>
                 </constraints>
             </view>

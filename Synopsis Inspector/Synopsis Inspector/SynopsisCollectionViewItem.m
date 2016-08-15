@@ -9,6 +9,7 @@
 #import "SynopsisCollectionViewItem.h"
 #import <AVFoundation/AVFoundation.h>
 #import "SynopsisMetadataItem.h"
+#import "SynopsisCollectionViewItemView.h"
 #import "CGLayerView.h"
 
 @interface SynopsisCollectionViewItem ()
@@ -25,6 +26,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do view setup here.
+}
+
+- (void) setSelected:(BOOL)selected
+{
+    [super setSelected:selected];
+    
+    if(self.selected)
+    {
+        [(SynopsisCollectionViewItemView*)self.view setBorderColor:[NSColor lightGrayColor]];
+    }
+    else
+    {
+        [(SynopsisCollectionViewItemView*)self.view setBorderColor:nil];
+    }
 }
 
 - (void) setRepresentedObject:(SynopsisMetadataItem*)representedObject
@@ -55,8 +70,6 @@
             [imageGenerator generateCGImagesAsynchronouslyForTimes:@[ [NSValue valueWithCMTime:kCMTimeZero]] completionHandler:^(CMTime requestedTime, CGImageRef  _Nullable image, CMTime actualTime, AVAssetImageGeneratorResult result, NSError * _Nullable error) {
                 [self buildImageForRepresentedObject:image];
             }];
-            
-
             
         }
         else

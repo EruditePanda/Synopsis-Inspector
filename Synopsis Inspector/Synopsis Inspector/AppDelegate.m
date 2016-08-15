@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "SynopsisCollectionViewItem.h"
 #import "SynopsisMetadataItem.h"
+#import "AAPLWrappedLayout.h"
 
 #import <Synopsis/Synopsis.h>
 
@@ -79,6 +80,9 @@
     NSNib* synopsisResultNib = [[NSNib alloc] initWithNibNamed:@"SynopsisCollectionViewItem" bundle:[NSBundle mainBundle]];
     
     [self.collectionView registerNib:synopsisResultNib forItemWithIdentifier:@"SynopsisCollectionViewItem"];
+    
+    self.collectionView.collectionViewLayout = [[AAPLWrappedLayout alloc] init];
+    self.collectionView.animator.collectionViewLayout = [[AAPLWrappedLayout alloc] init];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
@@ -147,7 +151,10 @@
 
 - (void) animateSort:(NSArray*)previous
 {
-    [self.collectionView performBatchUpdates:^{
+    NSAnimationContext.currentContext.allowsImplicitAnimation = YES;
+    NSAnimationContext.currentContext.duration = 0.5;
+    
+    [self.collectionView.animator performBatchUpdates:^{
         
         for (NSInteger i = 0; i < previous.count; i++)
         {
@@ -157,7 +164,7 @@
             
             NSIndexPath* toIndexPath = [NSIndexPath indexPathForItem:j inSection:0];
             
-            [self.collectionView moveItemAtIndexPath:fromIndexPath toIndexPath:toIndexPath];
+            [self.collectionView.animator moveItemAtIndexPath:fromIndexPath toIndexPath:toIndexPath];
         }
         
     } completionHandler:^(BOOL finished) {
