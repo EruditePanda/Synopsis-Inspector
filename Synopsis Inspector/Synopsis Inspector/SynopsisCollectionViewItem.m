@@ -16,6 +16,7 @@
 {
 }
 @property (weak) IBOutlet NSTextField* nameField;
+@property (readwrite) AVPlayer* itemPlayer;
 @end
 
 @implementation SynopsisCollectionViewItem
@@ -23,6 +24,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do view setup here.
+    
+    self.itemPlayer = [[AVPlayer alloc] init];
 }
 
 - (void) prepareForReuse
@@ -51,10 +54,13 @@
 
 - (void) setRepresentedObject:(SynopsisMetadataItem*)representedObject
 {
+    
 //    NSAssert([representedObject isKindOfClass:[SynopsisMetadataItem class]], @"Only support SynopsisMetadataItems or NSMetadataItems");
     
     [super setRepresentedObject:representedObject];
     
+    [self.itemPlayer pause];
+
     if(self.representedObject)
     {
         
@@ -63,6 +69,22 @@
         self.nameField.stringValue = representedName;
         
         SynopsisMetadataItem* representedObject = self.representedObject;
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        
+            AVPlayerItem* playerItem = [AVPlayerItem playerItemWithAsset:representedObject.urlAsset];
+            [self.itemPlayer replaceCurrentItemWithPlayerItem:playerItem];
+
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.itemPlayer pause];
+                [(SynopsisCollectionViewItemView*)self.view playerLayer].player = self.itemPlayer;
+            });
+
+        });
+        
+        
+
         
         if(representedObject.cachedImage == NULL)
         {

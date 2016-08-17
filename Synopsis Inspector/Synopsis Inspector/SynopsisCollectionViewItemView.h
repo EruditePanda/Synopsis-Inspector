@@ -7,7 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <AVFoundation/AVFoundation.h>
 
 @interface SynopsisCollectionViewItemView : NSView
 @property (readwrite) NSColor* borderColor;
+@property (readonly) AVPlayerLayer* playerLayer;
 @end

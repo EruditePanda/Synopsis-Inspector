@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B0B634E1D641CC100AA5D0E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0B634D1D641CC100AA5D0E /* Cocoa.framework */; };
+		1B0B63501D641CC900AA5D0E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0B634F1D641CC900AA5D0E /* AVFoundation.framework */; };
 		1B0D64371D4FB14C00A1AB5D /* GZIP.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0D64361D4FB14C00A1AB5D /* GZIP.m */; };
 		1B0D64391D4FB21F00A1AB5D /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0D64381D4FB21F00A1AB5D /* libz.tbd */; };
 		1B0D643C1D4FD48E00A1AB5D /* CustomVisualEffectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0D643B1D4FD48E00A1AB5D /* CustomVisualEffectView.m */; };
@@ -55,6 +57,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1B0B634D1D641CC100AA5D0E /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		1B0B634F1D641CC900AA5D0E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		1B0D64351D4FB14C00A1AB5D /* GZIP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GZIP.h; sourceTree = "<group>"; };
 		1B0D64361D4FB14C00A1AB5D /* GZIP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GZIP.m; sourceTree = "<group>"; };
 		1B0D64381D4FB21F00A1AB5D /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -86,6 +90,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B0B63501D641CC900AA5D0E /* AVFoundation.framework in Frameworks */,
+				1B0B634E1D641CC100AA5D0E /* Cocoa.framework in Frameworks */,
 				1BBB10FD1D55992200C22439 /* Synopsis.framework in Frameworks */,
 				1B0D64391D4FB21F00A1AB5D /* libz.tbd in Frameworks */,
 			);
@@ -94,6 +100,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1B0B63511D641CD100AA5D0E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1B0B634F1D641CC900AA5D0E /* AVFoundation.framework */,
+				1B0B634D1D641CC100AA5D0E /* Cocoa.framework */,
+			);
+			name = Frameworks;
+			path = ..;
+			sourceTree = "<group>";
+		};
 		1B0D64341D4FB14C00A1AB5D /* GZIP */ = {
 			isa = PBXGroup;
 			children = (
@@ -137,6 +153,7 @@
 				1B9873FA1D47A5540015E54C /* Assets.xcassets */,
 				1B9873FC1D47A5540015E54C /* MainMenu.xib */,
 				1B9873FF1D47A5540015E54C /* Info.plist */,
+				1B0B63511D641CD100AA5D0E /* Frameworks */,
 				1B9873F71D47A5540015E54C /* Supporting Files */,
 			);
 			path = "Synopsis Inspector";

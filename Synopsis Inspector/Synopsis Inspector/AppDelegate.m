@@ -32,7 +32,6 @@
 
 - (void) awakeFromNib
 {
-//    [self registerTableView];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {

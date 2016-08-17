@@ -7,7 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <AVFoundation/AVFoundation.h>
 
 @interface SynopsisCollectionViewItem : NSCollectionViewItem
 
+@property (readonly) AVPlayer* itemPlayer;
 @end
