@@ -15,10 +15,7 @@
 @interface SynopsisCollectionViewItem ()
 {
 }
-@property (weak) IBOutlet CGLayerView* previewImageItem;
-@property (weak) IBOutlet NSImageView* previewImageView;
 @property (weak) IBOutlet NSTextField* nameField;
-@property (weak) IBOutlet NSTextField* hashField;
 @end
 
 @implementation SynopsisCollectionViewItem
@@ -26,6 +23,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do view setup here.
+}
+
+- (void) prepareForReuse
+{
+    [super prepareForReuse];
+
+    [(SynopsisCollectionViewItemView*)self.view setBorderColor:nil];
+    self.selected = NO;
 }
 
 - (void) setSelected:(BOOL)selected
@@ -40,6 +45,8 @@
     {
         [(SynopsisCollectionViewItemView*)self.view setBorderColor:nil];
     }
+    
+    [self.view updateLayer];
 }
 
 - (void) setRepresentedObject:(SynopsisMetadataItem*)representedObject
@@ -64,8 +71,6 @@
             imageGenerator.maximumSize = CGSizeMake(480, 320);
             imageGenerator.appliesPreferredTrackTransform = YES;
             
-//            CGImageRef image = [imageGenerator copyCGImageAtTime:kCMTimeZero actualTime:NULL error:nil];
-            //            [self buildImageForRepresentedObject:image];
 
             [imageGenerator generateCGImagesAsynchronouslyForTimes:@[ [NSValue valueWithCMTime:kCMTimeZero]] completionHandler:^(CMTime requestedTime, CGImageRef  _Nullable image, CMTime actualTime, AVAssetImageGeneratorResult result, NSError * _Nullable error) {
                 [self buildImageForRepresentedObject:image];
@@ -74,9 +79,7 @@
         }
         else
         {
-            self.previewImageView.image = representedObject.cachedImage;
-
-//            [self.previewImageItem setCGlayer:representedObject.cachedLayerRef];
+            self.view.layer.contents = representedObject.cachedImage;
         }
     }
 }
@@ -85,41 +88,13 @@
 {
     SynopsisMetadataItem* representedObject = self.representedObject;
 
-    //            if(image != NULL)
-    //            {
-    //                NSSize imageSize = (NSSize){CGImageGetWidth(image) , CGImageGetHeight(image)};
-    //                CGRect imageRect = CGRectMake(0, 0, imageSize.width, imageSize.height);
-    //
-    //                CGImageRetain(image);
-    //
-    //                CGLayerRef imageLayerRef = CGLayerCreateWithContext(self.graphicsContext.CGContext, imageSize, NULL);
-    //
-    //                CGContextRef imageLayerContext = CGLayerGetContext(imageLayerRef);
-    //
-    //                CGContextSaveGState(imageLayerContext);
-    //
-    //                CGContextSetFillColorSpace(imageLayerContext, CGColorSpaceCreateDeviceRGB());
-    //
-    //                CGContextSetBlendMode(imageLayerContext, kCGBlendModeCopy);
-    //
-    //                CGContextDrawImage(imageLayerContext, imageRect, image);
-    //
-    //                CGContextFlush(imageLayerContext);
-    //                CGContextRestoreGState(imageLayerContext);
-    //
-    //                [self.representedObject setCachedLayerRef:imageLayerRef];
-    //                [self.previewImageItem setCGlayer:imageLayerRef];
-    //
-    //                CGLayerRelease(imageLayerRef);
-    //                CGImageRelease(image);
-    //            }
     if(image != NULL)
     {
         NSImage* nsImage = [[NSImage alloc] initWithCGImage:image size:NSZeroSize];
         
         dispatch_async(dispatch_get_main_queue(), ^(){
             representedObject.cachedImage = nsImage;
-            self.previewImageView.image = nsImage;
+            self.view.layer.contents = representedObject.cachedImage;
         });
     }
 

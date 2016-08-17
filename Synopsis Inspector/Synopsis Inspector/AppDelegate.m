@@ -81,7 +81,8 @@
     
     [self.collectionView registerNib:synopsisResultNib forItemWithIdentifier:@"SynopsisCollectionViewItem"];
     
-    self.collectionView.collectionViewLayout = [[AAPLWrappedLayout alloc] init];
+//    self.collectionView.collectionViewLayout = [[AAPLWrappedLayout alloc] init];
+    NSAnimationContext.currentContext.duration = 0.5;
     self.collectionView.animator.collectionViewLayout = [[AAPLWrappedLayout alloc] init];
 }
 
@@ -98,9 +99,11 @@
     
     NSSortDescriptor* bestMatchSortDescriptor = [NSSortDescriptor synopsisBestMatchSortDescriptorRelativeTo:[item valueForKey:kSynopsisGlobalMetadataSortKey]];
     
+    NSArray* previous = [self.resultsArray copy];
     [self.resultsArray sortUsingDescriptors:@[bestMatchSortDescriptor]];
-    
-    [self.collectionView reloadData];
+    [self animateSort:previous selectedItem:item];
+
+//    [self.collectionView reloadData];
 }
 
 - (IBAction)perceptualHashSortUsingSelectedCell:(id)sender
@@ -109,9 +112,12 @@
     SynopsisMetadataItem* item = [self.resultsArray objectAtIndex:[path firstIndex]];
     
     NSSortDescriptor* perceptualHashSort = [NSSortDescriptor synopsisHashSortDescriptorRelativeTo:[item valueForKey:kSynopsisPerceptualHashSortKey]];
+
+    NSArray* previous = [self.resultsArray copy];
     [self.resultsArray sortUsingDescriptors:@[perceptualHashSort]];
-    
-    [self.collectionView reloadData];
+    [self animateSort:previous selectedItem:item];
+
+//    [self.collectionView reloadData];
 }
 
 - (IBAction)histogramSortUsingSelectingCell:(id)sender
@@ -120,42 +126,61 @@
     SynopsisMetadataItem* item = [self.resultsArray objectAtIndex:[path firstIndex]];
     
     NSSortDescriptor* histogtamSort = [NSSortDescriptor synopsisHistogramSortDescriptorRelativeTo:[item valueForKey:kSynopsisHistogramSortKey]];
-    [self.resultsArray sortUsingDescriptors:@[histogtamSort]];
     
-    [self.collectionView reloadData];
+    NSArray* previous = [self.resultsArray copy];
+    [self.resultsArray sortUsingDescriptors:@[histogtamSort]];
+    [self animateSort:previous selectedItem:item];
+
+//    [self.collectionView reloadData];
 }
 
 
 - (IBAction)saturationSortUsingSelectedCell:(id)sender
 {
-    NSArray* previous = self.resultsArray;
+    NSIndexSet *path = [self.collectionView selectionIndexes];
+    SynopsisMetadataItem* item = [self.resultsArray objectAtIndex:[path firstIndex]];
+
+    NSArray* previous = [self.resultsArray copy];
     [self.resultsArray sortUsingDescriptors:@[[NSSortDescriptor synopsisColorSaturationSortDescriptor]]];
     
-    [self animateSort:previous];
+    [self animateSort:previous selectedItem:item];
 }
 
 - (IBAction)hueSortUsingSelectedCell:(id)sender
 {
-    NSArray* previous = self.resultsArray;
+    NSIndexSet *path = [self.collectionView selectionIndexes];
+    SynopsisMetadataItem* item = [self.resultsArray objectAtIndex:[path firstIndex]];
+
+    NSArray* previous = [self.resultsArray copy];
     [self.resultsArray sortUsingDescriptors:@[[NSSortDescriptor synopsisColorHueSortDescriptor]]];
-    [self animateSort:previous];
+    [self animateSort:previous selectedItem:item];
 }
 
 
 - (IBAction)brightnessSortUsingSelectedCell:(id)sender
 {
-    NSArray* previous = self.resultsArray;
+    NSIndexSet *path = [self.collectionView selectionIndexes];
+    SynopsisMetadataItem* item = [self.resultsArray objectAtIndex:[path firstIndex]];
+
+    NSArray* previous = [self.resultsArray copy];
     [self.resultsArray sortUsingDescriptors:@[[NSSortDescriptor synopsisColorBrightnessSortDescriptor]]];
-    [self animateSort:previous];
+    [self animateSort:previous selectedItem:item];
 }
 
-- (void) animateSort:(NSArray*)previous
+- (void) animateSort:(NSArray*)previous selectedItem:(SynopsisMetadataItem*)item
 {
     NSAnimationContext.currentContext.allowsImplicitAnimation = YES;
     NSAnimationContext.currentContext.duration = 0.5;
     
+    NSUInteger index = [self.resultsArray indexOfObject:item];
+    NSIndexPath* newItem = [NSIndexPath indexPathForItem:index inSection:0];
+    
+    NSSet* newItemSet = [NSSet setWithCollectionViewIndexPath:newItem];
+    
+    [self.collectionView.animator scrollToItemsAtIndexPaths:newItemSet scrollPosition:NSCollectionViewScrollPositionCenteredVertically];
+
     [self.collectionView.animator performBatchUpdates:^{
-        
+//
         for (NSInteger i = 0; i < previous.count; i++)
         {
             NSIndexPath* fromIndexPath = [NSIndexPath indexPathForItem:i inSection:0];
@@ -164,13 +189,12 @@
             
             NSIndexPath* toIndexPath = [NSIndexPath indexPathForItem:j inSection:0];
             
-            [self.collectionView.animator moveItemAtIndexPath:fromIndexPath toIndexPath:toIndexPath];
+            [[self.collectionView animator] moveItemAtIndexPath:fromIndexPath toIndexPath:toIndexPath];
         }
         
     } completionHandler:^(BOOL finished) {
-        [self.collectionView reloadData];
+        
     }];
-    
 }
 
 
@@ -234,14 +258,12 @@
     
     SynopsisMetadataItem* representedObject = [self.resultsArray objectAtIndex:indexPath.item];
     
-    item.graphicsContext = [self.window graphicsContext];
-    
     item.representedObject = representedObject;
     
     return item;
 }
 
-- (void)collectionView:(NSCollectionView *)collectionView didSelectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths NS_AVAILABLE_MAC(10_11);
+- (void)collectionView:(NSCollectionView *)collectionView didSelectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
 {
     [self.bestFitSort setTarget:self];
     [self.bestFitSort setAction:@selector(bestMatchSortUsingSelectedCell:)];
@@ -253,7 +275,7 @@
     [self.histogramSort setAction:@selector(histogramSortUsingSelectingCell:)];
 }
 
-- (void)collectionView:(NSCollectionView *)collectionView didDeselectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths NS_AVAILABLE_MAC(10_11);
+- (void)collectionView:(NSCollectionView *)collectionView didDeselectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
 {
     [self.bestFitSort setTarget:nil];
     [self.bestFitSort setAction:nil];
@@ -263,6 +285,15 @@
 
     [self.histogramSort setTarget:nil];
     [self.histogramSort setAction:nil];
+}
+
+- (IBAction)zoom:(id)sender
+{
+    AAPLWrappedLayout* layout = (AAPLWrappedLayout*) self.collectionView.collectionViewLayout;
+    
+    float factor = [sender floatValue];
+    NSSize size = NSMakeSize(200.0 * factor, 100.0 * factor);
+    [layout setItemSize:size];
 }
 
 

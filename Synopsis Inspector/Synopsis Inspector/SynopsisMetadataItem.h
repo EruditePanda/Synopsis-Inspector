@@ -13,8 +13,6 @@
 
 @interface SynopsisMetadataItem : NSMetadataItem
 
-- (CGLayerRef) cachedLayerRef;
-- (void) setCachedLayerRef:(CGLayerRef) layerRef;
 @property (readwrite, strong) NSImage* cachedImage;
 
 @property (readonly) AVURLAsset* urlAsset;

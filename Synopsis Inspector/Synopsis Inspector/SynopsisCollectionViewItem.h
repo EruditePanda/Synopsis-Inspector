@@ -10,6 +10,4 @@
 
 @interface SynopsisCollectionViewItem : NSCollectionViewItem
 
-@property (readwrite, strong) NSGraphicsContext* graphicsContext;
-
 @end

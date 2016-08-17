@@ -11,9 +11,6 @@
 #import "GZIP.h"
 
 @interface SynopsisMetadataItem ()
-{
-    CGLayerRef cachedLayerRef;
-}
 @property (readwrite, strong) AVURLAsset* urlAsset;
 @property (readwrite, strong) NSDictionary* globalSynopsisMetadata;
 @end
@@ -25,7 +22,6 @@
     self = [super initWithURL:url];
     if(self)
     {
-        cachedLayerRef = NULL;
         self.urlAsset = [AVURLAsset URLAssetWithURL:url options:nil];
 
         NSArray* metadataItems = [self.urlAsset metadata];
@@ -57,27 +53,8 @@
         }
     }
     
-    
-    
     return self;
 }
-
-- (void) setCachedLayerRef:(CGLayerRef)layerRef
-{
-    if(cachedLayerRef)
-    {
-        CGLayerRelease(cachedLayerRef);
-        cachedLayerRef = NULL;
-    }
-    
-    cachedLayerRef = CGLayerRetain(layerRef);
-}
-
-- (CGLayerRef) cachedLayerRef
-{
-    return cachedLayerRef;
-}
-
 
 - (id) valueForKey:(NSString *)key
 {
