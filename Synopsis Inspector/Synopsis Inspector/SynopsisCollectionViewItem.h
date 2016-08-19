@@ -12,4 +12,8 @@
 @interface SynopsisCollectionViewItem : NSCollectionViewItem
 
 @property (readonly) AVPlayer* itemPlayer;
+
+- (void) beginOptimizeForScolling;
+- (void) endOptimizeForScrolling;
+
 @end

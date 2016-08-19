@@ -26,6 +26,8 @@
 @property (strong) NSMutableArray* resultsArray;
 
 @property (strong) NSMetadataQuery* continuousMetadataSearch;
+
+@property (readwrite) BOOL currentlyScrolling;
 @end
 
 @implementation AppDelegate
@@ -83,6 +85,13 @@
 //    self.collectionView.collectionViewLayout = [[AAPLWrappedLayout alloc] init];
     NSAnimationContext.currentContext.duration = 0.5;
     self.collectionView.animator.collectionViewLayout = [[AAPLWrappedLayout alloc] init];
+    
+    // Notifcations to help optimize scrolling
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willScroll:) name:NSScrollViewWillStartLiveScrollNotification object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didScroll:) name:NSScrollViewDidEndLiveScrollNotification object:nil];
+
+    self.currentlyScrolling = NO;
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
@@ -286,6 +295,15 @@
     [self.histogramSort setAction:nil];
 }
 
+- (void)collectionView:(NSCollectionView *)collectionView willDisplayItem:(NSCollectionViewItem *)item forRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath
+{
+    SynopsisCollectionViewItem* synopsisItem = (SynopsisCollectionViewItem*)item;
+    if(!self.currentlyScrolling)
+    {
+        [synopsisItem endOptimizeForScrolling];
+    }
+}
+
 - (IBAction)zoom:(id)sender
 {
     AAPLWrappedLayout* layout = (AAPLWrappedLayout*) self.collectionView.collectionViewLayout;
@@ -294,6 +312,30 @@
     NSSize size = NSMakeSize(200.0 * factor, 100.0 * factor);
     [layout setItemSize:size];
 }
+
+
+#pragma mark - Scroll View
+
+- (void) willScroll:(NSNotification*)notifcation
+{
+    self.currentlyScrolling = YES;
+    
+    // hide ALL AVPlayerLayers
+    NSArray* visibleResults = [self.collectionView visibleItems];
+
+    [visibleResults makeObjectsPerformSelector:@selector(beginOptimizeForScolling)];
+}
+
+- (void) didScroll:(NSNotification*)notification
+{
+    self.currentlyScrolling = NO;
+    
+    NSArray* visibleResults = [self.collectionView visibleItems];
+    
+    [visibleResults makeObjectsPerformSelector:@selector(endOptimizeForScrolling)];
+
+}
+
 
 
 

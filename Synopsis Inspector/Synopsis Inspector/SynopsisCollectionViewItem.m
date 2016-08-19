@@ -26,6 +26,7 @@
     // Do view setup here.
     
     self.itemPlayer = [[AVPlayer alloc] init];
+    self.nameField.layer.zPosition = 1.0;
 }
 
 - (void) prepareForReuse
@@ -34,6 +35,10 @@
 
     [(SynopsisCollectionViewItemView*)self.view setBorderColor:nil];
     self.selected = NO;
+    
+    [self.itemPlayer pause];
+    [(SynopsisCollectionViewItemView*)self.view playerLayer].player = nil;
+    [(SynopsisCollectionViewItemView*)self.view playerLayer].opacity = 0.0;
 }
 
 - (void) setSelected:(BOOL)selected
@@ -42,7 +47,7 @@
     
     if(self.selected)
     {
-        [(SynopsisCollectionViewItemView*)self.view setBorderColor:[NSColor lightGrayColor]];
+        [(SynopsisCollectionViewItemView*)self.view setBorderColor:[NSColor selectedControlColor]];
     }
     else
     {
@@ -54,45 +59,21 @@
 
 - (void) setRepresentedObject:(SynopsisMetadataItem*)representedObject
 {
-    
-//    NSAssert([representedObject isKindOfClass:[SynopsisMetadataItem class]], @"Only support SynopsisMetadataItems or NSMetadataItems");
-    
     [super setRepresentedObject:representedObject];
-    
-    [self.itemPlayer pause];
 
-    if(self.representedObject)
+    if(representedObject)
     {
-        
-        NSString* representedName = [self.representedObject valueForAttribute:(NSString*)kMDItemDisplayName];
+        NSString* representedName = [representedObject valueForAttribute:(NSString*)kMDItemDisplayName];
         
         self.nameField.stringValue = representedName;
-        
-        SynopsisMetadataItem* representedObject = self.representedObject;
-        
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        
-            AVPlayerItem* playerItem = [AVPlayerItem playerItemWithAsset:representedObject.urlAsset];
-            [self.itemPlayer replaceCurrentItemWithPlayerItem:playerItem];
-
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.itemPlayer pause];
-                [(SynopsisCollectionViewItemView*)self.view playerLayer].player = self.itemPlayer;
-            });
-
-        });
-        
-        
-
         
         if(representedObject.cachedImage == NULL)
         {
             AVAssetImageGenerator* imageGenerator = [AVAssetImageGenerator assetImageGeneratorWithAsset:representedObject.urlAsset];
             
-            imageGenerator.maximumSize = CGSizeMake(480, 320);
+            imageGenerator.apertureMode = AVAssetImageGeneratorApertureModeCleanAperture;
+            imageGenerator.maximumSize = CGSizeMake(400, 200);
             imageGenerator.appliesPreferredTrackTransform = YES;
-            
 
             [imageGenerator generateCGImagesAsynchronouslyForTimes:@[ [NSValue valueWithCMTime:kCMTimeZero]] completionHandler:^(CMTime requestedTime, CGImageRef  _Nullable image, CMTime actualTime, AVAssetImageGeneratorResult result, NSError * _Nullable error) {
                 [self buildImageForRepresentedObject:image];
@@ -101,25 +82,57 @@
         }
         else
         {
-            self.view.layer.contents = representedObject.cachedImage;
+            [self setViewImage];
         }
     }
 }
 
 - (void) buildImageForRepresentedObject:(CGImageRef)image
 {
-    SynopsisMetadataItem* representedObject = self.representedObject;
 
     if(image != NULL)
     {
+        SynopsisMetadataItem* representedObject = self.representedObject;
         NSImage* nsImage = [[NSImage alloc] initWithCGImage:image size:NSZeroSize];
-        
+        representedObject.cachedImage = nsImage;
+
         dispatch_async(dispatch_get_main_queue(), ^(){
-            representedObject.cachedImage = nsImage;
-            self.view.layer.contents = representedObject.cachedImage;
+            
+            [self setViewImage];
         });
     }
-
 }
+
+- (void) setViewImage
+{
+    SynopsisMetadataItem* representedObject = self.representedObject;
+    SynopsisCollectionViewItemView* view = (SynopsisCollectionViewItemView*)self.view;
+    view.imageLayer.contents = representedObject.cachedImage;
+}
+
+- (void) beginOptimizeForScolling
+{
+    [self.itemPlayer pause];
+}
+
+- (void) endOptimizeForScrolling
+{
+    SynopsisMetadataItem* representedObject = self.representedObject;
+    if([(SynopsisCollectionViewItemView*)self.view playerLayer].player != self.itemPlayer)
+    {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            
+            AVPlayerItem* playerItem = [AVPlayerItem playerItemWithAsset:representedObject.urlAsset];
+            [self.itemPlayer replaceCurrentItemWithPlayerItem:playerItem];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [(SynopsisCollectionViewItemView*)self.view playerLayer].player = self.itemPlayer;
+                [(SynopsisCollectionViewItemView*)self.view playerLayer].opacity = 1.0;
+            });
+            
+        });
+    }
+}
+
 
 @end

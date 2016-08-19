@@ -14,6 +14,6 @@
 @interface SynopsisMetadataItem : NSMetadataItem
 
 @property (readwrite, strong) NSImage* cachedImage;
-
 @property (readonly) AVURLAsset* urlAsset;
+
 @end

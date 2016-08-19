@@ -22,7 +22,7 @@
     self = [super initWithURL:url];
     if(self)
     {
-        self.urlAsset = [AVURLAsset URLAssetWithURL:url options:nil];
+        self.urlAsset = [AVURLAsset URLAssetWithURL:url options:@{AVURLAssetPreferPreciseDurationAndTimingKey : @YES}];
 
         NSArray* metadataItems = [self.urlAsset metadata];
         

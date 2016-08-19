@@ -14,6 +14,10 @@
             <subviews>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sfP-Yd-lRO">
                     <rect key="frame" x="18" y="128" width="444" height="17"/>
+                    <shadow key="shadow" blurRadius="1">
+                        <size key="offset" width="1" height="1"/>
+                        <color key="color" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    </shadow>
                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Label" id="dEU-z4-ar7">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="alternateSelectedControlTextColor" catalog="System" colorSpace="catalog"/>

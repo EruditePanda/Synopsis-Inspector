@@ -20,17 +20,42 @@
 
 @synthesize borderColor = borderColor;
 
-+ (id)defaultAnimationForKey:(NSString *)key {
++ (id)defaultAnimationForKey:(NSString *)key
+{
     static CABasicAnimation *basicAnimation = nil;
-    if ([key isEqual:@"frameOrigin"]) {
-        if (basicAnimation == nil) {
+    if ([key isEqual:@"frameOrigin"])
+    {
+        if (basicAnimation == nil)
+        {
             basicAnimation = [[CABasicAnimation alloc] init];
             [basicAnimation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
         }
         return basicAnimation;
-    } else {
+    }
+    else
+    {
         return [super defaultAnimationForKey:key];
     }
+}
+
+- (void) commonInit
+{
+    self.playerLayer = [[AVPlayerLayer alloc] init];
+    self.playerLayer.frame = self.layer.bounds;
+    self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+    self.playerLayer.actions = @{@"contents" : [NSNull null]};
+    self.playerLayer.autoresizingMask = kCALayerWidthSizable | kCALayerHeightSizable;
+    
+    [self.layer addSublayer:self.playerLayer];
+    
+    
+    self.imageLayer = [CALayer layer];
+    self.imageLayer.frame = self.layer.bounds;
+    self.imageLayer.contentsGravity = kCAGravityResizeAspectFill;
+    self.imageLayer.actions = @{@"contents" : [NSNull null]};
+    self.imageLayer.autoresizingMask =  kCALayerWidthSizable | kCALayerHeightSizable;
+
+    [self.layer insertSublayer:self.imageLayer below:self.playerLayer];
 }
 
 - (instancetype) initWithFrame:(NSRect)frameRect
@@ -38,33 +63,28 @@
     self = [super initWithFrame:frameRect];
     if(self)
     {
-        self.playerLayer = [[AVPlayerLayer alloc] init];
-        self.playerLayer.frame = self.layer.bounds;
-        
-        [self.layer addSublayer:self.playerLayer];
+        [self commonInit];
     }
     return self;
 }
 
 - (void) awakeFromNib
 {
-    self.playerLayer = [[AVPlayerLayer alloc] init];
-    self.playerLayer.frame = self.layer.bounds;
-    
-    [self.layer addSublayer:self.playerLayer];
-    
+    [self commonInit];
 }
 
 - (void) mouseEntered:(NSEvent *)theEvent
 {
-//    NSLog(@"Play");
-    
+    [self.playerLayer.player play];
+}
+
+- (void) mouseMoved:(NSEvent *)theEvent
+{
     [self.playerLayer.player play];
 }
 
 - (void) mouseExited:(NSEvent *)theEvent
 {
-//    NSLog(@"Pause");
     [self.playerLayer.player pause];
 }
 
@@ -109,6 +129,7 @@
     layer.backgroundColor = (self.borderColor ? [NSColor darkGrayColor].CGColor : nil);
     [self updateTrackingAreas];
 }
+
 
 
 @end

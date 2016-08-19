@@ -11,5 +11,6 @@
 
 @interface SynopsisCollectionViewItemView : NSView
 @property (readwrite) NSColor* borderColor;
+@property (readwrite) CALayer* imageLayer;
 @property (readonly) AVPlayerLayer* playerLayer;
 @end
