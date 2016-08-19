@@ -14,7 +14,7 @@
 
 @interface SynopsisCollectionViewItemView ()
 @property (readwrite) AVPlayerLayer* playerLayer;
-@property (readwrite, assign) IBOutlet NSMenu* contextualMenu;
+@property (readwrite, weak) IBOutlet NSTextField* label;
 @end
 
 @implementation SynopsisCollectionViewItemView
@@ -41,15 +41,16 @@
 }
 
 - (void) commonInit
-{    
+{
+    [self.layer addSublayer:self.label.layer];
+    
     self.playerLayer = [[AVPlayerLayer alloc] init];
     self.playerLayer.frame = self.layer.bounds;
     self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     self.playerLayer.actions = @{@"contents" : [NSNull null]};
     self.playerLayer.autoresizingMask = kCALayerWidthSizable | kCALayerHeightSizable;
     
-    [self.layer addSublayer:self.playerLayer];
-    
+    [self.layer insertSublayer:self.playerLayer below:self.label.layer];
     
     self.imageLayer = [CALayer layer];
     self.imageLayer.frame = self.layer.bounds;

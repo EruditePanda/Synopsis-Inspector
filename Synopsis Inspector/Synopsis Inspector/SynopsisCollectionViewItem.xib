@@ -32,6 +32,7 @@
                 <constraint firstAttribute="trailing" secondItem="sfP-Yd-lRO" secondAttribute="trailing" constant="20" id="tgg-Mo-LfX"/>
             </constraints>
             <connections>
+                <outlet property="label" destination="sfP-Yd-lRO" id="LiZ-3x-UAa"/>
                 <outlet property="menu" destination="OgX-Ze-gr5" id="nkA-Bx-538"/>
             </connections>
         </customView>

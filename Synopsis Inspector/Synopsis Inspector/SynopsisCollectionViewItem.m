@@ -16,16 +16,18 @@
 {
 }
 @property (weak) IBOutlet NSTextField* nameField;
-@property (readwrite) AVPlayer* itemPlayer;
+@property (readwrite) AVPlayer* player;
+@property (readwrite) AVPlayerItem* playerItem;
 @end
 
 @implementation SynopsisCollectionViewItem
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do view setup here.
     
-    self.itemPlayer = [[AVPlayer alloc] init];
+    self.player = [[AVPlayer alloc] init];
     self.nameField.layer.zPosition = 1.0;
 }
 
@@ -36,7 +38,7 @@
     [(SynopsisCollectionViewItemView*)self.view setBorderColor:nil];
     self.selected = NO;
     
-    [self.itemPlayer pause];
+    [self.player pause];
     [(SynopsisCollectionViewItemView*)self.view playerLayer].player = nil;
     [(SynopsisCollectionViewItemView*)self.view playerLayer].opacity = 0.0;
 }
@@ -112,26 +114,39 @@
 
 - (void) beginOptimizeForScolling
 {
-    [self.itemPlayer pause];
+    [self.player pause];
 }
 
 - (void) endOptimizeForScrolling
 {
+    if(self.playerItem)
+    {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:self.playerItem];
+    }
+    
     SynopsisMetadataItem* representedObject = self.representedObject;
-    if([(SynopsisCollectionViewItemView*)self.view playerLayer].player != self.itemPlayer)
+    if([(SynopsisCollectionViewItemView*)self.view playerLayer].player != self.player)
     {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
             
-            AVPlayerItem* playerItem = [AVPlayerItem playerItemWithAsset:representedObject.urlAsset];
-            [self.itemPlayer replaceCurrentItemWithPlayerItem:playerItem];
+            self.playerItem = [AVPlayerItem playerItemWithAsset:representedObject.urlAsset];
+
+            [self.player replaceCurrentItemWithPlayerItem:self.playerItem];
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                [(SynopsisCollectionViewItemView*)self.view playerLayer].player = self.itemPlayer;
+                [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loopPlayback:) name:AVPlayerItemDidPlayToEndTimeNotification object:self.playerItem];
+                [(SynopsisCollectionViewItemView*)self.view playerLayer].player = self.player;
                 [(SynopsisCollectionViewItemView*)self.view playerLayer].opacity = 1.0;
             });
             
         });
     }
+}
+
+- (void) loopPlayback:(NSNotification*)notification
+{
+    [self.player seekToTime:kCMTimeZero];
+    [self.player play];
 }
 
 - (IBAction)revealInFinder:(id)sender
