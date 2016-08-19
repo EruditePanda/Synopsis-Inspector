@@ -49,9 +49,6 @@
                         <action selector="revealInFinder:" target="M2Q-8K-Ovt" id="aBB-SR-36D"/>
                     </connections>
                 </menuItem>
-                <menuItem title="Item 3" id="1ta-lB-twr">
-                    <modifierMask key="keyEquivalentModifierMask"/>
-                </menuItem>
             </items>
         </menu>
     </objects>

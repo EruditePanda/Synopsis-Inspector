@@ -136,8 +136,6 @@
 
 - (IBAction)revealInFinder:(id)sender
 {
-    NSLog(@"reveal");
-    
     NSURL* url = [NSURL fileURLWithPath:[self.representedObject valueForAttribute:(NSString*)kMDItemPath]];
 
     [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[url]];
