@@ -302,7 +302,7 @@
     
     
     // Add items to our array - We dont sort them yet - so we just append them at the end until the next sort.
-    NSUInteger indexOfLastItem = self.resultsArray.count - 1;
+    NSUInteger indexOfLastItem = self.resultsArray.count;
     [self.resultsArray addObjectsFromArray:addedItems];
 
     // Build an indexSet
