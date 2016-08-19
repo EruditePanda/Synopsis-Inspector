@@ -216,23 +216,10 @@
     return item;
 }
 
-#pragma mark - Metadata
-
-- (void)queryDidUpdate:sender;
-{
-    NSLog(@"A data batch has been received");
-    [self updateResults];
-}
-
+#pragma mark - Metadata Results
 
 // Method invoked when the initial query gathering is completed
-- (void)initalGatherComplete:sender;
-{
-    NSLog(@"A Initial Gather has been received");
-    [self updateResults];
-}
-
-- (void) updateResults
+- (void)initalGatherComplete:(NSNotification*)notification;
 {
     // Pause the query
     [self.continuousMetadataSearch disableUpdates];
@@ -251,6 +238,98 @@
 
     [self.collectionView reloadData];
 }
+
+- (void)queryDidUpdate:(NSNotification*)notification;
+{
+    NSLog(@"A data batch has been received");
+    
+    NSArray* addedItems = [[notification userInfo] objectForKey:NSMetadataQueryUpdateAddedItemsKey];
+    NSArray* updatedItems = [[notification userInfo] objectForKey:NSMetadataQueryUpdateChangedItemsKey];
+    NSArray* removedItems = [[notification userInfo] objectForKey:NSMetadataQueryUpdateRemovedItemsKey];
+
+    // Cache removed objects indices
+    NSMutableSet* removedIndexPaths = [[NSMutableSet alloc] init];
+    for(SynopsisMetadataItem* item in removedItems)
+    {
+        NSIndexPath* removedItemPath = [NSIndexPath indexPathForItem:[self.resultsArray indexOfObject:item] inSection:0];
+        [removedIndexPaths addObject:removedItemPath];
+    }
+
+    // Actually remove object from our backing
+    [self.resultsArray removeObjectsInArray:removedItems];
+
+    
+    // Cache updaed objects indices
+    NSMutableSet* updatedIndexPaths = [[NSMutableSet alloc] init];
+    NSMutableIndexSet* updatedIndexSet = [[NSMutableIndexSet alloc] init];
+    for(SynopsisMetadataItem* item in updatedItems)
+    {
+        NSIndexPath* updatedItemPath = [NSIndexPath indexPathForItem:[self.resultsArray indexOfObject:item] inSection:0];
+        [updatedIndexPaths addObject:updatedItemPath];
+        [updatedIndexSet addIndex:[updatedItemPath item]];
+    }
+    
+    // Actually remove object from our backing
+    [self.resultsArray replaceObjectsAtIndexes:updatedIndexSet withObjects:updatedItems];
+
+    
+    // Update Objects
+//    // Find objects which match the same URL
+//    NSMutableSet* updatedIndexPaths = [[NSMutableSet alloc] init];
+//    NSIndexSet* updatedIndexSet = [self.resultsArray indexesOfObjectsWithOptions:NSEnumerationConcurrent passingTest:^BOOL(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//        
+//        SynopsisMetadataItem* testItem = (SynopsisMetadataItem*)obj;
+//        NSURL* testItemURL = [NSURL fileURLWithPath:[testItem valueForAttribute:(NSString*)kMDItemPath]];
+//                              
+//        for(SynopsisMetadataItem* addedItem in updatedItems)
+//        {
+//            NSURL* addedItemURL = [NSURL fileURLWithPath:[addedItem valueForAttribute:(NSString*)kMDItemPath]];
+//            
+//            if([addedItemURL isEqualTo:testItemURL])
+//                return YES;
+//        }
+//        
+//        return NO;
+//    }];
+//
+//    // Convert our Index Set to an NSSet of IndexPaths. Oh Apple.
+//    [updatedIndexSet enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL * _Nonnull stop) {
+//        [updatedIndexPaths addObject:[NSIndexPath indexPathForItem:idx inSection:0]];
+//    }];
+//    
+//    // Update our backing to actually represent our updated data
+//    [self.resultsArray replaceObjectsAtIndexes:updatedIndexSet withObjects:updatedItems];
+    
+    
+    // Add items to our array - We dont sort them yet - so we just append them at the end until the next sort.
+    NSUInteger indexOfLastItem = self.resultsArray.count - 1;
+    [self.resultsArray addObjectsFromArray:addedItems];
+
+    // Build an indexSet
+    NSMutableSet* addedIndexPaths = [[NSMutableSet alloc] init];
+    for(NSUInteger index = 0; index < addedItems.count; index++)
+    {
+        [addedIndexPaths addObject:[NSIndexPath indexPathForItem:(index + indexOfLastItem) inSection:0]];
+    }
+    
+    // Now Animate our Collection View with our changes
+    [self.collectionView.animator performBatchUpdates:^{
+        
+        // Handle RemovedItems
+        [[self.collectionView animator] deleteItemsAtIndexPaths:removedIndexPaths];
+
+        // Handle Updated objects
+        [[self.collectionView animator] reloadItemsAtIndexPaths:updatedIndexPaths];
+        
+        // Handle Added items
+        [[self.collectionView animator] insertItemsAtIndexPaths:addedIndexPaths];
+        
+    } completionHandler:^(BOOL finished) {
+        
+    }];
+}
+
+
 
 
 #pragma mark - Collection View Bullshit
@@ -336,6 +415,20 @@
 
 }
 
+#pragma mark - Search
+
+- (IBAction)search:(id)sender
+{
+    NSLog(@"Searching for :%@", [sender stringValue]);
+    
+    
+//    [self.resultsArray indexesOfObjectsPassingTest:^BOOL(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//        
+//        
+//        
+//    }];
+    
+}
 
 
 
