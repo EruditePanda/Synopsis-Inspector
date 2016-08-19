@@ -683,6 +683,23 @@
                     <visualEffectView wantsLayer="YES" appearanceType="vibrantDark" blendingMode="withinWindow" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="fGu-kV-DJW" customClass="CustomVisualEffectView">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                         <subviews>
+                            <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="New-6b-HZz">
+                                <rect key="frame" x="361" y="14" width="99" height="15"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="99" id="XjD-ZK-VJf"/>
+                                    <constraint firstAttribute="height" constant="14" id="nUn-GV-w1a"/>
+                                </constraints>
+                                <sliderCell key="cell" controlSize="mini" continuous="YES" state="on" alignment="left" minValue="0.5" maxValue="3" doubleValue="2" tickMarkPosition="above" sliderType="linear" id="hQj-Z7-AFC"/>
+                                <connections>
+                                    <action selector="zoom:" target="Voe-Tx-rLC" id="sqP-eT-Unj"/>
+                                </connections>
+                            </slider>
+                            <box appearanceType="aqua" verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="0bP-5f-bdN">
+                                <rect key="frame" x="0.0" y="35" width="480" height="5"/>
+                                <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                                <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <font key="titleFont" metaFont="system"/>
+                            </box>
                             <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" horizontalScrollElasticity="none" scrollerKnobStyle="dark" translatesAutoresizingMaskIntoConstraints="NO" id="fRo-0M-OuZ">
                                 <rect key="frame" x="0.0" y="37" width="480" height="323"/>
                                 <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="Yw9-Kg-dix">
@@ -714,23 +731,6 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="New-6b-HZz">
-                                <rect key="frame" x="361" y="14" width="99" height="15"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="99" id="XjD-ZK-VJf"/>
-                                    <constraint firstAttribute="height" constant="14" id="nUn-GV-w1a"/>
-                                </constraints>
-                                <sliderCell key="cell" controlSize="mini" continuous="YES" state="on" alignment="left" minValue="0.5" maxValue="3" doubleValue="2" tickMarkPosition="above" sliderType="linear" id="hQj-Z7-AFC"/>
-                                <connections>
-                                    <action selector="zoom:" target="Voe-Tx-rLC" id="sqP-eT-Unj"/>
-                                </connections>
-                            </slider>
-                            <box appearanceType="aqua" verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="0bP-5f-bdN">
-                                <rect key="frame" x="0.0" y="35" width="480" height="5"/>
-                                <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                                <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <font key="titleFont" metaFont="system"/>
-                            </box>
                         </subviews>
                         <constraints>
                             <constraint firstItem="fRo-0M-OuZ" firstAttribute="top" secondItem="fGu-kV-DJW" secondAttribute="top" id="Dmu-x0-WaZ"/>
@@ -754,9 +754,6 @@
             </view>
             <toolbar key="toolbar" implicitIdentifier="9CAFC0F7-09F2-4B74-9587-2421ED09A603" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="gyV-R0-miV">
                 <allowedToolbarItems>
-                    <toolbarItem implicitItemIdentifier="NSToolbarShowColorsItem" id="apf-jl-ggz"/>
-                    <toolbarItem implicitItemIdentifier="NSToolbarShowFontsItem" id="eSO-B1-PcM"/>
-                    <toolbarItem implicitItemIdentifier="NSToolbarPrintItem" id="p2K-PI-9fA"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="mSf-oc-9ma"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="K3I-ac-OeR"/>
                     <toolbarItem implicitItemIdentifier="BFB2B402-8E66-4762-A6DF-767EC98EA500" label="Hash" paletteLabel="Hash" tag="-1" image="Hash" id="w3K-79-FKe">
@@ -781,6 +778,23 @@
                     </toolbarItem>
                     <toolbarItem implicitItemIdentifier="F2AB7FFF-9081-446D-8F90-453657E530A8" label="Histogram" paletteLabel="Histogram" tag="-1" image="Histogram" id="FSS-QP-a3O"/>
                     <toolbarItem implicitItemIdentifier="5428B973-A39F-43D4-AB52-247B94D078A9" label="Smart" paletteLabel="Smart" tag="-1" image="Smart" id="rCf-te-0id"/>
+                    <toolbarItem implicitItemIdentifier="B838ECB4-9B01-4943-9CD7-A3E3011AF788" label="" paletteLabel="" id="85f-zA-YBp">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="96" height="22"/>
+                        <size key="maxSize" width="300" height="22"/>
+                        <searchField key="view" wantsLayer="YES" verticalHuggingPriority="750" id="Ndp-If-Flj">
+                            <rect key="frame" x="0.0" y="14" width="96" height="22"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" usesSingleLineMode="YES" bezelStyle="round" id="3Cf-Y4-eUy">
+                                <font key="font" metaFont="system"/>
+                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                            </searchFieldCell>
+                        </searchField>
+                        <connections>
+                            <action selector="search:" target="Voe-Tx-rLC" id="qHW-CR-Cys"/>
+                        </connections>
+                    </toolbarItem>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
                     <toolbarItem reference="rCf-te-0id"/>
@@ -792,6 +806,7 @@
                     <toolbarItem reference="O1H-Sg-47M"/>
                     <toolbarItem reference="f0F-zV-DYJ"/>
                     <toolbarItem reference="K3I-ac-OeR"/>
+                    <toolbarItem reference="85f-zA-YBp"/>
                 </defaultToolbarItems>
             </toolbar>
         </window>

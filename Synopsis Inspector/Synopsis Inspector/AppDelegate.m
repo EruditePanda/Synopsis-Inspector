@@ -64,14 +64,14 @@
     
     // Set the search scope. In this case it will search the User's home directory
     // and the iCloud documents area
-    NSArray *searchScopes;
+    NSArray* searchScopes;
     searchScopes = @[NSMetadataQueryLocalComputerScope];
     
     [self.continuousMetadataSearch setSearchScopes:searchScopes];
     
     // Configure the sorting of the results so it will order the results by the
     // display name
-    NSSortDescriptor *sortKeys=[[NSSortDescriptor alloc] initWithKey:(id)kMDItemDisplayName
+    NSSortDescriptor* sortKeys = [[NSSortDescriptor alloc] initWithKey:(id)kMDItemDisplayName
                                                             ascending:YES];
     
     [self.continuousMetadataSearch setSortDescriptors:[NSArray arrayWithObject:sortKeys]];
@@ -219,30 +219,94 @@
 #pragma mark - Metadata Results
 
 // Method invoked when the initial query gathering is completed
+// OR IF WE REPLACE THE PREDICATE
 - (void)initalGatherComplete:(NSNotification*)notification;
 {
-    // Pause the query
     [self.continuousMetadataSearch disableUpdates];
+
+    // Temporary fix to get spotlight search working
+    [self.resultsArray removeAllObjects];
+
     
-    for(NSMetadataItem* item in self.continuousMetadataSearch.results)
+    // Ideally, we want to run an initial populate pass
+    // And then animate things coming and going
+    // However we have problems comparing objects in sets
+    // since I dont know why.
+    
+    //    if(self.resultsArray.count == 0)
     {
-        [self.resultsArray addObject:item];
+        NSLog(@"initial gather complete");
+        
+        self.resultsArray = [self.continuousMetadataSearch.results mutableCopy];
+
+        [self.collectionView reloadData];
     }
-    
-    
+    // Otherwise we've run an initial search, but likely replaced our predicate
+    // In that case were going to run a batch update
+//    else
+//    {
+//        NSMutableOrderedSet* currentSet = [NSMutableOrderedSet orderedSetWithArray:self.resultsArray];
+//        NSMutableOrderedSet* newSet = [NSMutableOrderedSet orderedSetWithArray:self.continuousMetadataSearch.results];
+//        
+//        // See if our new results have more items than our old
+//        // If thats the case, we add items
+//        if(self.resultsArray.count < self.continuousMetadataSearch.results.count)
+//        {
+//            [newSet minusOrderedSet:currentSet];
+//            
+//            NSMutableSet* addedIndexPaths = [[NSMutableSet alloc] init];
+//            for(SynopsisMetadataItem* item in newSet.array)
+//            {
+//                NSIndexPath* addedItemPath = [NSIndexPath indexPathForItem:[newSet.array indexOfObject:item] inSection:0];
+//                [addedIndexPaths addObject:addedItemPath];
+//            }
+//            
+//            // Now Animate our Collection View with our changes
+//            [self.collectionView.animator performBatchUpdates:^{
+//                
+//                // Handle RemovedItems
+//                [[self.collectionView animator] insertItemsAtIndexPaths:addedIndexPaths];
+//                
+//            } completionHandler:^(BOOL finished) {
+//                
+//            }];
+//        }
+//        else
+//        {
+//            [currentSet minusOrderedSet:newSet];
+//            
+//            NSMutableSet* removedIndexPaths = [[NSMutableSet alloc] init];
+//            for(SynopsisMetadataItem* item in currentSet.array)
+//            {
+//                NSIndexPath* removedItemPath = [NSIndexPath indexPathForItem:[currentSet.array indexOfObject:item] inSection:0];
+//                [removedIndexPaths addObject:removedItemPath];
+//            }
+//            
+//            // Now Animate our Collection View with our changes
+//            [self.collectionView.animator performBatchUpdates:^{
+//                
+//                // Handle RemovedItems
+//                [[self.collectionView animator] deleteItemsAtIndexPaths:removedIndexPaths];
+//                
+//            } completionHandler:^(BOOL finished) {
+//                
+//            }];
+//        }
+// 
+//        // update our backing
+//        self.resultsArray = [self.continuousMetadataSearch.results mutableCopy];
+//    }
+//
     // Continue the query
     [self.continuousMetadataSearch enableUpdates];
-
-//    [self.collectionView setItemPrototype:[SynopsisResultItem new]];
-//    [self.collectionView setContent:self.resultsArray];
-
-    [self.collectionView reloadData];
 }
 
 - (void)queryDidUpdate:(NSNotification*)notification;
 {
     NSLog(@"A data batch has been received");
     
+    [self.continuousMetadataSearch disableUpdates];
+
     NSArray* addedItems = [[notification userInfo] objectForKey:NSMetadataQueryUpdateAddedItemsKey];
     NSArray* updatedItems = [[notification userInfo] objectForKey:NSMetadataQueryUpdateChangedItemsKey];
     NSArray* removedItems = [[notification userInfo] objectForKey:NSMetadataQueryUpdateRemovedItemsKey];
@@ -271,35 +335,6 @@
     
     // Actually remove object from our backing
     [self.resultsArray replaceObjectsAtIndexes:updatedIndexSet withObjects:updatedItems];
-
-    
-    // Update Objects
-//    // Find objects which match the same URL
-//    NSMutableSet* updatedIndexPaths = [[NSMutableSet alloc] init];
-//    NSIndexSet* updatedIndexSet = [self.resultsArray indexesOfObjectsWithOptions:NSEnumerationConcurrent passingTest:^BOOL(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//        
-//        SynopsisMetadataItem* testItem = (SynopsisMetadataItem*)obj;
-//        NSURL* testItemURL = [NSURL fileURLWithPath:[testItem valueForAttribute:(NSString*)kMDItemPath]];
-//                              
-//        for(SynopsisMetadataItem* addedItem in updatedItems)
-//        {
-//            NSURL* addedItemURL = [NSURL fileURLWithPath:[addedItem valueForAttribute:(NSString*)kMDItemPath]];
-//            
-//            if([addedItemURL isEqualTo:testItemURL])
-//                return YES;
-//        }
-//        
-//        return NO;
-//    }];
-//
-//    // Convert our Index Set to an NSSet of IndexPaths. Oh Apple.
-//    [updatedIndexSet enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL * _Nonnull stop) {
-//        [updatedIndexPaths addObject:[NSIndexPath indexPathForItem:idx inSection:0]];
-//    }];
-//    
-//    // Update our backing to actually represent our updated data
-//    [self.resultsArray replaceObjectsAtIndexes:updatedIndexSet withObjects:updatedItems];
-    
     
     // Add items to our array - We dont sort them yet - so we just append them at the end until the next sort.
     NSUInteger indexOfLastItem = self.resultsArray.count;
@@ -327,6 +362,8 @@
     } completionHandler:^(BOOL finished) {
         
     }];
+    
+    [self.continuousMetadataSearch enableUpdates];
 }
 
 
@@ -413,21 +450,37 @@
     
     [visibleResults makeObjectsPerformSelector:@selector(endOptimizeForScrolling)];
 
+    
 }
 
 #pragma mark - Search
 
 - (IBAction)search:(id)sender
 {
+    [self.continuousMetadataSearch disableUpdates];
+    
     NSLog(@"Searching for :%@", [sender stringValue]);
     
+    if([sender stringValue] == nil || [[sender stringValue] isEqualToString:@""])
+    {
+        // reset to default search
+        NSPredicate *searchPredicate;
+        searchPredicate = [NSPredicate predicateWithFormat:@"info_v002_synopsis_descriptors like '*'"];
+        self.continuousMetadataSearch.predicate = searchPredicate;
+    }
+    else
+    {
+        NSString* searchTerm = [@"'*" stringByAppendingString:[sender stringValue]];
+        searchTerm = [searchTerm stringByAppendingString:@"*'"];
+        
+        // reset to default search
+        NSPredicate *searchPredicate;
+        searchPredicate = [NSPredicate predicateWithFormat:[@"info_v002_synopsis_descriptors like[c] " stringByAppendingString:searchTerm]];
+
+        self.continuousMetadataSearch.predicate = searchPredicate;
+    }
     
-//    [self.resultsArray indexesOfObjectsPassingTest:^BOOL(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//        
-//        
-//        
-//    }];
-    
+    [self.continuousMetadataSearch enableUpdates];
 }
 
 
