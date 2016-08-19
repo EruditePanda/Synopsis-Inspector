@@ -22,7 +22,7 @@
     self = [super initWithURL:url];
     if(self)
     {
-        self.urlAsset = [AVURLAsset URLAssetWithURL:url options:@{AVURLAssetPreferPreciseDurationAndTimingKey : @YES}];
+        self.urlAsset = [AVURLAsset URLAssetWithURL:url options:@{AVURLAssetPreferPreciseDurationAndTimingKey : @NO}];
 
         NSArray* metadataItems = [self.urlAsset metadata];
         
@@ -61,7 +61,9 @@
     NSDictionary* standardDictionary = [self.globalSynopsisMetadata objectForKey:@"info.v002.Synopsis.OpenCVAnalyzer"];
 
     if([key isEqualToString:kSynopsisGlobalMetadataSortKey])
+    {
        return standardDictionary;
+    }
     
     if([key isEqualToString:kSynopsisPerceptualHashSortKey])
     {
