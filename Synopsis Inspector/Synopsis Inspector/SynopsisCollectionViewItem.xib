@@ -31,6 +31,9 @@
                 <constraint firstItem="sfP-Yd-lRO" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="c56-Ns-4DA"/>
                 <constraint firstAttribute="trailing" secondItem="sfP-Yd-lRO" secondAttribute="trailing" constant="20" id="tgg-Mo-LfX"/>
             </constraints>
+            <connections>
+                <outlet property="menu" destination="OgX-Ze-gr5" id="nkA-Bx-538"/>
+            </connections>
         </customView>
         <collectionViewItem nibName="SynopsisCollectionViewItem" identifier="SynopsisCollectionViewItem" id="M2Q-8K-Ovt" customClass="SynopsisCollectionViewItem">
             <connections>
@@ -38,5 +41,18 @@
                 <outlet property="view" destination="Hz6-mo-xeY" id="Hnb-Tf-qiZ"/>
             </connections>
         </collectionViewItem>
+        <menu id="OgX-Ze-gr5">
+            <items>
+                <menuItem title="Reveal In Finder" id="T5S-Sp-tyF">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="revealInFinder:" target="M2Q-8K-Ovt" id="aBB-SR-36D"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Item 3" id="1ta-lB-twr">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                </menuItem>
+            </items>
+        </menu>
     </objects>
 </document>

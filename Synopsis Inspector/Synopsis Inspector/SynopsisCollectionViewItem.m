@@ -63,7 +63,7 @@
 
     if(representedObject)
     {
-        NSString* representedName = [representedObject valueForAttribute:(NSString*)kMDItemDisplayName];
+        NSString* representedName = [representedObject valueForAttribute:(NSString*)kMDItemFSName];
         
         self.nameField.stringValue = representedName;
         
@@ -132,6 +132,15 @@
             
         });
     }
+}
+
+- (IBAction)revealInFinder:(id)sender
+{
+    NSLog(@"reveal");
+    
+    NSURL* url = [NSURL fileURLWithPath:[self.representedObject valueForAttribute:(NSString*)kMDItemPath]];
+
+    [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[url]];
 }
 
 

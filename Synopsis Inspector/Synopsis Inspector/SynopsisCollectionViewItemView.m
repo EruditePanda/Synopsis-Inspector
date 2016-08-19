@@ -14,11 +14,13 @@
 
 @interface SynopsisCollectionViewItemView ()
 @property (readwrite) AVPlayerLayer* playerLayer;
+@property (readwrite, assign) IBOutlet NSMenu* contextualMenu;
 @end
 
 @implementation SynopsisCollectionViewItemView
 
 @synthesize borderColor = borderColor;
+
 
 + (id)defaultAnimationForKey:(NSString *)key
 {
@@ -39,7 +41,7 @@
 }
 
 - (void) commonInit
-{
+{    
     self.playerLayer = [[AVPlayerLayer alloc] init];
     self.playerLayer.frame = self.layer.bounds;
     self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
@@ -73,6 +75,7 @@
     [self commonInit];
 }
 
+
 - (void) mouseEntered:(NSEvent *)theEvent
 {
     [self.playerLayer.player play];
@@ -87,6 +90,11 @@
 {
     [self.playerLayer.player pause];
 }
+
+//-(NSMenu*) menuForEvent:(NSEvent *)event
+//{
+//    return self.contextualMenu;
+//}
 
 
 - (void) setBorderColor:(NSColor*)color
@@ -129,7 +137,5 @@
     layer.backgroundColor = (self.borderColor ? [NSColor darkGrayColor].CGColor : nil);
     [self updateTrackingAreas];
 }
-
-
 
 @end
