@@ -21,7 +21,6 @@
 
 @synthesize borderColor = borderColor;
 
-
 + (id)defaultAnimationForKey:(NSString *)key
 {
     static CABasicAnimation *basicAnimation = nil;

@@ -11,6 +11,7 @@
 #import "GZIP.h"
 
 @interface SynopsisMetadataItem ()
+@property (readwrite) NSURL* url;
 @property (readwrite, strong) AVURLAsset* urlAsset;
 @property (readwrite, strong) NSDictionary* globalSynopsisMetadata;
 @end
@@ -22,6 +23,7 @@
     self = [super initWithURL:url];
     if(self)
     {
+        self.url = url;
         self.urlAsset = [AVURLAsset URLAssetWithURL:url options:@{AVURLAssetPreferPreciseDurationAndTimingKey : @NO}];
 
         NSArray* metadataItems = [self.urlAsset metadata];

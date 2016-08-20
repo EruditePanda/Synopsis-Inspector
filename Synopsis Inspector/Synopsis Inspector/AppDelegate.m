@@ -92,7 +92,23 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didScroll:) name:NSScrollViewDidEndLiveScrollNotification object:nil];
 
     self.currentlyScrolling = NO;
+    
+    [self registerForCollectionViewDragAndDrop];
 }
+
+- (void)registerForCollectionViewDragAndDrop {
+    // Register for the dropped object types we can accept.
+    [self.collectionView registerForDraggedTypes:[NSArray arrayWithObject:NSURLPboardType]];
+    
+    // Enable dragging items from our CollectionView to other applications.
+    [self.collectionView setDraggingSourceOperationMask:NSDragOperationEvery forLocal:NO];
+    
+    // Enable dragging items within and into our CollectionView.
+    [self.collectionView setDraggingSourceOperationMask:NSDragOperationEvery forLocal:YES];
+}
+
+
+
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     // Insert code here to tear down your application
@@ -419,6 +435,32 @@
         [synopsisItem endOptimizeForScrolling];
     }
 }
+
+#pragma mark - Collection View Dragging Source
+
+- (BOOL)collectionView:(NSCollectionView *)collectionView canDragItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths withEvent:(NSEvent *)event
+{
+    return YES;
+}
+
+- (id <NSPasteboardWriting>)collectionView:(NSCollectionView *)collectionView pasteboardWriterForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    SynopsisMetadataItem* representedObject = [self.resultsArray objectAtIndex:indexPath.item];
+
+    // An NSURL can be a pasteboard writer, but must be returned as an absolute URL.
+    return representedObject.url.absoluteURL;
+}
+
+- (void)collectionView:(NSCollectionView *)collectionView draggingSession:(NSDraggingSession *)session willBeginAtPoint:(NSPoint)screenPoint forItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
+{
+    NSLog(@"begin");
+}
+- (void)collectionView:(NSCollectionView *)collectionView draggingSession:(NSDraggingSession *)session endedAtPoint:(NSPoint)screenPoint dragOperation:(NSDragOperation)operation
+{
+    NSLog(@"end");
+}
+
+#pragma mark - 
 
 - (IBAction)zoom:(id)sender
 {
