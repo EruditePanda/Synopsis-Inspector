@@ -23,6 +23,9 @@
 @property (weak) IBOutlet NSToolbarItem* hashSort;
 @property (weak) IBOutlet NSToolbarItem* histogramSort;
 
+@property (weak) IBOutlet NSSearchField* searchField;
+
+
 @property (strong) NSMutableArray* resultsArray;
 
 @property (strong) NSMetadataQuery* continuousMetadataSearch;
@@ -541,7 +544,7 @@
 
 - (IBAction)search:(id)sender
 {
-    [self.continuousMetadataSearch disableUpdates];
+    [self.continuousMetadataSearch stopQuery];
     
     NSLog(@"Searching for :%@", [sender stringValue]);
     
@@ -560,6 +563,18 @@
         
         // clean any random spaces
         [searchTerms removeObject:@""];
+        
+        NSMutableArray* trimmedTerms = [NSMutableArray arrayWithCapacity:searchTerms.count];
+        
+        // remove any whitespace
+        for(NSString* string in searchTerms)
+        {
+            NSString* trimmedString = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            [trimmedTerms addObject:trimmedString];
+        }
+        
+        searchTerm = [searchTerm stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        searchTerms = trimmedTerms;
         
         NSString* predicateBase = @"info_v002_synopsis_descriptors LIKE[cd] ";
         NSArray* operators = @[ @"AND", @"&&", @"OR", @"||", @"NOT", @"!" ];
@@ -664,7 +679,7 @@
         self.continuousMetadataSearch.predicate = searchPredicate;
     }
     
-    [self.continuousMetadataSearch enableUpdates];
+    [self.continuousMetadataSearch startQuery];
 }
 
 

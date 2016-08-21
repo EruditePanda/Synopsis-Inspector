@@ -676,7 +676,7 @@
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="335" y="390" width="480" height="360"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1177"/>
-            <view key="contentView" focusRingType="none" id="EiT-Mj-1SZ">
+            <view key="contentView" wantsLayer="YES" focusRingType="none" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
@@ -778,7 +778,7 @@
                     </toolbarItem>
                     <toolbarItem implicitItemIdentifier="F2AB7FFF-9081-446D-8F90-453657E530A8" label="Histogram" paletteLabel="Histogram" tag="-1" image="Histogram" id="FSS-QP-a3O"/>
                     <toolbarItem implicitItemIdentifier="5428B973-A39F-43D4-AB52-247B94D078A9" label="Smart" paletteLabel="Smart" tag="-1" image="Smart" id="rCf-te-0id"/>
-                    <toolbarItem implicitItemIdentifier="B838ECB4-9B01-4943-9CD7-A3E3011AF788" label="" paletteLabel="" id="85f-zA-YBp">
+                    <toolbarItem implicitItemIdentifier="B838ECB4-9B01-4943-9CD7-A3E3011AF788" label="Search" paletteLabel="Search" id="85f-zA-YBp">
                         <nil key="toolTip"/>
                         <size key="minSize" width="96" height="22"/>
                         <size key="maxSize" width="300" height="22"/>
@@ -790,6 +790,9 @@
                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                             </searchFieldCell>
+                            <connections>
+                                <outlet property="searchMenuTemplate" destination="rqv-o7-9Mx" id="LkC-0O-B5w"/>
+                            </connections>
                         </searchField>
                         <connections>
                             <action selector="search:" target="Voe-Tx-rLC" id="qHW-CR-Cys"/>
@@ -811,6 +814,26 @@
             </toolbar>
             <contentBorderThickness minY="32"/>
         </window>
+        <menu id="rqv-o7-9Mx" userLabel="Search Menu">
+            <items>
+                <menuItem title="Recent Items" tag="1000" id="uGD-d8-hci">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="dTu-qa-ssD"/>
+                <menuItem title="Item 2" tag="1001" id="ktp-r2-DBJ">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="r37-Iu-gOq"/>
+                <menuItem title="Clear Recent Items" tag="1002" id="XoG-Na-K2f">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="NN1-2D-ZeZ"/>
+                <menuItem title="No Recent Items" tag="1003" id="P6r-iP-ph5">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                </menuItem>
+            </items>
+            <point key="canvasLocation" x="858.5" y="144.5"/>
+        </menu>
     </objects>
     <resources>
         <image name="Brightness" width="512" height="512"/>
