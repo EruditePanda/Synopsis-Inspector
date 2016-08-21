@@ -58,6 +58,25 @@
     return self;
 }
 
+// We test equality based on the file system object we are represeting.
+- (BOOL) isEqual:(id)object
+{
+    if([object isKindOfClass:[SynopsisMetadataItem class]])
+    {
+        SynopsisMetadataItem* obj = (SynopsisMetadataItem*)object;
+        
+        BOOL equal = [self.url.absoluteURL isEqual:obj.url.absoluteURL];
+        
+        // helpful for debugging even if stupid 
+        if(equal)
+            return YES;
+        
+        return NO;
+    }
+    
+    return [super isEqual:object];
+}
+
 - (id) valueForKey:(NSString *)key
 {
     NSDictionary* standardDictionary = [self.globalSynopsisMetadata objectForKey:@"info.v002.Synopsis.OpenCVAnalyzer"];

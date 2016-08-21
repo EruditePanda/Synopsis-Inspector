@@ -91,7 +91,6 @@
 
 - (void) buildImageForRepresentedObject:(CGImageRef)image
 {
-
     if(image != NULL)
     {
         SynopsisMetadataItem* representedObject = self.representedObject;
@@ -158,6 +157,8 @@
 
 - (NSArray *)draggingImageComponents
 {
+    [NSGraphicsContext saveGraphicsState];
+    NSGraphicsContext *oldContext = [NSGraphicsContext currentContext];
     
     SynopsisMetadataItem* representedObject = self.representedObject;
 
@@ -165,42 +166,36 @@
     NSView *itemRootView = self.view;
     NSRect itemBounds = itemRootView.bounds;
     NSBitmapImageRep *bitmap = [itemRootView bitmapImageRepForCachingDisplayInRect:itemBounds];
+    bitmap.alpha = YES;
+    
     unsigned char *bitmapData = bitmap.bitmapData;
     if (bitmapData) {
         bzero(bitmapData, bitmap.bytesPerRow * bitmap.pixelsHigh);
     }
     
-    /*
-     -cacheDisplayInRect:toBitmapImageRep: won't capture the "SlideCarrier"
-     image, since it's rendered via the layer contents property.  Work around
-     that by drawing the image into the bitmap ourselves, using a bitmap
-     graphics context.
-     */
+    // Draw our layer into our bitmap
+    [itemRootView cacheDisplayInRect:itemBounds toBitmapImageRep:bitmap];
+
+
     // Work around SlideCarrierView layer contents not being rendered to bitmap.
-    [NSGraphicsContext saveGraphicsState];
-    NSGraphicsContext *oldContext = [NSGraphicsContext currentContext];
     [NSGraphicsContext setCurrentContext:[NSGraphicsContext graphicsContextWithBitmapImageRep:bitmap]];
     [representedObject.cachedImage drawInRect:itemBounds fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
-    [NSGraphicsContext setCurrentContext:oldContext];
-    [NSGraphicsContext restoreGraphicsState];
     
-    /*
-     Invoke -cacheDisplayInRect:toBitmapImageRep: to render the rest of the
-     itemRootView subtree into the bitmap.
-     */
-    
-    [(SynopsisCollectionViewItemView*)self.view playerLayer].hidden = YES;
+    //[(SynopsisCollectionViewItemView*)self.view playerLayer].hidden = YES;
 
-    [itemRootView cacheDisplayInRect:itemBounds toBitmapImageRep:bitmap];
     NSImage *image = [[NSImage alloc] initWithSize:[bitmap size]];
     [image addRepresentation:bitmap];
     
-    [(SynopsisCollectionViewItemView*)self.view playerLayer].hidden = NO;
+   // [(SynopsisCollectionViewItemView*)self.view playerLayer].hidden = NO;
 
     
     NSDraggingImageComponent *component = [[NSDraggingImageComponent alloc] initWithKey:NSDraggingImageComponentIconKey];
     component.frame = itemBounds;
     component.contents = image;
+    
+    [NSGraphicsContext setCurrentContext:oldContext];
+    [NSGraphicsContext restoreGraphicsState];
+
     
     return [NSArray arrayWithObject:component];
 }

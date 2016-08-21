@@ -101,10 +101,10 @@
     [self.collectionView registerForDraggedTypes:[NSArray arrayWithObject:NSURLPboardType]];
     
     // Enable dragging items from our CollectionView to other applications.
-    [self.collectionView setDraggingSourceOperationMask:NSDragOperationEvery forLocal:NO];
+    [self.collectionView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
     
     // Enable dragging items within and into our CollectionView.
-    [self.collectionView setDraggingSourceOperationMask:NSDragOperationEvery forLocal:YES];
+//    [self.collectionView setDraggingSourceOperationMask:NSDragOperationLink forLocal:YES];
 }
 
 
@@ -249,7 +249,7 @@
     // However we have problems comparing objects in sets
     // since I dont know why.
     
-    //    if(self.resultsArray.count == 0)
+//    if(self.resultsArray.count == 0)
     {
         NSLog(@"initial gather complete");
         
@@ -257,30 +257,44 @@
 
         [self.collectionView reloadData];
     }
+    
+    // This is fucking broken:
+    
     // Otherwise we've run an initial search, but likely replaced our predicate
     // In that case were going to run a batch update
 //    else
 //    {
-//        NSMutableOrderedSet* currentSet = [NSMutableOrderedSet orderedSetWithArray:self.resultsArray];
-//        NSMutableOrderedSet* newSet = [NSMutableOrderedSet orderedSetWithArray:self.continuousMetadataSearch.results];
+////        NSMutableOrderedSet* currentSet = [NSMutableOrderedSet orderedSetWithArray:self.resultsArray];
+////        NSMutableOrderedSet* newSet = [NSMutableOrderedSet orderedSetWithArray:self.continuousMetadataSearch.results];
+////        
+//        NSLog(@"Current Set: %lu", (unsigned long)self.resultsArray.count);
+//        NSLog(@"New Set: %lu", (unsigned long)self.continuousMetadataSearch.results.count);
 //        
 //        // See if our new results have more items than our old
 //        // If thats the case, we add items
+//        // Cache our current items in a set
+//        NSMutableArray* currentArray = [self.resultsArray mutableCopy];
+//        NSMutableArray* differenceArray = [self.resultsArray mutableCopy];
+//        NSMutableArray* newResults = [self.continuousMetadataSearch.results mutableCopy];
+//        
+//        // update our backing
+//        self.resultsArray = [self.continuousMetadataSearch.results mutableCopy];
+//
 //        if(self.resultsArray.count < self.continuousMetadataSearch.results.count)
 //        {
-//            [newSet minusOrderedSet:currentSet];
+//            NSLog(@"More New Items than Old Items - inserting");
+//            differenceArray =  newResults;
 //            
 //            NSMutableSet* addedIndexPaths = [[NSMutableSet alloc] init];
-//            for(SynopsisMetadataItem* item in newSet.array)
-//            {
-//                NSIndexPath* addedItemPath = [NSIndexPath indexPathForItem:[newSet.array indexOfObject:item] inSection:0];
-//                [addedIndexPaths addObject:addedItemPath];
-//            }
+//            NSUInteger indexOfLastItem = currentArray.count;
 //            
+//            for(NSUInteger index = 0; index < differenceArray.count; index++)
+//            {
+//                [addedIndexPaths addObject:[NSIndexPath indexPathForItem:(index + indexOfLastItem) inSection:0]];
+//            }
+//
 //            // Now Animate our Collection View with our changes
 //            [self.collectionView.animator performBatchUpdates:^{
-//                
-//                // Handle RemovedItems
 //                [[self.collectionView animator] insertItemsAtIndexPaths:addedIndexPaths];
 //                
 //            } completionHandler:^(BOOL finished) {
@@ -289,30 +303,30 @@
 //        }
 //        else
 //        {
-//            [currentSet minusOrderedSet:newSet];
+//            NSLog(@"More Old Items than New Items - deleting");
+//            // Everything we want to REMOVE from our current array would be
+//            [differenceArray removeObjectsInArray:newResults];
 //            
 //            NSMutableSet* removedIndexPaths = [[NSMutableSet alloc] init];
-//            for(SynopsisMetadataItem* item in currentSet.array)
+//            for(SynopsisMetadataItem* item in differenceArray)
 //            {
-//                NSIndexPath* removedItemPath = [NSIndexPath indexPathForItem:[currentSet.array indexOfObject:item] inSection:0];
+//                NSIndexPath* removedItemPath = [NSIndexPath indexPathForItem:[currentArray indexOfObject:item] inSection:0];
 //                [removedIndexPaths addObject:removedItemPath];
 //            }
+//
 //            
 //            // Now Animate our Collection View with our changes
 //            [self.collectionView.animator performBatchUpdates:^{
-//                
-//                // Handle RemovedItems
 //                [[self.collectionView animator] deleteItemsAtIndexPaths:removedIndexPaths];
 //                
 //            } completionHandler:^(BOOL finished) {
 //                
 //            }];
 //        }
-// 
-//        // update our backing
+//    
 //        self.resultsArray = [self.continuousMetadataSearch.results mutableCopy];
 //    }
-//
+
     // Continue the query
     [self.continuousMetadataSearch enableUpdates];
 }
@@ -453,14 +467,42 @@
 
 - (void)collectionView:(NSCollectionView *)collectionView draggingSession:(NSDraggingSession *)session willBeginAtPoint:(NSPoint)screenPoint forItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
 {
+    [session setDraggingFormation:NSDraggingFormationStack];
     NSLog(@"begin");
 }
+
+- (void)collectionView:(NSCollectionView *)collectionView updateDraggingItemsForDrag:(id <NSDraggingInfo>)draggingInfo
+{
+
+//    [draggingInfo enumerateDraggingItemsWithOptions:NSDraggingItemEnumerationConcurrent
+//                                            forView:draggingInfo.draggingSource
+//                                            classes:@[ [SynopsisMetadataItem class]]
+//                                      searchOptions:nil
+//                                         usingBlock:^(NSDraggingItem * _Nonnull draggingItem, NSInteger idx, BOOL * _Nonnull stop) {
+//        
+////        draggingItem.
+//        
+//    }];
+    
+    NSLog(@"update");
+}
+
 - (void)collectionView:(NSCollectionView *)collectionView draggingSession:(NSDraggingSession *)session endedAtPoint:(NSPoint)screenPoint dragOperation:(NSDragOperation)operation
 {
     NSLog(@"end");
 }
 
-#pragma mark - 
+- (NSDragOperation)collectionView:(NSCollectionView *)collectionView validateDrop:(id <NSDraggingInfo>)draggingInfo proposedIndex:(NSInteger *)proposedDropIndex dropOperation:(NSCollectionViewDropOperation *)proposedDropOperation 
+{
+    NSLog(@"validate");
+    
+    [draggingInfo setDraggingFormation:NSDraggingFormationStack];
+//    [draggingInfo setDra]
+    
+    return NSDragOperationCopy;
+}
+
+#pragma mark -
 
 - (IBAction)zoom:(id)sender
 {
@@ -507,17 +549,117 @@
     {
         // reset to default search
         NSPredicate *searchPredicate;
-        searchPredicate = [NSPredicate predicateWithFormat:@"info_v002_synopsis_descriptors like '*'"];
+        searchPredicate = [NSPredicate predicateWithFormat:@"info_v002_synopsis_descriptors LIKE '*'"];
         self.continuousMetadataSearch.predicate = searchPredicate;
     }
     else
     {
-        NSString* searchTerm = [@"'*" stringByAppendingString:[sender stringValue]];
-        searchTerm = [searchTerm stringByAppendingString:@"*'"];
+        // seperate our search string by @" "
+        NSString* searchTerm = [sender stringValue];
+        NSMutableArray* searchTerms = [[searchTerm componentsSeparatedByString:@" "] mutableCopy];
+        
+        // clean any random spaces
+        [searchTerms removeObject:@""];
+        
+        NSString* predicateBase = @"info_v002_synopsis_descriptors LIKE[cd] ";
+        NSArray* operators = @[ @"AND", @"&&", @"OR", @"||", @"NOT", @"!" ];
+        
+        // See how many operators we have
+        NSUInteger operatorCount = 0;
+        for(NSString* term in searchTerms)
+        {
+            for(NSString* op in operators)
+            {
+                if([term caseInsensitiveCompare:op] == NSOrderedSame)
+                {
+                    operatorCount++;
+                }
+            }
+        }
+    
+        // if we have an operator, make sure its not the last operator
+        // (because if it is, we havent finished typing our search)
+        if(operatorCount)
+        {
+            BOOL lastTermIsOp = false;
+            NSString* lastSearchTerm = [searchTerms lastObject];
+            for(NSString* op in operators)
+            {
+                if([lastSearchTerm caseInsensitiveCompare:op] == NSOrderedSame)
+                {
+                    lastTermIsOp = true;
+                }
+            }
+            // early bail
+            if (lastTermIsOp)
+            {
+                NSLog(@"Search Early Bail");
+
+                return;
+            }
+        }
+        
+        // if we have any operators  we need to ensure we wrap our search between operators with parens
+        // ie (something contains 'thing') OR (something contains 'otherthing) to be valid syntax
+        NSString* finalSearchString;
+        
+
+        if(operatorCount)
+        {
+            NSMutableString* searchString = [[NSMutableString alloc] init];
+
+            NSLog(@"Should be building operator thing");
+            
+            for(NSString* term in searchTerms)
+            {
+                // Early bail
+                if([term isEqualToString:@""])
+                    continue;
+                
+                BOOL termIsOp = false;
+
+                // if our term is an operator we simply append it
+                for(NSString* op in operators)
+                {
+                    if([term caseInsensitiveCompare:op] == NSOrderedSame)
+                    {
+                        termIsOp = true;
+                        break;
+                    }
+                }
+
+                if(termIsOp)
+                {
+                    [searchString appendString:@" "];
+                    [searchString appendString:term];
+                    [searchString appendString:@" "];
+                }
+                else
+                {
+                    
+                    
+                    NSString* start = [@"(" stringByAppendingString:predicateBase];
+                    start = [start stringByAppendingString:@"\"*"];
+                    NSString* newTerm = [start stringByAppendingString:term];
+                    [searchString appendString:[newTerm stringByAppendingString:@"*\")"]];
+                }
+            }
+            
+            finalSearchString = searchString;
+        }
+        // Otherwise we can just do a regular something contains 'thing' search
+        else
+        {
+            NSString* newTerm = [@"\"*" stringByAppendingString:searchTerm];
+            newTerm = [newTerm stringByAppendingString:@"*\""];
+            finalSearchString = [predicateBase stringByAppendingString:newTerm];
+        }
+        
+        NSLog(@"Built Predicate is :%@", finalSearchString);
         
         // reset to default search
         NSPredicate *searchPredicate;
-        searchPredicate = [NSPredicate predicateWithFormat:[@"info_v002_synopsis_descriptors like[c] " stringByAppendingString:searchTerm]];
+        searchPredicate = [NSPredicate predicateWithFormat:finalSearchString];
 
         self.continuousMetadataSearch.predicate = searchPredicate;
     }
