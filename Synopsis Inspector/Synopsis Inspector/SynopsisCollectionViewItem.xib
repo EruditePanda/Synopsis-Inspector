@@ -32,12 +32,14 @@
                 <constraint firstAttribute="trailing" secondItem="sfP-Yd-lRO" secondAttribute="trailing" constant="20" id="tgg-Mo-LfX"/>
             </constraints>
             <connections>
+                <outlet property="inspectorWindow" destination="eJK-R9-Lj8" id="hTv-Uw-FTg"/>
                 <outlet property="label" destination="sfP-Yd-lRO" id="LiZ-3x-UAa"/>
                 <outlet property="menu" destination="OgX-Ze-gr5" id="nkA-Bx-538"/>
             </connections>
         </customView>
         <collectionViewItem nibName="SynopsisCollectionViewItem" identifier="SynopsisCollectionViewItem" id="M2Q-8K-Ovt" customClass="SynopsisCollectionViewItem">
             <connections>
+                <outlet property="inspectorWindow" destination="eJK-R9-Lj8" id="dTr-MI-nSt"/>
                 <outlet property="nameField" destination="sfP-Yd-lRO" id="nG4-8R-YPb"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="Hnb-Tf-qiZ"/>
             </connections>
@@ -52,5 +54,15 @@
                 </menuItem>
             </items>
         </menu>
+        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" deferred="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="eJK-R9-Lj8" customClass="NSPanel">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" utility="YES" HUD="YES" fullSizeContentView="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="136" y="189" width="480" height="270"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1177"/>
+            <view key="contentView" id="LqK-lJ-fgs">
+                <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                <autoresizingMask key="autoresizingMask"/>
+            </view>
+        </window>
     </objects>
 </document>

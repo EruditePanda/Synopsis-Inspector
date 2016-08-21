@@ -13,6 +13,7 @@
 #define BORDER_WIDTH      3.0     // thickness of border when shown, in points
 
 @interface SynopsisCollectionViewItemView ()
+@property (weak) IBOutlet NSWindow* inspectorWindow;
 @property (readwrite) AVPlayerLayer* playerLayer;
 @property (readwrite, weak) IBOutlet NSTextField* label;
 @end
@@ -89,6 +90,14 @@
 - (void) mouseExited:(NSEvent *)theEvent
 {
     [self.playerLayer.player pause];
+}
+
+- (void) mouseDown:(NSEvent *)theEvent
+{
+    if(theEvent.clickCount > 1)
+    {
+        [self.inspectorWindow makeKeyAndOrderFront:self];
+    }
 }
 
 //-(NSMenu*) menuForEvent:(NSEvent *)event

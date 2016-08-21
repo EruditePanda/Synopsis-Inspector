@@ -11,13 +11,16 @@
 #import "SynopsisMetadataItem.h"
 #import "SynopsisCollectionViewItemView.h"
 #import "CGLayerView.h"
+#import "GZIP/GZIP.h"
 
 @interface SynopsisCollectionViewItem ()
 {
 }
+@property (strong) IBOutlet NSWindow* inspectorWindow;
 @property (weak) IBOutlet NSTextField* nameField;
 @property (readwrite) AVPlayer* player;
 @property (readwrite) AVPlayerItem* playerItem;
+@property (readwrite) AVPlayerItemMetadataOutput* playerItemMetadataOutput;
 @end
 
 @implementation SynopsisCollectionViewItem
@@ -29,6 +32,10 @@
     
     self.player = [[AVPlayer alloc] init];
     self.nameField.layer.zPosition = 1.0;
+    
+   self.playerItemMetadataOutput = [[AVPlayerItemMetadataOutput alloc] initWithIdentifiers:nil];
+    [self.playerItemMetadataOutput setDelegate:self queue:dispatch_get_global_queue(DISPATCH_QUEUE_SERIAL, 0)];
+    
 }
 
 - (void) prepareForReuse
@@ -130,8 +137,10 @@
             
             self.playerItem = [AVPlayerItem playerItemWithAsset:representedObject.urlAsset];
 
+            [[self.player currentItem] removeOutput:self.playerItemMetadataOutput];
             [self.player replaceCurrentItemWithPlayerItem:self.playerItem];
-            
+            [[self.player currentItem] addOutput:self.playerItemMetadataOutput];
+
             dispatch_async(dispatch_get_main_queue(), ^{
                 [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loopPlayback:) name:AVPlayerItemDidPlayToEndTimeNotification object:self.playerItem];
                 [(SynopsisCollectionViewItemView*)self.view playerLayer].player = self.player;
@@ -200,5 +209,75 @@
     return [NSArray arrayWithObject:component];
 }
 
+#pragma mark - Metadata delete
+
+#pragma mark - AVPlayerItemMetadataOutputPushDelegate
+
+const NSString* kSynopsislMetadataIdentifier = @"mdta/info.v002.synopsis.metadata";
+
+- (void)metadataOutput:(AVPlayerItemMetadataOutput *)output didOutputTimedMetadataGroups:(NSArray *)groups fromPlayerItemTrack:(AVPlayerItemTrack *)track
+{
+    NSMutableDictionary* metadataDictionary = [NSMutableDictionary dictionary];
+    
+    for(AVTimedMetadataGroup* group in groups)
+    {
+        for(AVMetadataItem* metadataItem in group.items)
+        {
+            NSString* key = metadataItem.identifier;
+            
+            id decodedJSON = [self decodeSynopsisMetadata:metadataItem];
+            if(decodedJSON)
+            {
+                [metadataDictionary setObject:decodedJSON forKey:key];
+            }
+            else
+            {
+                id value = metadataItem.value;
+                
+                [metadataDictionary setObject:value forKey:key];
+            }
+            
+        }
+    }
+    
+//    self.latestMetadataDictionary = metadataDictionary;
+}
+
+
+- (id) decodeSynopsisMetadata:(AVMetadataItem*)metadataItem
+{
+    NSString* key = metadataItem.identifier;
+    
+    if([key isEqualToString:kSynopsislMetadataIdentifier])
+    {
+        // JSON
+        //                // Decode our metadata..
+        //                NSString* stringValue = (NSString*)metadataItem.value;
+        //                NSData* dataValue = [stringValue dataUsingEncoding:NSUTF8StringEncoding];
+        //                id decodedJSON = [NSJSONSerialization JSONObjectWithData:dataValue options:kNilOptions error:nil];
+        //                if(decodedJSON)
+        //                    [metadataDictionary setObject:decodedJSON forKey:key];
+        
+        //                // BSON:
+        //                NSData* zipped = (NSData*)metadataItem.value;
+        //                NSData* bsonData = [zipped gunzippedData];
+        //                NSDictionary* bsonDict = [NSDictionary dictionaryWithBSON:bsonData];
+        //                if(bsonDict)
+        //                    [metadataDictionary setObject:bsonDict forKey:key];
+        
+        // GZIP + JSON
+        NSData* zipped = (NSData*)metadataItem.value;
+        NSData* json = [zipped gunzippedData];
+        id decodedJSON = [NSJSONSerialization JSONObjectWithData:json options:kNilOptions error:nil];
+        if(decodedJSON)
+        {
+            return decodedJSON;
+        }
+        
+        return nil;
+    }
+    
+    return nil;
+}
 
 @end
