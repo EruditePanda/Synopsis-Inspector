@@ -24,6 +24,9 @@
 		1BBB10FD1D55992200C22439 /* Synopsis.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BBB10ED1D5558C400C22439 /* Synopsis.framework */; };
 		1BD710AE1D620070007D61B9 /* SynopsisCollectionViewItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD710AD1D620070007D61B9 /* SynopsisCollectionViewItemView.m */; };
 		1BD710B11D620AC8007D61B9 /* AAPLWrappedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD710B01D620AC8007D61B9 /* AAPLWrappedLayout.m */; };
+		1BDC34331D6AB02100D210E8 /* MetadataDominantColorsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC34321D6AB02100D210E8 /* MetadataDominantColorsView.m */; };
+		1BDC343A1D6AB30800D210E8 /* MetadataInspectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC34391D6AB30800D210E8 /* MetadataInspectorViewController.m */; };
+		1BDC343D1D6B64BD00D210E8 /* MetadataHistogramView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC343C1D6B64BD00D210E8 /* MetadataHistogramView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +86,12 @@
 		1BD710AD1D620070007D61B9 /* SynopsisCollectionViewItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SynopsisCollectionViewItemView.m; sourceTree = "<group>"; };
 		1BD710AF1D620AC8007D61B9 /* AAPLWrappedLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLWrappedLayout.h; sourceTree = "<group>"; };
 		1BD710B01D620AC8007D61B9 /* AAPLWrappedLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAPLWrappedLayout.m; sourceTree = "<group>"; };
+		1BDC34311D6AB02100D210E8 /* MetadataDominantColorsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetadataDominantColorsView.h; sourceTree = "<group>"; };
+		1BDC34321D6AB02100D210E8 /* MetadataDominantColorsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetadataDominantColorsView.m; sourceTree = "<group>"; };
+		1BDC34381D6AB30800D210E8 /* MetadataInspectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetadataInspectorViewController.h; sourceTree = "<group>"; };
+		1BDC34391D6AB30800D210E8 /* MetadataInspectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetadataInspectorViewController.m; sourceTree = "<group>"; };
+		1BDC343B1D6B64BD00D210E8 /* MetadataHistogramView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetadataHistogramView.h; sourceTree = "<group>"; };
+		1BDC343C1D6B64BD00D210E8 /* MetadataHistogramView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetadataHistogramView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,12 +150,13 @@
 			children = (
 				1B9873F41D47A5540015E54C /* AppDelegate.h */,
 				1B9873F51D47A5540015E54C /* AppDelegate.m */,
-				1BD710AF1D620AC8007D61B9 /* AAPLWrappedLayout.h */,
-				1BD710B01D620AC8007D61B9 /* AAPLWrappedLayout.m */,
 				1B98741C1D4A9AFB0015E54C /* SynopsisMetadataItem.h */,
 				1B98741D1D4A9AFB0015E54C /* SynopsisMetadataItem.m */,
+				1BD710AF1D620AC8007D61B9 /* AAPLWrappedLayout.h */,
+				1BD710B01D620AC8007D61B9 /* AAPLWrappedLayout.m */,
 				1B9874141D48014C0015E54C /* SynopsisCollectionViewItem.h */,
 				1B9874151D48014C0015E54C /* SynopsisCollectionViewItem.m */,
+				1BDC34341D6AB02600D210E8 /* Inspector */,
 				1BD710AC1D620070007D61B9 /* SynopsisCollectionViewItemView.h */,
 				1BD710AD1D620070007D61B9 /* SynopsisCollectionViewItemView.m */,
 				1B9874161D48014C0015E54C /* SynopsisCollectionViewItem.xib */,
@@ -179,6 +189,19 @@
 				1BBB10ED1D5558C400C22439 /* Synopsis.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		1BDC34341D6AB02600D210E8 /* Inspector */ = {
+			isa = PBXGroup;
+			children = (
+				1BDC34381D6AB30800D210E8 /* MetadataInspectorViewController.h */,
+				1BDC34391D6AB30800D210E8 /* MetadataInspectorViewController.m */,
+				1BDC34311D6AB02100D210E8 /* MetadataDominantColorsView.h */,
+				1BDC34321D6AB02100D210E8 /* MetadataDominantColorsView.m */,
+				1BDC343B1D6B64BD00D210E8 /* MetadataHistogramView.h */,
+				1BDC343C1D6B64BD00D210E8 /* MetadataHistogramView.m */,
+			);
+			name = Inspector;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -272,9 +295,12 @@
 				1BD710AE1D620070007D61B9 /* SynopsisCollectionViewItemView.m in Sources */,
 				1B0D643C1D4FD48E00A1AB5D /* CustomVisualEffectView.m in Sources */,
 				1B9873F91D47A5540015E54C /* main.m in Sources */,
+				1BDC34331D6AB02100D210E8 /* MetadataDominantColorsView.m in Sources */,
 				1BBB10D21D527CBE00C22439 /* CGLayerView.m in Sources */,
+				1BDC343A1D6AB30800D210E8 /* MetadataInspectorViewController.m in Sources */,
 				1BD710B11D620AC8007D61B9 /* AAPLWrappedLayout.m in Sources */,
 				1B0D64371D4FB14C00A1AB5D /* GZIP.m in Sources */,
+				1BDC343D1D6B64BD00D210E8 /* MetadataHistogramView.m in Sources */,
 				1B9873F61D47A5540015E54C /* AppDelegate.m in Sources */,
 				1B9874171D48014C0015E54C /* SynopsisCollectionViewItem.m in Sources */,
 				1B98741E1D4A9AFB0015E54C /* SynopsisMetadataItem.m in Sources */,

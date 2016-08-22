@@ -11,6 +11,8 @@
 #import "SynopsisMetadataItem.h"
 #import "AAPLWrappedLayout.h"
 
+#import "MetadataInspectorViewController.h"
+
 #import <Synopsis/Synopsis.h>
 
 @interface AppDelegate ()
@@ -430,10 +432,17 @@
 
     [self.histogramSort setTarget:self];
     [self.histogramSort setAction:@selector(histogramSortUsingSelectingCell:)];
+    
+//    THIS WONT WORK BECAUSE I ALLOW MULTIPLE SELECTION...
+//    
+//    SynopsisCollectionViewItem* item = (SynopsisCollectionViewItem*)collectionView;
+//    item.metadataDelegate = self.metadataInspectorVC;
+
 }
 
 - (void)collectionView:(NSCollectionView *)collectionView didDeselectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
 {
+    
     [self.bestFitSort setTarget:nil];
     [self.bestFitSort setAction:nil];
     
@@ -442,6 +451,10 @@
 
     [self.histogramSort setTarget:nil];
     [self.histogramSort setAction:nil];
+    
+//    SynopsisCollectionViewItem* item = (SynopsisCollectionViewItem*)collectionView;
+//    item.metadataDelegate = nil;
+
 }
 
 - (void)collectionView:(NSCollectionView *)collectionView willDisplayItem:(NSCollectionViewItem *)item forRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath

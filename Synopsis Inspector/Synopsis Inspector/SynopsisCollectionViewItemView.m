@@ -13,7 +13,9 @@
 #define BORDER_WIDTH      3.0     // thickness of border when shown, in points
 
 @interface SynopsisCollectionViewItemView ()
-@property (weak) IBOutlet NSWindow* inspectorWindow;
+
+@property (weak) IBOutlet SynopsisCollectionViewItem* item;
+
 @property (readwrite) AVPlayerLayer* playerLayer;
 @property (readwrite, weak) IBOutlet NSTextField* label;
 @end
@@ -96,8 +98,10 @@
 {
     if(theEvent.clickCount > 1)
     {
-        [self.inspectorWindow makeKeyAndOrderFront:self];
+        [self.item showPopOver];
     }
+    else
+        [super mouseDown:theEvent];
 }
 
 //-(NSMenu*) menuForEvent:(NSEvent *)event

@@ -10,13 +10,17 @@
 #import <AVFoundation/AVFoundation.h>
 #import "SynopsisMetadataItem.h"
 #import "SynopsisCollectionViewItemView.h"
+#import "MetadataInspectorViewController.h"
 #import "CGLayerView.h"
 #import "GZIP/GZIP.h"
 
 @interface SynopsisCollectionViewItem ()
 {
 }
-@property (strong) IBOutlet NSWindow* inspectorWindow;
+// Strong because the Collectionview doesnt have a handle to these seperate xib resources when associating to the CollectionViewItem's view.
+@property (strong) IBOutlet MetadataInspectorViewController* inspectorVC;
+@property (strong) IBOutlet NSPopover* inspectorPopOver;
+
 @property (weak) IBOutlet NSTextField* nameField;
 @property (readwrite) AVPlayer* player;
 @property (readwrite) AVPlayerItem* playerItem;
@@ -25,17 +29,17 @@
 
 @implementation SynopsisCollectionViewItem
 
-
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do view setup here.
     
     self.player = [[AVPlayer alloc] init];
     self.nameField.layer.zPosition = 1.0;
     
-   self.playerItemMetadataOutput = [[AVPlayerItemMetadataOutput alloc] initWithIdentifiers:nil];
-    [self.playerItemMetadataOutput setDelegate:self queue:dispatch_get_global_queue(DISPATCH_QUEUE_SERIAL, 0)];
-    
+    self.playerItemMetadataOutput = [[AVPlayerItemMetadataOutput alloc] initWithIdentifiers:nil];
+    __weak typeof(self) weakSelf = self; // no retain loop
+    [self.playerItemMetadataOutput setDelegate:weakSelf queue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
 }
 
 - (void) prepareForReuse
@@ -87,7 +91,6 @@
             [imageGenerator generateCGImagesAsynchronouslyForTimes:@[ [NSValue valueWithCMTime:kCMTimeZero]] completionHandler:^(CMTime requestedTime, CGImageRef  _Nullable image, CMTime actualTime, AVAssetImageGeneratorResult result, NSError * _Nullable error) {
                 [self buildImageForRepresentedObject:image];
             }];
-            
         }
         else
         {
@@ -133,8 +136,8 @@
     SynopsisMetadataItem* representedObject = self.representedObject;
     if([(SynopsisCollectionViewItemView*)self.view playerLayer].player != self.player)
     {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-            
+//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        
             self.playerItem = [AVPlayerItem playerItemWithAsset:representedObject.urlAsset];
 
             [[self.player currentItem] removeOutput:self.playerItemMetadataOutput];
@@ -147,7 +150,7 @@
                 [(SynopsisCollectionViewItemView*)self.view playerLayer].opacity = 1.0;
             });
             
-        });
+//        });
     }
 }
 
@@ -196,7 +199,6 @@
     [image addRepresentation:bitmap];
     
    // [(SynopsisCollectionViewItemView*)self.view playerLayer].hidden = NO;
-
     
     NSDraggingImageComponent *component = [[NSDraggingImageComponent alloc] initWithKey:NSDraggingImageComponentIconKey];
     component.frame = itemBounds;
@@ -205,7 +207,6 @@
     [NSGraphicsContext setCurrentContext:oldContext];
     [NSGraphicsContext restoreGraphicsState];
 
-    
     return [NSArray arrayWithObject:component];
 }
 
@@ -213,7 +214,7 @@
 
 #pragma mark - AVPlayerItemMetadataOutputPushDelegate
 
-const NSString* kSynopsislMetadataIdentifier = @"mdta/info.v002.synopsis.metadata";
+NSString* const kSynopsislMetadataIdentifier = @"mdta/info.v002.synopsis.metadata";
 
 - (void)metadataOutput:(AVPlayerItemMetadataOutput *)output didOutputTimedMetadataGroups:(NSArray *)groups fromPlayerItemTrack:(AVPlayerItemTrack *)track
 {
@@ -240,7 +241,10 @@ const NSString* kSynopsislMetadataIdentifier = @"mdta/info.v002.synopsis.metadat
         }
     }
     
-//    self.latestMetadataDictionary = metadataDictionary;
+    if(self.inspectorVC)
+    {
+        [self.inspectorVC setMetadata:metadataDictionary];
+    }
 }
 
 
@@ -278,6 +282,18 @@ const NSString* kSynopsislMetadataIdentifier = @"mdta/info.v002.synopsis.metadat
     }
     
     return nil;
+}
+
+#pragma mark - PopOver
+
+- (void) showPopOver
+{
+    NSLog(@"ShowPopover");
+    
+//    NSRectEdge prefEdge = NSRectEdgeMinY;//self.inspectorPopOver.selectedRow;
+    
+    [self.inspectorPopOver showRelativeToRect:[self.view bounds] ofView:self.view preferredEdge:NSRectEdgeMinY];
+
 }
 
 @end

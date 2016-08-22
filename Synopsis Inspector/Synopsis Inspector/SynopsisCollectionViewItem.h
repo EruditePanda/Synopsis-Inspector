@@ -9,11 +9,13 @@
 #import <Cocoa/Cocoa.h>
 #import <AVFoundation/AVFoundation.h>
 
-@interface SynopsisCollectionViewItem : NSCollectionViewItem
+@interface SynopsisCollectionViewItem : NSCollectionViewItem <AVPlayerItemMetadataOutputPushDelegate>
 
 @property (readonly) AVPlayer* player;
 
 - (void) beginOptimizeForScolling;
 - (void) endOptimizeForScrolling;
+
+- (void) showPopOver;
 
 @end

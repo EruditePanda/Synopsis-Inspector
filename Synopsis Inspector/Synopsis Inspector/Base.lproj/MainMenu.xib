@@ -756,11 +756,7 @@
                 <allowedToolbarItems>
                     <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="mSf-oc-9ma"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="K3I-ac-OeR"/>
-                    <toolbarItem implicitItemIdentifier="BFB2B402-8E66-4762-A6DF-767EC98EA500" label="Hash" paletteLabel="Hash" tag="-1" image="Hash" id="w3K-79-FKe">
-                        <connections>
-                            <action selector="perceptualHAshSortUsingSelectedCell:" target="Voe-Tx-rLC" id="HiH-bl-Gpq"/>
-                        </connections>
-                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="BFB2B402-8E66-4762-A6DF-767EC98EA500" label="Hash" paletteLabel="Hash" tag="-1" image="Hash" id="w3K-79-FKe"/>
                     <toolbarItem implicitItemIdentifier="8C5C1670-F20C-45CE-B265-FA479779B560" label="Saturation" paletteLabel="Saturation" tag="-1" image="Saturation" id="O1H-Sg-47M">
                         <connections>
                             <action selector="saturationSortUsingSelectedCell:" target="Voe-Tx-rLC" id="B2q-E5-lr6"/>
@@ -834,6 +830,7 @@
             </items>
             <point key="canvasLocation" x="858.5" y="144.5"/>
         </menu>
+        <viewController id="SQA-q7-aFi" customClass="MetadataInspectorViewController"/>
     </objects>
     <resources>
         <image name="Brightness" width="512" height="512"/>
