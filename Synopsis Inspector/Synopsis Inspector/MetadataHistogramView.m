@@ -7,12 +7,18 @@
 //
 
 #import "MetadataHistogramView.h"
+#import <Quartz/Quartz.h>
 
 @interface MetadataHistogramView ()
-@property (readwrite) NSMutableArray* rHistogramCALayers;
-@property (readwrite) NSMutableArray* gHistogramCALayers;
-@property (readwrite) NSMutableArray* bHistogramCALayers;
-
+@property (readwrite) CALayer* redHistogram;
+@property (readwrite) CALayer* greenHistogram;
+@property (readwrite) CALayer* blueHistogram;
+@property (readwrite) NSMutableArray<CALayer*>* rHistogramCALayers;
+@property (readwrite) NSMutableArray<CALayer*>* gHistogramCALayers;
+@property (readwrite) NSMutableArray<CALayer*>* bHistogramCALayers;
+@property (readwrite, strong) NSImage* redImage;
+@property (readwrite, strong) NSImage* greenImage;
+@property (readwrite, strong) NSImage* blueImage;
 @end
 
 
@@ -21,55 +27,107 @@
 
 - (void) awakeFromNib
 {
+    [self setLayerUsesCoreImageFilters:YES];
+
     self.layer.cornerRadius = 3.0;
+    self.layer.backgroundColor = [NSColor colorWithWhite:0.5 alpha:0.2].CGColor;
     
     self.rHistogramCALayers = [NSMutableArray arrayWithCapacity:256];
     self.gHistogramCALayers = [NSMutableArray arrayWithCapacity:256];
     self.bHistogramCALayers = [NSMutableArray arrayWithCapacity:256];
     
+    NSSize size = (NSSize) {1, 1};
+    
+    self.redImage = [[NSImage alloc] initWithSize:size];
+    [self.redImage lockFocus];
+    [[NSColor redColor] drawSwatchInRect:NSMakeRect(0, 0, size.width, size.height)];
+    [self.redImage unlockFocus];
+
+    self.greenImage = [[NSImage alloc] initWithSize:size];
+    [self.greenImage lockFocus];
+    [[NSColor greenColor] drawSwatchInRect:NSMakeRect(0, 0, size.width, size.height)];
+    [self.greenImage unlockFocus];
+
+    self.blueImage = [[NSImage alloc] initWithSize:size];
+    [self.blueImage lockFocus];
+    [[NSColor blueColor] drawSwatchInRect:NSMakeRect(0, 0, size.width, size.height)];
+    [self.blueImage unlockFocus];
+
+//    CIFilter* addition = [CIFilter filterWithName:@"CIAdditionCompositing"];
+//    [addition setDefaults];
+    
+    NSDictionary* actions = @{@"frame" : [NSNull null], @"position" : [NSNull null], @"frameSize" : [NSNull null], @"frameOrigin" : [NSNull null], @"bounds" : [NSNull null]};
+    
     for(NSUInteger i = 0; i < 256; i++)
     {
         CALayer* rLayer = [CALayer layer];
-        rLayer.backgroundColor = [NSColor redColor].CGColor;
-        rLayer.actions = @{@"frame" : [NSNull null], @"position" : [NSNull null], @"frameSize" : [NSNull null], @"frameOrigin" : [NSNull null], @"bounds" : [NSNull null]};
-//        rLayer.opacity = 2.0 / 3.0;
-//        rLayer.opaque = NO;
+        rLayer.contents = self.redImage;
+        rLayer.minificationFilter = kCAFilterNearest;
+        rLayer.magnificationFilter = kCAFilterNearest;
+        rLayer.edgeAntialiasingMask = 0;
+        rLayer.actions = actions;
         rLayer.frame = (CGRect){ 0,0, 1, 1};
         [self.rHistogramCALayers addObject:rLayer];
         
         CALayer* gLayer = [CALayer layer];
-        gLayer.backgroundColor = [NSColor greenColor].CGColor;
-        gLayer.actions = @{@"frame" : [NSNull null], @"position" : [NSNull null], @"frameSize" : [NSNull null], @"frameOrigin" : [NSNull null], @"bounds" : [NSNull null]};
-//        gLayer.opacity = 2.0 / 3.0;
-//        gLayer.opaque = NO;
+        gLayer.contents = self.greenImage;
+        gLayer.minificationFilter = kCAFilterNearest;
+        gLayer.magnificationFilter = kCAFilterNearest;
+        gLayer.edgeAntialiasingMask = 0;
+        gLayer.actions = actions;
         gLayer.frame = (CGRect){ {0,0}, {1, 1}};
-        
         [self.gHistogramCALayers addObject:gLayer];
 
         CALayer* bLayer = [CALayer layer];
-        bLayer.backgroundColor = [NSColor blueColor].CGColor;
-        bLayer.actions = @{@"frame" : [NSNull null], @"position" : [NSNull null], @"frameSize" : [NSNull null], @"frameOrigin" : [NSNull null], @"bounds" : [NSNull null]};
-//        bLayer.opacity = 2.0 / 3.0;
-//        bLayer.opaque = NO;
+        bLayer.contents = self.blueImage;
+        bLayer.minificationFilter = kCAFilterNearest;
+        bLayer.magnificationFilter = kCAFilterNearest;
+        bLayer.edgeAntialiasingMask = 0;
+        bLayer.actions = actions;
         bLayer.frame = (CGRect){ {0,0}, {1, 1}};
-
         [self.bHistogramCALayers addObject:bLayer];
     }
     
+    self.redHistogram = [CALayer layer];
+    self.greenHistogram = [CALayer layer];
+    self.blueHistogram = [CALayer layer];
+    
+    self.greenHistogram.compositingFilter = [CIFilter filterWithName:@"CIAdditionCompositing"];
+    self.blueHistogram.compositingFilter = [CIFilter filterWithName:@"CIAdditionCompositing"];
+
     for(CALayer* layer in self.rHistogramCALayers)
     {
-        [self.layer addSublayer:layer];
+//        layer.zPosition = -1;
+        [self.redHistogram addSublayer:layer];
     }
     
     for(CALayer* layer in self.gHistogramCALayers)
     {
-        [self.layer addSublayer:layer];
+//        layer.zPosition = 0;
+//        layer.compositingFilter = addition;
+        [self.greenHistogram addSublayer:layer];
     }
     
     for(CALayer* layer in self.bHistogramCALayers)
     {
-        [self.layer addSublayer:layer];
+//        layer.zPosition = 1;
+        [self.blueHistogram addSublayer:layer];
     }
+    
+    [self.layer addSublayer:self.redHistogram];
+    [self.layer addSublayer:self.greenHistogram];
+    [self.layer addSublayer:self.blueHistogram];
+    
+//    try grouping layers into red green blue layers perhaps?
+    
+//    CIFilter* addition = [CIFilter filterWithName:@"CIAdditionCompositing"];
+//    [addition setDefaults];
+//    CALayer* fuckYou = [CALayer layer];
+//    fuckYou.zPosition = 1;
+//    fuckYou.contents = [NSImage imageNamed:@"AppIcon"];
+//    fuckYou.compositingFilter =addition;
+//    fuckYou.frame = self.layer.bounds;
+//    [self.layer addSublayer:fuckYou];
 }
 
 - (BOOL) wantsLayer
@@ -105,10 +163,10 @@
         CALayer* bValueLayer = self.bHistogramCALayers[binNumber];
         
         // TODO: Do I need to enforce linear colorspace here?
-        rValueLayer.backgroundColor = [[NSColor redColor] CGColor];
-        gValueLayer.backgroundColor = [[NSColor greenColor] CGColor];
-        bValueLayer.backgroundColor = [[NSColor blueColor] CGColor];
-        
+//        rValueLayer.backgroundColor = [[NSColor redColor] CGColor];
+//        gValueLayer.backgroundColor = [[NSColor greenColor] CGColor];
+//        bValueLayer.backgroundColor = [[NSColor blueColor] CGColor];
+//        
         rValueLayer.frame = (CGRect){0, 0, size.width, size.height * rValue.floatValue};
         rValueLayer.position = (CGPoint){initialOffset + (width * 0.5), rValueLayer.frame.size.height * 0.5};
 
