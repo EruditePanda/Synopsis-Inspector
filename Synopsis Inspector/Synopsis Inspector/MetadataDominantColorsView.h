@@ -7,7 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "MetadataLayerBackedView.h"
 
-@interface MetadataDominantColorsView : NSView
+@interface MetadataDominantColorsView : MetadataLayerBackedView
 @property (strong) NSArray* dominantColorsArray;
 @end

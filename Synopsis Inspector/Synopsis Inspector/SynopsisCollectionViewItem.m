@@ -128,16 +128,16 @@
 
 - (void) endOptimizeForScrolling
 {
-    if(self.playerItem)
-    {
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:self.playerItem];
-    }
-    
     SynopsisMetadataItem* representedObject = self.representedObject;
     if([(SynopsisCollectionViewItemView*)self.view playerLayer].player != self.player)
     {
-//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         
+            if(self.playerItem)
+            {
+                [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:self.playerItem];
+            }
+
             self.playerItem = [AVPlayerItem playerItemWithAsset:representedObject.urlAsset];
 
             [[self.player currentItem] removeOutput:self.playerItemMetadataOutput];
@@ -150,7 +150,7 @@
                 [(SynopsisCollectionViewItemView*)self.view playerLayer].opacity = 1.0;
             });
             
-//        });
+        });
     }
 }
 

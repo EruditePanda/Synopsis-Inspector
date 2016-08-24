@@ -7,7 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "MetadataLayerBackedView.h"
 
-@interface MetadataHistogramView : NSView
+@interface MetadataHistogramView : MetadataLayerBackedView
 @property (strong) NSArray* histogramArray;
 @end

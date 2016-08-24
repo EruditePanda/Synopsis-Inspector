@@ -9,11 +9,13 @@
 #import "MetadataInspectorViewController.h"
 #import "MetadataDominantColorsView.h"
 #import "MetadataHistogramView.h"
+#import "MetadataMotionView.h"
 
 @interface MetadataInspectorViewController ()
 
 @property (weak) IBOutlet MetadataDominantColorsView* dominantColorView;
 @property (weak) IBOutlet MetadataHistogramView* histogramView;
+@property (weak) IBOutlet MetadataMotionView* motionView;
 
 @end
 

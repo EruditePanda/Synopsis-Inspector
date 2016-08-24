@@ -16,22 +16,19 @@
 @property (readwrite) NSMutableArray<CALayer*>* rHistogramCALayers;
 @property (readwrite) NSMutableArray<CALayer*>* gHistogramCALayers;
 @property (readwrite) NSMutableArray<CALayer*>* bHistogramCALayers;
-@property (readwrite, strong) NSImage* redImage;
-@property (readwrite, strong) NSImage* greenImage;
-@property (readwrite, strong) NSImage* blueImage;
+@property (readwrite) NSImage* redImage;
+@property (readwrite) NSImage* greenImage;
+@property (readwrite) NSImage* blueImage;
 @end
-
-
 
 @implementation MetadataHistogramView
 
 - (void) awakeFromNib
 {
+    [super awakeFromNib];
+    
     [self setLayerUsesCoreImageFilters:YES];
 
-    self.layer.cornerRadius = 3.0;
-    self.layer.backgroundColor = [NSColor colorWithWhite:0.5 alpha:0.2].CGColor;
-    
     self.rHistogramCALayers = [NSMutableArray arrayWithCapacity:256];
     self.gHistogramCALayers = [NSMutableArray arrayWithCapacity:256];
     self.bHistogramCALayers = [NSMutableArray arrayWithCapacity:256];
@@ -52,12 +49,10 @@
     [self.blueImage lockFocus];
     [[NSColor blueColor] drawSwatchInRect:NSMakeRect(0, 0, size.width, size.height)];
     [self.blueImage unlockFocus];
-
-//    CIFilter* addition = [CIFilter filterWithName:@"CIAdditionCompositing"];
-//    [addition setDefaults];
     
     NSDictionary* actions = @{@"frame" : [NSNull null], @"position" : [NSNull null], @"frameSize" : [NSNull null], @"frameOrigin" : [NSNull null], @"bounds" : [NSNull null]};
     
+    // a layer per bin value
     for(NSUInteger i = 0; i < 256; i++)
     {
         CALayer* rLayer = [CALayer layer];
@@ -97,47 +92,22 @@
 
     for(CALayer* layer in self.rHistogramCALayers)
     {
-//        layer.zPosition = -1;
         [self.redHistogram addSublayer:layer];
     }
     
     for(CALayer* layer in self.gHistogramCALayers)
     {
-//        layer.zPosition = 0;
-//        layer.compositingFilter = addition;
         [self.greenHistogram addSublayer:layer];
     }
     
     for(CALayer* layer in self.bHistogramCALayers)
     {
-//        layer.zPosition = 1;
         [self.blueHistogram addSublayer:layer];
     }
     
     [self.layer addSublayer:self.redHistogram];
     [self.layer addSublayer:self.greenHistogram];
     [self.layer addSublayer:self.blueHistogram];
-    
-//    try grouping layers into red green blue layers perhaps?
-    
-//    CIFilter* addition = [CIFilter filterWithName:@"CIAdditionCompositing"];
-//    [addition setDefaults];
-//    CALayer* fuckYou = [CALayer layer];
-//    fuckYou.zPosition = 1;
-//    fuckYou.contents = [NSImage imageNamed:@"AppIcon"];
-//    fuckYou.compositingFilter =addition;
-//    fuckYou.frame = self.layer.bounds;
-//    [self.layer addSublayer:fuckYou];
-}
-
-- (BOOL) wantsLayer
-{
-    return YES;
-}
-
-- (BOOL) wantsUpdateLayer
-{
-    return YES;
 }
 
 - (void) updateLayer

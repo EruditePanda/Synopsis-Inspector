@@ -27,6 +27,8 @@
 		1BDC34331D6AB02100D210E8 /* MetadataDominantColorsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC34321D6AB02100D210E8 /* MetadataDominantColorsView.m */; };
 		1BDC343A1D6AB30800D210E8 /* MetadataInspectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC34391D6AB30800D210E8 /* MetadataInspectorViewController.m */; };
 		1BDC343D1D6B64BD00D210E8 /* MetadataHistogramView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC343C1D6B64BD00D210E8 /* MetadataHistogramView.m */; };
+		1BDC34401D6CE2B900D210E8 /* MetadataMotionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC343F1D6CE2B900D210E8 /* MetadataMotionView.m */; };
+		1BDC34431D6CE38C00D210E8 /* MetadataLayerBackedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC34421D6CE38C00D210E8 /* MetadataLayerBackedView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,6 +94,10 @@
 		1BDC34391D6AB30800D210E8 /* MetadataInspectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetadataInspectorViewController.m; sourceTree = "<group>"; };
 		1BDC343B1D6B64BD00D210E8 /* MetadataHistogramView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetadataHistogramView.h; sourceTree = "<group>"; };
 		1BDC343C1D6B64BD00D210E8 /* MetadataHistogramView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetadataHistogramView.m; sourceTree = "<group>"; };
+		1BDC343E1D6CE2B900D210E8 /* MetadataMotionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetadataMotionView.h; sourceTree = "<group>"; };
+		1BDC343F1D6CE2B900D210E8 /* MetadataMotionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetadataMotionView.m; sourceTree = "<group>"; };
+		1BDC34411D6CE38C00D210E8 /* MetadataLayerBackedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetadataLayerBackedView.h; sourceTree = "<group>"; };
+		1BDC34421D6CE38C00D210E8 /* MetadataLayerBackedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetadataLayerBackedView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,10 +202,14 @@
 			children = (
 				1BDC34381D6AB30800D210E8 /* MetadataInspectorViewController.h */,
 				1BDC34391D6AB30800D210E8 /* MetadataInspectorViewController.m */,
+				1BDC34411D6CE38C00D210E8 /* MetadataLayerBackedView.h */,
+				1BDC34421D6CE38C00D210E8 /* MetadataLayerBackedView.m */,
 				1BDC34311D6AB02100D210E8 /* MetadataDominantColorsView.h */,
 				1BDC34321D6AB02100D210E8 /* MetadataDominantColorsView.m */,
 				1BDC343B1D6B64BD00D210E8 /* MetadataHistogramView.h */,
 				1BDC343C1D6B64BD00D210E8 /* MetadataHistogramView.m */,
+				1BDC343E1D6CE2B900D210E8 /* MetadataMotionView.h */,
+				1BDC343F1D6CE2B900D210E8 /* MetadataMotionView.m */,
 			);
 			name = Inspector;
 			sourceTree = "<group>";
@@ -293,6 +303,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1BD710AE1D620070007D61B9 /* SynopsisCollectionViewItemView.m in Sources */,
+				1BDC34431D6CE38C00D210E8 /* MetadataLayerBackedView.m in Sources */,
 				1B0D643C1D4FD48E00A1AB5D /* CustomVisualEffectView.m in Sources */,
 				1B9873F91D47A5540015E54C /* main.m in Sources */,
 				1BDC34331D6AB02100D210E8 /* MetadataDominantColorsView.m in Sources */,
@@ -302,6 +313,7 @@
 				1B0D64371D4FB14C00A1AB5D /* GZIP.m in Sources */,
 				1BDC343D1D6B64BD00D210E8 /* MetadataHistogramView.m in Sources */,
 				1B9873F61D47A5540015E54C /* AppDelegate.m in Sources */,
+				1BDC34401D6CE2B900D210E8 /* MetadataMotionView.m in Sources */,
 				1B9874171D48014C0015E54C /* SynopsisCollectionViewItem.m in Sources */,
 				1B98741E1D4A9AFB0015E54C /* SynopsisMetadataItem.m in Sources */,
 			);
