@@ -80,10 +80,32 @@
                     <rect key="frame" x="13" y="10" width="351" height="358"/>
                     <tabViewItems>
                         <tabViewItem label="Global" identifier="1" id="P5Y-Rf-Ih2">
-                            <view key="view" wantsLayer="YES" id="QNm-Il-8wp" customClass="TransparentView">
+                            <view key="view" wantsLayer="YES" ambiguous="YES" id="QNm-Il-8wp" customClass="TransparentView">
                                 <rect key="frame" x="10" y="25" width="331" height="320"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="t60-VF-Tzp">
+                                        <rect key="frame" x="10" y="112" width="105" height="14"/>
+                                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Histogram" id="k1h-cF-aMb">
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qgr-W7-SLu" customClass="MetadataHistogramView">
+                                        <rect key="frame" x="12" y="56" width="302" height="48"/>
+                                    </customView>
+                                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jsf-74-eWV" customClass="MetadataDominantColorsView">
+                                        <rect key="frame" x="12" y="134" width="302" height="24"/>
+                                    </customView>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fna-fF-MzM">
+                                        <rect key="frame" x="10" y="166" width="92" height="14"/>
+                                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Dominant Colors" id="3BV-9c-KzR">
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2NQ-z0-YOe">
                                         <rect key="frame" x="12" y="250" width="302" height="45"/>
                                         <textFieldCell key="cell" controlSize="small" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="border" drawsBackground="YES" id="TNn-vs-bry">
@@ -93,7 +115,7 @@
                                         </textFieldCell>
                                     </textField>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ptn-5S-kaj">
-                                        <rect key="frame" x="10" y="303" width="65" height="14"/>
+                                        <rect key="frame" x="10" y="300" width="65" height="14"/>
                                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Descriptors" id="Gs5-BW-elu">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -116,33 +138,11 @@
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
-                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="t60-VF-Tzp">
-                                        <rect key="frame" x="18" y="112" width="105" height="14"/>
-                                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Histogram" id="k1h-cF-aMb">
-                                            <font key="font" metaFont="smallSystem"/>
-                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                    </textField>
-                                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qgr-W7-SLu" customClass="MetadataHistogramView">
-                                        <rect key="frame" x="0.0" y="56" width="331" height="48"/>
-                                    </customView>
-                                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jsf-74-eWV" customClass="MetadataDominantColorsView">
-                                        <rect key="frame" x="0.0" y="134" width="331" height="24"/>
-                                    </customView>
-                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fna-fF-MzM">
-                                        <rect key="frame" x="18" y="166" width="92" height="14"/>
-                                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Dominant Colors" id="3BV-9c-KzR">
-                                            <font key="font" metaFont="smallSystem"/>
-                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                    </textField>
                                 </subviews>
                             </view>
                         </tabViewItem>
                         <tabViewItem label="Frame" identifier="2" id="9oa-lE-GFo">
-                            <view key="view" wantsLayer="YES" ambiguous="YES" id="v0r-eQ-iho" customClass="TransparentView">
+                            <view key="view" wantsLayer="YES" id="v0r-eQ-iho" customClass="TransparentView">
                                 <rect key="frame" x="10" y="25" width="331" height="320"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
@@ -155,7 +155,7 @@
                                         </textFieldCell>
                                     </textField>
                                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RJY-QZ-uVx" customClass="MetadataDominantColorsView">
-                                        <rect key="frame" x="0.0" y="271" width="331" height="24"/>
+                                        <rect key="frame" x="17" y="271" width="297" height="24"/>
                                     </customView>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e4V-QJ-3Kt">
                                         <rect key="frame" x="18" y="303" width="92" height="14"/>
@@ -166,7 +166,7 @@
                                         </textFieldCell>
                                     </textField>
                                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xy1-xE-dAM" customClass="MetadataHistogramView">
-                                        <rect key="frame" x="0.0" y="193" width="331" height="48"/>
+                                        <rect key="frame" x="17" y="193" width="297" height="48"/>
                                     </customView>
                                 </subviews>
                             </view>
