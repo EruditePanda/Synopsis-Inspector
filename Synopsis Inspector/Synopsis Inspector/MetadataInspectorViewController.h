@@ -10,6 +10,7 @@
 
 @interface MetadataInspectorViewController : NSViewController
 
-@property (readwrite, strong) NSDictionary* metadata;
+@property (readwrite, strong) NSDictionary* globalMetadata;
+@property (readwrite, strong) NSDictionary* frameMetadata;
 
 @end

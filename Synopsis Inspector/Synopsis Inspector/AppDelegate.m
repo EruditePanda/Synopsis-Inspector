@@ -27,6 +27,7 @@
 
 @property (weak) IBOutlet NSSearchField* searchField;
 
+@property (weak) IBOutlet NSTextField* statusField;
 
 @property (strong) NSMutableArray* resultsArray;
 

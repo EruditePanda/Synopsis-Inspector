@@ -78,6 +78,17 @@
     {
         NSString* representedName = [representedObject valueForAttribute:(NSString*)kMDItemFSName];
         
+        NSDictionary* globalMetadata = nil;
+        
+        NSArray* metadataItems = representedObject.urlAsset.metadata;
+        for(AVMetadataItem* metadataItem in metadataItems)
+        {
+            globalMetadata = [self decodeSynopsisMetadata:metadataItem];
+            if(globalMetadata)
+                break;
+        }
+        
+        self.inspectorVC.globalMetadata = globalMetadata;
         self.nameField.stringValue = representedName;
         
         if(representedObject.cachedImage == NULL)
@@ -243,7 +254,7 @@ NSString* const kSynopsislMetadataIdentifier = @"mdta/info.v002.synopsis.metadat
     
     if(self.inspectorVC)
     {
-        [self.inspectorVC setMetadata:metadataDictionary];
+        [self.inspectorVC setFrameMetadata:metadataDictionary];
     }
 }
 

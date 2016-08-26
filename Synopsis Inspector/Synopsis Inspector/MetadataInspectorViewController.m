@@ -13,6 +13,12 @@
 
 @interface MetadataInspectorViewController ()
 
+@property (weak) IBOutlet NSTextField* globalDescriptors;
+@property (weak) IBOutlet NSTextField* globalHash;
+@property (weak) IBOutlet MetadataDominantColorsView* globalDominantColorView;
+@property (weak) IBOutlet MetadataHistogramView* globalHistogramView;
+
+
 @property (weak) IBOutlet MetadataDominantColorsView* dominantColorView;
 @property (weak) IBOutlet MetadataHistogramView* histogramView;
 @property (weak) IBOutlet MetadataMotionView* motionView;
@@ -21,18 +27,19 @@
 
 @implementation MetadataInspectorViewController
 
-@synthesize metadata;
+@synthesize frameMetadata;
+@synthesize globalMetadata;
 
-- (NSDictionary*) metadata
+- (NSDictionary*) frameMetadata
 {
-    return metadata;
+    return frameMetadata;
 }
 
-- (void) setMetadata:(NSDictionary *)dictionary
+- (void) setFrameMetadata:(NSDictionary *)dictionary
 {
-    metadata = dictionary;
+    frameMetadata = dictionary;
     
-    NSDictionary* synopsisData = [metadata valueForKey:@"mdta/info.v002.synopsis.metadata"];
+    NSDictionary* synopsisData = [frameMetadata valueForKey:@"mdta/info.v002.synopsis.metadata"];
     NSDictionary* standard = [synopsisData valueForKey:@"info.v002.Synopsis.OpenCVAnalyzer"];
     NSArray* domColors = [standard valueForKey:@"DominantColors"];
 
@@ -46,6 +53,42 @@
         [self.histogramView updateLayer];
     });
 }
+
+- (NSDictionary*) globalMetadata
+{
+    return globalMetadata;
+}
+
+- (void) setGlobalMetadata:(NSDictionary *)dictionary
+{
+    globalMetadata = dictionary;
+    
+//    NSDictionary* synopsisData = [globalMetadata valueForKey:@"mdta/info.v002.synopsis.metadata"];
+    NSDictionary* standard = [globalMetadata valueForKey:@"info.v002.Synopsis.OpenCVAnalyzer"];
+    NSArray* domColors = [standard valueForKey:@"DominantColors"];
+    NSArray* descriptions = [standard valueForKey:@"Description"];
+    NSString* hash = [standard valueForKey:@"Hash"];
+    
+    NSArray* histogram = [standard valueForKey:@"Histogram"];
+    
+    NSMutableString* description = [NSMutableString new];
+    
+    for(NSString* desc in descriptions)
+    {
+        [description appendString:[desc stringByAppendingString:@", "]];
+    }
+    
+    self.globalDominantColorView.dominantColorsArray = domColors;
+    self.globalHistogramView.histogramArray = histogram;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.globalHash.stringValue = hash;
+        self.globalDescriptors.stringValue = description;
+        [self.globalDominantColorView updateLayer];
+        [self.globalHistogramView updateLayer];
+    });
+}
+
 
 
 

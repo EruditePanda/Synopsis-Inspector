@@ -29,6 +29,8 @@
 		1BDC343D1D6B64BD00D210E8 /* MetadataHistogramView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC343C1D6B64BD00D210E8 /* MetadataHistogramView.m */; };
 		1BDC34401D6CE2B900D210E8 /* MetadataMotionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC343F1D6CE2B900D210E8 /* MetadataMotionView.m */; };
 		1BDC34431D6CE38C00D210E8 /* MetadataLayerBackedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC34421D6CE38C00D210E8 /* MetadataLayerBackedView.m */; };
+		1BDC34461D6F8FFE00D210E8 /* TransparentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC34451D6F8FFE00D210E8 /* TransparentView.m */; };
+		1BDC34491D6F90FC00D210E8 /* TransparentTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC34481D6F90FC00D210E8 /* TransparentTabView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +100,10 @@
 		1BDC343F1D6CE2B900D210E8 /* MetadataMotionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetadataMotionView.m; sourceTree = "<group>"; };
 		1BDC34411D6CE38C00D210E8 /* MetadataLayerBackedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetadataLayerBackedView.h; sourceTree = "<group>"; };
 		1BDC34421D6CE38C00D210E8 /* MetadataLayerBackedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetadataLayerBackedView.m; sourceTree = "<group>"; };
+		1BDC34441D6F8FFE00D210E8 /* TransparentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransparentView.h; sourceTree = "<group>"; };
+		1BDC34451D6F8FFE00D210E8 /* TransparentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransparentView.m; sourceTree = "<group>"; };
+		1BDC34471D6F90FC00D210E8 /* TransparentTabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransparentTabView.h; sourceTree = "<group>"; };
+		1BDC34481D6F90FC00D210E8 /* TransparentTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransparentTabView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,6 +191,10 @@
 				1BBB10D11D527CBE00C22439 /* CGLayerView.m */,
 				1B0D643A1D4FD48E00A1AB5D /* CustomVisualEffectView.h */,
 				1B0D643B1D4FD48E00A1AB5D /* CustomVisualEffectView.m */,
+				1BDC34441D6F8FFE00D210E8 /* TransparentView.h */,
+				1BDC34451D6F8FFE00D210E8 /* TransparentView.m */,
+				1BDC34471D6F90FC00D210E8 /* TransparentTabView.h */,
+				1BDC34481D6F90FC00D210E8 /* TransparentTabView.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -302,8 +312,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1BDC34461D6F8FFE00D210E8 /* TransparentView.m in Sources */,
 				1BD710AE1D620070007D61B9 /* SynopsisCollectionViewItemView.m in Sources */,
 				1BDC34431D6CE38C00D210E8 /* MetadataLayerBackedView.m in Sources */,
+				1BDC34491D6F90FC00D210E8 /* TransparentTabView.m in Sources */,
 				1B0D643C1D4FD48E00A1AB5D /* CustomVisualEffectView.m in Sources */,
 				1B9873F91D47A5540015E54C /* main.m in Sources */,
 				1BDC34331D6AB02100D210E8 /* MetadataDominantColorsView.m in Sources */,
