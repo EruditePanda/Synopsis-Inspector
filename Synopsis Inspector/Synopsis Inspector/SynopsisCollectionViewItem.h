@@ -16,6 +16,7 @@
 - (void) beginOptimizeForScolling;
 - (void) endOptimizeForScrolling;
 
+- (BOOL) isShowingPopOver;
+- (void) hidePopOver;
 - (void) showPopOver;
-
 @end

@@ -731,10 +731,38 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" preferredMaxLayoutWidth="100" translatesAutoresizingMaskIntoConstraints="NO" id="pTe-hF-2BG">
+                                <rect key="frame" x="7" y="15" width="104" height="11"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="11" id="0wK-zm-mA6"/>
+                                    <constraint firstAttribute="width" constant="100" id="VJc-Os-sU6"/>
+                                </constraints>
+                                <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="gud-B1-ZM3">
+                                    <font key="font" metaFont="miniSystem"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                    <connections>
+                                        <binding destination="Voe-Tx-rLC" name="displayPatternValue1" keyPath="self.resultsArrayControler.arrangedObjects.@count" id="KBq-up-3oo">
+                                            <dictionary key="options">
+                                                <string key="NSDisplayPattern">%{value1}@ Items</string>
+                                            </dictionary>
+                                        </binding>
+                                    </connections>
+                                </textFieldCell>
+                                <connections>
+                                    <binding destination="Voe-Tx-rLC" name="displayPatternValue1" keyPath="self.resultsArrayControler.arrangedObjects.@count" id="45b-kt-yk5">
+                                        <dictionary key="options">
+                                            <string key="NSDisplayPattern">%{value1}@ Objects</string>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
+                            </textField>
                         </subviews>
                         <constraints>
                             <constraint firstItem="fRo-0M-OuZ" firstAttribute="top" secondItem="fGu-kV-DJW" secondAttribute="top" id="Dmu-x0-WaZ"/>
+                            <constraint firstItem="pTe-hF-2BG" firstAttribute="leading" secondItem="fGu-kV-DJW" secondAttribute="leading" constant="9" id="LD1-l3-GcV"/>
                             <constraint firstItem="fRo-0M-OuZ" firstAttribute="leading" secondItem="fGu-kV-DJW" secondAttribute="leading" id="iBi-JN-XKC"/>
+                            <constraint firstAttribute="bottom" secondItem="pTe-hF-2BG" secondAttribute="bottom" constant="15" id="rl7-41-jga"/>
                             <constraint firstAttribute="trailing" secondItem="fRo-0M-OuZ" secondAttribute="trailing" id="umq-rw-lMm"/>
                             <constraint firstAttribute="bottom" secondItem="fRo-0M-OuZ" secondAttribute="bottom" constant="37" id="xgv-Y0-4Gy"/>
                         </constraints>
@@ -774,6 +802,18 @@
                     </toolbarItem>
                     <toolbarItem implicitItemIdentifier="F2AB7FFF-9081-446D-8F90-453657E530A8" label="Histogram" paletteLabel="Histogram" tag="-1" image="Histogram" id="FSS-QP-a3O"/>
                     <toolbarItem implicitItemIdentifier="5428B973-A39F-43D4-AB52-247B94D078A9" label="Smart" paletteLabel="Smart" tag="-1" image="Smart" id="rCf-te-0id"/>
+                    <toolbarItem implicitItemIdentifier="17F3EC06-90BC-4DA5-A514-5118485C5472" label="Warm" paletteLabel="Warm" tag="-1" id="fFj-WC-7tR">
+                        <connections>
+                            <action selector="filterWarmColors:" target="Voe-Tx-rLC" id="kRH-KI-O4h"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="B4771A75-E744-4135-B972-13373627CE98" label="Cool" paletteLabel="Cool" tag="-1" id="02G-RW-qko"/>
+                    <toolbarItem implicitItemIdentifier="22EE934B-1D92-45DD-B376-0703E47B0DF1" label="Neutral" paletteLabel="Neutral" tag="-1" id="doh-d0-EQo"/>
+                    <toolbarItem implicitItemIdentifier="F10E43EC-DDCD-4434-9957-801D0BE8CA26" label="Light" paletteLabel="Light" tag="-1" id="YVU-NM-wHY"/>
+                    <toolbarItem implicitItemIdentifier="92A329F7-8779-4E5C-B929-EB1A84EDAA34" label="Dark" paletteLabel="Dark" tag="-1" id="abU-RB-sla"/>
+                    <toolbarItem implicitItemIdentifier="B0919457-1BFA-4594-A347-B9728CD133E3" label="Monochromatic" paletteLabel="Monochromatic" tag="-1" id="wmm-kw-h4R"/>
+                    <toolbarItem implicitItemIdentifier="B1E876E9-D091-4F69-9D56-5C2CC6362CE0" label="Analagous" paletteLabel="Analagous" tag="-1" id="sJQ-iK-qpl"/>
+                    <toolbarItem implicitItemIdentifier="22556D22-A2A5-472F-9C22-5DA354580FCF" label="Complimentary" paletteLabel="Complimentary" tag="-1" id="1dc-fe-eX3"/>
                     <toolbarItem implicitItemIdentifier="B838ECB4-9B01-4943-9CD7-A3E3011AF788" label="Search" paletteLabel="Search" id="85f-zA-YBp">
                         <nil key="toolTip"/>
                         <size key="minSize" width="96" height="22"/>
@@ -797,13 +837,22 @@
                 </allowedToolbarItems>
                 <defaultToolbarItems>
                     <toolbarItem reference="rCf-te-0id"/>
-                    <toolbarItem reference="mSf-oc-9ma"/>
                     <toolbarItem reference="w3K-79-FKe"/>
                     <toolbarItem reference="FSS-QP-a3O"/>
                     <toolbarItem reference="mSf-oc-9ma"/>
                     <toolbarItem reference="Zcg-Uc-HtM"/>
                     <toolbarItem reference="O1H-Sg-47M"/>
                     <toolbarItem reference="f0F-zV-DYJ"/>
+                    <toolbarItem reference="mSf-oc-9ma"/>
+                    <toolbarItem reference="fFj-WC-7tR"/>
+                    <toolbarItem reference="02G-RW-qko"/>
+                    <toolbarItem reference="doh-d0-EQo"/>
+                    <toolbarItem reference="YVU-NM-wHY"/>
+                    <toolbarItem reference="abU-RB-sla"/>
+                    <toolbarItem reference="mSf-oc-9ma"/>
+                    <toolbarItem reference="wmm-kw-h4R"/>
+                    <toolbarItem reference="sJQ-iK-qpl"/>
+                    <toolbarItem reference="1dc-fe-eX3"/>
                     <toolbarItem reference="K3I-ac-OeR"/>
                     <toolbarItem reference="85f-zA-YBp"/>
                 </defaultToolbarItems>
@@ -831,6 +880,7 @@
             <point key="canvasLocation" x="858.5" y="144.5"/>
         </menu>
         <viewController id="SQA-q7-aFi" customClass="MetadataInspectorViewController"/>
+        <userDefaultsController representsSharedInstance="YES" id="oXn-xU-uks"/>
     </objects>
     <resources>
         <image name="Brightness" width="512" height="512"/>

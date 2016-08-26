@@ -7,13 +7,13 @@
 //
 
 #import "AppDelegate.h"
+#import <Synopsis/Synopsis.h>
+
 #import "SynopsisCollectionViewItem.h"
-#import "SynopsisMetadataItem.h"
 #import "AAPLWrappedLayout.h"
 
 #import "MetadataInspectorViewController.h"
 
-#import <Synopsis/Synopsis.h>
 
 @interface AppDelegate ()
 
@@ -29,7 +29,8 @@
 
 @property (weak) IBOutlet NSTextField* statusField;
 
-@property (strong) NSMutableArray* resultsArray;
+//@property (strong) NSMutableArray* resultsArray;
+@property (strong) NSArrayController* resultsArrayControler;
 
 @property (strong) NSMetadataQuery* continuousMetadataSearch;
 
@@ -44,7 +45,8 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     
-    self.resultsArray = [NSMutableArray new];
+//    self.resultsArray = [NSMutableArray new];
+    self.resultsArrayControler = [[NSArrayController alloc] initWithContent:[NSMutableArray new]];
     
     // Run and MDQuery to find every file that has tagged XAttr / Spotlight metadata hints for v002 metadata
     self.continuousMetadataSearch = [[NSMetadataQuery alloc] init];
@@ -125,75 +127,58 @@
 - (IBAction)bestMatchSortUsingSelectedCell:(id)sender
 {
     NSIndexSet *path = [self.collectionView selectionIndexes];
-    SynopsisMetadataItem* item = [self.resultsArray objectAtIndex:[path firstIndex]];
+    SynopsisMetadataItem* item = [[self.resultsArrayControler selectedObjects] objectAtIndex:[path firstIndex]];
     
     NSSortDescriptor* bestMatchSortDescriptor = [NSSortDescriptor synopsisBestMatchSortDescriptorRelativeTo:[item valueForKey:kSynopsisGlobalMetadataSortKey]];
     
-    NSArray* previous = [self.resultsArray copy];
-    [self.resultsArray sortUsingDescriptors:@[bestMatchSortDescriptor]];
-    [self animateSort:previous selectedItem:item];
-
-//    [self.collectionView reloadData];
+    [self setupSortUsingSortDescriptor:bestMatchSortDescriptor selectedItem:item];
 }
 
 - (IBAction)perceptualHashSortUsingSelectedCell:(id)sender
 {
     NSIndexSet *path = [self.collectionView selectionIndexes];
-    SynopsisMetadataItem* item = [self.resultsArray objectAtIndex:[path firstIndex]];
+    SynopsisMetadataItem* item = [[self.resultsArrayControler selectedObjects] objectAtIndex:[path firstIndex]];
     
     NSSortDescriptor* perceptualHashSort = [NSSortDescriptor synopsisHashSortDescriptorRelativeTo:[item valueForKey:kSynopsisPerceptualHashSortKey]];
 
-    NSArray* previous = [self.resultsArray copy];
-    [self.resultsArray sortUsingDescriptors:@[perceptualHashSort]];
-    [self animateSort:previous selectedItem:item];
-
-//    [self.collectionView reloadData];
+    [self setupSortUsingSortDescriptor:perceptualHashSort selectedItem:item];
 }
 
 - (IBAction)histogramSortUsingSelectingCell:(id)sender
 {
     NSIndexSet *path = [self.collectionView selectionIndexes];
-    SynopsisMetadataItem* item = [self.resultsArray objectAtIndex:[path firstIndex]];
+    SynopsisMetadataItem* item = [[self.resultsArrayControler selectedObjects] objectAtIndex:[path firstIndex]];
     
     NSSortDescriptor* histogtamSort = [NSSortDescriptor synopsisHistogramSortDescriptorRelativeTo:[item valueForKey:kSynopsisHistogramSortKey]];
     
-    NSArray* previous = [self.resultsArray copy];
-    [self.resultsArray sortUsingDescriptors:@[histogtamSort]];
-    [self animateSort:previous selectedItem:item];
-
-//    [self.collectionView reloadData];
+    [self setupSortUsingSortDescriptor:histogtamSort selectedItem:item];
 }
 
 
 - (IBAction)saturationSortUsingSelectedCell:(id)sender
 {
-    NSIndexSet *path = [self.collectionView selectionIndexes];
-    SynopsisMetadataItem* item = [self.resultsArray objectAtIndex:[path firstIndex]];
-
-    NSArray* previous = [self.resultsArray copy];
-    [self.resultsArray sortUsingDescriptors:@[[NSSortDescriptor synopsisColorSaturationSortDescriptor]]];
-    
-    [self animateSort:previous selectedItem:item];
+    [self setupSortUsingSortDescriptor:[NSSortDescriptor synopsisColorSaturationSortDescriptor] selectedItem:nil];
 }
 
 - (IBAction)hueSortUsingSelectedCell:(id)sender
 {
-    NSIndexSet *path = [self.collectionView selectionIndexes];
-    SynopsisMetadataItem* item = [self.resultsArray objectAtIndex:[path firstIndex]];
-
-    NSArray* previous = [self.resultsArray copy];
-    [self.resultsArray sortUsingDescriptors:@[[NSSortDescriptor synopsisColorHueSortDescriptor]]];
-    [self animateSort:previous selectedItem:item];
+    [self setupSortUsingSortDescriptor:[NSSortDescriptor synopsisColorHueSortDescriptor] selectedItem:nil];
 }
 
 
 - (IBAction)brightnessSortUsingSelectedCell:(id)sender
 {
-    NSIndexSet *path = [self.collectionView selectionIndexes];
-    SynopsisMetadataItem* item = [self.resultsArray objectAtIndex:[path firstIndex]];
+    [self setupSortUsingSortDescriptor:[NSSortDescriptor synopsisColorBrightnessSortDescriptor] selectedItem:nil];
+}
 
-    NSArray* previous = [self.resultsArray copy];
-    [self.resultsArray sortUsingDescriptors:@[[NSSortDescriptor synopsisColorBrightnessSortDescriptor]]];
+- (void) setupSortUsingSortDescriptor:(NSSortDescriptor*) sortDescriptor selectedItem:(SynopsisMetadataItem*)item
+{
+    NSArray* previous = [[self.resultsArrayControler arrangedObjects] copy];
+    self.resultsArrayControler.sortDescriptors = @[sortDescriptor];
+
+    // Evoke filter + sort - not neccessary I guess
+//    [self.resultsArrayControler rearrangeObjects];
+    
     [self animateSort:previous selectedItem:item];
 }
 
@@ -202,20 +187,23 @@
     NSAnimationContext.currentContext.allowsImplicitAnimation = YES;
     NSAnimationContext.currentContext.duration = 0.5;
     
-    NSUInteger index = [self.resultsArray indexOfObject:item];
-    NSIndexPath* newItem = [NSIndexPath indexPathForItem:index inSection:0];
+    if(item != nil)
+    {
+        NSUInteger index = [self.resultsArrayControler.arrangedObjects indexOfObject:item];
+        NSIndexPath* newItem = [NSIndexPath indexPathForItem:index inSection:0];
+        
+        NSSet* newItemSet = [NSSet setWithCollectionViewIndexPath:newItem];
+        
+        [self.collectionView.animator scrollToItemsAtIndexPaths:newItemSet scrollPosition:NSCollectionViewScrollPositionCenteredVertically];
+    }
     
-    NSSet* newItemSet = [NSSet setWithCollectionViewIndexPath:newItem];
-    
-    [self.collectionView.animator scrollToItemsAtIndexPaths:newItemSet scrollPosition:NSCollectionViewScrollPositionCenteredVertically];
-
     [self.collectionView.animator performBatchUpdates:^{
-//
+        //
         for (NSInteger i = 0; i < previous.count; i++)
         {
             NSIndexPath* fromIndexPath = [NSIndexPath indexPathForItem:i inSection:0];
             
-            NSInteger j = [self.resultsArray indexOfObject:previous[i]];
+            NSInteger j = [self.resultsArrayControler.arrangedObjects indexOfObject:previous[i]];
             
             NSIndexPath* toIndexPath = [NSIndexPath indexPathForItem:j inSection:0];
             
@@ -225,6 +213,59 @@
     } completionHandler:^(BOOL finished) {
         
     }];
+}
+
+#pragma mark - Filtering
+
+- (IBAction)filterWarmColors:(id)sender
+{
+    self.resultsArrayControler.filterPredicate = [NSPredicate synopsisWarmColorPredicate];
+}
+
+- (void) setupFilterUsingPredicate:(NSPredicate*)predicate selectedItem:(SynopsisMetadataItem*)item
+{
+    NSArray* previous = [[self.resultsArrayControler arrangedObjects] copy];
+    self.resultsArrayControler.filterPredicate = predicate;
+    
+    // Evoke filter + sort - not neccessary I guess
+    //    [self.resultsArrayControler rearrangeObjects];
+    
+    [self animateAdditionAndRemoveal:previous selectedItem:item];
+}
+
+- (void) animateAdditionAndRemoveal:(NSArray*)previous selectedItem:(SynopsisMetadataItem*)item
+{
+    [self.collectionView reloadData];
+    
+//    NSAnimationContext.currentContext.allowsImplicitAnimation = YES;
+//    NSAnimationContext.currentContext.duration = 0.5;
+//    
+//    if(item != nil)
+//    {
+//        NSUInteger index = [self.resultsArrayControler.arrangedObjects indexOfObject:item];
+//        NSIndexPath* newItem = [NSIndexPath indexPathForItem:index inSection:0];
+//        
+//        NSSet* newItemSet = [NSSet setWithCollectionViewIndexPath:newItem];
+//        
+//        [self.collectionView.animator scrollToItemsAtIndexPaths:newItemSet scrollPosition:NSCollectionViewScrollPositionCenteredVertically];
+//    }
+//    
+//    [self.collectionView.animator performBatchUpdates:^{
+//        //
+//        for (NSInteger i = 0; i < previous.count; i++)
+//        {
+//            NSIndexPath* fromIndexPath = [NSIndexPath indexPathForItem:i inSection:0];
+//            
+//            NSInteger j = [self.resultsArrayControler.arrangedObjects indexOfObject:previous[i]];
+//            
+//            NSIndexPath* toIndexPath = [NSIndexPath indexPathForItem:j inSection:0];
+//            
+//            [[self.collectionView animator] moveItemAtIndexPath:fromIndexPath toIndexPath:toIndexPath];
+//        }
+//        
+//    } completionHandler:^(BOOL finished) {
+//        
+//    }];
 }
 
 
@@ -247,9 +288,8 @@
     [self.continuousMetadataSearch disableUpdates];
 
     // Temporary fix to get spotlight search working
-    [self.resultsArray removeAllObjects];
+    [self.resultsArrayControler removeObjects:self.resultsArrayControler.content];
 
-    
     // Ideally, we want to run an initial populate pass
     // And then animate things coming and going
     // However we have problems comparing objects in sets
@@ -259,7 +299,7 @@
     {
         NSLog(@"initial gather complete");
         
-        self.resultsArray = [self.continuousMetadataSearch.results mutableCopy];
+        [self.resultsArrayControler addObjects:[self.continuousMetadataSearch.results mutableCopy] ];
 
         [self.collectionView reloadData];
     }
@@ -346,35 +386,33 @@
     NSArray* addedItems = [[notification userInfo] objectForKey:NSMetadataQueryUpdateAddedItemsKey];
     NSArray* updatedItems = [[notification userInfo] objectForKey:NSMetadataQueryUpdateChangedItemsKey];
     NSArray* removedItems = [[notification userInfo] objectForKey:NSMetadataQueryUpdateRemovedItemsKey];
-
-    // Cache removed objects indices
-    NSMutableSet* removedIndexPaths = [[NSMutableSet alloc] init];
-    for(SynopsisMetadataItem* item in removedItems)
-    {
-        NSIndexPath* removedItemPath = [NSIndexPath indexPathForItem:[self.resultsArray indexOfObject:item] inSection:0];
-        [removedIndexPaths addObject:removedItemPath];
-    }
-
-    // Actually remove object from our backing
-    [self.resultsArray removeObjectsInArray:removedItems];
-
     
     // Cache updaed objects indices
     NSMutableSet* updatedIndexPaths = [[NSMutableSet alloc] init];
     NSMutableIndexSet* updatedIndexSet = [[NSMutableIndexSet alloc] init];
     for(SynopsisMetadataItem* item in updatedItems)
     {
-        NSIndexPath* updatedItemPath = [NSIndexPath indexPathForItem:[self.resultsArray indexOfObject:item] inSection:0];
+        NSIndexPath* updatedItemPath = [NSIndexPath indexPathForItem:[self.resultsArrayControler.content indexOfObject:item] inSection:0];
         [updatedIndexPaths addObject:updatedItemPath];
         [updatedIndexSet addIndex:[updatedItemPath item]];
     }
+    // Actually update our backing
+    [self.resultsArrayControler.content replaceObjectsAtIndexes:updatedIndexSet withObjects:updatedItems];
+
+    // Cache removed objects indices
+    NSMutableSet* removedIndexPaths = [[NSMutableSet alloc] init];
+    for(SynopsisMetadataItem* item in removedItems)
+    {
+        NSIndexPath* removedItemPath = [NSIndexPath indexPathForItem:[self.resultsArrayControler.content indexOfObject:item] inSection:0];
+        [removedIndexPaths addObject:removedItemPath];
+    }
     
     // Actually remove object from our backing
-    [self.resultsArray replaceObjectsAtIndexes:updatedIndexSet withObjects:updatedItems];
+    [self.resultsArrayControler removeObjects:removedItems];
     
     // Add items to our array - We dont sort them yet - so we just append them at the end until the next sort.
-    NSUInteger indexOfLastItem = self.resultsArray.count;
-    [self.resultsArray addObjectsFromArray:addedItems];
+    NSUInteger indexOfLastItem = [self.resultsArrayControler.content count];
+    [self.resultsArrayControler addObjects:addedItems];
 
     // Build an indexSet
     NSMutableSet* addedIndexPaths = [[NSMutableSet alloc] init];
@@ -386,11 +424,11 @@
     // Now Animate our Collection View with our changes
     [self.collectionView.animator performBatchUpdates:^{
         
-        // Handle RemovedItems
-        [[self.collectionView animator] deleteItemsAtIndexPaths:removedIndexPaths];
-
         // Handle Updated objects
         [[self.collectionView animator] reloadItemsAtIndexPaths:updatedIndexPaths];
+
+        // Handle RemovedItems
+        [[self.collectionView animator] deleteItemsAtIndexPaths:removedIndexPaths];
         
         // Handle Added items
         [[self.collectionView animator] insertItemsAtIndexPaths:addedIndexPaths];
@@ -409,14 +447,14 @@
 
 - (NSInteger)collectionView:(NSCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return self.resultsArray.count;
+    return [self.resultsArrayControler.arrangedObjects count];
 }
 
 - (NSCollectionViewItem *)collectionView:(NSCollectionView *)collectionView itemForRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath
 {
     SynopsisCollectionViewItem* item = (SynopsisCollectionViewItem*)[collectionView makeItemWithIdentifier:@"SynopsisCollectionViewItem" forIndexPath:indexPath];
     
-    SynopsisMetadataItem* representedObject = [self.resultsArray objectAtIndex:indexPath.item];
+    SynopsisMetadataItem* representedObject = [self.resultsArrayControler.arrangedObjects objectAtIndex:indexPath.item];
     
     item.representedObject = representedObject;
     
@@ -443,7 +481,6 @@
 
 - (void)collectionView:(NSCollectionView *)collectionView didDeselectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
 {
-    
     [self.bestFitSort setTarget:nil];
     [self.bestFitSort setAction:nil];
     
@@ -476,7 +513,7 @@
 
 - (id <NSPasteboardWriting>)collectionView:(NSCollectionView *)collectionView pasteboardWriterForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    SynopsisMetadataItem* representedObject = [self.resultsArray objectAtIndex:indexPath.item];
+    SynopsisMetadataItem* representedObject = [self.resultsArrayControler.arrangedObjects objectAtIndex:indexPath.item];
 
     // An NSURL can be a pasteboard writer, but must be returned as an absolute URL.
     return representedObject.url.absoluteURL;

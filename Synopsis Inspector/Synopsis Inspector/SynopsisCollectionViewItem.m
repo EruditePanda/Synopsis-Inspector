@@ -7,12 +7,10 @@
 //
 
 #import "SynopsisCollectionViewItem.h"
+#import <Synopsis/Synopsis.h>
 #import <AVFoundation/AVFoundation.h>
-#import "SynopsisMetadataItem.h"
 #import "SynopsisCollectionViewItemView.h"
 #import "MetadataInspectorViewController.h"
-#import "CGLayerView.h"
-#import "GZIP/GZIP.h"
 
 @interface SynopsisCollectionViewItem ()
 {
@@ -83,7 +81,7 @@
         NSArray* metadataItems = representedObject.urlAsset.metadata;
         for(AVMetadataItem* metadataItem in metadataItems)
         {
-            globalMetadata = [self decodeSynopsisMetadata:metadataItem];
+            globalMetadata = [SynopsisMetadataItem decodeSynopsisMetadata:metadataItem];
             if(globalMetadata)
                 break;
         }
@@ -225,8 +223,6 @@
 
 #pragma mark - AVPlayerItemMetadataOutputPushDelegate
 
-NSString* const kSynopsislMetadataIdentifier = @"mdta/info.v002.synopsis.metadata";
-
 - (void)metadataOutput:(AVPlayerItemMetadataOutput *)output didOutputTimedMetadataGroups:(NSArray *)groups fromPlayerItemTrack:(AVPlayerItemTrack *)track
 {
     NSMutableDictionary* metadataDictionary = [NSMutableDictionary dictionary];
@@ -237,7 +233,7 @@ NSString* const kSynopsislMetadataIdentifier = @"mdta/info.v002.synopsis.metadat
         {
             NSString* key = metadataItem.identifier;
             
-            id decodedJSON = [self decodeSynopsisMetadata:metadataItem];
+            id decodedJSON = [SynopsisMetadataItem decodeSynopsisMetadata:metadataItem];
             if(decodedJSON)
             {
                 [metadataDictionary setObject:decodedJSON forKey:key];
@@ -259,52 +255,21 @@ NSString* const kSynopsislMetadataIdentifier = @"mdta/info.v002.synopsis.metadat
 }
 
 
-- (id) decodeSynopsisMetadata:(AVMetadataItem*)metadataItem
-{
-    NSString* key = metadataItem.identifier;
-    
-    if([key isEqualToString:kSynopsislMetadataIdentifier])
-    {
-        // JSON
-        //                // Decode our metadata..
-        //                NSString* stringValue = (NSString*)metadataItem.value;
-        //                NSData* dataValue = [stringValue dataUsingEncoding:NSUTF8StringEncoding];
-        //                id decodedJSON = [NSJSONSerialization JSONObjectWithData:dataValue options:kNilOptions error:nil];
-        //                if(decodedJSON)
-        //                    [metadataDictionary setObject:decodedJSON forKey:key];
-        
-        //                // BSON:
-        //                NSData* zipped = (NSData*)metadataItem.value;
-        //                NSData* bsonData = [zipped gunzippedData];
-        //                NSDictionary* bsonDict = [NSDictionary dictionaryWithBSON:bsonData];
-        //                if(bsonDict)
-        //                    [metadataDictionary setObject:bsonDict forKey:key];
-        
-        // GZIP + JSON
-        NSData* zipped = (NSData*)metadataItem.value;
-        NSData* json = [zipped gunzippedData];
-        id decodedJSON = [NSJSONSerialization JSONObjectWithData:json options:kNilOptions error:nil];
-        if(decodedJSON)
-        {
-            return decodedJSON;
-        }
-        
-        return nil;
-    }
-    
-    return nil;
-}
-
 #pragma mark - PopOver
+
+- (BOOL) isShowingPopOver
+{
+    return self.inspectorPopOver.shown;
+}
 
 - (void) showPopOver
 {
-    NSLog(@"ShowPopover");
-    
-//    NSRectEdge prefEdge = NSRectEdgeMinY;//self.inspectorPopOver.selectedRow;
-    
     [self.inspectorPopOver showRelativeToRect:[self.view bounds] ofView:self.view preferredEdge:NSRectEdgeMinY];
-
 }
+- (void) hidePopOver
+{
+    [self.inspectorPopOver performClose:self];
+}
+
 
 @end

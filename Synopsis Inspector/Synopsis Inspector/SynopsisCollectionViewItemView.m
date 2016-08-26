@@ -98,7 +98,10 @@
 {
     if(theEvent.clickCount > 1)
     {
-        [self.item showPopOver];
+        if([self.item isShowingPopOver])
+            [self.item hidePopOver];
+        else
+            [self.item showPopOver];
     }
     else
         [super mouseDown:theEvent];
