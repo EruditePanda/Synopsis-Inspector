@@ -47,6 +47,7 @@
     
 //    self.resultsArray = [NSMutableArray new];
     self.resultsArrayControler = [[NSArrayController alloc] initWithContent:[NSMutableArray new]];
+    self.resultsArrayControler.automaticallyRearrangesObjects = NO;
     
     // Run and MDQuery to find every file that has tagged XAttr / Spotlight metadata hints for v002 metadata
     self.continuousMetadataSearch = [[NSMetadataQuery alloc] init];
@@ -127,7 +128,7 @@
 - (IBAction)bestMatchSortUsingSelectedCell:(id)sender
 {
     NSIndexSet *path = [self.collectionView selectionIndexes];
-    SynopsisMetadataItem* item = [[self.resultsArrayControler selectedObjects] objectAtIndex:[path firstIndex]];
+    SynopsisMetadataItem* item = [[self.resultsArrayControler arrangedObjects] objectAtIndex:[path firstIndex]];
     
     NSSortDescriptor* bestMatchSortDescriptor = [NSSortDescriptor synopsisBestMatchSortDescriptorRelativeTo:[item valueForKey:kSynopsisGlobalMetadataSortKey]];
     
@@ -137,7 +138,7 @@
 - (IBAction)perceptualHashSortUsingSelectedCell:(id)sender
 {
     NSIndexSet *path = [self.collectionView selectionIndexes];
-    SynopsisMetadataItem* item = [[self.resultsArrayControler selectedObjects] objectAtIndex:[path firstIndex]];
+    SynopsisMetadataItem* item = [[self.resultsArrayControler arrangedObjects] objectAtIndex:[path firstIndex]];
     
     NSSortDescriptor* perceptualHashSort = [NSSortDescriptor synopsisHashSortDescriptorRelativeTo:[item valueForKey:kSynopsisPerceptualHashSortKey]];
 
@@ -147,7 +148,7 @@
 - (IBAction)histogramSortUsingSelectingCell:(id)sender
 {
     NSIndexSet *path = [self.collectionView selectionIndexes];
-    SynopsisMetadataItem* item = [[self.resultsArrayControler selectedObjects] objectAtIndex:[path firstIndex]];
+    SynopsisMetadataItem* item = [[self.resultsArrayControler arrangedObjects] objectAtIndex:[path firstIndex]];
     
     NSSortDescriptor* histogtamSort = [NSSortDescriptor synopsisHistogramSortDescriptorRelativeTo:[item valueForKey:kSynopsisHistogramSortKey]];
     
@@ -165,7 +166,6 @@
     [self setupSortUsingSortDescriptor:[NSSortDescriptor synopsisColorHueSortDescriptor] selectedItem:nil];
 }
 
-
 - (IBAction)brightnessSortUsingSelectedCell:(id)sender
 {
     [self setupSortUsingSortDescriptor:[NSSortDescriptor synopsisColorBrightnessSortDescriptor] selectedItem:nil];
@@ -173,13 +173,13 @@
 
 - (void) setupSortUsingSortDescriptor:(NSSortDescriptor*) sortDescriptor selectedItem:(SynopsisMetadataItem*)item
 {
-    NSArray* previous = [[self.resultsArrayControler arrangedObjects] copy];
+//    NSArray* previous = [[self.resultsArrayControler arrangedObjects] copy];
     self.resultsArrayControler.sortDescriptors = @[sortDescriptor];
 
     // Evoke filter + sort - not neccessary I guess
 //    [self.resultsArrayControler rearrangeObjects];
     
-    [self animateSort:previous selectedItem:item];
+//    [self animateSort:previous selectedItem:item];
 }
 
 - (void) animateSort:(NSArray*)previous selectedItem:(SynopsisMetadataItem*)item
@@ -217,25 +217,53 @@
 
 #pragma mark - Filtering
 
+- (IBAction)filterClear:(id)sender
+{
+    self.resultsArrayControler.filterPredicate = nil;
+}
+
+
 - (IBAction)filterWarmColors:(id)sender
 {
     self.resultsArrayControler.filterPredicate = [NSPredicate synopsisWarmColorPredicate];
 }
 
+- (IBAction)filterCoolColors:(id)sender
+{
+    self.resultsArrayControler.filterPredicate = [NSPredicate synopsisCoolColorPredicate];
+}
+
+- (IBAction)filterLightColors:(id)sender
+{
+    self.resultsArrayControler.filterPredicate = [NSPredicate synopsisLightColorPredicate];
+}
+
+- (IBAction)filterDarkColors:(id)sender
+{
+    self.resultsArrayControler.filterPredicate = [NSPredicate synopsisDarkColorPredicate];
+}
+
+- (IBAction)filterNeutralColors:(id)sender
+{
+    self.resultsArrayControler.filterPredicate = [NSPredicate synopsisNeutralColorPredicate];
+}
+
+
 - (void) setupFilterUsingPredicate:(NSPredicate*)predicate selectedItem:(SynopsisMetadataItem*)item
 {
-    NSArray* previous = [[self.resultsArrayControler arrangedObjects] copy];
-    self.resultsArrayControler.filterPredicate = predicate;
+//    NSArray* previous = [[self.resultsArrayControler arrangedObjects] copy];
+//    self.resultsArrayControler.filterPredicate = predicate;
     
     // Evoke filter + sort - not neccessary I guess
     //    [self.resultsArrayControler rearrangeObjects];
     
-    [self animateAdditionAndRemoveal:previous selectedItem:item];
+//    [self animateAdditionAndRemoveal:previous selectedItem:item];
 }
 
 - (void) animateAdditionAndRemoveal:(NSArray*)previous selectedItem:(SynopsisMetadataItem*)item
 {
-    [self.collectionView reloadData];
+//    [self.resultsArrayControler rearrangeObjects];
+//    [self.collectionView reloadData];
     
 //    NSAnimationContext.currentContext.allowsImplicitAnimation = YES;
 //    NSAnimationContext.currentContext.duration = 0.5;
@@ -443,23 +471,25 @@
 
 
 
-#pragma mark - Collection View Bullshit
+#pragma mark - Collection View Datasource (Now using Bindings)
 
-- (NSInteger)collectionView:(NSCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-{
-    return [self.resultsArrayControler.arrangedObjects count];
-}
+//- (NSInteger)collectionView:(NSCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+//{
+//    return [self.resultsArrayControler.arrangedObjects count];
+//}
 
-- (NSCollectionViewItem *)collectionView:(NSCollectionView *)collectionView itemForRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath
-{
-    SynopsisCollectionViewItem* item = (SynopsisCollectionViewItem*)[collectionView makeItemWithIdentifier:@"SynopsisCollectionViewItem" forIndexPath:indexPath];
-    
-    SynopsisMetadataItem* representedObject = [self.resultsArrayControler.arrangedObjects objectAtIndex:indexPath.item];
-    
-    item.representedObject = representedObject;
-    
-    return item;
-}
+//- (NSCollectionViewItem *)collectionView:(NSCollectionView *)collectionView itemForRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    SynopsisCollectionViewItem* item = (SynopsisCollectionViewItem*)[collectionView makeItemWithIdentifier:@"SynopsisCollectionViewItem" forIndexPath:indexPath];
+//    
+//    SynopsisMetadataItem* representedObject = [self.resultsArrayControler.arrangedObjects objectAtIndex:indexPath.item];
+//    
+//    item.representedObject = representedObject;
+//    
+//    return item;
+//}
+
+#pragma mark - Collection View Delegate
 
 - (void)collectionView:(NSCollectionView *)collectionView didSelectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
 {

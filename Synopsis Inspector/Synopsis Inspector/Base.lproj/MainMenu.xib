@@ -676,7 +676,7 @@
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="335" y="390" width="480" height="360"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1177"/>
-            <view key="contentView" wantsLayer="YES" focusRingType="none" id="EiT-Mj-1SZ">
+            <view key="contentView" focusRingType="none" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
@@ -715,8 +715,9 @@
                                             </collectionViewFlowLayout>
                                             <color key="primaryBackgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
                                             <connections>
-                                                <outlet property="dataSource" destination="Voe-Tx-rLC" id="iBw-iN-Dnr"/>
-                                                <outlet property="delegate" destination="Voe-Tx-rLC" id="RiB-fN-YKv"/>
+                                                <binding destination="Voe-Tx-rLC" name="content" keyPath="self.resultsArrayControler.arrangedObjects" id="Dov-sq-Ejf"/>
+                                                <binding destination="Voe-Tx-rLC" name="selectionIndexes" keyPath="self.resultsArrayControler.selectionIndexes" previousBinding="Dov-sq-Ejf" id="Mf6-MG-xWH"/>
+                                                <outlet property="delegate" destination="Voe-Tx-rLC" id="1V0-Qu-xmq"/>
                                             </connections>
                                         </collectionView>
                                     </subviews>
@@ -802,15 +803,36 @@
                     </toolbarItem>
                     <toolbarItem implicitItemIdentifier="F2AB7FFF-9081-446D-8F90-453657E530A8" label="Histogram" paletteLabel="Histogram" tag="-1" image="Histogram" id="FSS-QP-a3O"/>
                     <toolbarItem implicitItemIdentifier="5428B973-A39F-43D4-AB52-247B94D078A9" label="Smart" paletteLabel="Smart" tag="-1" image="Smart" id="rCf-te-0id"/>
+                    <toolbarItem implicitItemIdentifier="974094A7-6E55-4173-9565-8904D363BB7E" label="Clear" paletteLabel="Clear" tag="-1" id="cIg-yi-uD7">
+                        <connections>
+                            <action selector="filterClear:" target="Voe-Tx-rLC" id="Dzd-yp-buw"/>
+                        </connections>
+                    </toolbarItem>
                     <toolbarItem implicitItemIdentifier="17F3EC06-90BC-4DA5-A514-5118485C5472" label="Warm" paletteLabel="Warm" tag="-1" id="fFj-WC-7tR">
                         <connections>
                             <action selector="filterWarmColors:" target="Voe-Tx-rLC" id="kRH-KI-O4h"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="B4771A75-E744-4135-B972-13373627CE98" label="Cool" paletteLabel="Cool" tag="-1" id="02G-RW-qko"/>
-                    <toolbarItem implicitItemIdentifier="22EE934B-1D92-45DD-B376-0703E47B0DF1" label="Neutral" paletteLabel="Neutral" tag="-1" id="doh-d0-EQo"/>
-                    <toolbarItem implicitItemIdentifier="F10E43EC-DDCD-4434-9957-801D0BE8CA26" label="Light" paletteLabel="Light" tag="-1" id="YVU-NM-wHY"/>
-                    <toolbarItem implicitItemIdentifier="92A329F7-8779-4E5C-B929-EB1A84EDAA34" label="Dark" paletteLabel="Dark" tag="-1" id="abU-RB-sla"/>
+                    <toolbarItem implicitItemIdentifier="B4771A75-E744-4135-B972-13373627CE98" label="Cool" paletteLabel="Cool" tag="-1" id="02G-RW-qko">
+                        <connections>
+                            <action selector="filterCoolColors:" target="Voe-Tx-rLC" id="wNv-kC-YPL"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="22EE934B-1D92-45DD-B376-0703E47B0DF1" label="Neutral" paletteLabel="Neutral" tag="-1" id="doh-d0-EQo">
+                        <connections>
+                            <action selector="filterNeutralColors:" target="Voe-Tx-rLC" id="8ri-1q-JEA"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="F10E43EC-DDCD-4434-9957-801D0BE8CA26" label="Light" paletteLabel="Light" tag="-1" id="YVU-NM-wHY">
+                        <connections>
+                            <action selector="filterLightColors:" target="Voe-Tx-rLC" id="k5W-OB-URR"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="92A329F7-8779-4E5C-B929-EB1A84EDAA34" label="Dark" paletteLabel="Dark" tag="-1" id="abU-RB-sla">
+                        <connections>
+                            <action selector="filterDarkColors:" target="Voe-Tx-rLC" id="Uth-K5-Q3T"/>
+                        </connections>
+                    </toolbarItem>
                     <toolbarItem implicitItemIdentifier="B0919457-1BFA-4594-A347-B9728CD133E3" label="Monochromatic" paletteLabel="Monochromatic" tag="-1" id="wmm-kw-h4R"/>
                     <toolbarItem implicitItemIdentifier="B1E876E9-D091-4F69-9D56-5C2CC6362CE0" label="Analagous" paletteLabel="Analagous" tag="-1" id="sJQ-iK-qpl"/>
                     <toolbarItem implicitItemIdentifier="22556D22-A2A5-472F-9C22-5DA354580FCF" label="Complimentary" paletteLabel="Complimentary" tag="-1" id="1dc-fe-eX3"/>
@@ -844,6 +866,7 @@
                     <toolbarItem reference="O1H-Sg-47M"/>
                     <toolbarItem reference="f0F-zV-DYJ"/>
                     <toolbarItem reference="mSf-oc-9ma"/>
+                    <toolbarItem reference="cIg-yi-uD7"/>
                     <toolbarItem reference="fFj-WC-7tR"/>
                     <toolbarItem reference="02G-RW-qko"/>
                     <toolbarItem reference="doh-d0-EQo"/>
