@@ -677,7 +677,7 @@
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="335" y="390" width="480" height="360"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1177"/>
-            <view key="contentView" wantsLayer="YES" focusRingType="none" id="EiT-Mj-1SZ">
+            <view key="contentView" focusRingType="none" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
@@ -818,32 +818,32 @@
                     </toolbarItem>
                     <toolbarItem implicitItemIdentifier="F2AB7FFF-9081-446D-8F90-453657E530A8" label="Histogram" paletteLabel="Histogram" tag="-1" image="Histogram" id="FSS-QP-a3O"/>
                     <toolbarItem implicitItemIdentifier="5428B973-A39F-43D4-AB52-247B94D078A9" label="Smart" paletteLabel="Smart" tag="-1" image="Smart" id="rCf-te-0id"/>
-                    <toolbarItem implicitItemIdentifier="974094A7-6E55-4173-9565-8904D363BB7E" label="Clear" paletteLabel="Clear" tag="-1" id="cIg-yi-uD7">
+                    <toolbarItem implicitItemIdentifier="974094A7-6E55-4173-9565-8904D363BB7E" label="All" paletteLabel="All" tag="-1" image="Clear" id="cIg-yi-uD7">
                         <connections>
                             <action selector="filterClear:" target="Voe-Tx-rLC" id="Dzd-yp-buw"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="17F3EC06-90BC-4DA5-A514-5118485C5472" label="Warm" paletteLabel="Warm" tag="-1" id="fFj-WC-7tR">
+                    <toolbarItem implicitItemIdentifier="17F3EC06-90BC-4DA5-A514-5118485C5472" label="Warm" paletteLabel="Warm" tag="-1" image="Warm" id="fFj-WC-7tR">
                         <connections>
                             <action selector="filterWarmColors:" target="Voe-Tx-rLC" id="kRH-KI-O4h"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="B4771A75-E744-4135-B972-13373627CE98" label="Cool" paletteLabel="Cool" tag="-1" id="02G-RW-qko">
+                    <toolbarItem implicitItemIdentifier="B4771A75-E744-4135-B972-13373627CE98" label="Cool" paletteLabel="Cool" tag="-1" image="Cool" id="02G-RW-qko">
                         <connections>
                             <action selector="filterCoolColors:" target="Voe-Tx-rLC" id="wNv-kC-YPL"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="22EE934B-1D92-45DD-B376-0703E47B0DF1" label="Neutral" paletteLabel="Neutral" tag="-1" id="doh-d0-EQo">
+                    <toolbarItem implicitItemIdentifier="22EE934B-1D92-45DD-B376-0703E47B0DF1" label="Neutral" paletteLabel="Neutral" tag="-1" image="Neutral" id="doh-d0-EQo">
                         <connections>
                             <action selector="filterNeutralColors:" target="Voe-Tx-rLC" id="8ri-1q-JEA"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="F10E43EC-DDCD-4434-9957-801D0BE8CA26" label="Light" paletteLabel="Light" tag="-1" id="YVU-NM-wHY">
+                    <toolbarItem implicitItemIdentifier="F10E43EC-DDCD-4434-9957-801D0BE8CA26" label="Light" paletteLabel="Light" tag="-1" image="Light" id="YVU-NM-wHY">
                         <connections>
                             <action selector="filterLightColors:" target="Voe-Tx-rLC" id="k5W-OB-URR"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="92A329F7-8779-4E5C-B929-EB1A84EDAA34" label="Dark" paletteLabel="Dark" tag="-1" id="abU-RB-sla">
+                    <toolbarItem implicitItemIdentifier="92A329F7-8779-4E5C-B929-EB1A84EDAA34" label="Dark" paletteLabel="Dark" tag="-1" image="Dark" id="abU-RB-sla">
                         <connections>
                             <action selector="filterDarkColors:" target="Voe-Tx-rLC" id="Uth-K5-Q3T"/>
                         </connections>
@@ -871,23 +871,35 @@
                             <action selector="search:" target="Voe-Tx-rLC" id="qHW-CR-Cys"/>
                         </connections>
                     </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="234A6395-D654-4597-A38C-CE48B6DCC4A1" label="" paletteLabel="" tag="-1" id="lhd-Zu-nIq">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="5" height="32"/>
+                        <size key="maxSize" width="5" height="32"/>
+                        <box key="view" horizontalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="Khy-nW-mgh">
+                            <rect key="frame" x="1" y="14" width="5" height="32"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                            <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <font key="titleFont" metaFont="system"/>
+                        </box>
+                    </toolbarItem>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
                     <toolbarItem reference="rCf-te-0id"/>
                     <toolbarItem reference="w3K-79-FKe"/>
                     <toolbarItem reference="FSS-QP-a3O"/>
-                    <toolbarItem reference="mSf-oc-9ma"/>
+                    <toolbarItem reference="lhd-Zu-nIq"/>
                     <toolbarItem reference="Zcg-Uc-HtM"/>
                     <toolbarItem reference="O1H-Sg-47M"/>
                     <toolbarItem reference="f0F-zV-DYJ"/>
-                    <toolbarItem reference="mSf-oc-9ma"/>
+                    <toolbarItem reference="lhd-Zu-nIq"/>
                     <toolbarItem reference="cIg-yi-uD7"/>
                     <toolbarItem reference="fFj-WC-7tR"/>
                     <toolbarItem reference="02G-RW-qko"/>
                     <toolbarItem reference="doh-d0-EQo"/>
                     <toolbarItem reference="YVU-NM-wHY"/>
                     <toolbarItem reference="abU-RB-sla"/>
-                    <toolbarItem reference="mSf-oc-9ma"/>
+                    <toolbarItem reference="lhd-Zu-nIq"/>
                     <toolbarItem reference="wmm-kw-h4R"/>
                     <toolbarItem reference="sJQ-iK-qpl"/>
                     <toolbarItem reference="1dc-fe-eX3"/>
@@ -922,10 +934,16 @@
     </objects>
     <resources>
         <image name="Brightness" width="512" height="512"/>
+        <image name="Clear" width="512" height="512"/>
+        <image name="Cool" width="512" height="512"/>
+        <image name="Dark" width="512" height="512"/>
         <image name="Hash" width="512" height="512"/>
         <image name="Histogram" width="512" height="512"/>
         <image name="Hue" width="512" height="512"/>
+        <image name="Light" width="512" height="512"/>
+        <image name="Neutral" width="512" height="512"/>
         <image name="Saturation" width="512" height="512"/>
         <image name="Smart" width="512" height="512"/>
+        <image name="Warm" width="512" height="512"/>
     </resources>
 </document>
