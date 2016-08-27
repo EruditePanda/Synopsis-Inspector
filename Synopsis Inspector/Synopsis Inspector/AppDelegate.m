@@ -28,6 +28,9 @@
 @property (weak) IBOutlet NSSearchField* searchField;
 
 @property (weak) IBOutlet NSTextField* statusField;
+@property (strong) NSString* sortStatus;
+@property (strong) NSString* filterStatus;
+@property (strong) NSString* correlationStatus;
 
 //@property (strong) NSMutableArray* resultsArray;
 @property (strong) NSArrayController* resultsArrayControler;
@@ -41,13 +44,19 @@
 
 - (void) awakeFromNib
 {
+    self.sortStatus = @"No Sort";
+    self.filterStatus = @"No Filter";
+    self.correlationStatus = @"";
+
+    [self updateStatusLabel];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     
+    
 //    self.resultsArray = [NSMutableArray new];
     self.resultsArrayControler = [[NSArrayController alloc] initWithContent:[NSMutableArray new]];
-    self.resultsArrayControler.automaticallyRearrangesObjects = NO;
+//    self.resultsArrayControler.automaticallyRearrangesObjects = NO;
     
     // Run and MDQuery to find every file that has tagged XAttr / Spotlight metadata hints for v002 metadata
     self.continuousMetadataSearch = [[NSMetadataQuery alloc] init];
@@ -132,6 +141,8 @@
     
     NSSortDescriptor* bestMatchSortDescriptor = [NSSortDescriptor synopsisBestMatchSortDescriptorRelativeTo:[item valueForKey:kSynopsisGlobalMetadataSortKey]];
     
+    self.sortStatus = @"Relative Best Match Sort";
+    
     [self setupSortUsingSortDescriptor:bestMatchSortDescriptor selectedItem:item];
 }
 
@@ -141,6 +152,8 @@
     SynopsisMetadataItem* item = [[self.resultsArrayControler arrangedObjects] objectAtIndex:[path firstIndex]];
     
     NSSortDescriptor* perceptualHashSort = [NSSortDescriptor synopsisHashSortDescriptorRelativeTo:[item valueForKey:kSynopsisPerceptualHashSortKey]];
+
+    self.sortStatus = @"Relative Hash Sort";
 
     [self setupSortUsingSortDescriptor:perceptualHashSort selectedItem:item];
 }
@@ -152,22 +165,27 @@
     
     NSSortDescriptor* histogtamSort = [NSSortDescriptor synopsisHistogramSortDescriptorRelativeTo:[item valueForKey:kSynopsisHistogramSortKey]];
     
+    self.sortStatus = @"Relative Histogram Sort";
+
     [self setupSortUsingSortDescriptor:histogtamSort selectedItem:item];
 }
 
 
 - (IBAction)saturationSortUsingSelectedCell:(id)sender
 {
+    self.sortStatus = @"Saturation Sort";
     [self setupSortUsingSortDescriptor:[NSSortDescriptor synopsisColorSaturationSortDescriptor] selectedItem:nil];
 }
 
 - (IBAction)hueSortUsingSelectedCell:(id)sender
 {
+    self.sortStatus = @"Hue Sort";
     [self setupSortUsingSortDescriptor:[NSSortDescriptor synopsisColorHueSortDescriptor] selectedItem:nil];
 }
 
 - (IBAction)brightnessSortUsingSelectedCell:(id)sender
 {
+    self.sortStatus = @"Brightness Sort";
     [self setupSortUsingSortDescriptor:[NSSortDescriptor synopsisColorBrightnessSortDescriptor] selectedItem:nil];
 }
 
@@ -176,6 +194,8 @@
 //    NSArray* previous = [[self.resultsArrayControler arrangedObjects] copy];
     self.resultsArrayControler.sortDescriptors = @[sortDescriptor];
 
+    [self updateStatusLabel];
+    
     // Evoke filter + sort - not neccessary I guess
 //    [self.resultsArrayControler rearrangeObjects];
     
@@ -220,32 +240,44 @@
 - (IBAction)filterClear:(id)sender
 {
     self.resultsArrayControler.filterPredicate = nil;
+    self.filterStatus = @"No Filter";
+    [self updateStatusLabel];
 }
 
 
 - (IBAction)filterWarmColors:(id)sender
 {
     self.resultsArrayControler.filterPredicate = [NSPredicate synopsisWarmColorPredicate];
+    self.filterStatus = @"Warm Color Filter";
+    [self updateStatusLabel];
 }
 
 - (IBAction)filterCoolColors:(id)sender
 {
     self.resultsArrayControler.filterPredicate = [NSPredicate synopsisCoolColorPredicate];
+    self.filterStatus = @"Cool Color Filter";
+    [self updateStatusLabel];
 }
 
 - (IBAction)filterLightColors:(id)sender
 {
     self.resultsArrayControler.filterPredicate = [NSPredicate synopsisLightColorPredicate];
+    self.filterStatus = @"Light Color Filter";
+    [self updateStatusLabel];
 }
 
 - (IBAction)filterDarkColors:(id)sender
 {
     self.resultsArrayControler.filterPredicate = [NSPredicate synopsisDarkColorPredicate];
+    self.filterStatus = @"Dark Color Filter";
+    [self updateStatusLabel];
 }
 
 - (IBAction)filterNeutralColors:(id)sender
 {
     self.resultsArrayControler.filterPredicate = [NSPredicate synopsisNeutralColorPredicate];
+    self.filterStatus = @"Neutral Color Filter";
+    [self updateStatusLabel];
 }
 
 
@@ -763,6 +795,10 @@
     [self.continuousMetadataSearch startQuery];
 }
 
+- (void) updateStatusLabel
+{
+    self.statusField.stringValue = [NSString stringWithFormat:@"%@ : %@ : %@", self.sortStatus, self.filterStatus, self.correlationStatus];
+}
 
 
 @end

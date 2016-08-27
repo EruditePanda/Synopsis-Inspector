@@ -18,6 +18,7 @@
                 <outlet property="collectionView" destination="Zca-Ua-Xm8" id="s6B-EV-cbE"/>
                 <outlet property="hashSort" destination="w3K-79-FKe" id="t1I-ec-HMH"/>
                 <outlet property="histogramSort" destination="FSS-QP-a3O" id="aYd-TB-dXQ"/>
+                <outlet property="statusField" destination="uBo-Ud-SFl" id="M5l-F1-zyd"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
@@ -676,7 +677,7 @@
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="335" y="390" width="480" height="360"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1177"/>
-            <view key="contentView" focusRingType="none" id="EiT-Mj-1SZ">
+            <view key="contentView" wantsLayer="YES" focusRingType="none" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
@@ -707,7 +708,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <collectionView selectable="YES" allowsMultipleSelection="YES" id="Zca-Ua-Xm8">
-                                            <rect key="frame" x="0.0" y="0.0" width="480" height="323"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="465" height="323"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="10" minimumLineSpacing="10" id="Q9n-85-Gqk">
                                                 <size key="itemSize" width="400" height="200"/>
@@ -751,12 +752,24 @@
                                     </connections>
                                 </textFieldCell>
                                 <connections>
-                                    <binding destination="Voe-Tx-rLC" name="displayPatternValue1" keyPath="self.resultsArrayControler.arrangedObjects.@count" id="45b-kt-yk5">
+                                    <binding destination="Voe-Tx-rLC" name="displayPatternValue1" keyPath="self.resultsArrayControler.arrangedObjects.@count" id="mdN-aI-NIC">
                                         <dictionary key="options">
-                                            <string key="NSDisplayPattern">%{value1}@ Objects</string>
+                                            <string key="NSDisplayPattern">%{value1}@ Items</string>
                                         </dictionary>
                                     </binding>
                                 </connections>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uBo-Ud-SFl">
+                                <rect key="frame" x="128" y="15" width="225" height="11"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="11" id="8tr-gP-zCK"/>
+                                    <constraint firstAttribute="width" constant="221" id="Brd-25-bwT"/>
+                                </constraints>
+                                <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Label" id="kpM-Ls-PKA">
+                                    <font key="font" metaFont="miniSystem"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
                             </textField>
                         </subviews>
                         <constraints>
@@ -770,7 +783,9 @@
                     </visualEffectView>
                 </subviews>
                 <constraints>
+                    <constraint firstAttribute="bottom" secondItem="uBo-Ud-SFl" secondAttribute="bottom" constant="15" id="2G3-mB-0lg"/>
                     <constraint firstAttribute="trailing" secondItem="0bP-5f-bdN" secondAttribute="trailing" id="959-xp-z0w"/>
+                    <constraint firstItem="uBo-Ud-SFl" firstAttribute="centerX" secondItem="EiT-Mj-1SZ" secondAttribute="centerX" id="Dsy-sc-hfp"/>
                     <constraint firstAttribute="bottom" secondItem="fGu-kV-DJW" secondAttribute="bottom" id="L1J-6A-NNQ"/>
                     <constraint firstItem="0bP-5f-bdN" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="T5h-SI-jje"/>
                     <constraint firstAttribute="trailing" secondItem="New-6b-HZz" secondAttribute="trailing" constant="20" id="Tv8-F0-CFu"/>
