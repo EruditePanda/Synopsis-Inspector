@@ -78,7 +78,6 @@
     [self commonInit];
 }
 
-
 - (void) mouseEntered:(NSEvent *)theEvent
 {
     [self.playerLayer.player play];
@@ -99,9 +98,9 @@
     if(theEvent.clickCount > 1)
     {
         if([self.item isShowingPopOver])
-            [self.item hidePopOver];
+            [self.item hidePopOver:nil];
         else
-            [self.item showPopOver];
+            [self.item showPopOver:nil];
     }
     else
         [super mouseDown:theEvent];
