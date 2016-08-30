@@ -10,10 +10,14 @@
 
 @implementation TransparentCollectionView
 
-- (void)drawRect:(NSRect)dirtyRect {
-    [super drawRect:dirtyRect];
-    
-    // Drawing code here.
-}
+//- (BOOL) isOpaque
+//{
+//    return NO;
+//}
+//
+//- (BOOL) allowsVibrancy
+//{
+//    return YES;
+//}
 
 @end
