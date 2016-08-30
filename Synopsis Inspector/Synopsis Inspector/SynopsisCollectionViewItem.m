@@ -45,11 +45,12 @@
     [super prepareForReuse];
 
     [(SynopsisCollectionViewItemView*)self.view setBorderColor:nil];
-    self.selected = NO;
     
     [self.player pause];
     [(SynopsisCollectionViewItemView*)self.view playerLayer].player = nil;
     [(SynopsisCollectionViewItemView*)self.view playerLayer].opacity = 0.0;
+
+    self.selected = NO;
 }
 
 - (void) setSelected:(BOOL)selected
@@ -262,11 +263,12 @@
     return self.inspectorPopOver.shown;
 }
 
-- (void) showPopOver
+- (IBAction)showPopOver:(id)sender
 {
     [self.inspectorPopOver showRelativeToRect:[self.view bounds] ofView:self.view preferredEdge:NSRectEdgeMinY];
 }
-- (void) hidePopOver
+
+- (IBAction)hidePopOver:(id)sender
 {
     [self.inspectorPopOver performClose:self];
 }

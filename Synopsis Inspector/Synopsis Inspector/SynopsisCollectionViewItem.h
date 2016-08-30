@@ -17,6 +17,6 @@
 - (void) endOptimizeForScrolling;
 
 - (BOOL) isShowingPopOver;
-- (void) hidePopOver;
-- (void) showPopOver;
+- (IBAction)hidePopOver:(id)sender;
+- (IBAction)showPopOver:(id)sender;
 @end

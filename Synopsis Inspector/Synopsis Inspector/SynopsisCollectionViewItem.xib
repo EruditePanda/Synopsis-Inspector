@@ -47,10 +47,17 @@
         </collectionViewItem>
         <menu id="OgX-Ze-gr5">
             <items>
-                <menuItem title="Reveal In Finder" id="T5S-Sp-tyF">
+                <menuItem title="Inspect" id="T5S-Sp-tyF">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
-                        <action selector="revealInFinder:" target="M2Q-8K-Ovt" id="aBB-SR-36D"/>
+                        <action selector="showPopOver:" target="M2Q-8K-Ovt" id="6yh-U2-2uf"/>
+                    </connections>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="yFg-7F-OuU"/>
+                <menuItem title="Reveal In Finder" id="1Ji-Dt-lvk">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="revealInFinder:" target="M2Q-8K-Ovt" id="LEE-Ae-75H"/>
                     </connections>
                 </menuItem>
             </items>
