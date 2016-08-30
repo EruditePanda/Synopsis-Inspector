@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import <Synopsis/Synopsis.h>
+#import <Synopsis/MetadataComparisons.h>
 
 #import "SynopsisCollectionViewItem.h"
 #import "AAPLWrappedLayout.h"
@@ -44,6 +45,8 @@
 
 - (void) awakeFromNib
 {
+    self.collectionView.backgroundColors = @[[NSColor clearColor]];
+    
     self.sortStatus = @"No Sort";
     self.filterStatus = @"No Filter";
     self.correlationStatus = @"";
@@ -111,22 +114,12 @@
 
     self.currentlyScrolling = NO;
     
-    [self registerForCollectionViewDragAndDrop];
-}
-
-- (void)registerForCollectionViewDragAndDrop {
     // Register for the dropped object types we can accept.
     [self.collectionView registerForDraggedTypes:[NSArray arrayWithObject:NSURLPboardType]];
     
     // Enable dragging items from our CollectionView to other applications.
     [self.collectionView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
-    
-    // Enable dragging items within and into our CollectionView.
-//    [self.collectionView setDraggingSourceOperationMask:NSDragOperationLink forLocal:YES];
 }
-
-
-
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     // Insert code here to tear down your application
@@ -134,10 +127,16 @@
 
 #pragma mark - Sorting
 
-- (IBAction)bestMatchSortUsingSelectedCell:(id)sender
+- (SynopsisMetadataItem*) firstSelectedItem
 {
     NSIndexSet *path = [self.collectionView selectionIndexes];
     SynopsisMetadataItem* item = [[self.resultsArrayControler arrangedObjects] objectAtIndex:[path firstIndex]];
+    return item;
+}
+
+- (IBAction)bestMatchSortUsingSelectedCell:(id)sender
+{
+    SynopsisMetadataItem* item = [self firstSelectedItem];
     
     NSSortDescriptor* bestMatchSortDescriptor = [NSSortDescriptor synopsisBestMatchSortDescriptorRelativeTo:[item valueForKey:kSynopsisGlobalMetadataSortKey]];
     
@@ -148,8 +147,7 @@
 
 - (IBAction)perceptualHashSortUsingSelectedCell:(id)sender
 {
-    NSIndexSet *path = [self.collectionView selectionIndexes];
-    SynopsisMetadataItem* item = [[self.resultsArrayControler arrangedObjects] objectAtIndex:[path firstIndex]];
+    SynopsisMetadataItem* item = [self firstSelectedItem];
     
     NSSortDescriptor* perceptualHashSort = [NSSortDescriptor synopsisHashSortDescriptorRelativeTo:[item valueForKey:kSynopsisPerceptualHashSortKey]];
 
@@ -160,8 +158,7 @@
 
 - (IBAction)histogramSortUsingSelectingCell:(id)sender
 {
-    NSIndexSet *path = [self.collectionView selectionIndexes];
-    SynopsisMetadataItem* item = [[self.resultsArrayControler arrangedObjects] objectAtIndex:[path firstIndex]];
+    SynopsisMetadataItem* item = [self firstSelectedItem];
     
     NSSortDescriptor* histogtamSort = [NSSortDescriptor synopsisHistogramSortDescriptorRelativeTo:[item valueForKey:kSynopsisHistogramSortKey]];
     
@@ -170,164 +167,125 @@
     [self setupSortUsingSortDescriptor:histogtamSort selectedItem:item];
 }
 
-
 - (IBAction)saturationSortUsingSelectedCell:(id)sender
 {
     self.sortStatus = @"Saturation Sort";
-    [self setupSortUsingSortDescriptor:[NSSortDescriptor synopsisColorSaturationSortDescriptor] selectedItem:nil];
+    [self setupSortUsingSortDescriptor:[NSSortDescriptor synopsisColorSaturationSortDescriptor] selectedItem:[self firstSelectedItem]];
 }
 
 - (IBAction)hueSortUsingSelectedCell:(id)sender
 {
     self.sortStatus = @"Hue Sort";
-    [self setupSortUsingSortDescriptor:[NSSortDescriptor synopsisColorHueSortDescriptor] selectedItem:nil];
+    [self setupSortUsingSortDescriptor:[NSSortDescriptor synopsisColorHueSortDescriptor] selectedItem:[self firstSelectedItem]];
 }
 
 - (IBAction)brightnessSortUsingSelectedCell:(id)sender
 {
     self.sortStatus = @"Brightness Sort";
-    [self setupSortUsingSortDescriptor:[NSSortDescriptor synopsisColorBrightnessSortDescriptor] selectedItem:nil];
+    [self setupSortUsingSortDescriptor:[NSSortDescriptor synopsisColorBrightnessSortDescriptor] selectedItem:[self firstSelectedItem]];
 }
 
 - (void) setupSortUsingSortDescriptor:(NSSortDescriptor*) sortDescriptor selectedItem:(SynopsisMetadataItem*)item
 {
-//    NSArray* previous = [[self.resultsArrayControler arrangedObjects] copy];
-    self.resultsArrayControler.sortDescriptors = @[sortDescriptor];
-
-    [self updateStatusLabel];
-    
-    // Evoke filter + sort - not neccessary I guess
-//    [self.resultsArrayControler rearrangeObjects];
-    
-//    [self animateSort:previous selectedItem:item];
-}
-
-- (void) animateSort:(NSArray*)previous selectedItem:(SynopsisMetadataItem*)item
-{
     NSAnimationContext.currentContext.allowsImplicitAnimation = YES;
     NSAnimationContext.currentContext.duration = 0.5;
+    [NSAnimationContext beginGrouping];
     
+    self.resultsArrayControler.sortDescriptors = @[sortDescriptor];
+    
+    [self updateStatusLabel];
+
     if(item != nil)
     {
         NSUInteger index = [self.resultsArrayControler.arrangedObjects indexOfObject:item];
-        NSIndexPath* newItem = [NSIndexPath indexPathForItem:index inSection:0];
-        
-        NSSet* newItemSet = [NSSet setWithCollectionViewIndexPath:newItem];
-        
-        [self.collectionView.animator scrollToItemsAtIndexPaths:newItemSet scrollPosition:NSCollectionViewScrollPositionCenteredVertically];
+        if(index != NSNotFound)
+        {
+            NSIndexPath* newItem = [NSIndexPath indexPathForItem:index inSection:0];
+            
+            NSSet* newItemSet = [NSSet setWithCollectionViewIndexPath:newItem];
+            
+            [self.resultsArrayControler setSelectionIndex:index];
+            
+            [self.collectionView.animator scrollToItemsAtIndexPaths:newItemSet scrollPosition:NSCollectionViewScrollPositionCenteredVertically];
+        }
     }
     
-    [self.collectionView.animator performBatchUpdates:^{
-        //
-        for (NSInteger i = 0; i < previous.count; i++)
-        {
-            NSIndexPath* fromIndexPath = [NSIndexPath indexPathForItem:i inSection:0];
-            
-            NSInteger j = [self.resultsArrayControler.arrangedObjects indexOfObject:previous[i]];
-            
-            NSIndexPath* toIndexPath = [NSIndexPath indexPathForItem:j inSection:0];
-            
-            [[self.collectionView animator] moveItemAtIndexPath:fromIndexPath toIndexPath:toIndexPath];
-        }
-        
-    } completionHandler:^(BOOL finished) {
-        
-    }];
+    [NSAnimationContext endGrouping];
 }
 
 #pragma mark - Filtering
 
 - (IBAction)filterClear:(id)sender
 {
-    self.resultsArrayControler.filterPredicate = nil;
+    SynopsisMetadataItem* item = [self firstSelectedItem];
     self.filterStatus = @"No Filter";
+    [self setupFilterUsingPredicate:nil selectedItem:item];
     [self updateStatusLabel];
 }
 
-
 - (IBAction)filterWarmColors:(id)sender
 {
-    self.resultsArrayControler.filterPredicate = [NSPredicate synopsisWarmColorPredicate];
+    SynopsisMetadataItem* item = [self firstSelectedItem];
     self.filterStatus = @"Warm Color Filter";
-    [self updateStatusLabel];
+    [self setupFilterUsingPredicate:[NSPredicate synopsisWarmColorPredicate] selectedItem:item];
 }
 
 - (IBAction)filterCoolColors:(id)sender
 {
-    self.resultsArrayControler.filterPredicate = [NSPredicate synopsisCoolColorPredicate];
+    SynopsisMetadataItem* item = [self firstSelectedItem];
     self.filterStatus = @"Cool Color Filter";
-    [self updateStatusLabel];
+    [self setupFilterUsingPredicate:[NSPredicate synopsisCoolColorPredicate] selectedItem:item];
 }
 
 - (IBAction)filterLightColors:(id)sender
 {
-    self.resultsArrayControler.filterPredicate = [NSPredicate synopsisLightColorPredicate];
+    SynopsisMetadataItem* item = [self firstSelectedItem];
     self.filterStatus = @"Light Color Filter";
-    [self updateStatusLabel];
+    [self setupFilterUsingPredicate:[NSPredicate synopsisLightColorPredicate] selectedItem:item];
 }
 
 - (IBAction)filterDarkColors:(id)sender
 {
-    self.resultsArrayControler.filterPredicate = [NSPredicate synopsisDarkColorPredicate];
+    SynopsisMetadataItem* item = [self firstSelectedItem];
     self.filterStatus = @"Dark Color Filter";
-    [self updateStatusLabel];
+    [self setupFilterUsingPredicate:[NSPredicate synopsisNeutralColorPredicate] selectedItem:item];
 }
 
 - (IBAction)filterNeutralColors:(id)sender
 {
-    self.resultsArrayControler.filterPredicate = [NSPredicate synopsisNeutralColorPredicate];
+    SynopsisMetadataItem* item = [self firstSelectedItem];
     self.filterStatus = @"Neutral Color Filter";
-    [self updateStatusLabel];
+    [self setupFilterUsingPredicate:[NSPredicate synopsisNeutralColorPredicate] selectedItem:item];
 }
-
 
 - (void) setupFilterUsingPredicate:(NSPredicate*)predicate selectedItem:(SynopsisMetadataItem*)item
 {
-//    NSArray* previous = [[self.resultsArrayControler arrangedObjects] copy];
-//    self.resultsArrayControler.filterPredicate = predicate;
+    NSAnimationContext.currentContext.allowsImplicitAnimation = YES;
+    NSAnimationContext.currentContext.duration = 0.5;
     
-    // Evoke filter + sort - not neccessary I guess
-    //    [self.resultsArrayControler rearrangeObjects];
-    
-//    [self animateAdditionAndRemoveal:previous selectedItem:item];
-}
+    [NSAnimationContext beginGrouping];
 
-- (void) animateAdditionAndRemoveal:(NSArray*)previous selectedItem:(SynopsisMetadataItem*)item
-{
-//    [self.resultsArrayControler rearrangeObjects];
-//    [self.collectionView reloadData];
+    self.resultsArrayControler.filterPredicate = predicate;
     
-//    NSAnimationContext.currentContext.allowsImplicitAnimation = YES;
-//    NSAnimationContext.currentContext.duration = 0.5;
-//    
-//    if(item != nil)
-//    {
-//        NSUInteger index = [self.resultsArrayControler.arrangedObjects indexOfObject:item];
-//        NSIndexPath* newItem = [NSIndexPath indexPathForItem:index inSection:0];
-//        
-//        NSSet* newItemSet = [NSSet setWithCollectionViewIndexPath:newItem];
-//        
-//        [self.collectionView.animator scrollToItemsAtIndexPaths:newItemSet scrollPosition:NSCollectionViewScrollPositionCenteredVertically];
-//    }
-//    
-//    [self.collectionView.animator performBatchUpdates:^{
-//        //
-//        for (NSInteger i = 0; i < previous.count; i++)
-//        {
-//            NSIndexPath* fromIndexPath = [NSIndexPath indexPathForItem:i inSection:0];
-//            
-//            NSInteger j = [self.resultsArrayControler.arrangedObjects indexOfObject:previous[i]];
-//            
-//            NSIndexPath* toIndexPath = [NSIndexPath indexPathForItem:j inSection:0];
-//            
-//            [[self.collectionView animator] moveItemAtIndexPath:fromIndexPath toIndexPath:toIndexPath];
-//        }
-//        
-//    } completionHandler:^(BOOL finished) {
-//        
-//    }];
-}
+    [self updateStatusLabel];
 
+    if(item != nil)
+    {
+        NSUInteger index = [self.resultsArrayControler.arrangedObjects indexOfObject:item];
+        if(index != NSNotFound)
+        {
+            NSIndexPath* newItem = [NSIndexPath indexPathForItem:index inSection:0];
+            
+            NSSet* newItemSet = [NSSet setWithCollectionViewIndexPath:newItem];
+            
+            [self.resultsArrayControler setSelectionIndex:index];
+            
+            [self.collectionView.animator scrollToItemsAtIndexPaths:newItemSet scrollPosition:NSCollectionViewScrollPositionCenteredVertically];
+        }
+    }
+    
+    [NSAnimationContext endGrouping];
+}
 
 #pragma mark -  Metadata Query Delegate
 
@@ -481,22 +439,22 @@
         [addedIndexPaths addObject:[NSIndexPath indexPathForItem:(index + indexOfLastItem) inSection:0]];
     }
     
-    // Now Animate our Collection View with our changes
-    [self.collectionView.animator performBatchUpdates:^{
-        
-        // Handle Updated objects
-        [[self.collectionView animator] reloadItemsAtIndexPaths:updatedIndexPaths];
-
-        // Handle RemovedItems
-        [[self.collectionView animator] deleteItemsAtIndexPaths:removedIndexPaths];
-        
-        // Handle Added items
-        [[self.collectionView animator] insertItemsAtIndexPaths:addedIndexPaths];
-        
-    } completionHandler:^(BOOL finished) {
-        
-    }];
-    
+//    // Now Animate our Collection View with our changes
+//    [self.collectionView.animator performBatchUpdates:^{
+//        
+//        // Handle Updated objects
+//        [[self.collectionView animator] reloadItemsAtIndexPaths:updatedIndexPaths];
+//
+//        // Handle RemovedItems
+//        [[self.collectionView animator] deleteItemsAtIndexPaths:removedIndexPaths];
+//        
+//        // Handle Added items
+//        [[self.collectionView animator] insertItemsAtIndexPaths:addedIndexPaths];
+//        
+//    } completionHandler:^(BOOL finished) {
+//        
+//    }];
+//    
     [self.continuousMetadataSearch enableUpdates];
 }
 
@@ -534,6 +492,8 @@
     [self.histogramSort setTarget:self];
     [self.histogramSort setAction:@selector(histogramSortUsingSelectingCell:)];
     
+    
+    [self updateStatusLabel];
 //    THIS WONT WORK BECAUSE I ALLOW MULTIPLE SELECTION...
 //    
 //    SynopsisCollectionViewItem* item = (SynopsisCollectionViewItem*)collectionView;
@@ -552,6 +512,8 @@
     [self.histogramSort setTarget:nil];
     [self.histogramSort setAction:nil];
     
+    [self updateStatusLabel];
+
 //    SynopsisCollectionViewItem* item = (SynopsisCollectionViewItem*)collectionView;
 //    item.metadataDelegate = nil;
 
@@ -624,9 +586,16 @@
 {
     AAPLWrappedLayout* layout = (AAPLWrappedLayout*) self.collectionView.collectionViewLayout;
     
+    NSAnimationContext.currentContext.allowsImplicitAnimation = YES;
+    NSAnimationContext.currentContext.duration = 0.5;
+    
+    [NSAnimationContext beginGrouping];
+
     float factor = [sender floatValue];
     NSSize size = NSMakeSize(200.0 * factor, 100.0 * factor);
     [layout setItemSize:size];
+    
+    [NSAnimationContext endGrouping];
 }
 
 
@@ -797,7 +766,56 @@
 
 - (void) updateStatusLabel
 {
-    self.statusField.stringValue = [NSString stringWithFormat:@"%@ : %@ : %@", self.sortStatus, self.filterStatus, self.correlationStatus];
+    if(self.collectionView.selectionIndexPaths.count == 2)
+    {
+        NSIndexPath* path1 = self.collectionView.selectionIndexPaths.allObjects[0];
+        NSIndexPath* path2 = self.collectionView.selectionIndexPaths.allObjects[1];
+        
+        SynopsisMetadataItem* item1 = [self.resultsArrayControler.arrangedObjects objectAtIndex:path1.item];
+        SynopsisMetadataItem* item2 = [self.resultsArrayControler.arrangedObjects objectAtIndex:path2.item];
+        
+        float hashWeight = compareHashes([item1 valueForKey:kSynopsisPerceptualHashDictKey],[item2 valueForKey:kSynopsisPerceptualHashDictKey]);
+        NSString* hashString = [NSString stringWithFormat:@" Hash : %f", hashWeight];
+
+        float histWeight = compareHistogtams([item1 valueForKey:kSynopsisHistogramDictKey],[item2 valueForKey:kSynopsisHistogramDictKey]);
+        NSString* histString = [NSString stringWithFormat:@" Histogram : %f", histWeight];
+
+        NSArray* domColors1 = [NSColor linearColorsWithArraysOfRGBComponents:[item1 valueForKey:kSynopsisDominantColorValuesDictKey]];
+        NSArray* domColors2 = [NSColor linearColorsWithArraysOfRGBComponents:[item2 valueForKey:kSynopsisDominantColorValuesDictKey]];
+        
+        float hueWeight1 = weightHueDominantColors(domColors1);
+        float hueWeight2 = weightHueDominantColors(domColors2);
+        float hueWeight = 1.0 - fabsf(hueWeight1 - hueWeight2);
+        NSString* hueString = [NSString stringWithFormat:@" Hue : %f", hueWeight];
+
+        float satWeight1 = weightSaturationDominantColors(domColors1);
+        float satWeight2 = weightSaturationDominantColors(domColors2);
+        float satWeight = 1.0 - fabsf(satWeight1 - satWeight2);
+        NSString* satString = [NSString stringWithFormat:@" Saturation : %f", satWeight];
+
+        float briWeight1 = weightBrightnessDominantColors(domColors1);
+        float briWeight2 = weightBrightnessDominantColors(domColors2);
+        float briWeight = 1.0 - fabsf(briWeight1 - briWeight2);
+        NSString* briString = [NSString stringWithFormat:@" Brightness : %f", briWeight];
+
+        
+        NSMutableString* value = [NSMutableString new];
+        [value appendString:@"Metrics:"];
+        
+        [value appendString:hashString];
+        [value appendString:histString];
+        [value appendString:hueString];
+        [value appendString:satString];
+        [value appendString:briString];
+        
+        self.statusField.stringValue = value;
+
+        
+    }
+    else
+    {
+        self.statusField.stringValue = [NSString stringWithFormat:@"%@ : %@ : %@", self.sortStatus, self.filterStatus, self.correlationStatus];
+    }
 }
 
 

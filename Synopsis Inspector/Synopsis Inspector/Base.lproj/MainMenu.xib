@@ -677,7 +677,7 @@
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="335" y="390" width="480" height="360"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1177"/>
-            <view key="contentView" focusRingType="none" id="EiT-Mj-1SZ">
+            <view key="contentView" wantsLayer="YES" focusRingType="none" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
@@ -690,7 +690,7 @@
                                     <constraint firstAttribute="width" constant="99" id="XjD-ZK-VJf"/>
                                     <constraint firstAttribute="height" constant="14" id="nUn-GV-w1a"/>
                                 </constraints>
-                                <sliderCell key="cell" controlSize="mini" continuous="YES" state="on" alignment="left" minValue="0.5" maxValue="3" doubleValue="2" tickMarkPosition="above" sliderType="linear" id="hQj-Z7-AFC"/>
+                                <sliderCell key="cell" controlSize="mini" continuous="YES" alignment="left" minValue="1" maxValue="3" doubleValue="1.5" tickMarkPosition="above" sliderType="linear" id="hQj-Z7-AFC"/>
                                 <connections>
                                     <action selector="zoom:" target="Voe-Tx-rLC" id="sqP-eT-Unj"/>
                                 </connections>
@@ -707,7 +707,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="480" height="323"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <collectionView selectable="YES" allowsMultipleSelection="YES" id="Zca-Ua-Xm8">
+                                        <collectionView selectable="YES" allowsMultipleSelection="YES" id="Zca-Ua-Xm8" customClass="TransparentCollectionView">
                                             <rect key="frame" x="0.0" y="0.0" width="465" height="323"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="10" minimumLineSpacing="10" id="Q9n-85-Gqk">
@@ -763,7 +763,6 @@
                                 <rect key="frame" x="128" y="15" width="225" height="11"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="11" id="8tr-gP-zCK"/>
-                                    <constraint firstAttribute="width" constant="221" id="Brd-25-bwT"/>
                                 </constraints>
                                 <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Label" id="kpM-Ls-PKA">
                                     <font key="font" metaFont="miniSystem"/>
@@ -773,8 +772,9 @@
                             </textField>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="uBo-Ud-SFl" firstAttribute="leading" secondItem="pTe-hF-2BG" secondAttribute="leading" constant="121" id="CFt-os-CyO"/>
                             <constraint firstItem="fRo-0M-OuZ" firstAttribute="top" secondItem="fGu-kV-DJW" secondAttribute="top" id="Dmu-x0-WaZ"/>
-                            <constraint firstItem="pTe-hF-2BG" firstAttribute="leading" secondItem="fGu-kV-DJW" secondAttribute="leading" constant="9" id="LD1-l3-GcV"/>
+                            <constraint firstItem="uBo-Ud-SFl" firstAttribute="trailing" secondItem="New-6b-HZz" secondAttribute="trailing" constant="-109" id="hai-jy-6WP"/>
                             <constraint firstItem="fRo-0M-OuZ" firstAttribute="leading" secondItem="fGu-kV-DJW" secondAttribute="leading" id="iBi-JN-XKC"/>
                             <constraint firstAttribute="bottom" secondItem="pTe-hF-2BG" secondAttribute="bottom" constant="15" id="rl7-41-jga"/>
                             <constraint firstAttribute="trailing" secondItem="fRo-0M-OuZ" secondAttribute="trailing" id="umq-rw-lMm"/>
