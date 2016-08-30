@@ -17,6 +17,7 @@
 		1B9873FE1D47A5540015E54C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B9873FC1D47A5540015E54C /* MainMenu.xib */; };
 		1B9874171D48014C0015E54C /* SynopsisCollectionViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B9874151D48014C0015E54C /* SynopsisCollectionViewItem.m */; };
 		1B9874181D48014C0015E54C /* SynopsisCollectionViewItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B9874161D48014C0015E54C /* SynopsisCollectionViewItem.xib */; };
+		1BAA80701D7243F300464810 /* TransparentCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAA806F1D7243F300464810 /* TransparentCollectionView.m */; };
 		1BBB10D21D527CBE00C22439 /* CGLayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BBB10D11D527CBE00C22439 /* CGLayerView.m */; };
 		1BBB10F91D555DDC00C22439 /* Synopsis.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1BBB10ED1D5558C400C22439 /* Synopsis.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1BBB10FD1D55992200C22439 /* Synopsis.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BBB10ED1D5558C400C22439 /* Synopsis.framework */; };
@@ -77,6 +78,8 @@
 		1B9874141D48014C0015E54C /* SynopsisCollectionViewItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynopsisCollectionViewItem.h; sourceTree = "<group>"; };
 		1B9874151D48014C0015E54C /* SynopsisCollectionViewItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SynopsisCollectionViewItem.m; sourceTree = "<group>"; };
 		1B9874161D48014C0015E54C /* SynopsisCollectionViewItem.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SynopsisCollectionViewItem.xib; sourceTree = "<group>"; };
+		1BAA806E1D7243F300464810 /* TransparentCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransparentCollectionView.h; sourceTree = "<group>"; };
+		1BAA806F1D7243F300464810 /* TransparentCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransparentCollectionView.m; sourceTree = "<group>"; };
 		1BBB10D01D527CBE00C22439 /* CGLayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGLayerView.h; sourceTree = "<group>"; };
 		1BBB10D11D527CBE00C22439 /* CGLayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CGLayerView.m; sourceTree = "<group>"; };
 		1BBB10E81D5558C400C22439 /* Synopsis-Framework.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "Synopsis-Framework.xcodeproj"; path = "Synopsis-Framework/Synopsis/Synopsis-Framework.xcodeproj"; sourceTree = "<group>"; };
@@ -177,6 +180,8 @@
 				1BDC34451D6F8FFE00D210E8 /* TransparentView.m */,
 				1BDC34471D6F90FC00D210E8 /* TransparentTabView.h */,
 				1BDC34481D6F90FC00D210E8 /* TransparentTabView.m */,
+				1BAA806E1D7243F300464810 /* TransparentCollectionView.h */,
+				1BAA806F1D7243F300464810 /* TransparentCollectionView.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -295,6 +300,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1BDC34461D6F8FFE00D210E8 /* TransparentView.m in Sources */,
+				1BAA80701D7243F300464810 /* TransparentCollectionView.m in Sources */,
 				1BD710AE1D620070007D61B9 /* SynopsisCollectionViewItemView.m in Sources */,
 				1BDC34431D6CE38C00D210E8 /* MetadataLayerBackedView.m in Sources */,
 				1BDC34491D6F90FC00D210E8 /* TransparentTabView.m in Sources */,
