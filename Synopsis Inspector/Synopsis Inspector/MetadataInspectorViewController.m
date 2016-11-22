@@ -39,8 +39,8 @@
 {
     frameMetadata = dictionary;
     
-    NSDictionary* synopsisData = [frameMetadata valueForKey:@"mdta/info.v002.synopsis.metadata"];
-    NSDictionary* standard = [synopsisData valueForKey:@"info.v002.Synopsis.OpenCVAnalyzer"];
+    NSDictionary* synopsisData = [frameMetadata valueForKey:@"mdta/info.synopsis.metadata"];
+    NSDictionary* standard = [synopsisData valueForKey:@"info.Synopsis.OpenCVAnalyzer"];
     NSArray* domColors = [standard valueForKey:@"DominantColors"];
 
     NSArray* histogram = [standard valueForKey:@"Histogram"];
@@ -63,8 +63,8 @@
 {
     globalMetadata = dictionary;
     
-//    NSDictionary* synopsisData = [globalMetadata valueForKey:@"mdta/info.v002.synopsis.metadata"];
-    NSDictionary* standard = [globalMetadata valueForKey:@"info.v002.Synopsis.OpenCVAnalyzer"];
+//    NSDictionary* synopsisData = [globalMetadata valueForKey:@"mdta/info.synopsis.metadata"];
+    NSDictionary* standard = [globalMetadata valueForKey:@"info.Synopsis.OpenCVAnalyzer"];
     NSArray* domColors = [standard valueForKey:@"DominantColors"];
     NSArray* descriptions = [standard valueForKey:@"Description"];
     NSString* hash = [standard valueForKey:@"Hash"];
@@ -82,8 +82,12 @@
     self.globalHistogramView.histogramArray = histogram;
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.globalHash.stringValue = hash;
-        self.globalDescriptors.stringValue = description;
+        if(hash)
+            self.globalHash.stringValue = hash;
+        
+        if(description)
+            self.globalDescriptors.stringValue = description;
+        
         [self.globalDominantColorView updateLayer];
         [self.globalHistogramView updateLayer];
     });

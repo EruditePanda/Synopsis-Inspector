@@ -25,6 +25,7 @@
 @property (weak) IBOutlet NSToolbarItem* bestFitSort;
 @property (weak) IBOutlet NSToolbarItem* hashSort;
 @property (weak) IBOutlet NSToolbarItem* histogramSort;
+@property (weak) IBOutlet NSToolbarItem* featureVectorSort;
 
 @property (weak) IBOutlet NSSearchField* searchField;
 
@@ -79,14 +80,14 @@
     
     // Configure the search predicate
     NSPredicate *searchPredicate;
-    searchPredicate = [NSPredicate predicateWithFormat:@"info_v002_synopsis_descriptors like '*'"];
+    searchPredicate = [NSPredicate predicateWithFormat:@"info_synopsis_descriptors like '*'"];
     
     [self.continuousMetadataSearch setPredicate:searchPredicate];
     
     // Set the search scope. In this case it will search the User's home directory
     // and the iCloud documents area
     NSArray* searchScopes;
-    searchScopes = @[NSMetadataQueryLocalComputerScope];
+    searchScopes = @[NSMetadataQueryIndexedLocalComputerScope];
     
     [self.continuousMetadataSearch setSearchScopes:searchScopes];
     
@@ -144,6 +145,18 @@
     
     [self setupSortUsingSortDescriptor:bestMatchSortDescriptor selectedItem:item];
 }
+
+- (IBAction)featureVectorSortUsingSelectedCell:(id)sender
+{
+    SynopsisMetadataItem* item = [self firstSelectedItem];
+    
+    NSSortDescriptor* perceptualHashSort = [NSSortDescriptor synopsisFeatureSortDescriptorRelativeTo:[item valueForKey:kSynopsisFeatureVectorSortKey]];
+    
+    self.sortStatus = @"Feature Vector Sort";
+    
+    [self setupSortUsingSortDescriptor:perceptualHashSort selectedItem:item];
+}
+
 
 - (IBAction)perceptualHashSortUsingSelectedCell:(id)sender
 {
@@ -491,10 +504,13 @@
 
     [self.histogramSort setTarget:self];
     [self.histogramSort setAction:@selector(histogramSortUsingSelectingCell:)];
-    
+
+    [self.featureVectorSort setTarget:self];
+    [self.featureVectorSort setAction:@selector(featureVectorSortUsingSelectedCell:)];
     
     [self updateStatusLabel];
-//    THIS WONT WORK BECAUSE I ALLOW MULTIPLE SELECTION...
+
+    //    THIS WONT WORK BECAUSE I ALLOW MULTIPLE SELECTION...
 //    
 //    SynopsisCollectionViewItem* item = (SynopsisCollectionViewItem*)collectionView;
 //    item.metadataDelegate = self.metadataInspectorVC;
@@ -774,8 +790,8 @@
         SynopsisMetadataItem* item1 = [self.resultsArrayControler.arrangedObjects objectAtIndex:path1.item];
         SynopsisMetadataItem* item2 = [self.resultsArrayControler.arrangedObjects objectAtIndex:path2.item];
         
-        float hashWeight = compareHashes([item1 valueForKey:kSynopsisPerceptualHashDictKey],[item2 valueForKey:kSynopsisPerceptualHashDictKey]);
-        NSString* hashString = [NSString stringWithFormat:@" Hash : %f", hashWeight];
+        float featureWeight = compareFeatureVector([item1 valueForKey:kSynopsisFeatureVectorDictKey],[item2 valueForKey:kSynopsisFeatureVectorDictKey]);
+        NSString* hashString = [NSString stringWithFormat:@" Features : %f", featureWeight];
 
         float histWeight = compareHistogtams([item1 valueForKey:kSynopsisHistogramDictKey],[item2 valueForKey:kSynopsisHistogramDictKey]);
         NSString* histString = [NSString stringWithFormat:@" Histogram : %f", histWeight];

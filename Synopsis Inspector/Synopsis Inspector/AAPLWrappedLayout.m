@@ -25,7 +25,7 @@
 
 - (NSCollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath {
     NSCollectionViewLayoutAttributes *attributes = [super layoutAttributesForItemAtIndexPath:indexPath];
-    [attributes setZIndex:[indexPath item]];
+//    [attributes setZIndex:[indexPath item]];
     return attributes;
 }
 

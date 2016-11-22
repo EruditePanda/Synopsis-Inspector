@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2657" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -16,6 +17,7 @@
             <connections>
                 <outlet property="bestFitSort" destination="rCf-te-0id" id="fj1-fL-zkF"/>
                 <outlet property="collectionView" destination="Zca-Ua-Xm8" id="s6B-EV-cbE"/>
+                <outlet property="featureVectorSort" destination="twC-4t-m0y" id="yUX-0L-oxk"/>
                 <outlet property="hashSort" destination="w3K-79-FKe" id="t1I-ec-HMH"/>
                 <outlet property="histogramSort" destination="FSS-QP-a3O" id="aYd-TB-dXQ"/>
                 <outlet property="statusField" destination="uBo-Ud-SFl" id="M5l-F1-zyd"/>
@@ -676,12 +678,12 @@
             <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES" resizable="YES" unifiedTitleAndToolbar="YES" fullSizeContentView="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="335" y="390" width="480" height="360"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1177"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
             <view key="contentView" wantsLayer="YES" focusRingType="none" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <visualEffectView appearanceType="vibrantDark" blendingMode="withinWindow" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="fGu-kV-DJW" customClass="CustomVisualEffectView">
+                    <visualEffectView appearanceType="vibrantDark" blendingMode="withinWindow" material="appearanceBased" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="fGu-kV-DJW" customClass="CustomVisualEffectView">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                         <subviews>
                             <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="New-6b-HZz">
@@ -695,11 +697,8 @@
                                     <action selector="zoom:" target="Voe-Tx-rLC" id="sqP-eT-Unj"/>
                                 </connections>
                             </slider>
-                            <box appearanceType="aqua" verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="0bP-5f-bdN">
+                            <box appearanceType="aqua" verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="0bP-5f-bdN">
                                 <rect key="frame" x="0.0" y="35" width="480" height="5"/>
-                                <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                                <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <font key="titleFont" metaFont="system"/>
                             </box>
                             <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" horizontalScrollElasticity="none" scrollerKnobStyle="dark" translatesAutoresizingMaskIntoConstraints="NO" id="fRo-0M-OuZ">
                                 <rect key="frame" x="0.0" y="37" width="480" height="323"/>
@@ -800,6 +799,7 @@
                 <allowedToolbarItems>
                     <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="mSf-oc-9ma"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="K3I-ac-OeR"/>
+                    <toolbarItem implicitItemIdentifier="115406B4-16A0-4515-9B6A-330645ACAD86" label="Feature" paletteLabel="Feature" tag="-1" image="NSQuickLookTemplate" id="twC-4t-m0y" userLabel="Feature Sort"/>
                     <toolbarItem implicitItemIdentifier="BFB2B402-8E66-4762-A6DF-767EC98EA500" label="Hash" paletteLabel="Hash" tag="-1" image="Hash" id="w3K-79-FKe"/>
                     <toolbarItem implicitItemIdentifier="8C5C1670-F20C-45CE-B265-FA479779B560" label="Saturation" paletteLabel="Saturation" tag="-1" image="Saturation" id="O1H-Sg-47M">
                         <connections>
@@ -875,17 +875,15 @@
                         <nil key="toolTip"/>
                         <size key="minSize" width="5" height="32"/>
                         <size key="maxSize" width="5" height="32"/>
-                        <box key="view" horizontalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="Khy-nW-mgh">
+                        <box key="view" horizontalHuggingPriority="750" boxType="separator" id="Khy-nW-mgh">
                             <rect key="frame" x="1" y="14" width="5" height="32"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                            <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <font key="titleFont" metaFont="system"/>
                         </box>
                     </toolbarItem>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
                     <toolbarItem reference="rCf-te-0id"/>
+                    <toolbarItem reference="twC-4t-m0y"/>
                     <toolbarItem reference="w3K-79-FKe"/>
                     <toolbarItem reference="FSS-QP-a3O"/>
                     <toolbarItem reference="lhd-Zu-nIq"/>
@@ -941,6 +939,7 @@
         <image name="Histogram" width="512" height="512"/>
         <image name="Hue" width="512" height="512"/>
         <image name="Light" width="512" height="512"/>
+        <image name="NSQuickLookTemplate" width="19" height="12"/>
         <image name="Neutral" width="512" height="512"/>
         <image name="Saturation" width="512" height="512"/>
         <image name="Smart" width="512" height="512"/>
