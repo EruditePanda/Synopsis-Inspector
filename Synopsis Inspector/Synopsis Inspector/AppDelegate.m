@@ -650,7 +650,7 @@
     {
         // reset to default search
         NSPredicate *searchPredicate;
-        searchPredicate = [NSPredicate predicateWithFormat:@"info_v002_synopsis_descriptors LIKE '*'"];
+        searchPredicate = [NSPredicate predicateWithFormat:@"info_synopsis_descriptors LIKE '*'"];
         self.continuousMetadataSearch.predicate = searchPredicate;
     }
     else
@@ -674,7 +674,7 @@
         searchTerm = [searchTerm stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         searchTerms = trimmedTerms;
         
-        NSString* predicateBase = @"info_v002_synopsis_descriptors LIKE[cd] ";
+        NSString* predicateBase = @"info_synopsis_descriptors LIKE[cd] ";
         NSArray* operators = @[ @"AND", @"&&", @"OR", @"||", @"NOT", @"!" ];
         
         // See how many operators we have
