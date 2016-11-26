@@ -139,7 +139,7 @@
 {
     SynopsisMetadataItem* item = [self firstSelectedItem];
     
-    NSSortDescriptor* bestMatchSortDescriptor = [NSSortDescriptor synopsisBestMatchSortDescriptorRelativeTo:[item valueForKey:kSynopsisGlobalMetadataSortKey]];
+    NSSortDescriptor* bestMatchSortDescriptor = [NSSortDescriptor synopsisBestMatchSortDescriptorRelativeTo:item];
     
     self.sortStatus = @"Relative Best Match Sort";
     
@@ -790,15 +790,23 @@
         SynopsisMetadataItem* item1 = [self.resultsArrayControler.arrangedObjects objectAtIndex:path1.item];
         SynopsisMetadataItem* item2 = [self.resultsArrayControler.arrangedObjects objectAtIndex:path2.item];
         
+        // Feature
         float featureWeight = compareFeatureVector([item1 valueForKey:kSynopsisFeatureVectorDictKey],[item2 valueForKey:kSynopsisFeatureVectorDictKey]);
-        NSString* hashString = [NSString stringWithFormat:@" Features : %f", featureWeight];
+        NSString* featureString = [NSString stringWithFormat:@" Features : %f", featureWeight];
 
+        // Hash
+        float hashWeight = compareHashes([item1 valueForKey:kSynopsisPerceptualHashDictKey],[item2 valueForKey:kSynopsisPerceptualHashDictKey]);
+        NSString* hashString = [NSString stringWithFormat:@" Perceptual Hash : %f", hashWeight];
+        
+        // Histogram
         float histWeight = compareHistogtams([item1 valueForKey:kSynopsisHistogramDictKey],[item2 valueForKey:kSynopsisHistogramDictKey]);
         NSString* histString = [NSString stringWithFormat:@" Histogram : %f", histWeight];
 
+        // Dom Colors
         NSArray* domColors1 = [NSColor linearColorsWithArraysOfRGBComponents:[item1 valueForKey:kSynopsisDominantColorValuesDictKey]];
         NSArray* domColors2 = [NSColor linearColorsWithArraysOfRGBComponents:[item2 valueForKey:kSynopsisDominantColorValuesDictKey]];
         
+        // Color Components
         float hueWeight1 = weightHueDominantColors(domColors1);
         float hueWeight2 = weightHueDominantColors(domColors2);
         float hueWeight = 1.0 - fabsf(hueWeight1 - hueWeight2);
@@ -818,6 +826,7 @@
         NSMutableString* value = [NSMutableString new];
         [value appendString:@"Metrics:"];
         
+        [value appendString:featureString];
         [value appendString:hashString];
         [value appendString:histString];
         [value appendString:hueString];
