@@ -5,7 +5,7 @@
 //  Created by vade on 8/22/16.
 //  Copyright © 2016 v002. All rights reserved.
 //
-
+#import <Synopsis/Constants.h>
 #import "MetadataInspectorViewController.h"
 #import "MetadataDominantColorsView.h"
 #import "MetadataHistogramView.h"
@@ -40,10 +40,10 @@
     frameMetadata = dictionary;
     
     NSDictionary* synopsisData = [frameMetadata valueForKey:@"mdta/info.synopsis.metadata"];
-    NSDictionary* standard = [synopsisData valueForKey:@"info.Synopsis.OpenCVAnalyzer"];
-    NSArray* domColors = [standard valueForKey:@"DominantColors"];
+    NSDictionary* standard = [synopsisData valueForKey:kSynopsisGlobalMetadataDictKey];
+    NSArray* domColors = [standard valueForKey:kSynopsisDominantColorValuesDictKey];
 
-    NSArray* histogram = [standard valueForKey:@"Histogram"];
+    NSArray* histogram = [standard valueForKey:kSynopsisHistogramDictKey];
 
     self.dominantColorView.dominantColorsArray = domColors;
     self.histogramView.histogramArray = histogram;
@@ -64,12 +64,12 @@
     globalMetadata = dictionary;
     
 //    NSDictionary* synopsisData = [globalMetadata valueForKey:@"mdta/info.synopsis.metadata"];
-    NSDictionary* standard = [globalMetadata valueForKey:@"info.Synopsis.OpenCVAnalyzer"];
-    NSArray* domColors = [standard valueForKey:@"DominantColors"];
+    NSDictionary* standard = [globalMetadata valueForKey:kSynopsisGlobalMetadataDictKey];
+    NSArray* domColors = [standard valueForKey:kSynopsisDominantColorValuesDictKey];
     NSArray* descriptions = [standard valueForKey:@"Description"];
-    NSString* hash = [standard valueForKey:@"Hash"];
+    NSString* hash = [standard valueForKey:kSynopsisPerceptualHashDictKey];
     
-    NSArray* histogram = [standard valueForKey:@"Histogram"];
+    NSArray* histogram = [standard valueForKey:kSynopsisHistogramDictKey];
     
     NSMutableString* description = [NSMutableString new];
     
