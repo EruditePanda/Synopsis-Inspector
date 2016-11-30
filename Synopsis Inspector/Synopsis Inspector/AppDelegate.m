@@ -34,6 +34,11 @@
 @property (strong) NSString* filterStatus;
 @property (strong) NSString* correlationStatus;
 
+
+// Tokens
+@property (strong) NSDictionary* tokenDictionary;
+@property (weak) IBOutlet NSTokenField* tokenField;
+
 //@property (strong) NSMutableArray* resultsArray;
 @property (strong) NSArrayController* resultsArrayControler;
 
@@ -51,7 +56,40 @@
     self.sortStatus = @"No Sort";
     self.filterStatus = @"No Filter";
     self.correlationStatus = @"";
+    
+    
+    // For Token Filtering logic:
+    self.tokenField.tokenStyle = NSTokenStyleSquared;
+    
+    NSArray *colors = @[ @"White",
+                          @"Black",
+                          @"Gray",
+                          @"Red",
+                          @"Green",
+                          @"Blue",
+                          @"Cyan",
+                          @"Magenta",
+                          @"Yellow",
+                          @"Orange",
+                          @"Purple",
+                          ];
+    
+    NSArray* hues = @[@"Light", @"Neutral", @"Dark"];
+    NSArray* speeds = @[@"Fast", @"Medium", @"Slow"];
+    NSArray* directions = @[@"Up", @"Down", @"Left", @"Right", @"Diagonal"];
+//    NSArray* operators = @[@"AND", @"OR", @"NOT"];
+    
+    self.tokenDictionary = @{ @"COLOR" : colors,
+                              @"HUE" : hues,
+                              @"SPEED" : speeds,
+                              @"DIRECTION" : directions,
+//                              @"LOGIC" : operators,
+//                              @"AND" : [NSNull null],
+//                              @"OR" : [NSNull null],
+//                              @"NOT" : [NSNull null],
+                              };
 
+    
     [self updateStatusLabel];
 }
 
@@ -843,5 +881,179 @@
     }
 }
 
+#pragma mark - Token Field
+
+- (IBAction)actionFromTokenField:(id)sender
+{
+    NSLog(@"actionFromTokenField: %@", sender);
+}
+
+- (IBAction)tokenDidSelectMenuItem:(id)sender
+{
+    NSLog(@"tokenDidSelectMenuItem: %@", sender);
+    
+    NSMutableArray* allTokens = [[self.tokenField objectValue] mutableCopy];
+    
+    NSUInteger specificTokenIndex = [allTokens indexOfObject:[sender representedObject]];
+    
+    if(specificTokenIndex != NSNotFound)
+    {
+        // replace the specific token text with the text of the sender
+        NSString* newTokenText = [sender title];
+        
+        allTokens[specificTokenIndex] = newTokenText;
+        
+        // is our Token a top level token (ie, filter type, not filter value)
+        if (specificTokenIndex % 2 == 0)
+        {
+            // if its changed, remove the next token if there is one, and suggest a value
+            if(allTokens.count >= specificTokenIndex + 1)
+            {
+                allTokens[specificTokenIndex + 1] = @"";
+            }
+        }
+        // update token field
+        self.tokenField.objectValue = allTokens;
+    }
+}
+
+#pragma mark - Token Field Delegate
+
+- (NSArray *)tokenField:(NSTokenField *)tokenField completionsForSubstring:(NSString *)substring indexOfToken:(NSInteger)tokenIndex indexOfSelectedItem:(NSInteger *)selectedIndex
+{
+    
+    NSLog(@"completionsForSubstring:%li", (long)tokenIndex);
+    
+    NSPredicate* prefixPredicate = [NSPredicate predicateWithFormat:@"SELF beginswith[cd] %@", substring];
+
+    // Top Level Tokens
+    NSArray* keyTokens = [self.tokenDictionary allKeys];
+
+    if([tokenField.objectValue isKindOfClass:[NSArray class]])
+    {
+        NSArray* objects = (NSArray*)tokenField.objectValue;
+        
+        // If our token is an even number its 'first' in the token order
+        if((objects.count - 1) % 2 == 0)
+        {
+            NSArray *potentialTokens = [keyTokens filteredArrayUsingPredicate:prefixPredicate];
+
+            if(!potentialTokens.count)
+                return keyTokens;
+
+            return potentialTokens;
+        }
+        else
+        {
+            // check the content of the preceding object
+            NSString* lastToken = [objects objectAtIndex:objects.count - 2];
+
+            // if the preceding token is a top level key token:
+            if([keyTokens containsObject:lastToken])
+            {
+                NSArray* possibleSubTokens = [self.tokenDictionary valueForKey:lastToken];
+                NSArray* possibleTypedToken = [possibleSubTokens filteredArrayUsingPredicate:prefixPredicate];
+                if(!possibleTypedToken.count)
+                    return possibleSubTokens;
+                return possibleTypedToken;
+            }
+            
+        }
+    }
+
+    return nil;
+}
+
+- (NSArray *)tokenField:(NSTokenField *)tokenField shouldAddObjects:(NSArray *)tokens atIndex:(NSUInteger)index
+{
+    return tokens;
+//    if(index % 2 == 0)
+//    {
+//        if(self.topTokens )
+//    }
+//    
+//    else
+//        return self.knownColors;
+}
+
+- (BOOL)tokenField:(NSTokenField *)tokenField hasMenuForRepresentedObject:(id)representedObject
+{
+    if([[self.tokenDictionary allKeys] containsObject:representedObject])
+    {
+        return YES;
+    }
+    
+    for(NSArray* subTokenArray in [self.tokenDictionary allValues])
+    {
+        if([subTokenArray containsObject:representedObject])
+        {
+            return YES;
+        }
+    }
+
+    return NO;
+}
+
+- (NSMenu *)tokenField:(NSTokenField *)tokenField menuForRepresentedObject:(id)representedObject
+{
+//    NSLog(@"%@", NSStringFromSelector(_cmd));
+    
+    NSMenu *tokenMenu = [[NSMenu alloc] init];
+
+    if([[self.tokenDictionary allKeys] containsObject:representedObject])
+    {
+        
+        for(NSString* key in [self.tokenDictionary allKeys])
+        {
+            NSMenuItem *keyItem = [[NSMenuItem alloc] init];
+            [keyItem setTitle:key];
+            [keyItem setAction:@selector(tokenDidSelectMenuItem:)];
+            [keyItem setTarget:self];
+            [keyItem setRepresentedObject:representedObject];
+            [tokenMenu addItem:keyItem];
+        }
+        
+        return tokenMenu;
+    }
+ 
+    for(NSArray* subTokenArray in [self.tokenDictionary allValues])
+    {
+        if([subTokenArray containsObject:representedObject])
+        {
+            for(NSString* subToken in subTokenArray)
+            {
+                NSMenuItem *tokenItem = [[NSMenuItem alloc] init];
+                [tokenItem setTitle:subToken];
+                [tokenItem setAction:@selector(tokenDidSelectMenuItem:)];
+                [tokenItem setTarget:self];
+                [tokenItem setRepresentedObject:representedObject];
+                [tokenMenu addItem:tokenItem];
+            }
+            
+            return tokenMenu;
+
+        }
+    }
+//
+//    if([self.knownColors containsObject:representedObject])
+//    {
+//        NSMenu *tokenMenu = [[NSMenu alloc] init];
+//
+//        for(NSString* color in self.knownColors)
+//        {
+//            NSMenuItem *colorItem = [[NSMenuItem alloc] init];
+//            [colorItem setTitle:color];
+//            [tokenMenu addItem:colorItem];
+//        }
+//        
+//        return tokenMenu;
+//    }
+
+
+
+
+    
+    return nil;
+}
 
 @end
