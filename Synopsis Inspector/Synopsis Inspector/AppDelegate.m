@@ -177,7 +177,7 @@
 {
     SynopsisMetadataItem* item = [self firstSelectedItem];
     
-    NSSortDescriptor* bestMatchSortDescriptor = [NSSortDescriptor synopsisBestMatchSortDescriptorRelativeTo:item];
+    NSSortDescriptor* bestMatchSortDescriptor = [NSSortDescriptor synopsisBestMatchSortDescriptorRelativeTo:[item valueForKey:kSynopsisStandardMetadataDictKey]];
     
     self.sortStatus = @"Relative Best Match Sort";
     
@@ -188,7 +188,7 @@
 {
     SynopsisMetadataItem* item = [self firstSelectedItem];
     
-    NSSortDescriptor* perceptualHashSort = [NSSortDescriptor synopsisFeatureSortDescriptorRelativeTo:[item valueForKey:kSynopsisFeatureVectorSortKey]];
+    NSSortDescriptor* perceptualHashSort = [NSSortDescriptor synopsisFeatureSortDescriptorRelativeTo:[item valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey]];
     
     self.sortStatus = @"Feature Vector Sort";
     
@@ -200,7 +200,7 @@
 {
     SynopsisMetadataItem* item = [self firstSelectedItem];
     
-    NSSortDescriptor* perceptualHashSort = [NSSortDescriptor synopsisHashSortDescriptorRelativeTo:[item valueForKey:kSynopsisPerceptualHashSortKey]];
+    NSSortDescriptor* perceptualHashSort = [NSSortDescriptor synopsisHashSortDescriptorRelativeTo:[item valueForKey:kSynopsisStandardMetadataPerceptualHashDictKey]];
 
     self.sortStatus = @"Relative Hash Sort";
 
@@ -211,7 +211,7 @@
 {
     SynopsisMetadataItem* item = [self firstSelectedItem];
     
-    NSSortDescriptor* histogtamSort = [NSSortDescriptor synopsisHistogramSortDescriptorRelativeTo:[item valueForKey:kSynopsisHistogramSortKey]];
+    NSSortDescriptor* histogtamSort = [NSSortDescriptor synopsisHistogramSortDescriptorRelativeTo:[item valueForKey:kSynopsisStandardMetadataHistogramDictKey]];
     
     self.sortStatus = @"Relative Histogram Sort";
 
@@ -829,20 +829,20 @@
         SynopsisMetadataItem* item2 = [self.resultsArrayControler.arrangedObjects objectAtIndex:path2.item];
         
         // Feature
-        float featureWeight = compareFeatureVector([item1 valueForKey:kSynopsisFeatureVectorDictKey],[item2 valueForKey:kSynopsisFeatureVectorDictKey]);
+        float featureWeight = compareFeatureVector([item1 valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey],[item2 valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey]);
         NSString* featureString = [NSString stringWithFormat:@" Features : %f", featureWeight];
 
         // Hash
-        float hashWeight = compareHashes([item1 valueForKey:kSynopsisPerceptualHashDictKey],[item2 valueForKey:kSynopsisPerceptualHashDictKey]);
+        float hashWeight = compareHashes([item1 valueForKey:kSynopsisStandardMetadataPerceptualHashDictKey],[item2 valueForKey:kSynopsisStandardMetadataPerceptualHashDictKey]);
         NSString* hashString = [NSString stringWithFormat:@" Perceptual Hash : %f", hashWeight];
         
         // Histogram
-        float histWeight = compareHistogtams([item1 valueForKey:kSynopsisHistogramDictKey],[item2 valueForKey:kSynopsisHistogramDictKey]);
+        float histWeight = compareHistogtams([item1 valueForKey:kSynopsisStandardMetadataHistogramDictKey],[item2 valueForKey:kSynopsisStandardMetadataHistogramDictKey]);
         NSString* histString = [NSString stringWithFormat:@" Histogram : %f", histWeight];
 
         // Dom Colors
-        NSArray* domColors1 = [NSColor linearColorsWithArraysOfRGBComponents:[item1 valueForKey:kSynopsisDominantColorValuesDictKey]];
-        NSArray* domColors2 = [NSColor linearColorsWithArraysOfRGBComponents:[item2 valueForKey:kSynopsisDominantColorValuesDictKey]];
+        NSArray* domColors1 = [NSColor linearColorsWithArraysOfRGBComponents:[item1 valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey]];
+        NSArray* domColors2 = [NSColor linearColorsWithArraysOfRGBComponents:[item2 valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey]];
         
         // Color Components
         float hueWeight1 = weightHueDominantColors(domColors1);

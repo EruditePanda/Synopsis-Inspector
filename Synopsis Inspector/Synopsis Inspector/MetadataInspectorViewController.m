@@ -39,11 +39,11 @@
 {
     frameMetadata = dictionary;
     
-    NSDictionary* synopsisData = [frameMetadata valueForKey:@"mdta/info.synopsis.metadata"];
-    NSDictionary* standard = [synopsisData valueForKey:kSynopsisGlobalMetadataDictKey];
-    NSArray* domColors = [standard valueForKey:kSynopsisDominantColorValuesDictKey];
+    NSDictionary* synopsisData = [frameMetadata valueForKey:kSynopsislMetadataIdentifier];
+    NSDictionary* standard = [synopsisData valueForKey:kSynopsisStandardMetadataDictKey];
+    NSArray* domColors = [standard valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey];
 
-    NSArray* histogram = [standard valueForKey:kSynopsisHistogramDictKey];
+    NSArray* histogram = [standard valueForKey:kSynopsisStandardMetadataHistogramDictKey];
 
     self.dominantColorView.dominantColorsArray = domColors;
     self.histogramView.histogramArray = histogram;
@@ -64,12 +64,12 @@
     globalMetadata = dictionary;
     
 //    NSDictionary* synopsisData = [globalMetadata valueForKey:@"mdta/info.synopsis.metadata"];
-    NSDictionary* standard = [globalMetadata valueForKey:kSynopsisGlobalMetadataDictKey];
-    NSArray* domColors = [standard valueForKey:kSynopsisDominantColorValuesDictKey];
-    NSArray* descriptions = [standard valueForKey:@"Description"];
-    NSString* hash = [standard valueForKey:kSynopsisPerceptualHashDictKey];
+    NSDictionary* standard = [globalMetadata valueForKey:kSynopsisStandardMetadataDictKey];
+    NSArray* domColors = [standard valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey];
+    NSArray* descriptions = [standard valueForKey:kSynopsisStandardMetadataDescriptionDictKey];
+    NSString* hash = [standard valueForKey:kSynopsisStandardMetadataPerceptualHashDictKey];
     
-    NSArray* histogram = [standard valueForKey:kSynopsisHistogramDictKey];
+    NSArray* histogram = [standard valueForKey:kSynopsisStandardMetadataHistogramDictKey];
     
     NSMutableString* description = [NSMutableString new];
     
