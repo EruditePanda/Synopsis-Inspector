@@ -688,9 +688,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                         <subviews>
                             <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="New-6b-HZz">
-                                <rect key="frame" x="361" y="14" width="99" height="15"/>
+                                <rect key="frame" x="343" y="14" width="74" height="15"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="99" id="XjD-ZK-VJf"/>
+                                    <constraint firstAttribute="width" constant="74" id="XjD-ZK-VJf"/>
                                     <constraint firstAttribute="height" constant="14" id="nUn-GV-w1a"/>
                                 </constraints>
                                 <sliderCell key="cell" controlSize="mini" continuous="YES" alignment="left" minValue="1" maxValue="3" doubleValue="1.5" tickMarkPosition="above" sliderType="linear" id="hQj-Z7-AFC"/>
@@ -701,7 +701,7 @@
                             <box appearanceType="aqua" verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="0bP-5f-bdN">
                                 <rect key="frame" x="0.0" y="35" width="480" height="5"/>
                             </box>
-                            <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" horizontalScrollElasticity="none" scrollerKnobStyle="dark" translatesAutoresizingMaskIntoConstraints="NO" id="fRo-0M-OuZ">
+                            <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" allowsMagnification="YES" maxMagnification="8" minMagnification="0.10000000000000001" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="none" scrollerKnobStyle="dark" translatesAutoresizingMaskIntoConstraints="NO" id="fRo-0M-OuZ">
                                 <rect key="frame" x="0.0" y="37" width="480" height="323"/>
                                 <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="Yw9-Kg-dix">
                                     <rect key="frame" x="0.0" y="0.0" width="480" height="323"/>
@@ -734,7 +734,7 @@
                                 </scroller>
                             </scrollView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" preferredMaxLayoutWidth="100" translatesAutoresizingMaskIntoConstraints="NO" id="pTe-hF-2BG">
-                                <rect key="frame" x="7" y="15" width="104" height="11"/>
+                                <rect key="frame" x="35" y="15" width="104" height="11"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="11" id="0wK-zm-mA6"/>
                                     <constraint firstAttribute="width" constant="100" id="VJc-Os-sU6"/>
@@ -760,7 +760,7 @@
                                 </connections>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uBo-Ud-SFl">
-                                <rect key="frame" x="128" y="15" width="225" height="11"/>
+                                <rect key="frame" x="156" y="15" width="168" height="11"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="11" id="8tr-gP-zCK"/>
                                 </constraints>
@@ -770,12 +770,32 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NI4-mn-ey9">
+                                <rect key="frame" x="424" y="14" width="31" height="15"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="15" id="evB-cA-4Lf"/>
+                                    <constraint firstAttribute="width" constant="29" id="vNx-Q8-SUz"/>
+                                </constraints>
+                                <segmentedCell key="cell" controlSize="mini" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="RWr-h8-3aW">
+                                    <font key="font" metaFont="miniSystem"/>
+                                    <segments>
+                                        <segment image="NSIconViewTemplate" width="12"/>
+                                        <segment image="NSFlowViewTemplate" width="12" selected="YES" tag="1"/>
+                                    </segments>
+                                </segmentedCell>
+                                <connections>
+                                    <action selector="switchLayout:" target="Voe-Tx-rLC" id="vRB-yn-Ipo"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <constraints>
                             <constraint firstItem="uBo-Ud-SFl" firstAttribute="leading" secondItem="pTe-hF-2BG" secondAttribute="leading" constant="121" id="CFt-os-CyO"/>
                             <constraint firstItem="fRo-0M-OuZ" firstAttribute="top" secondItem="fGu-kV-DJW" secondAttribute="top" id="Dmu-x0-WaZ"/>
-                            <constraint firstItem="uBo-Ud-SFl" firstAttribute="trailing" secondItem="New-6b-HZz" secondAttribute="trailing" constant="-109" id="hai-jy-6WP"/>
+                            <constraint firstAttribute="trailing" secondItem="NI4-mn-ey9" secondAttribute="trailing" constant="26" id="Eky-h5-rhu"/>
+                            <constraint firstAttribute="trailing" secondItem="NI4-mn-ey9" secondAttribute="trailing" constant="26" id="eFg-4Y-4Aj"/>
+                            <constraint firstItem="uBo-Ud-SFl" firstAttribute="trailing" secondItem="New-6b-HZz" secondAttribute="trailing" constant="-95" id="hai-jy-6WP"/>
                             <constraint firstItem="fRo-0M-OuZ" firstAttribute="leading" secondItem="fGu-kV-DJW" secondAttribute="leading" id="iBi-JN-XKC"/>
+                            <constraint firstAttribute="bottom" secondItem="NI4-mn-ey9" secondAttribute="bottom" constant="14" id="lff-yE-2FT"/>
                             <constraint firstAttribute="bottom" secondItem="pTe-hF-2BG" secondAttribute="bottom" constant="15" id="rl7-41-jga"/>
                             <constraint firstAttribute="trailing" secondItem="fRo-0M-OuZ" secondAttribute="trailing" id="umq-rw-lMm"/>
                             <constraint firstAttribute="bottom" secondItem="fRo-0M-OuZ" secondAttribute="bottom" constant="37" id="xgv-Y0-4Gy"/>
@@ -788,7 +808,7 @@
                     <constraint firstItem="uBo-Ud-SFl" firstAttribute="centerX" secondItem="EiT-Mj-1SZ" secondAttribute="centerX" id="Dsy-sc-hfp"/>
                     <constraint firstAttribute="bottom" secondItem="fGu-kV-DJW" secondAttribute="bottom" id="L1J-6A-NNQ"/>
                     <constraint firstItem="0bP-5f-bdN" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="T5h-SI-jje"/>
-                    <constraint firstAttribute="trailing" secondItem="New-6b-HZz" secondAttribute="trailing" constant="20" id="Tv8-F0-CFu"/>
+                    <constraint firstAttribute="trailing" secondItem="New-6b-HZz" secondAttribute="trailing" constant="63" id="Tv8-F0-CFu"/>
                     <constraint firstItem="fGu-kV-DJW" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="V43-aZ-tbq"/>
                     <constraint firstAttribute="bottom" secondItem="New-6b-HZz" secondAttribute="bottom" constant="15" id="j61-qp-xba"/>
                     <constraint firstItem="fGu-kV-DJW" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="nZx-Uc-Hy5"/>
@@ -950,6 +970,8 @@
         <image name="Histogram" width="512" height="512"/>
         <image name="Hue" width="512" height="512"/>
         <image name="Light" width="512" height="512"/>
+        <image name="NSFlowViewTemplate" width="18" height="10"/>
+        <image name="NSIconViewTemplate" width="10" height="10"/>
         <image name="NSQuickLookTemplate" width="19" height="12"/>
         <image name="NSRevealFreestandingTemplate" width="14" height="14"/>
         <image name="Neutral" width="512" height="512"/>

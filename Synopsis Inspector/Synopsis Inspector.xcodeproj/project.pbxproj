@@ -11,6 +11,10 @@
 		1B0B63501D641CC900AA5D0E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0B634F1D641CC900AA5D0E /* AVFoundation.framework */; };
 		1B0D64391D4FB21F00A1AB5D /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0D64381D4FB21F00A1AB5D /* libz.tbd */; };
 		1B0D643C1D4FD48E00A1AB5D /* CustomVisualEffectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0D643B1D4FD48E00A1AB5D /* CustomVisualEffectView.m */; };
+		1B5FE0231DF9D888009CF677 /* AAPLLoopLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5FE0221DF9D888009CF677 /* AAPLLoopLayout.m */; };
+		1B5FE0331DF9F38E009CF677 /* sptree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1B5FE02D1DF9F38E009CF677 /* sptree.cpp */; };
+		1B5FE0341DF9F38E009CF677 /* tsne.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1B5FE02F1DF9F38E009CF677 /* tsne.cpp */; };
+		1B5FE0351DFA1044009CF677 /* TSNELayout.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1B5FE0281DF9F1F9009CF677 /* TSNELayout.mm */; };
 		1B9873F61D47A5540015E54C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B9873F51D47A5540015E54C /* AppDelegate.m */; };
 		1B9873F91D47A5540015E54C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B9873F81D47A5540015E54C /* main.m */; };
 		1B9873FB1D47A5540015E54C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B9873FA1D47A5540015E54C /* Assets.xcassets */; };
@@ -68,6 +72,16 @@
 		1B0D64381D4FB21F00A1AB5D /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		1B0D643A1D4FD48E00A1AB5D /* CustomVisualEffectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomVisualEffectView.h; sourceTree = "<group>"; };
 		1B0D643B1D4FD48E00A1AB5D /* CustomVisualEffectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomVisualEffectView.m; sourceTree = "<group>"; };
+		1B5FE0211DF9D888009CF677 /* AAPLLoopLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLLoopLayout.h; sourceTree = "<group>"; };
+		1B5FE0221DF9D888009CF677 /* AAPLLoopLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAPLLoopLayout.m; sourceTree = "<group>"; };
+		1B5FE0271DF9F1F9009CF677 /* TSNELayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSNELayout.h; sourceTree = "<group>"; };
+		1B5FE0281DF9F1F9009CF677 /* TSNELayout.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TSNELayout.mm; sourceTree = "<group>"; };
+		1B5FE02C1DF9F38E009CF677 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		1B5FE02D1DF9F38E009CF677 /* sptree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sptree.cpp; sourceTree = "<group>"; };
+		1B5FE02E1DF9F38E009CF677 /* sptree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sptree.h; sourceTree = "<group>"; };
+		1B5FE02F1DF9F38E009CF677 /* tsne.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tsne.cpp; sourceTree = "<group>"; };
+		1B5FE0301DF9F38E009CF677 /* tsne.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tsne.h; sourceTree = "<group>"; };
+		1B5FE0311DF9F38E009CF677 /* vptree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vptree.h; sourceTree = "<group>"; };
 		1B9873F11D47A5540015E54C /* Synopsis Inspector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Synopsis Inspector.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B9873F41D47A5540015E54C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1B9873F51D47A5540015E54C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -128,6 +142,33 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
+		1B5FE02A1DF9F1FE009CF677 /* CollectionView Layouts */ = {
+			isa = PBXGroup;
+			children = (
+				1BD710AF1D620AC8007D61B9 /* AAPLWrappedLayout.h */,
+				1BD710B01D620AC8007D61B9 /* AAPLWrappedLayout.m */,
+				1B5FE0211DF9D888009CF677 /* AAPLLoopLayout.h */,
+				1B5FE0221DF9D888009CF677 /* AAPLLoopLayout.m */,
+				1B5FE0271DF9F1F9009CF677 /* TSNELayout.h */,
+				1B5FE0281DF9F1F9009CF677 /* TSNELayout.mm */,
+				1B5FE02B1DF9F380009CF677 /* BTSNE */,
+			);
+			name = "CollectionView Layouts";
+			sourceTree = "<group>";
+		};
+		1B5FE02B1DF9F380009CF677 /* BTSNE */ = {
+			isa = PBXGroup;
+			children = (
+				1B5FE02C1DF9F38E009CF677 /* LICENSE.txt */,
+				1B5FE02D1DF9F38E009CF677 /* sptree.cpp */,
+				1B5FE02E1DF9F38E009CF677 /* sptree.h */,
+				1B5FE02F1DF9F38E009CF677 /* tsne.cpp */,
+				1B5FE0301DF9F38E009CF677 /* tsne.h */,
+				1B5FE0311DF9F38E009CF677 /* vptree.h */,
+			);
+			name = BTSNE;
+			sourceTree = "<group>";
+		};
 		1B9873E81D47A5540015E54C = {
 			isa = PBXGroup;
 			children = (
@@ -150,13 +191,12 @@
 			children = (
 				1B9873F41D47A5540015E54C /* AppDelegate.h */,
 				1B9873F51D47A5540015E54C /* AppDelegate.m */,
-				1BD710AF1D620AC8007D61B9 /* AAPLWrappedLayout.h */,
-				1BD710B01D620AC8007D61B9 /* AAPLWrappedLayout.m */,
 				1B9874141D48014C0015E54C /* SynopsisCollectionViewItem.h */,
 				1B9874151D48014C0015E54C /* SynopsisCollectionViewItem.m */,
-				1BDC34341D6AB02600D210E8 /* Inspector */,
 				1BD710AC1D620070007D61B9 /* SynopsisCollectionViewItemView.h */,
 				1BD710AD1D620070007D61B9 /* SynopsisCollectionViewItemView.m */,
+				1B5FE02A1DF9F1FE009CF677 /* CollectionView Layouts */,
+				1BDC34341D6AB02600D210E8 /* Inspector */,
 				1B9874161D48014C0015E54C /* SynopsisCollectionViewItem.xib */,
 				1B9873FA1D47A5540015E54C /* Assets.xcassets */,
 				1B9873FC1D47A5540015E54C /* MainMenu.xib */,
@@ -300,15 +340,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				1BDC34461D6F8FFE00D210E8 /* TransparentView.m in Sources */,
+				1B5FE0231DF9D888009CF677 /* AAPLLoopLayout.m in Sources */,
 				1BAA80701D7243F300464810 /* TransparentCollectionView.m in Sources */,
 				1BD710AE1D620070007D61B9 /* SynopsisCollectionViewItemView.m in Sources */,
+				1B5FE0331DF9F38E009CF677 /* sptree.cpp in Sources */,
 				1BDC34431D6CE38C00D210E8 /* MetadataLayerBackedView.m in Sources */,
 				1BDC34491D6F90FC00D210E8 /* TransparentTabView.m in Sources */,
+				1B5FE0351DFA1044009CF677 /* TSNELayout.mm in Sources */,
 				1B0D643C1D4FD48E00A1AB5D /* CustomVisualEffectView.m in Sources */,
 				1B9873F91D47A5540015E54C /* main.m in Sources */,
 				1BDC34331D6AB02100D210E8 /* MetadataDominantColorsView.m in Sources */,
 				1BBB10D21D527CBE00C22439 /* CGLayerView.m in Sources */,
 				1BDC343A1D6AB30800D210E8 /* MetadataInspectorViewController.m in Sources */,
+				1B5FE0341DF9F38E009CF677 /* tsne.cpp in Sources */,
 				1BD710B11D620AC8007D61B9 /* AAPLWrappedLayout.m in Sources */,
 				1BDC343D1D6B64BD00D210E8 /* MetadataHistogramView.m in Sources */,
 				1B9873F61D47A5540015E54C /* AppDelegate.m in Sources */,

@@ -11,8 +11,10 @@
 #import <Synopsis/MetadataComparisons.h>
 
 #import "SynopsisCollectionViewItem.h"
-#import "AAPLWrappedLayout.h"
 
+#import "AAPLWrappedLayout.h"
+#import "AAPLLoopLayout.h"
+#import "TSNELayout.h"
 #import "MetadataInspectorViewController.h"
 
 
@@ -142,7 +144,6 @@
     
     [self.collectionView registerNib:synopsisResultNib forItemWithIdentifier:@"SynopsisCollectionViewItem"];
     
-//    self.collectionView.collectionViewLayout = [[AAPLWrappedLayout alloc] init];
     NSAnimationContext.currentContext.duration = 0.5;
     self.collectionView.animator.collectionViewLayout = [[AAPLWrappedLayout alloc] init];
     
@@ -652,6 +653,38 @@
     [NSAnimationContext endGrouping];
 }
 
+- (IBAction)switchLayout:(id)sender
+{
+    NSSegmentedControl* control = (NSSegmentedControl*)sender;
+    NSLog(@"sender: %li", (long)control.selectedSegment);
+    
+    NSCollectionViewLayout* layout;
+    switch(control.selectedSegment)
+    {
+        case 0:
+        {
+            layout = [[AAPLWrappedLayout alloc] init];
+            break;
+        }
+        case 1:
+        {
+            NSMutableArray* allMetadataFeatures = [NSMutableArray new];
+            for(SynopsisMetadataItem* metadataItem in self.resultsArrayControler.arrangedObjects)
+            {
+                [allMetadataFeatures addObject:[metadataItem valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey]];
+            }
+            
+            
+            TSNELayout* tsneLayout = [[TSNELayout alloc] initWithData:allMetadataFeatures];
+            tsneLayout.itemSize = NSMakeSize(400, 200);
+//            tsneLayout.scrollDirection = NSCollectionViewScrollDirectionVertical;
+            layout = tsneLayout;
+            break;
+        }
+    }
+    
+    self.collectionView.collectionViewLayout = layout;
+}
 
 #pragma mark - Scroll View
 
