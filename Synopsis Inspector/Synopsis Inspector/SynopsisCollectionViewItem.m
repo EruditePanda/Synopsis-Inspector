@@ -23,6 +23,8 @@
 @property (readwrite) AVPlayer* player;
 @property (readwrite) AVPlayerItem* playerItem;
 @property (readwrite) AVPlayerItemMetadataOutput* playerItemMetadataOutput;
+@property (readwrite) dispatch_queue_t backgroundQueue;
+
 @end
 
 @implementation SynopsisCollectionViewItem
@@ -36,8 +38,12 @@
     self.nameField.layer.zPosition = 1.0;
     
     self.playerItemMetadataOutput = [[AVPlayerItemMetadataOutput alloc] initWithIdentifiers:nil];
+    
+    self.backgroundQueue = dispatch_queue_create("info.synopsis.collectionviewitem.backgroundqueue", NULL);
+
     __weak typeof(self) weakSelf = self; // no retain loop
-    [self.playerItemMetadataOutput setDelegate:weakSelf queue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
+    [self.playerItemMetadataOutput setDelegate:weakSelf queue:weakSelf.backgroundQueue];
+
 }
 
 - (void) prepareForReuse
@@ -92,15 +98,29 @@
         
         if(representedObject.cachedImage == NULL)
         {
-            AVAssetImageGenerator* imageGenerator = [AVAssetImageGenerator assetImageGeneratorWithAsset:representedObject.urlAsset];
-            
-            imageGenerator.apertureMode = AVAssetImageGeneratorApertureModeCleanAperture;
-            imageGenerator.maximumSize = CGSizeMake(400, 200);
-            imageGenerator.appliesPreferredTrackTransform = YES;
+            SynopsisCollectionViewItemView* view = (SynopsisCollectionViewItemView*)self.view;
 
-            [imageGenerator generateCGImagesAsynchronouslyForTimes:@[ [NSValue valueWithCMTime:kCMTimeZero]] completionHandler:^(CMTime requestedTime, CGImageRef  _Nullable image, CMTime actualTime, AVAssetImageGeneratorResult result, NSError * _Nullable error) {
-                [self buildImageForRepresentedObject:image];
-            }];
+            view.imageLayer.contents = nil;
+            view.playerLayer.player = nil;
+            
+            __weak typeof (self) weakself = self;
+            dispatch_async(self.backgroundQueue, ^{
+
+                if(weakself)
+                {
+                    __strong typeof (self) strongSelf = weakself;
+
+                    AVAssetImageGenerator* imageGenerator = [AVAssetImageGenerator assetImageGeneratorWithAsset:representedObject.urlAsset];
+                    
+                    imageGenerator.apertureMode = AVAssetImageGeneratorApertureModeCleanAperture;
+                    imageGenerator.maximumSize = CGSizeMake(400, 200);
+                    imageGenerator.appliesPreferredTrackTransform = YES;
+                    
+                    [imageGenerator generateCGImagesAsynchronouslyForTimes:@[ [NSValue valueWithCMTime:kCMTimeZero]] completionHandler:^(CMTime requestedTime, CGImageRef  _Nullable image, CMTime actualTime, AVAssetImageGeneratorResult result, NSError * _Nullable error) {
+                        [strongSelf buildImageForRepresentedObject:image];
+                    }];
+                }
+            });
         }
         else
         {
@@ -141,25 +161,33 @@
     SynopsisMetadataItem* representedObject = self.representedObject;
     if([(SynopsisCollectionViewItemView*)self.view playerLayer].player != self.player)
     {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        
-            if(self.playerItem)
-            {
-                [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:self.playerItem];
-            }
-
-            self.playerItem = [AVPlayerItem playerItemWithAsset:representedObject.urlAsset];
-
-            [[self.player currentItem] removeOutput:self.playerItemMetadataOutput];
-            [self.player replaceCurrentItemWithPlayerItem:self.playerItem];
-            [[self.player currentItem] addOutput:self.playerItemMetadataOutput];
-
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loopPlayback:) name:AVPlayerItemDidPlayToEndTimeNotification object:self.playerItem];
-                [(SynopsisCollectionViewItemView*)self.view playerLayer].player = self.player;
-                [(SynopsisCollectionViewItemView*)self.view playerLayer].opacity = 1.0;
-            });
+        __weak typeof (self) weakself = self;
+        dispatch_async(self.backgroundQueue, ^{
             
+            if(weakself)
+            {
+                __strong typeof (self) strongSelf = weakself;
+                
+                if(strongSelf.playerItem)
+                {
+                    //                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[NSNotificationCenter defaultCenter] removeObserver:strongSelf name:AVPlayerItemDidPlayToEndTimeNotification object:strongSelf.playerItem];
+                    //                });
+                }
+                
+                strongSelf.playerItem = [AVPlayerItem playerItemWithAsset:representedObject.urlAsset];
+                [[NSNotificationCenter defaultCenter] addObserver:strongSelf selector:@selector(loopPlayback:) name:AVPlayerItemDidPlayToEndTimeNotification object:strongSelf.playerItem];
+                
+                [[strongSelf.player currentItem] removeOutput:strongSelf.playerItemMetadataOutput];
+                [strongSelf.player replaceCurrentItemWithPlayerItem:strongSelf.playerItem];
+                [[strongSelf.player currentItem] addOutput:strongSelf.playerItemMetadataOutput];
+                
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [(SynopsisCollectionViewItemView*)strongSelf.view playerLayer].player = strongSelf.player;
+                    [(SynopsisCollectionViewItemView*)strongSelf.view playerLayer].opacity = 1.0;
+                });
+            }
         });
     }
 }

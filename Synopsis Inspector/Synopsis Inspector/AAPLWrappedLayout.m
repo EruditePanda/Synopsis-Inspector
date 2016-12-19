@@ -23,6 +23,27 @@
     return self;
 }
 
+- (void) prepareLayout
+{
+    [super prepareLayout];
+    
+    self.collectionView.enclosingScrollView.hasVerticalScroller = YES;
+    self.collectionView.enclosingScrollView.hasHorizontalScroller = YES;
+    self.collectionView.enclosingScrollView.autohidesScrollers = NO;
+    
+    self.collectionView.enclosingScrollView.allowsMagnification = NO;
+    
+    self.collectionView.enclosingScrollView.maxMagnification = 1.0;
+    self.collectionView.enclosingScrollView.minMagnification = 1.0;
+    self.collectionView.enclosingScrollView.magnification = 1.0;
+}
+
+- (NSSize) collectionViewContentSize
+{
+    NSSize size = [super collectionViewContentSize];
+    return size;
+}
+
 - (NSCollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath {
     NSCollectionViewLayoutAttributes *attributes = [super layoutAttributesForItemAtIndexPath:indexPath];
 //    [attributes setZIndex:[indexPath item]];

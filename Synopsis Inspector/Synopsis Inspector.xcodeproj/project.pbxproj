@@ -34,6 +34,8 @@
 		1BDC34431D6CE38C00D210E8 /* MetadataLayerBackedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC34421D6CE38C00D210E8 /* MetadataLayerBackedView.m */; };
 		1BDC34461D6F8FFE00D210E8 /* TransparentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC34451D6F8FFE00D210E8 /* TransparentView.m */; };
 		1BDC34491D6F90FC00D210E8 /* TransparentTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC34481D6F90FC00D210E8 /* TransparentTabView.m */; };
+		1BE325831E00BD3B00BB5A1A /* SynopsisScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE325821E00BD3B00BB5A1A /* SynopsisScroller.m */; };
+		1BE325861E00BDBB00BB5A1A /* SynopsisScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE325851E00BDBB00BB5A1A /* SynopsisScrollView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -115,6 +117,10 @@
 		1BDC34451D6F8FFE00D210E8 /* TransparentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransparentView.m; sourceTree = "<group>"; };
 		1BDC34471D6F90FC00D210E8 /* TransparentTabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransparentTabView.h; sourceTree = "<group>"; };
 		1BDC34481D6F90FC00D210E8 /* TransparentTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransparentTabView.m; sourceTree = "<group>"; };
+		1BE325811E00BD3B00BB5A1A /* SynopsisScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynopsisScroller.h; sourceTree = "<group>"; };
+		1BE325821E00BD3B00BB5A1A /* SynopsisScroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SynopsisScroller.m; sourceTree = "<group>"; };
+		1BE325841E00BDBB00BB5A1A /* SynopsisScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynopsisScrollView.h; sourceTree = "<group>"; };
+		1BE325851E00BDBB00BB5A1A /* SynopsisScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SynopsisScrollView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,7 +148,7 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
-		1B5FE02A1DF9F1FE009CF677 /* CollectionView Layouts */ = {
+		1B5FE02A1DF9F1FE009CF677 /* CollectionView */ = {
 			isa = PBXGroup;
 			children = (
 				1BD710AF1D620AC8007D61B9 /* AAPLWrappedLayout.h */,
@@ -153,7 +159,7 @@
 				1B5FE0281DF9F1F9009CF677 /* TSNELayout.mm */,
 				1B5FE02B1DF9F380009CF677 /* BTSNE */,
 			);
-			name = "CollectionView Layouts";
+			name = CollectionView;
 			sourceTree = "<group>";
 		};
 		1B5FE02B1DF9F380009CF677 /* BTSNE */ = {
@@ -195,7 +201,7 @@
 				1B9874151D48014C0015E54C /* SynopsisCollectionViewItem.m */,
 				1BD710AC1D620070007D61B9 /* SynopsisCollectionViewItemView.h */,
 				1BD710AD1D620070007D61B9 /* SynopsisCollectionViewItemView.m */,
-				1B5FE02A1DF9F1FE009CF677 /* CollectionView Layouts */,
+				1B5FE02A1DF9F1FE009CF677 /* CollectionView */,
 				1BDC34341D6AB02600D210E8 /* Inspector */,
 				1B9874161D48014C0015E54C /* SynopsisCollectionViewItem.xib */,
 				1B9873FA1D47A5540015E54C /* Assets.xcassets */,
@@ -222,6 +228,10 @@
 				1BDC34481D6F90FC00D210E8 /* TransparentTabView.m */,
 				1BAA806E1D7243F300464810 /* TransparentCollectionView.h */,
 				1BAA806F1D7243F300464810 /* TransparentCollectionView.m */,
+				1BE325811E00BD3B00BB5A1A /* SynopsisScroller.h */,
+				1BE325821E00BD3B00BB5A1A /* SynopsisScroller.m */,
+				1BE325841E00BDBB00BB5A1A /* SynopsisScrollView.h */,
+				1BE325851E00BDBB00BB5A1A /* SynopsisScrollView.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -342,12 +352,14 @@
 				1BDC34461D6F8FFE00D210E8 /* TransparentView.m in Sources */,
 				1B5FE0231DF9D888009CF677 /* AAPLLoopLayout.m in Sources */,
 				1BAA80701D7243F300464810 /* TransparentCollectionView.m in Sources */,
+				1BE325831E00BD3B00BB5A1A /* SynopsisScroller.m in Sources */,
 				1BD710AE1D620070007D61B9 /* SynopsisCollectionViewItemView.m in Sources */,
 				1B5FE0331DF9F38E009CF677 /* sptree.cpp in Sources */,
 				1BDC34431D6CE38C00D210E8 /* MetadataLayerBackedView.m in Sources */,
 				1BDC34491D6F90FC00D210E8 /* TransparentTabView.m in Sources */,
 				1B5FE0351DFA1044009CF677 /* TSNELayout.mm in Sources */,
 				1B0D643C1D4FD48E00A1AB5D /* CustomVisualEffectView.m in Sources */,
+				1BE325861E00BDBB00BB5A1A /* SynopsisScrollView.m in Sources */,
 				1B9873F91D47A5540015E54C /* main.m in Sources */,
 				1BDC34331D6AB02100D210E8 /* MetadataDominantColorsView.m in Sources */,
 				1BBB10D21D527CBE00C22439 /* CGLayerView.m in Sources */,

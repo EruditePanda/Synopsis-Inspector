@@ -147,9 +147,9 @@
 - (void)updateLayer {
     CALayer *layer = self.layer;
     layer.borderColor = self.borderColor.CGColor;
-    layer.borderWidth = (self.borderColor ? BORDER_WIDTH : 0.0);
+    layer.borderWidth = BORDER_WIDTH;//(self.borderColor ? BORDER_WIDTH : 0.0);
     layer.cornerRadius = CORNER_RADIUS;
-    layer.backgroundColor = (self.borderColor ? [NSColor darkGrayColor].CGColor : nil);
+    layer.backgroundColor = (self.borderColor ? [NSColor lightGrayColor].CGColor : [NSColor grayColor].CGColor);
     [self updateTrackingAreas];
 }
 

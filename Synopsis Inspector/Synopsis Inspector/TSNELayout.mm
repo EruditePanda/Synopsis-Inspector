@@ -17,9 +17,7 @@
     double* X;
     double* Y;
     
-    
-    NSPoint loopCenter;
-    NSSize loopSize;
+    NSSize initialSize;
 
 }
 @property (nonatomic, readwrite, strong) NSArray<NSArray<NSNumber*> *>* data;
@@ -52,8 +50,8 @@
     {
         // Collectionview is 2D (for now?)
         self.dims = 2;
-        self.perplexity = 30.0;
-        self.theta = 0.5;
+        self.perplexity = 10.0;
+        self.theta = 0.0;
         self.normalize = YES;
         self.maxIterations = 1000;
         
@@ -167,26 +165,32 @@
     NSLog(@"TSNE points: %@", self.tsnePoints);
 }
 
-//- (void)prepareLayout {
-//    [super prepareLayout];
-//    
-//    CGRect rect = NSMakeRect(0, 0, [self collectionViewContentSize].width, [self collectionViewContentSize].height);
-//    
-//    CGFloat halfItemWidth = 0.5 * self.itemSize.width;
-//    CGFloat halfItemHeight = 0.5 * self.itemSize.height;
-//    CGFloat radiusInset = sqrt(halfItemWidth * halfItemWidth + halfItemHeight * halfItemHeight);
-//    loopCenter = NSMakePoint(NSMidX(rect), NSMidY(rect));
-//    loopSize = NSMakeSize(0.5 * (rect.size.width - 2.0 * radiusInset), 0.5 * (rect.size.height - 2.0 * radiusInset));
-//}
+- (void)prepareLayout {
+    [super prepareLayout];
+    
+    self.collectionView.enclosingScrollView.autohidesScrollers = NO;
+    self.collectionView.enclosingScrollView.hasVerticalScroller = YES;
+    self.collectionView.enclosingScrollView.hasHorizontalScroller = YES;
+    self.collectionView.enclosingScrollView.horizontalScroller.hidden = NO;
+    
+    self.collectionView.enclosingScrollView.allowsMagnification = YES;
+    self.collectionView.enclosingScrollView.maxMagnification = 1.0;
+    self.collectionView.enclosingScrollView.minMagnification = 0.15;
+//    self.collectionView.enclosingScrollView.magnification = 1.0;
+
+    // We resize this value / make a square.
+    NSRect clipBounds = [[self collectionView] frame];
+
+    NSSize size = NSMakeSize(NSMaxY(clipBounds), NSMaxY(clipBounds) );
+    
+    initialSize = size;
+}
 
 - (NSSize)collectionViewContentSize
 {
-    NSRect clipBounds = [[self collectionView] frame];
-    clipBounds = [[self collectionView] convertRectToLayer:clipBounds];
-    
-    NSSize size = NSMakeSize(NSMaxX(clipBounds), NSMaxY(clipBounds));
-    
-    return size;
+    self.collectionView.enclosingScrollView.horizontalScroller.hidden = NO;
+
+    return initialSize;
 }
 
 - (BOOL)shouldInvalidateLayoutForBoundsChange:(NSRect)newBounds
@@ -206,7 +210,10 @@
         NSCollectionViewLayoutAttributes *layoutAttributes = [self layoutAttributesForItemAtIndexPath:indexPath];
         if (layoutAttributes)
         {
-            [layoutAttributesArray addObject:layoutAttributes];
+            if(NSPointInRect(layoutAttributes.frame.origin, rect))
+            {
+                [layoutAttributesArray addObject:layoutAttributes];
+            }
         }
     }
     return layoutAttributesArray;
@@ -223,13 +230,14 @@
     NSUInteger itemIndex = [indexPath item];
     NSPoint subviewCenter = [[self.tsnePoints objectAtIndex:itemIndex] pointValue];
 
-    NSRect clipBounds = [[self collectionView] frame];
-    clipBounds = [[self collectionView] convertRectToLayer:clipBounds];
+//    NSRect clipBounds = [[self collectionView] bounds];
+//    CGFloat mag =  1.0 / self.collectionView.enclosingScrollView.minMagnification;
     
-    subviewCenter.x *= (clipBounds.size.width);
-    subviewCenter.y *= (clipBounds.size.height);
-    subviewCenter.x += clipBounds.origin.x;
-    subviewCenter.y += clipBounds.origin.y;
+
+    subviewCenter.x *= initialSize.width;
+    subviewCenter.y *= initialSize.height ;
+//    subviewCenter.x += clipBounds.origin.x ;
+//    subviewCenter.y += clipBounds.origin.y ;
     
     NSRect itemFrame = NSMakeRect(subviewCenter.x - 0.5 * self.itemSize.width, subviewCenter.y - 0.5 * self.itemSize.height, self.itemSize.width, self.itemSize.height);
     

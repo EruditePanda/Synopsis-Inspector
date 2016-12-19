@@ -47,6 +47,12 @@
 @property (strong) NSMetadataQuery* continuousMetadataSearch;
 
 @property (readwrite) BOOL currentlyScrolling;
+
+// Layout
+@property (weak) IBOutlet NSSegmentedControl* layoutStyle;
+@property (atomic, readwrite, strong) AAPLWrappedLayout* wrappedLayout;
+@property (atomic, readwrite, strong) TSNELayout* tsneFeatureLayout;
+@property (atomic, readwrite, strong) TSNELayout* tsneHistogramLayout;
 @end
 
 @implementation AppDelegate
@@ -145,15 +151,24 @@
     [self.collectionView registerNib:synopsisResultNib forItemWithIdentifier:@"SynopsisCollectionViewItem"];
     
     NSAnimationContext.currentContext.duration = 0.5;
-    self.collectionView.animator.collectionViewLayout = [[AAPLWrappedLayout alloc] init];
+    self.wrappedLayout = [[AAPLWrappedLayout alloc] init];
+    self.collectionView.animator.collectionViewLayout = self.wrappedLayout;
     
     // Notifcations to help optimize scrolling
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willScroll:) name:NSScrollViewWillStartLiveScrollNotification object:nil];
-
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didScroll:) name:NSScrollViewDidEndLiveScrollNotification object:nil];
 
-    self.currentlyScrolling = NO;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willScroll:) name:NSScrollViewWillStartLiveScrollNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didScroll:) name:NSScrollViewDidEndLiveScrollNotification object:nil];
     
+    self.currentlyScrolling = NO;
+
+    self.collectionView.enclosingScrollView.hasVerticalScroller = YES;
+    self.collectionView.enclosingScrollView.hasHorizontalScroller = YES;
+    self.collectionView.enclosingScrollView.autohidesScrollers = NO;
+    self.collectionView.enclosingScrollView.horizontalScroller.hidden = NO;
+    self.collectionView.enclosingScrollView.wantsLayer = YES;
+
     // Register for the dropped object types we can accept.
     [self.collectionView registerForDraggedTypes:[NSArray arrayWithObject:NSURLPboardType]];
     
@@ -445,6 +460,8 @@
 
     // Continue the query
     [self.continuousMetadataSearch enableUpdates];
+    
+//    [self lazyCreateTSNELayout];
 }
 
 - (void)queryDidUpdate:(NSNotification*)notification;
@@ -508,6 +525,9 @@
 //    }];
 //    
     [self.continuousMetadataSearch enableUpdates];
+    
+    // Once we are finished, we make
+    [self lazyCreateTSNELayout];
 }
 
 
@@ -535,6 +555,8 @@
 
 - (void)collectionView:(NSCollectionView *)collectionView didSelectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
 {
+//    NSCollectionViewItem* item = [self.collectionView itemAtIndex]
+    
     [self.bestFitSort setTarget:self];
     [self.bestFitSort setAction:@selector(bestMatchSortUsingSelectedCell:)];
 
@@ -663,27 +685,90 @@
     {
         case 0:
         {
-            layout = [[AAPLWrappedLayout alloc] init];
+            layout = self.wrappedLayout;
+            self.resultsArrayControler.sortDescriptors = @[];
             break;
         }
         case 1:
         {
-            NSMutableArray* allMetadataFeatures = [NSMutableArray new];
-            for(SynopsisMetadataItem* metadataItem in self.resultsArrayControler.arrangedObjects)
-            {
-                [allMetadataFeatures addObject:[metadataItem valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey]];
-            }
-            
-            
-            TSNELayout* tsneLayout = [[TSNELayout alloc] initWithData:allMetadataFeatures];
-            tsneLayout.itemSize = NSMakeSize(400, 200);
-//            tsneLayout.scrollDirection = NSCollectionViewScrollDirectionVertical;
-            layout = tsneLayout;
+            layout = self.tsneFeatureLayout;
+            self.resultsArrayControler.sortDescriptors = @[];
+            break;
+        }
+        case 2:
+        {
+            layout = self.tsneHistogramLayout;
+            self.resultsArrayControler.sortDescriptors = @[];
             break;
         }
     }
     
-    self.collectionView.collectionViewLayout = layout;
+    NSAnimationContext.currentContext.allowsImplicitAnimation = YES;
+    NSAnimationContext.currentContext.duration = 1.0;
+    [NSAnimationContext beginGrouping];
+
+    self.collectionView.animator.collectionViewLayout = layout;
+    
+    [NSAnimationContext endGrouping];
+}
+
+- (void) lazyCreateTSNELayout
+{
+    self.layoutStyle.enabled = false;
+    
+    NSMutableArray* allMetadataFeatures = [NSMutableArray new];
+    for(SynopsisMetadataItem* metadataItem in self.resultsArrayControler.arrangedObjects)
+    {
+        [allMetadataFeatures addObject:[metadataItem valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey]];
+    }
+
+    NSMutableArray* allHistogramFeatures = [NSMutableArray new];
+    for(SynopsisMetadataItem* metadataItem in self.resultsArrayControler.content)
+    {
+        // Hisgram array is 3 channels, each with bin info
+        // Unroll to 1 array planar r, g, b
+        
+        NSArray* arrayOfChannelHisograms = [metadataItem valueForKey:kSynopsisStandardMetadataHistogramDictKey];
+        NSMutableArray* planarHistogram = [NSMutableArray new];
+        
+        for(NSArray* channelHisigram in arrayOfChannelHisograms)
+        {
+            [planarHistogram addObjectsFromArray:channelHisigram];
+        }
+        
+        [allHistogramFeatures addObject:planarHistogram];
+    }
+
+    dispatch_group_t tsneGroup = dispatch_group_create();
+    
+    dispatch_group_enter(tsneGroup);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        
+        TSNELayout* tsneLayout = [[TSNELayout alloc] initWithData:allMetadataFeatures];
+        tsneLayout.itemSize = NSMakeSize(400, 200);
+        
+        self.tsneFeatureLayout = tsneLayout;
+        
+        dispatch_group_leave(tsneGroup);
+        
+    });
+    
+    dispatch_group_enter(tsneGroup);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        
+        TSNELayout* tsneLayout = [[TSNELayout alloc] initWithData:allHistogramFeatures];
+        tsneLayout.itemSize = NSMakeSize(400, 200);
+        
+        self.tsneHistogramLayout = tsneLayout;
+
+        dispatch_group_leave(tsneGroup);
+        
+    });
+
+    
+    dispatch_group_notify(tsneGroup, dispatch_get_main_queue(), ^{
+        self.layoutStyle.enabled = YES;
+    });
 }
 
 #pragma mark - Scroll View
@@ -705,8 +790,6 @@
     NSArray* visibleResults = [self.collectionView visibleItems];
     
     [visibleResults makeObjectsPerformSelector:@selector(endOptimizeForScrolling)];
-
-    
 }
 
 #pragma mark - Search

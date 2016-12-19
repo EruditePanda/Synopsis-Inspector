@@ -22,6 +22,7 @@
 @property (weak) IBOutlet MetadataDominantColorsView* dominantColorView;
 @property (weak) IBOutlet MetadataHistogramView* histogramView;
 @property (weak) IBOutlet MetadataMotionView* motionView;
+@property (weak) IBOutlet NSButton* enableTrackerVisualizer;
 
 @end
 

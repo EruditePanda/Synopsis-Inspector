@@ -67,6 +67,7 @@
         <viewController id="UNd-wU-FLE" userLabel="Popover View Controller" customClass="MetadataInspectorViewController">
             <connections>
                 <outlet property="dominantColorView" destination="RJY-QZ-uVx" id="GOB-Zx-jel"/>
+                <outlet property="enableTrackerVisualizer" destination="GDm-7e-nTe" id="Vze-hW-h1h"/>
                 <outlet property="globalDescriptors" destination="2NQ-z0-YOe" id="fpD-SH-zq8"/>
                 <outlet property="globalDominantColorView" destination="Jsf-74-eWV" id="hKr-sa-v3g"/>
                 <outlet property="globalHash" destination="1Vm-pI-rbs" id="kd1-Q2-C2g"/>
@@ -159,7 +160,7 @@
                             </view>
                         </tabViewItem>
                         <tabViewItem label="Frame" identifier="2" id="9oa-lE-GFo">
-                            <view key="view" wantsLayer="YES" id="v0r-eQ-iho" customClass="TransparentView">
+                            <view key="view" wantsLayer="YES" ambiguous="YES" id="v0r-eQ-iho" customClass="TransparentView">
                                 <rect key="frame" x="10" y="25" width="331" height="312"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
@@ -189,11 +190,19 @@
                                         <rect key="frame" x="17" y="185" width="297" height="48"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     </customView>
+                                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GDm-7e-nTe">
+                                        <rect key="frame" x="12" y="147" width="307" height="28"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="push" title="Visualize Tracked Points" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="4fd-dS-OoB">
+                                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="smallSystem"/>
+                                        </buttonCell>
+                                    </button>
                                 </subviews>
                             </view>
                         </tabViewItem>
                         <tabViewItem label="Raw" identifier="" id="AKZ-Of-zGW">
-                            <view key="view" wantsLayer="YES" ambiguous="YES" id="Ade-3G-foT" customClass="TransparentTabView">
+                            <view key="view" wantsLayer="YES" id="Ade-3G-foT" customClass="TransparentTabView">
                                 <rect key="frame" x="10" y="25" width="331" height="312"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
@@ -202,7 +211,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="tnU-GY-LMQ">
                                             <rect key="frame" x="0.0" y="0.0" width="297" height="292"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textView ambiguous="YES" editable="NO" selectable="NO" drawsBackground="NO" importsGraphics="NO" richText="NO" findStyle="panel" id="2Bn-Io-seI">
                                                     <rect key="frame" x="0.0" y="0.0" width="297" height="292"/>
