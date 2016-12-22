@@ -12462,6 +12462,8 @@
 		1BBB10E81D5558C400C22439 /* Synopsis-Framework.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "Synopsis-Framework.xcodeproj"; path = "Synopsis-Framework/Synopsis/Synopsis-Framework.xcodeproj"; sourceTree = "<group>"; };
 		1BCFBC181E0B25740008CB03 /* DBScanLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBScanLayout.h; sourceTree = "<group>"; };
 		1BCFBC191E0B25740008CB03 /* DBScanLayout.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DBScanLayout.mm; sourceTree = "<group>"; };
+		1BCFBC1E1E0C2D6F0008CB03 /* dataset.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = dataset.h; sourceTree = "<group>"; };
+		1BCFBC1F1E0C737B0008CB03 /* DBvptree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBvptree.h; sourceTree = "<group>"; };
 		1BD710AC1D620070007D61B9 /* SynopsisCollectionViewItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynopsisCollectionViewItemView.h; sourceTree = "<group>"; };
 		1BD710AD1D620070007D61B9 /* SynopsisCollectionViewItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SynopsisCollectionViewItemView.m; sourceTree = "<group>"; };
 		1BD710AF1D620AC8007D61B9 /* AAPLWrappedLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLWrappedLayout.h; sourceTree = "<group>"; };
@@ -12583,9 +12585,11 @@
 			children = (
 				1B96FE4A1E089EC700DE4BD3 /* OpenMP */,
 				1B96C9961E08964E00DE4BD3 /* Boost */,
+				1BCFBC1F1E0C737B0008CB03 /* DBvptree.h */,
 				1B96C9921E08853E00DE4BD3 /* dbscan_vp.h */,
 				1B96C9931E08853E00DE4BD3 /* dbscan.cpp */,
 				1B96C9941E08853E00DE4BD3 /* dbscan.h */,
+				1BCFBC1E1E0C2D6F0008CB03 /* dataset.h */,
 			);
 			name = DBSCAN;
 			sourceTree = "<group>";

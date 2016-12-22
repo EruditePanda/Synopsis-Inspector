@@ -7,7 +7,22 @@
 //
 
 #import "DBScanLayout.h"
+#include "dbscan_vp.h"
 
 @implementation DBScanLayout
 
+- (instancetype) init
+{
+    return [self initWithData:nil];
+}
+
+- (instancetype) initWithData:(NSArray<NSArray<NSNumber*> *>*)data
+{
+    self = [super init];
+    if(self)
+    {
+
+    }
+    return self;
+}
 @end

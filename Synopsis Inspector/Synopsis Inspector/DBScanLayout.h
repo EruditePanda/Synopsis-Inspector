@@ -8,6 +8,12 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface DBScanLayout : NSCollectionViewLayout
+@interface DBScanLayout : NSCollectionViewFlowLayout
+
+- (instancetype) initWithData:(NSArray<NSArray<NSNumber*> *>*)data NS_DESIGNATED_INITIALIZER;
+
+// An NSArray that contains arrays of indices
+// IE: the top level object is an array (a cluster) and that cluster is an array of indices
+@property (readonly) NSArray* clustersAndConstiuents;
 
 @end

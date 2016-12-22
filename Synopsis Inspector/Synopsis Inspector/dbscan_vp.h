@@ -1,24 +1,27 @@
 #ifndef DBSCAN_VP_H
 #define DBSCAN_VP_H
 
-#include "vptree.h"
-#include <Eigen/Dense>
+#include "DBvptree.h"
+#include "noncopyable.hpp"
+#include "dataset.h"
+#include "omp.h"
+#include <Synopsis/Eigen/Dense>
 
 namespace clustering {
-class DBSCAN_VP : private boost::noncopyable {
+class DBSCAN_VP : private boost::asio::noncopyable {
 private:
     static inline double dist( const Eigen::VectorXf& p1, const Eigen::VectorXf& p2 )
     {
         return ( p1 - p2 ).norm();
     }
 
-    typedef VPTREE< Eigen::VectorXf, dist > TVpTree;
+    typedef VPTREE<Eigen::VectorXf, dist > TVpTree;
 
     const Dataset::Ptr m_dset;
 
 public:
     typedef std::vector< int32_t > Labels;
-    typedef boost::shared_ptr< DBSCAN_VP > Ptr;
+    typedef std::shared_ptr< DBSCAN_VP > Ptr;
 
     DBSCAN_VP( const Dataset::Ptr dset )
         : m_dset( dset )
@@ -37,7 +40,7 @@ public:
 
         const double start = omp_get_wtime();
 
-        m_vp_tree = boost::make_shared< TVpTree >();
+        m_vp_tree = std::make_shared< TVpTree >();
         m_vp_tree->create( m_dset );
 
         const size_t dlen = d.size();
@@ -87,8 +90,8 @@ public:
         const size_t dlen = d.size();
 
         for ( uint32_t pid = 0; pid < dlen; ++pid ) {
-            if ( pid % 10000 == 0 )
-                VLOG( 1 ) << "progress: pid = " << pid << " " << ( float( pid ) / float( dlen ) ) * 100 << "%";
+//            if ( pid % 10000 == 0 )
+                //VLOG( 1 ) << "progress: pid = " << pid << " " << ( float( pid ) / float( dlen ) ) * 100 << "%";
 
             if ( m_labels[pid] >= 0 )
                 continue;
