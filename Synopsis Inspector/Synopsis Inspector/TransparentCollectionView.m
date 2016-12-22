@@ -24,14 +24,9 @@
     return YES;
 }
 
-//- (BOOL) translatesAutoresizingMaskIntoConstraints
-//{
-//    return NO;
-//}
-
 - (void) setFrame:(NSRect)frame
 {
-
+    // Fix a bug in our colleciton view not showing our horizontal scroller
     if (frame.size.width != self.collectionViewLayout.collectionViewContentSize.width)
     {
         
@@ -40,37 +35,18 @@
 
     [super setFrame:frame];
     
-//    NSLog(@"CollectionView setFrame: %@", NSStringFromRect(frame));
 }
-////
-//-(void)setFrameSize:(NSSize)newSize{
-//    
-//    [super setFrameSize:newSize];
-////    NSLog(@"CollectionView setFrameSize: %@", CGSizeCreateDictionaryRepresentation(newSize));
-//}
-
-//- (void) updateConstraints
-//{
-////    NSLog(@"CollectionView updateConstraints");
-//
-//    [super updateConstraints];
-//    
-//}
 
 - (void) layout
 {
-//    NSLog(@"CollectionView layout");
-
     [super layout];
 
-    
+    // Fix a bug in our colleciton view not showing our horizontal scroller
     if (self.frame.size.width != self.collectionViewLayout.collectionViewContentSize.width)
     {
         //        self.trailingConstraint.constant = -self.collectionViewLayout.collectionViewContentSize.width;
         [self setFrameSize:[self.collectionViewLayout collectionViewContentSize]];
     }
-
-    //
 }
 
 @end

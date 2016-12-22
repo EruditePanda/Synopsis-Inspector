@@ -35,7 +35,7 @@
     
     self.collectionView.enclosingScrollView.maxMagnification = 1.0;
     self.collectionView.enclosingScrollView.minMagnification = 1.0;
-    self.collectionView.enclosingScrollView.magnification = 1.0;
+    self.collectionView.enclosingScrollView.animator.magnification = 1.0;
 }
 
 - (NSSize) collectionViewContentSize

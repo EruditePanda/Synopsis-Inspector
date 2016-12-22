@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2657" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2657" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -691,7 +691,7 @@
                             <box appearanceType="aqua" verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="0bP-5f-bdN">
                                 <rect key="frame" x="0.0" y="35" width="480" height="5"/>
                             </box>
-                            <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" maxMagnification="1" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="none" findBarPosition="aboveHorizontalRuler" translatesAutoresizingMaskIntoConstraints="NO" id="fRo-0M-OuZ" customClass="SynopsisScrollView">
+                            <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" maxMagnification="1" usesPredominantAxisScrolling="NO" findBarPosition="aboveHorizontalRuler" translatesAutoresizingMaskIntoConstraints="NO" id="fRo-0M-OuZ" customClass="SynopsisScrollView">
                                 <rect key="frame" x="0.0" y="46" width="480" height="314"/>
                                 <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="Yw9-Kg-dix">
                                     <rect key="frame" x="0.0" y="0.0" width="480" height="314"/>
@@ -759,17 +759,20 @@
                                 </textFieldCell>
                             </textField>
                             <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NI4-mn-ey9">
-                                <rect key="frame" x="393" y="15" width="68" height="15"/>
+                                <rect key="frame" x="339" y="15" width="122" height="15"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="15" id="evB-cA-4Lf"/>
-                                    <constraint firstAttribute="width" constant="66" id="vNx-Q8-SUz"/>
+                                    <constraint firstAttribute="width" constant="120" id="vNx-Q8-SUz"/>
                                 </constraints>
                                 <segmentedCell key="cell" controlSize="mini" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="RWr-h8-3aW">
                                     <font key="font" metaFont="miniSystem"/>
                                     <segments>
-                                        <segment image="NSIconViewTemplate" width="20"/>
-                                        <segment image="NSFlowViewTemplate" width="20" selected="YES" tag="1"/>
-                                        <segment image="NSListViewTemplate" width="20">
+                                        <segment image="NSIconViewTemplate" width="29"/>
+                                        <segment image="NSFlowViewTemplate" width="30" selected="YES" tag="1"/>
+                                        <segment image="NSListViewTemplate" width="29">
+                                            <nil key="label"/>
+                                        </segment>
+                                        <segment width="29">
                                             <nil key="label"/>
                                         </segment>
                                     </segments>
@@ -826,7 +829,7 @@
                         </connections>
                     </toolbarItem>
                     <toolbarItem implicitItemIdentifier="F2AB7FFF-9081-446D-8F90-453657E530A8" label="Histogram" paletteLabel="Histogram" tag="-1" image="Histogram" id="FSS-QP-a3O"/>
-                    <toolbarItem implicitItemIdentifier="5428B973-A39F-43D4-AB52-247B94D078A9" label="Smart" paletteLabel="Smart" tag="-1" image="Smart" id="rCf-te-0id"/>
+                    <toolbarItem implicitItemIdentifier="5428B973-A39F-43D4-AB52-247B94D078A9" label="Hybrid" paletteLabel="Hybrid" tag="-1" image="Smart" id="rCf-te-0id"/>
                     <toolbarItem implicitItemIdentifier="974094A7-6E55-4173-9565-8904D363BB7E" label="All" paletteLabel="All" tag="-1" image="Clear" id="cIg-yi-uD7">
                         <connections>
                             <action selector="filterClear:" target="Voe-Tx-rLC" id="Dzd-yp-buw"/>
@@ -909,16 +912,33 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         </box>
                     </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="744D6DAD-D495-4583-96C4-58BCE5E39C19" label="View As" paletteLabel="View As" id="7sS-Dq-yi3">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="100" height="20"/>
+                        <size key="maxSize" width="104" height="28"/>
+                        <segmentedControl key="view" verticalHuggingPriority="750" id="lQV-lD-mfn">
+                            <rect key="frame" x="0.0" y="14" width="104" height="28"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedRounded" trackingMode="selectOne" id="FCJ-EF-TUx">
+                                <font key="font" metaFont="system"/>
+                                <segments>
+                                    <segment image="Grid" width="32"/>
+                                    <segment image="TSNE" width="32" selected="YES" tag="1"/>
+                                    <segment image="Hierarchy" width="32">
+                                        <nil key="label"/>
+                                    </segment>
+                                </segments>
+                            </segmentedCell>
+                        </segmentedControl>
+                    </toolbarItem>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
+                    <toolbarItem reference="7sS-Dq-yi3"/>
+                    <toolbarItem reference="mSf-oc-9ma"/>
+                    <toolbarItem reference="lhd-Zu-nIq"/>
                     <toolbarItem reference="rCf-te-0id"/>
                     <toolbarItem reference="twC-4t-m0y"/>
-                    <toolbarItem reference="w3K-79-FKe"/>
                     <toolbarItem reference="FSS-QP-a3O"/>
-                    <toolbarItem reference="lhd-Zu-nIq"/>
-                    <toolbarItem reference="Zcg-Uc-HtM"/>
-                    <toolbarItem reference="O1H-Sg-47M"/>
-                    <toolbarItem reference="f0F-zV-DYJ"/>
                     <toolbarItem reference="lhd-Zu-nIq"/>
                     <toolbarItem reference="K3I-ac-OeR"/>
                     <toolbarItem reference="P71-qX-gnu"/>
@@ -954,7 +974,9 @@
         <image name="Clear" width="512" height="512"/>
         <image name="Cool" width="512" height="512"/>
         <image name="Dark" width="512" height="512"/>
+        <image name="Grid" width="48" height="48"/>
         <image name="Hash" width="512" height="512"/>
+        <image name="Hierarchy" width="48" height="48"/>
         <image name="Histogram" width="512" height="512"/>
         <image name="Hue" width="512" height="512"/>
         <image name="Light" width="512" height="512"/>
@@ -966,6 +988,7 @@
         <image name="Neutral" width="512" height="512"/>
         <image name="Saturation" width="512" height="512"/>
         <image name="Smart" width="512" height="512"/>
+        <image name="TSNE" width="48" height="48"/>
         <image name="Warm" width="512" height="512"/>
     </resources>
 </document>

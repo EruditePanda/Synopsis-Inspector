@@ -14,9 +14,6 @@
 @interface TSNELayout ()
 {
     TSNE tsne;
-    double* X;
-    double* Y;
-    
     NSSize initialSize;
 
 }
@@ -70,8 +67,8 @@
         // Note, should be the same
         self.D = [(NSArray*)data[0] count];
         
-        X = (double*) malloc(self.D * self.N * sizeof(double));
-        Y = (double*) malloc(self.dims * self.N * sizeof(double));
+        double* X = (double*) malloc(self.D * self.N * sizeof(double));
+        double* Y = (double*) malloc(self.dims * self.N * sizeof(double));
 
         int idx = 0;
         for (int i = 0; i < self.N; i++)
@@ -85,6 +82,10 @@
         
         [self run];
         [self iterate];
+        
+        free(X);
+        free(Y);
+
     }
     
     return self;
@@ -92,8 +93,6 @@
 
 - (void) dealloc
 {
-    free(X);
-    free(Y);
 }
 
 - (void) run

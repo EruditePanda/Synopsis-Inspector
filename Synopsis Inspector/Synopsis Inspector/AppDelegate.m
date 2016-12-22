@@ -17,7 +17,6 @@
 #import "TSNELayout.h"
 #import "MetadataInspectorViewController.h"
 
-
 @interface AppDelegate ()
 
 @property (weak) IBOutlet NSWindow *window;
@@ -51,6 +50,7 @@
 // Layout
 @property (weak) IBOutlet NSSegmentedControl* layoutStyle;
 @property (atomic, readwrite, strong) AAPLWrappedLayout* wrappedLayout;
+@property (atomic, readwrite, strong) TSNELayout* tsneHybridLayout;
 @property (atomic, readwrite, strong) TSNELayout* tsneFeatureLayout;
 @property (atomic, readwrite, strong) TSNELayout* tsneHistogramLayout;
 @end
@@ -163,11 +163,11 @@
     
     self.currentlyScrolling = NO;
 
-    self.collectionView.enclosingScrollView.hasVerticalScroller = YES;
-    self.collectionView.enclosingScrollView.hasHorizontalScroller = YES;
-    self.collectionView.enclosingScrollView.autohidesScrollers = NO;
-    self.collectionView.enclosingScrollView.horizontalScroller.hidden = NO;
-    self.collectionView.enclosingScrollView.wantsLayer = YES;
+//    self.collectionView.enclosingScrollView.hasVerticalScroller = YES;
+//    self.collectionView.enclosingScrollView.hasHorizontalScroller = YES;
+//    self.collectionView.enclosingScrollView.autohidesScrollers = NO;
+//    self.collectionView.enclosingScrollView.horizontalScroller.hidden = NO;
+//    self.collectionView.enclosingScrollView.wantsLayer = YES;
 
     // Register for the dropped object types we can accept.
     [self.collectionView registerForDraggedTypes:[NSArray arrayWithObject:NSURLPboardType]];
@@ -701,6 +701,13 @@
             self.resultsArrayControler.sortDescriptors = @[];
             break;
         }
+        case 3:
+        {
+            layout = self.tsneHybridLayout;
+            self.resultsArrayControler.sortDescriptors = @[];
+            break;
+        }
+
     }
     
     NSAnimationContext.currentContext.allowsImplicitAnimation = YES;
@@ -717,18 +724,19 @@
     self.layoutStyle.enabled = false;
     
     NSMutableArray* allMetadataFeatures = [NSMutableArray new];
-    for(SynopsisMetadataItem* metadataItem in self.resultsArrayControler.arrangedObjects)
-    {
-        [allMetadataFeatures addObject:[metadataItem valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey]];
-    }
-
     NSMutableArray* allHistogramFeatures = [NSMutableArray new];
+    NSMutableArray* allHybridFeatures = [NSMutableArray new];
+
     for(SynopsisMetadataItem* metadataItem in self.resultsArrayControler.content)
     {
-        // Hisgram array is 3 channels, each with bin info
-        // Unroll to 1 array planar r, g, b
-        
+        NSArray* feaures = [metadataItem valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey];
         NSArray* arrayOfChannelHisograms = [metadataItem valueForKey:kSynopsisStandardMetadataHistogramDictKey];
+
+        // Add our Feature
+        [allMetadataFeatures addObject:feaures];
+
+        // Hisgram array is 3 channels, each with bin info
+        // Unroll to 1 array planar rrrr, gggg, bbbb
         NSMutableArray* planarHistogram = [NSMutableArray new];
         
         for(NSArray* channelHisigram in arrayOfChannelHisograms)
@@ -737,8 +745,16 @@
         }
         
         [allHistogramFeatures addObject:planarHistogram];
+        
+        NSMutableArray* hybridFeature = [NSMutableArray new];
+        
+        [hybridFeature addObjectsFromArray:feaures];
+        [hybridFeature addObjectsFromArray:planarHistogram];
+        
+        [allHybridFeatures addObject:hybridFeature];
     }
 
+    
     dispatch_group_t tsneGroup = dispatch_group_create();
     
     dispatch_group_enter(tsneGroup);
@@ -765,7 +781,18 @@
         
     });
 
-    
+    dispatch_group_enter(tsneGroup);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        
+        TSNELayout* tsneLayout = [[TSNELayout alloc] initWithData:allHybridFeatures];
+        tsneLayout.itemSize = NSMakeSize(400, 200);
+        
+        self.tsneHybridLayout = tsneLayout;
+        
+        dispatch_group_leave(tsneGroup);
+        
+    });
+
     dispatch_group_notify(tsneGroup, dispatch_get_main_queue(), ^{
         self.layoutStyle.enabled = YES;
     });
