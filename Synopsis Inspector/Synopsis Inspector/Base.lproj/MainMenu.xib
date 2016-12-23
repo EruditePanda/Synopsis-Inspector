@@ -758,8 +758,8 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NI4-mn-ey9">
-                                <rect key="frame" x="339" y="15" width="122" height="15"/>
+                            <segmentedControl verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NI4-mn-ey9">
+                                <rect key="frame" x="300" y="14" width="161" height="15"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="15" id="evB-cA-4Lf"/>
                                     <constraint firstAttribute="width" constant="120" id="vNx-Q8-SUz"/>
@@ -767,12 +767,15 @@
                                 <segmentedCell key="cell" controlSize="mini" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="RWr-h8-3aW">
                                     <font key="font" metaFont="miniSystem"/>
                                     <segments>
-                                        <segment image="NSIconViewTemplate" width="29"/>
-                                        <segment image="NSFlowViewTemplate" width="30" selected="YES" tag="1"/>
-                                        <segment image="NSListViewTemplate" width="29">
+                                        <segment image="NSIconViewTemplate" width="36"/>
+                                        <segment image="NSFlowViewTemplate" width="37" selected="YES" tag="1"/>
+                                        <segment image="NSListViewTemplate" width="36">
                                             <nil key="label"/>
                                         </segment>
-                                        <segment width="29">
+                                        <segment width="36">
+                                            <nil key="label"/>
+                                        </segment>
+                                        <segment>
                                             <nil key="label"/>
                                         </segment>
                                     </segments>

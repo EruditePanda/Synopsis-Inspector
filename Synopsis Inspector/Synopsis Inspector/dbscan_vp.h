@@ -1,7 +1,7 @@
 #ifndef DBSCAN_VP_H
 #define DBSCAN_VP_H
 
-#include "DBvptree.h"
+#include "dbvptree.h"
 #include "noncopyable.hpp"
 #include "dataset.h"
 #include "omp.h"

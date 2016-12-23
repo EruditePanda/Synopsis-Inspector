@@ -32,7 +32,7 @@ public:
         , m_cols( 0 )
     {
     }
-
+    
     void gen_cluster_data( size_t features_num, size_t elements_num )
     {
         _data.clear();
@@ -46,7 +46,27 @@ public:
             _data.emplace_back( col_vector );
         }
     }
+    
+    void resize(size_t elements_num)
+    {
+        _data.clear();
+        _labels.resize( elements_num );
+    }
 
+    void append_feature(std::vector<float>feature )
+    {
+        Eigen::VectorXf col_vector( feature.size() );
+//        col_vector.resize(feature.size());
+//        Eigen::VectorXf::Map(&feature[0], feature.size()) = col_vector;
+
+        for ( size_t i = 0; i < feature.size(); ++i )
+        {
+            col_vector( i ) = feature[i];
+        }
+
+        _data.emplace_back( col_vector );
+    }
+    
     bool load_csv( const std::string& csv_file_path )
     {
         std::ifstream in( csv_file_path );

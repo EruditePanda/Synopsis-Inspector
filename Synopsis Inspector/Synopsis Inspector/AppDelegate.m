@@ -15,6 +15,7 @@
 #import "AAPLWrappedLayout.h"
 #import "AAPLLoopLayout.h"
 #import "TSNELayout.h"
+#import "DBScanLayout.h"
 #import "MetadataInspectorViewController.h"
 
 @interface AppDelegate ()
@@ -53,6 +54,9 @@
 @property (atomic, readwrite, strong) TSNELayout* tsneHybridLayout;
 @property (atomic, readwrite, strong) TSNELayout* tsneFeatureLayout;
 @property (atomic, readwrite, strong) TSNELayout* tsneHistogramLayout;
+@property (atomic, readwrite, strong) DBScanLayout* dbscanHybridLayout;
+@property (atomic, readwrite, strong) DBScanLayout* dbscanFeatureLayout;
+@property (atomic, readwrite, strong) DBScanLayout* dbscanHistogramLayout;
 @end
 
 @implementation AppDelegate
@@ -527,7 +531,7 @@
     [self.continuousMetadataSearch enableUpdates];
     
     // Once we are finished, we make
-    [self lazyCreateTSNELayout];
+    [self lazyCreateLayouts];
 }
 
 
@@ -707,7 +711,6 @@
             self.resultsArrayControler.sortDescriptors = @[];
             break;
         }
-
     }
     
     NSAnimationContext.currentContext.allowsImplicitAnimation = YES;
@@ -719,7 +722,7 @@
     [NSAnimationContext endGrouping];
 }
 
-- (void) lazyCreateTSNELayout
+- (void) lazyCreateLayouts
 {
     self.layoutStyle.enabled = false;
     
@@ -763,7 +766,11 @@
         TSNELayout* tsneLayout = [[TSNELayout alloc] initWithData:allMetadataFeatures];
         tsneLayout.itemSize = NSMakeSize(400, 200);
         
+        DBScanLayout* dbScanLayout = [[DBScanLayout alloc] initWithData:allMetadataFeatures];
+        dbScanLayout.itemSize = NSMakeSize(400, 200);
+
         self.tsneFeatureLayout = tsneLayout;
+        self.dbscanFeatureLayout = dbScanLayout;
         
         dispatch_group_leave(tsneGroup);
         
@@ -775,7 +782,11 @@
         TSNELayout* tsneLayout = [[TSNELayout alloc] initWithData:allHistogramFeatures];
         tsneLayout.itemSize = NSMakeSize(400, 200);
         
+        DBScanLayout* dbScanLayout = [[DBScanLayout alloc] initWithData:allHistogramFeatures];
+        dbScanLayout.itemSize = NSMakeSize(400, 200);
+
         self.tsneHistogramLayout = tsneLayout;
+        self.dbscanHistogramLayout = dbScanLayout;
 
         dispatch_group_leave(tsneGroup);
         
@@ -787,8 +798,12 @@
         TSNELayout* tsneLayout = [[TSNELayout alloc] initWithData:allHybridFeatures];
         tsneLayout.itemSize = NSMakeSize(400, 200);
         
+        DBScanLayout* dbScanLayout = [[DBScanLayout alloc] initWithData:allHybridFeatures];
+        dbScanLayout.itemSize = NSMakeSize(400, 200);
+
         self.tsneHybridLayout = tsneLayout;
-        
+        self.dbscanHybridLayout = dbScanLayout;
+
         dispatch_group_leave(tsneGroup);
         
     });
