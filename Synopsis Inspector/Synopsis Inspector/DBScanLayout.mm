@@ -69,6 +69,9 @@
         
         mDBScanVP->predict(avgEpsilon, 2);
         
+        
+    
+        
     }
     return self;
 }

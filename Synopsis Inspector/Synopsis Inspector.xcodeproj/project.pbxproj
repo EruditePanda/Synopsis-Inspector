@@ -11,7 +11,6 @@
 		1B0B63501D641CC900AA5D0E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0B634F1D641CC900AA5D0E /* AVFoundation.framework */; };
 		1B0D64391D4FB21F00A1AB5D /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0D64381D4FB21F00A1AB5D /* libz.tbd */; };
 		1B0D643C1D4FD48E00A1AB5D /* CustomVisualEffectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0D643B1D4FD48E00A1AB5D /* CustomVisualEffectView.m */; };
-		1B5FE0231DF9D888009CF677 /* AAPLLoopLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5FE0221DF9D888009CF677 /* AAPLLoopLayout.m */; };
 		1B5FE0331DF9F38E009CF677 /* sptree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1B5FE02D1DF9F38E009CF677 /* sptree.cpp */; };
 		1B5FE0341DF9F38E009CF677 /* tsne.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1B5FE02F1DF9F38E009CF677 /* tsne.cpp */; };
 		1B5FE0351DFA1044009CF677 /* TSNELayout.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1B5FE0281DF9F1F9009CF677 /* TSNELayout.mm */; };
@@ -116,8 +115,6 @@
 		1B0D64381D4FB21F00A1AB5D /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		1B0D643A1D4FD48E00A1AB5D /* CustomVisualEffectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomVisualEffectView.h; sourceTree = "<group>"; };
 		1B0D643B1D4FD48E00A1AB5D /* CustomVisualEffectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomVisualEffectView.m; sourceTree = "<group>"; };
-		1B5FE0211DF9D888009CF677 /* AAPLLoopLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLLoopLayout.h; sourceTree = "<group>"; };
-		1B5FE0221DF9D888009CF677 /* AAPLLoopLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAPLLoopLayout.m; sourceTree = "<group>"; };
 		1B5FE0271DF9F1F9009CF677 /* TSNELayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSNELayout.h; sourceTree = "<group>"; };
 		1B5FE0281DF9F1F9009CF677 /* TSNELayout.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TSNELayout.mm; sourceTree = "<group>"; };
 		1B5FE02C1DF9F38E009CF677 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
@@ -12555,8 +12552,6 @@
 			children = (
 				1BD710AF1D620AC8007D61B9 /* AAPLWrappedLayout.h */,
 				1BD710B01D620AC8007D61B9 /* AAPLWrappedLayout.m */,
-				1B5FE0211DF9D888009CF677 /* AAPLLoopLayout.h */,
-				1B5FE0221DF9D888009CF677 /* AAPLLoopLayout.m */,
 				1B5FE0271DF9F1F9009CF677 /* TSNELayout.h */,
 				1B5FE0281DF9F1F9009CF677 /* TSNELayout.mm */,
 				1BCFBC181E0B25740008CB03 /* DBScanLayout.h */,
@@ -33334,7 +33329,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1BDC34461D6F8FFE00D210E8 /* TransparentView.m in Sources */,
-				1B5FE0231DF9D888009CF677 /* AAPLLoopLayout.m in Sources */,
 				1BAA80701D7243F300464810 /* TransparentCollectionView.m in Sources */,
 				1BE325831E00BD3B00BB5A1A /* SynopsisScroller.m in Sources */,
 				1BD710AE1D620070007D61B9 /* SynopsisCollectionViewItemView.m in Sources */,

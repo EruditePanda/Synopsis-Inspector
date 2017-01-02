@@ -163,7 +163,7 @@
     
 //    return self.tsnePoints;
     
-    NSLog(@"TSNE points: %@", self.tsnePoints);
+//    NSLog(@"TSNE points: %@", self.tsnePoints);
 }
 
 - (void)prepareLayout {
