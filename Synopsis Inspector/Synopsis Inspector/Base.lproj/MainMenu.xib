@@ -936,15 +936,12 @@
                     </toolbarItem>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
-                    <toolbarItem reference="7sS-Dq-yi3"/>
-                    <toolbarItem reference="mSf-oc-9ma"/>
-                    <toolbarItem reference="lhd-Zu-nIq"/>
                     <toolbarItem reference="rCf-te-0id"/>
                     <toolbarItem reference="twC-4t-m0y"/>
                     <toolbarItem reference="FSS-QP-a3O"/>
                     <toolbarItem reference="lhd-Zu-nIq"/>
                     <toolbarItem reference="K3I-ac-OeR"/>
-                    <toolbarItem reference="P71-qX-gnu"/>
+                    <toolbarItem reference="85f-zA-YBp"/>
                 </defaultToolbarItems>
             </toolbar>
             <contentBorderThickness minY="32"/>
