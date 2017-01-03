@@ -990,7 +990,7 @@
         NSString* featureString = [NSString stringWithFormat:@" Features : %f", featureWeight];
 
         // Hash
-        float hashWeight = compareHashes([item1 valueForKey:kSynopsisStandardMetadataPerceptualHashDictKey],[item2 valueForKey:kSynopsisStandardMetadataPerceptualHashDictKey]);
+        float hashWeight = compareGlobalHashes([item1 valueForKey:kSynopsisStandardMetadataPerceptualHashDictKey],[item2 valueForKey:kSynopsisStandardMetadataPerceptualHashDictKey]);
         NSString* hashString = [NSString stringWithFormat:@" Perceptual Hash : %f", hashWeight];
         
         // Histogram

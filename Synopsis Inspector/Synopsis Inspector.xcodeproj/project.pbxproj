@@ -65,6 +65,7 @@
 		1BBB10F91D555DDC00C22439 /* Synopsis.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1BBB10ED1D5558C400C22439 /* Synopsis.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1BBB10FD1D55992200C22439 /* Synopsis.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BBB10ED1D5558C400C22439 /* Synopsis.framework */; };
 		1BCFBC1A1E0B25740008CB03 /* DBScanLayout.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1BCFBC191E0B25740008CB03 /* DBScanLayout.mm */; };
+		1BCFBEC31E1C41580008CB03 /* MetadataSingleValueHistoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BCFBEC21E1C41580008CB03 /* MetadataSingleValueHistoryView.m */; };
 		1BD710AE1D620070007D61B9 /* SynopsisCollectionViewItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD710AD1D620070007D61B9 /* SynopsisCollectionViewItemView.m */; };
 		1BD710B11D620AC8007D61B9 /* AAPLWrappedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD710B01D620AC8007D61B9 /* AAPLWrappedLayout.m */; };
 		1BDC34331D6AB02100D210E8 /* MetadataDominantColorsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC34321D6AB02100D210E8 /* MetadataDominantColorsView.m */; };
@@ -12461,6 +12462,8 @@
 		1BCFBC191E0B25740008CB03 /* DBScanLayout.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DBScanLayout.mm; sourceTree = "<group>"; };
 		1BCFBC1E1E0C2D6F0008CB03 /* dataset.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = dataset.h; sourceTree = "<group>"; };
 		1BCFBC1F1E0C737B0008CB03 /* dbvptree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = dbvptree.h; sourceTree = "<group>"; };
+		1BCFBEC11E1C41580008CB03 /* MetadataSingleValueHistoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetadataSingleValueHistoryView.h; sourceTree = "<group>"; };
+		1BCFBEC21E1C41580008CB03 /* MetadataSingleValueHistoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetadataSingleValueHistoryView.m; sourceTree = "<group>"; };
 		1BD710AC1D620070007D61B9 /* SynopsisCollectionViewItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynopsisCollectionViewItemView.h; sourceTree = "<group>"; };
 		1BD710AD1D620070007D61B9 /* SynopsisCollectionViewItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SynopsisCollectionViewItemView.m; sourceTree = "<group>"; };
 		1BD710AF1D620AC8007D61B9 /* AAPLWrappedLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLWrappedLayout.h; sourceTree = "<group>"; };
@@ -33219,6 +33222,8 @@
 				1BDC343C1D6B64BD00D210E8 /* MetadataHistogramView.m */,
 				1BDC343E1D6CE2B900D210E8 /* MetadataMotionView.h */,
 				1BDC343F1D6CE2B900D210E8 /* MetadataMotionView.m */,
+				1BCFBEC11E1C41580008CB03 /* MetadataSingleValueHistoryView.h */,
+				1BCFBEC21E1C41580008CB03 /* MetadataSingleValueHistoryView.m */,
 			);
 			name = Inspector;
 			sourceTree = "<group>";
@@ -33336,6 +33341,7 @@
 				1BDC34431D6CE38C00D210E8 /* MetadataLayerBackedView.m in Sources */,
 				1BDC34491D6F90FC00D210E8 /* TransparentTabView.m in Sources */,
 				1B5FE0351DFA1044009CF677 /* TSNELayout.mm in Sources */,
+				1BCFBEC31E1C41580008CB03 /* MetadataSingleValueHistoryView.m in Sources */,
 				1B96FDE71E0896A500DE4BD3 /* adapt_adt_named.cpp in Sources */,
 				1B0D643C1D4FD48E00A1AB5D /* CustomVisualEffectView.m in Sources */,
 				1BE325861E00BDBB00BB5A1A /* SynopsisScrollView.m in Sources */,
