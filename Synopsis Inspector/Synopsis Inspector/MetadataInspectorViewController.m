@@ -75,20 +75,16 @@
     if(self.lastFeatureVector && self.lastFeatureVector.count && featureVector.count && (self.lastFeatureVector.count == featureVector.count))
     {
         comparedFeatures = compareFeatureVector(self.lastFeatureVector, featureVector);
-        
-        [self.featureVectorHistory appendValue:@(comparedFeatures)];
     }
     
     if(self.lastHistogram && histogram)
     {
         comparedHistograms = compareHistogtams(self.lastHistogram, histogram);
-        [self.histogramHistory appendValue:@(comparedHistograms)];
     }
     
     if(self.lastHash && hash)
     {
         comparedHashes = compareFrameHashes(self.lastHash, hash);
-        [self.hashHistory appendValue:@(comparedHashes)];
     }
     
     self.dominantColorView.dominantColorsArray = domColors;
@@ -97,8 +93,14 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.dominantColorView updateLayer];
         [self.histogramView updateLayer];
+
+        [self.featureVectorHistory appendValue:@(comparedFeatures)];
         [self.featureVectorHistory updateLayer];
+        
+        [self.histogramHistory appendValue:@(comparedHistograms)];
         [self.histogramHistory updateLayer];
+
+        [self.hashHistory appendValue:@(comparedHashes)];
         [self.hashHistory updateLayer];
 
         self.featureVectorHistoryCurrentValue.floatValue = comparedFeatures;

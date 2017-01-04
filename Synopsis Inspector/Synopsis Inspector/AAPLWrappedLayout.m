@@ -31,11 +31,10 @@
     self.collectionView.enclosingScrollView.hasHorizontalScroller = YES;
     self.collectionView.enclosingScrollView.autohidesScrollers = NO;
     
-    self.collectionView.enclosingScrollView.allowsMagnification = NO;
-    
-    self.collectionView.enclosingScrollView.maxMagnification = 1.0;
-    self.collectionView.enclosingScrollView.minMagnification = 1.0;
     self.collectionView.enclosingScrollView.animator.magnification = 1.0;
+    self.collectionView.enclosingScrollView.animator.allowsMagnification = NO;
+    self.collectionView.enclosingScrollView.animator.maxMagnification = 1.0;
+    self.collectionView.enclosingScrollView.animator.minMagnification = 1.0;
 }
 
 - (NSSize) collectionViewContentSize
