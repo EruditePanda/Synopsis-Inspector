@@ -33262,6 +33262,8 @@
 				TargetAttributes = {
 					1B9873F01D47A5540015E54C = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = SHG3AW6YV7;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -33470,7 +33472,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = NO;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = SHG3AW6YV7;
 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
 				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = "";
 				GCC_VERSION = "";
@@ -33500,7 +33504,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = NO;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = SHG3AW6YV7;
 				GCC_PREPROCESSOR_DEFINITIONS = "";
 				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = (
