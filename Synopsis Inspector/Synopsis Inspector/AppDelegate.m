@@ -30,6 +30,8 @@
 
 @property (weak) IBOutlet NSSearchField* searchField;
 
+@property (weak) IBOutlet NSSlider* zoomSlider;
+
 @property (weak) IBOutlet NSTextField* statusField;
 @property (strong) NSString* sortStatus;
 @property (strong) NSString* filterStatus;
@@ -42,7 +44,6 @@
 
 //@property (strong) NSMutableArray* resultsArray;
 @property (strong) NSArrayController* resultsArrayControler;
-
 @property (strong) NSMetadataQuery* continuousMetadataSearch;
 
 @property (readwrite) BOOL currentlyScrolling;
@@ -68,7 +69,8 @@
     self.filterStatus = @"No Filter";
     self.correlationStatus = @"";
     
-    
+    self.zoomSlider.enabled = NO;
+
     // For Token Filtering logic:
     self.tokenField.tokenStyle = NSTokenStyleSquared;
     
@@ -111,44 +113,6 @@
     self.resultsArrayControler = [[NSArrayController alloc] initWithContent:[NSMutableArray new]];
 //    self.resultsArrayControler.automaticallyRearrangesObjects = NO;
     
-    // Run and MDQuery to find every file that has tagged XAttr / Spotlight metadata hints for v002 metadata
-    self.continuousMetadataSearch = [[NSMetadataQuery alloc] init];
-    
-    self.continuousMetadataSearch.delegate = self;
-    
-    // Register the notifications for batch and completion updates
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(queryDidUpdate:)
-                                                 name:NSMetadataQueryDidUpdateNotification
-                                               object:self.continuousMetadataSearch];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(initalGatherComplete:)
-                                                 name:NSMetadataQueryDidFinishGatheringNotification
-                                               object:self.continuousMetadataSearch];
-    
-    // Configure the search predicate
-    NSPredicate *searchPredicate;
-    searchPredicate = [NSPredicate predicateWithFormat:@"info_synopsis_descriptors like '*'"];
-    
-    [self.continuousMetadataSearch setPredicate:searchPredicate];
-    
-    // Set the search scope. In this case it will search the User's home directory
-    // and the iCloud documents area
-    NSArray* searchScopes;
-    searchScopes = @[NSMetadataQueryIndexedLocalComputerScope];
-    
-    [self.continuousMetadataSearch setSearchScopes:searchScopes];
-    
-    // Configure the sorting of the results so it will order the results by the
-    // display name
-    NSSortDescriptor* sortKeys = [[NSSortDescriptor alloc] initWithKey:(id)kMDItemDisplayName
-                                                            ascending:YES];
-    
-    [self.continuousMetadataSearch setSortDescriptors:[NSArray arrayWithObject:sortKeys]];
-
-    [self.continuousMetadataSearch startQuery];
-    
     NSNib* synopsisResultNib = [[NSNib alloc] initWithNibNamed:@"SynopsisCollectionViewItem" bundle:[NSBundle mainBundle]];
     
     [self.collectionView registerNib:synopsisResultNib forItemWithIdentifier:@"SynopsisCollectionViewItem"];
@@ -177,10 +141,130 @@
     
     // Enable dragging items from our CollectionView to other applications.
     [self.collectionView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
+
+    [self setGlobalMetadataSearch];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     // Insert code here to tear down your application
+}
+
+#pragma mark - Metadata Search
+
+- (void) setGlobalMetadataSearch
+{
+    if(self.continuousMetadataSearch)
+    {
+        [self.continuousMetadataSearch disableUpdates];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:NSMetadataQueryDidUpdateNotification object:self.continuousMetadataSearch];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:NSMetadataQueryDidFinishGatheringNotification object:self.continuousMetadataSearch];
+    }
+    
+    
+    // Configure the search predicate
+    // Run and MDQuery to find every file that has tagged XAttr / Spotlight metadata hints for v002 metadata
+    self.continuousMetadataSearch = [[NSMetadataQuery alloc] init];
+    
+    // Register the notifications for batch and completion updates
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(queryDidUpdate:)
+                                                 name:NSMetadataQueryDidUpdateNotification
+                                               object:self.continuousMetadataSearch];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(initalGatherComplete:)
+                                                 name:NSMetadataQueryDidFinishGatheringNotification
+                                               object:self.continuousMetadataSearch];
+
+    
+    self.continuousMetadataSearch.delegate = self;
+    
+    NSPredicate *searchPredicate;
+    searchPredicate = [NSPredicate predicateWithFormat:@"info_synopsis_descriptors like '*'"];
+    
+    [self.continuousMetadataSearch setPredicate:searchPredicate];
+    
+    // Set the search scope. In this case it will search the User's home directory
+    // and the iCloud documents area
+
+    // Configure the sorting of the results so it will order the results by the
+    // display name
+//    NSSortDescriptor* sortKeys = [[NSSortDescriptor alloc] initWithKey:(id)kMDItemDisplayName
+//                                                             ascending:YES];
+//
+//    [self.continuousMetadataSearch setSortDescriptors:[NSArray arrayWithObject:sortKeys]];
+    
+    NSArray* searchScopes;
+    searchScopes = @[NSMetadataQueryIndexedLocalComputerScope];
+    
+    [self.continuousMetadataSearch setSearchScopes:searchScopes];
+
+    [self.continuousMetadataSearch startQuery];
+}
+
+- (IBAction)switchToLocalComputerSearchScope:(id)sender
+{
+    [self setGlobalMetadataSearch];
+}
+
+- (IBAction)switchToLocalComputerPathSearchScope:(id)sender
+{
+    [self.continuousMetadataSearch stopQuery];
+
+    NSOpenPanel* openPanel = [NSOpenPanel openPanel];
+    openPanel.allowedFileTypes = nil;
+    openPanel.canChooseDirectories = TRUE;
+    
+    [openPanel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result) {
+       if(result == NSFileHandlingPanelOKButton)
+       {
+           if(self.continuousMetadataSearch)
+           {
+               [[NSNotificationCenter defaultCenter] removeObserver:self name:NSMetadataQueryDidUpdateNotification object:self.continuousMetadataSearch];
+               [[NSNotificationCenter defaultCenter] removeObserver:self name:NSMetadataQueryDidFinishGatheringNotification object:self.continuousMetadataSearch];
+           }
+
+           self.continuousMetadataSearch = [[NSMetadataQuery alloc] init];
+           
+           
+           // Register the notifications for batch and completion updates
+           [[NSNotificationCenter defaultCenter] addObserver:self
+                                                    selector:@selector(queryDidUpdate:)
+                                                        name:NSMetadataQueryDidUpdateNotification
+                                                      object:self.continuousMetadataSearch];
+           
+           [[NSNotificationCenter defaultCenter] addObserver:self
+                                                    selector:@selector(initalGatherComplete:)
+                                                        name:NSMetadataQueryDidFinishGatheringNotification
+                                                      object:self.continuousMetadataSearch];
+
+           self.continuousMetadataSearch.delegate = self;
+           
+           NSPredicate *searchPredicate;
+           searchPredicate = [NSPredicate predicateWithFormat:@"info_synopsis_descriptors like '*'"];
+           
+           [self.continuousMetadataSearch setPredicate:searchPredicate];
+           
+           // Set the search scope. In this case it will search the User's home directory
+           // and the iCloud documents area
+           
+           // Configure the sorting of the results so it will order the results by the
+           // display name
+//           NSSortDescriptor* sortKeys = [[NSSortDescriptor alloc] initWithKey:(id)kMDItemDisplayName
+//                                                                    ascending:YES];
+//           
+//           [self.continuousMetadataSearch setSortDescriptors:[NSArray arrayWithObject:sortKeys]];
+           
+           NSArray* searchScopes;
+           searchScopes = @[openPanel.URL];
+           
+           [self.continuousMetadataSearch setSearchScopes:searchScopes];
+           
+           [self.continuousMetadataSearch startQuery];
+        
+       }
+    }];
+    
 }
 
 #pragma mark - Sorting
@@ -375,9 +459,19 @@
 {
     [self.continuousMetadataSearch disableUpdates];
 
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self handleInitialGatherComplete];
+        
+        // Continue the query
+        [self.continuousMetadataSearch enableUpdates];
+    });
+}
+
+- (void) handleInitialGatherComplete
+{
     // Temporary fix to get spotlight search working
     [self.resultsArrayControler removeObjects:self.resultsArrayControler.content];
-
+    
     // Ideally, we want to run an initial populate pass
     // And then animate things coming and going
     // However we have problems comparing objects in sets
@@ -388,8 +482,12 @@
         NSLog(@"initial gather complete");
         
         [self.resultsArrayControler addObjects:[self.continuousMetadataSearch.results mutableCopy] ];
-
+        
         [self.collectionView reloadData];
+    
+        if([self.resultsArrayControler.content count])
+            [self lazyCreateLayoutsWithContent:self.resultsArrayControler.content];
+
     }
     
     // This is fucking broken:
@@ -460,22 +558,33 @@
 //    
 //        self.resultsArray = [self.continuousMetadataSearch.results mutableCopy];
 //    }
-
-    // Continue the query
-    [self.continuousMetadataSearch enableUpdates];
     
 //    [self lazyCreateTSNELayout];
 }
 
 - (void)queryDidUpdate:(NSNotification*)notification;
 {
-    NSLog(@"A data batch has been received");
-    
     [self.continuousMetadataSearch disableUpdates];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self handleQueuryDidUpdate:notification.userInfo];
 
-    NSArray* addedItems = [[notification userInfo] objectForKey:NSMetadataQueryUpdateAddedItemsKey];
-    NSArray* updatedItems = [[notification userInfo] objectForKey:NSMetadataQueryUpdateChangedItemsKey];
-    NSArray* removedItems = [[notification userInfo] objectForKey:NSMetadataQueryUpdateRemovedItemsKey];
+        
+        [self.continuousMetadataSearch enableUpdates];
+        
+        
+        // Once we are finished, we
+        [self lazyCreateLayoutsWithContent:self.resultsArrayControler.content];
+    });
+}
+
+- (void) handleQueuryDidUpdate:(NSDictionary*)userInfo
+{
+    NSLog(@"A data batch has been received");
+
+    NSArray* addedItems = [userInfo objectForKey:NSMetadataQueryUpdateAddedItemsKey];
+    NSArray* updatedItems = [userInfo objectForKey:NSMetadataQueryUpdateChangedItemsKey];
+    NSArray* removedItems = [userInfo objectForKey:NSMetadataQueryUpdateRemovedItemsKey];
     
     // Cache updaed objects indices
     NSMutableSet* updatedIndexPaths = [[NSMutableSet alloc] init];
@@ -510,6 +619,7 @@
     {
         [addedIndexPaths addObject:[NSIndexPath indexPathForItem:(index + indexOfLastItem) inSection:0]];
     }
+
     
 //    // Now Animate our Collection View with our changes
 //    [self.collectionView.animator performBatchUpdates:^{
@@ -527,10 +637,6 @@
 //        
 //    }];
 //    
-    [self.continuousMetadataSearch enableUpdates];
-    
-    // Once we are finished, we make
-    [self lazyCreateLayouts];
 }
 
 
@@ -662,52 +768,47 @@
 
 #pragma mark -
 
-- (IBAction)zoom:(id)sender
-{
-    AAPLWrappedLayout* layout = (AAPLWrappedLayout*) self.collectionView.collectionViewLayout;
-    
-    NSAnimationContext.currentContext.allowsImplicitAnimation = YES;
-    NSAnimationContext.currentContext.duration = 0.5;
-    
-    [NSAnimationContext beginGrouping];
-
-    float factor = [sender floatValue];
-    NSSize size = NSMakeSize(200.0 * factor, 100.0 * factor);
-    [layout setItemSize:size];
-    
-    [NSAnimationContext endGrouping];
-}
+//- (IBAction)zoom:(id)sender
+//{
+//    self.collectionView.enclosingScrollView.magnification = [sender floatValue];
+//}
 
 - (IBAction)switchLayout:(id)sender
 {
     NSSegmentedControl* control = (NSSegmentedControl*)sender;
     NSLog(@"sender: %li", (long)control.selectedSegment);
-    
+
+    self.zoomSlider.enabled = YES;
+
     NSCollectionViewLayout* layout;
+    
+    self.resultsArrayControler.sortDescriptors = @[];
+    self.resultsArrayControler.filterPredicate = nil;
+    [self.resultsArrayControler rearrangeObjects];
+
     switch(control.selectedSegment)
     {
         case 0:
         {
             layout = self.wrappedLayout;
-            self.resultsArrayControler.sortDescriptors = @[];
+            self.zoomSlider.enabled = NO;
+            self.zoomSlider.floatValue = 1.0;
+            self.collectionView.enclosingScrollView.magnification = 1.0;
             break;
         }
         case 1:
         {
             layout = self.tsneFeatureLayout;
-            self.resultsArrayControler.sortDescriptors = @[];
             break;
         }
         case 2:
         {
             layout = self.tsneHistogramLayout;
-            self.resultsArrayControler.sortDescriptors = @[];
             break;
         }
         case 3:
         {
             layout = self.tsneHybridLayout;
-            self.resultsArrayControler.sortDescriptors = @[];
             break;
         }
     }
@@ -721,7 +822,7 @@
     [NSAnimationContext endGrouping];
 }
 
-- (void) lazyCreateLayouts
+- (void) lazyCreateLayoutsWithContent:(NSArray*)content
 {
     self.layoutStyle.enabled = false;
     
@@ -729,7 +830,7 @@
     NSMutableArray* allHistogramFeatures = [NSMutableArray new];
     NSMutableArray* allHybridFeatures = [NSMutableArray new];
 
-    for(SynopsisMetadataItem* metadataItem in self.resultsArrayControler.content)
+    for(SynopsisMetadataItem* metadataItem in content)
     {
         NSArray* feaures = [metadataItem valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey];
         NSArray* arrayOfChannelHisograms = [metadataItem valueForKey:kSynopsisStandardMetadataHistogramDictKey];

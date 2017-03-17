@@ -177,7 +177,7 @@
     self.collectionView.enclosingScrollView.allowsMagnification = YES;
     self.collectionView.enclosingScrollView.maxMagnification = 1.0;
     self.collectionView.enclosingScrollView.minMagnification = 0.15;
-//    self.collectionView.enclosingScrollView.magnification = 1.0;
+//    self.collectionView.enclosingScrollView.magnification = 0.35;
 
     // We resize this value / make a square.
     NSRect clipBounds = [[self collectionView] frame];

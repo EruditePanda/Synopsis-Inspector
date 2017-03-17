@@ -20,4 +20,24 @@
     [super setHasHorizontalScroller:YES];
 }
 
+- (void) magnifyWithEvent:(NSEvent *)event
+{
+    [super magnifyWithEvent:event];
+}
+
+- (void) scrollWheel:(NSEvent *)event
+{
+//    NSUInteger flags = [event modifierFlags];
+    
+//    // if option or shift is pressed, we magnify, otherwise we scroll
+//    if( (flags & NSAlternateKeyMask) || (flags & NSShiftKeyMask))
+//    {
+//        [self magnifyWithEvent:event];
+//    }
+//    else
+    {
+        [super scrollWheel:event];
+    }
+}
+
 @end
