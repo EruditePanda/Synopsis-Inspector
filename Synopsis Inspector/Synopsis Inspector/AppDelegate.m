@@ -87,7 +87,7 @@
                           @"Purple",
                           ];
     
-    NSArray* hues = @[@"Light", @"Neutral", @"Dark"];
+    NSArray* hues = @[@"Light", @"Neutral", @"Dark", @"Warm", @"Cool"];
     NSArray* speeds = @[@"Fast", @"Medium", @"Slow"];
     NSArray* directions = @[@"Up", @"Down", @"Left", @"Right", @"Diagonal"];
 //    NSArray* operators = @[@"AND", @"OR", @"NOT"];
@@ -320,6 +320,18 @@
 
     [self setupSortUsingSortDescriptor:histogtamSort selectedItem:item];
 }
+
+- (IBAction)motionVectorSortUsingSelectingCell:(id)sender
+{
+    SynopsisMetadataItem* item = [self firstSelectedItem];
+    
+    NSSortDescriptor* motionVectorSort = [NSSortDescriptor synopsisMotionVectorSortDescriptorRelativeTo:[item valueForKey:kSynopsisStandardMetadataMotionVectorDictKey]];
+    
+    self.sortStatus = @"Relative Motion Vector Sort";
+    
+    [self setupSortUsingSortDescriptor:motionVectorSort selectedItem:item];
+}
+
 
 - (IBAction)saturationSortUsingSelectedCell:(id)sender
 {
@@ -1098,6 +1110,10 @@
         float histWeight = compareHistogtams([item1 valueForKey:kSynopsisStandardMetadataHistogramDictKey],[item2 valueForKey:kSynopsisStandardMetadataHistogramDictKey]);
         NSString* histString = [NSString stringWithFormat:@" Histogram : %f", histWeight];
 
+        float motionWeight = fabsf(compareFeatureVector([item1 valueForKey:kSynopsisStandardMetadataMotionVectorDictKey],[item2 valueForKey:kSynopsisStandardMetadataMotionVectorDictKey]));
+        NSString* motionString = [NSString stringWithFormat:@" MotionVector : %f", motionWeight];
+
+        
         // Dom Colors
         NSArray* domColors1 = [NSColor linearColorsWithArraysOfRGBComponents:[item1 valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey]];
         NSArray* domColors2 = [NSColor linearColorsWithArraysOfRGBComponents:[item2 valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey]];
@@ -1125,6 +1141,7 @@
         [value appendString:featureString];
         [value appendString:hashString];
         [value appendString:histString];
+        [value appendString:motionString];
         [value appendString:hueString];
         [value appendString:satString];
         [value appendString:briString];

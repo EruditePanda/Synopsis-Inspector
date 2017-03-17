@@ -805,7 +805,6 @@
                                     </connections>
                                 </sliderCell>
                                 <connections>
-                                    <action selector="zoom:" target="Voe-Tx-rLC" id="leJ-6C-OVY"/>
                                     <binding destination="Voe-Tx-rLC" name="value" keyPath="self.collectionView.enclosingScrollView.magnification" id="AwG-8P-0F9"/>
                                 </connections>
                             </slider>
@@ -961,6 +960,11 @@
                             </segmentedCell>
                         </segmentedControl>
                     </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="AFE7A535-C546-4FB7-9B67-848EEA939754" label="Motion" paletteLabel="Motion" tag="-1" image="NSSlideshowTemplate" id="dtw-AP-Eb7">
+                        <connections>
+                            <action selector="motionVectorSortUsingSelectingCell:" target="Voe-Tx-rLC" id="5B1-Ut-NP0"/>
+                        </connections>
+                    </toolbarItem>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
                     <toolbarItem reference="rCf-te-0id"/>
@@ -969,6 +973,7 @@
                     <toolbarItem reference="lhd-Zu-nIq"/>
                     <toolbarItem reference="K3I-ac-OeR"/>
                     <toolbarItem reference="85f-zA-YBp"/>
+                    <toolbarItem reference="dtw-AP-Eb7"/>
                 </defaultToolbarItems>
             </toolbar>
             <contentBorderThickness minY="32"/>
@@ -1013,6 +1018,7 @@
         <image name="NSListViewTemplate" width="14" height="10"/>
         <image name="NSQuickLookTemplate" width="19" height="12"/>
         <image name="NSRevealFreestandingTemplate" width="14" height="14"/>
+        <image name="NSSlideshowTemplate" width="17" height="14"/>
         <image name="Neutral" width="512" height="512"/>
         <image name="Saturation" width="512" height="512"/>
         <image name="Smart" width="512" height="512"/>
