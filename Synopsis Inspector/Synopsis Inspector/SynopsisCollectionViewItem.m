@@ -55,6 +55,7 @@
     [self.player pause];
     [(SynopsisCollectionViewItemView*)self.view playerLayer].player = nil;
     [(SynopsisCollectionViewItemView*)self.view playerLayer].opacity = 0.0;
+    
 
     self.selected = NO;
 }
@@ -113,7 +114,7 @@
                     AVAssetImageGenerator* imageGenerator = [AVAssetImageGenerator assetImageGeneratorWithAsset:representedObject.urlAsset];
                     
                     imageGenerator.apertureMode = AVAssetImageGeneratorApertureModeCleanAperture;
-                    imageGenerator.maximumSize = CGSizeMake(400, 200);
+                    imageGenerator.maximumSize = CGSizeMake(300, 300);
                     imageGenerator.appliesPreferredTrackTransform = YES;
                     
                     [imageGenerator generateCGImagesAsynchronouslyForTimes:@[ [NSValue valueWithCMTime:kCMTimeZero]] completionHandler:^(CMTime requestedTime, CGImageRef  _Nullable image, CMTime actualTime, AVAssetImageGeneratorResult result, NSError * _Nullable error) {
@@ -155,6 +156,13 @@
 {
     [self.player pause];
 }
+
+- (void) setAspectRatio:(NSString*)aspect
+{
+    SynopsisCollectionViewItemView* view = (SynopsisCollectionViewItemView*)self.view;
+    [view setAspectRatio:aspect];
+}
+
 
 - (void) endOptimizeForScrolling
 {

@@ -19,4 +19,7 @@
 - (BOOL) isShowingPopOver;
 - (IBAction)hidePopOver:(id)sender;
 - (IBAction)showPopOver:(id)sender;
+
+- (void) setAspectRatio:(NSString*)aspect;
+
 @end

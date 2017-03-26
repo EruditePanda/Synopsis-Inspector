@@ -46,9 +46,11 @@
 {
     [self.layer addSublayer:self.label.layer];
     
+    self.layer.backgroundColor = [NSColor clearColor].CGColor;
+    
     self.playerLayer = [[AVPlayerLayer alloc] init];
     self.playerLayer.frame = self.layer.bounds;
-    self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+    self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
     self.playerLayer.actions = @{@"contents" : [NSNull null]};
     self.playerLayer.autoresizingMask = kCALayerWidthSizable | kCALayerHeightSizable;
     
@@ -56,7 +58,7 @@
     
     self.imageLayer = [CALayer layer];
     self.imageLayer.frame = self.layer.bounds;
-    self.imageLayer.contentsGravity = kCAGravityResizeAspectFill;
+    self.imageLayer.contentsGravity = AVLayerVideoGravityResizeAspect;
     self.imageLayer.actions = @{@"contents" : [NSNull null]};
     self.imageLayer.autoresizingMask =  kCALayerWidthSizable | kCALayerHeightSizable;
 
@@ -76,6 +78,12 @@
 - (void) awakeFromNib
 {
     [self commonInit];
+}
+
+- (void) setAspectRatio:(NSString*)aspect
+{
+    self.imageLayer.contentsGravity = aspect;
+    self.playerLayer.videoGravity = aspect;
 }
 
 - (void) mouseEntered:(NSEvent *)theEvent
@@ -149,7 +157,7 @@
     layer.borderColor = self.borderColor.CGColor;
     layer.borderWidth = BORDER_WIDTH;//(self.borderColor ? BORDER_WIDTH : 0.0);
     layer.cornerRadius = CORNER_RADIUS;
-    layer.backgroundColor = (self.borderColor ? [NSColor lightGrayColor].CGColor : [NSColor grayColor].CGColor);
+    layer.backgroundColor = [NSColor blackColor].CGColor; //(self.borderColor ? [NSColor lightGrayColor].CGColor : [NSColor grayColor].CGColor);
     [self updateTrackingAreas];
 }
 

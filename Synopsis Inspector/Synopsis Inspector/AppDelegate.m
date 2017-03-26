@@ -333,6 +333,28 @@
 }
 
 
+- (IBAction)sortDominantColorsRGBUsingSelectingCell:(id)sender
+{
+    SynopsisMetadataItem* item = [self firstSelectedItem];
+    
+    NSSortDescriptor* motionVectorSort = [NSSortDescriptor synopsisDominantRGBDescriptorRelativeTo:[item valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey]];
+    
+    self.sortStatus = @"Dominant Color RGB Sort";
+    
+    [self setupSortUsingSortDescriptor:motionVectorSort selectedItem:item];
+}
+
+- (IBAction)sortDominantColorsHSBUsingSelectingCell:(id)sender
+{
+    SynopsisMetadataItem* item = [self firstSelectedItem];
+    
+    NSSortDescriptor* motionVectorSort = [NSSortDescriptor synopsisDominantHSBDescriptorRelativeTo:[item valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey]];
+    
+    self.sortStatus = @"Dominant Color HSB Sort";
+    
+    [self setupSortUsingSortDescriptor:motionVectorSort selectedItem:item];
+}
+
 - (IBAction)saturationSortUsingSelectedCell:(id)sender
 {
     self.sortStatus = @"Saturation Sort";
@@ -498,8 +520,9 @@
         [self.collectionView reloadData];
     
         if([self.resultsArrayControler.content count])
-            [self lazyCreateLayoutsWithContent:self.resultsArrayControler.content];
-
+        {
+//            [self lazyCreateLayoutsWithContent:self.resultsArrayControler.content];
+        }
     }
     
     // This is fucking broken:
@@ -586,7 +609,7 @@
         
         
         // Once we are finished, we
-        [self lazyCreateLayoutsWithContent:self.resultsArrayControler.content];
+//        [self lazyCreateLayoutsWithContent:self.resultsArrayControler.content];
     });
 }
 
@@ -785,6 +808,16 @@
 //    self.collectionView.enclosingScrollView.magnification = [sender floatValue];
 //}
 
+static BOOL toggleAspect = false;
+- (IBAction)toggleAspectRatio:(id)sender
+{
+    for(SynopsisCollectionViewItem* item in self.collectionView.visibleItems)
+    {
+        toggleAspect = !toggleAspect;
+        [item setAspectRatio: (toggleAspect) ? AVLayerVideoGravityResizeAspect : AVLayerVideoGravityResizeAspectFill];
+    }
+}
+
 - (IBAction)switchLayout:(id)sender
 {
     NSSegmentedControl* control = (NSSegmentedControl*)sender;
@@ -876,13 +909,13 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         
         TSNELayout* tsneLayout = [[TSNELayout alloc] initWithData:allMetadataFeatures];
-        tsneLayout.itemSize = NSMakeSize(400, 200);
+        tsneLayout.itemSize = NSMakeSize(300, 300);
         
-        DBScanLayout* dbScanLayout = [[DBScanLayout alloc] initWithData:allMetadataFeatures];
-        dbScanLayout.itemSize = NSMakeSize(400, 200);
+//        DBScanLayout* dbScanLayout = [[DBScanLayout alloc] initWithData:allMetadataFeatures];
+//        dbScanLayout.itemSize = NSMakeSize(400, 200);
 
         self.tsneFeatureLayout = tsneLayout;
-        self.dbscanFeatureLayout = dbScanLayout;
+//        self.dbscanFeatureLayout = dbScanLayout;
         
         dispatch_group_leave(tsneGroup);
         
@@ -892,13 +925,13 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         
         TSNELayout* tsneLayout = [[TSNELayout alloc] initWithData:allHistogramFeatures];
-        tsneLayout.itemSize = NSMakeSize(400, 200);
+        tsneLayout.itemSize = NSMakeSize(300, 300);
         
-        DBScanLayout* dbScanLayout = [[DBScanLayout alloc] initWithData:allHistogramFeatures];
-        dbScanLayout.itemSize = NSMakeSize(400, 200);
+//        DBScanLayout* dbScanLayout = [[DBScanLayout alloc] initWithData:allHistogramFeatures];
+//        dbScanLayout.itemSize = NSMakeSize(400, 200);
 
         self.tsneHistogramLayout = tsneLayout;
-        self.dbscanHistogramLayout = dbScanLayout;
+//        self.dbscanHistogramLayout = dbScanLayout;
 
         dispatch_group_leave(tsneGroup);
         
@@ -908,13 +941,13 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         
         TSNELayout* tsneLayout = [[TSNELayout alloc] initWithData:allHybridFeatures];
-        tsneLayout.itemSize = NSMakeSize(400, 200);
+        tsneLayout.itemSize = NSMakeSize(300, 300);
         
-        DBScanLayout* dbScanLayout = [[DBScanLayout alloc] initWithData:allHybridFeatures];
-        dbScanLayout.itemSize = NSMakeSize(400, 200);
+//        DBScanLayout* dbScanLayout = [[DBScanLayout alloc] initWithData:allHybridFeatures];
+//        dbScanLayout.itemSize = NSMakeSize(400, 200);
 
         self.tsneHybridLayout = tsneLayout;
-        self.dbscanHybridLayout = dbScanLayout;
+//        self.dbscanHybridLayout = dbScanLayout;
 
         dispatch_group_leave(tsneGroup);
         

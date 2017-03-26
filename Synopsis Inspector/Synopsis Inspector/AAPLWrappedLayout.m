@@ -15,7 +15,7 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        [self setItemSize:NSMakeSize(400, 200)];
+        [self setItemSize:NSMakeSize(300, 300)];
         [self setMinimumInteritemSpacing:10];
         [self setMinimumLineSpacing:10];
         [self setSectionInset:NSEdgeInsetsMake(10, 10, 10, 10)];

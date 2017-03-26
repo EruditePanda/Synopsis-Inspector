@@ -15,5 +15,6 @@
 @property (readwrite) CALayer* imageLayer;
 @property (readonly) AVPlayerLayer* playerLayer;
 
+- (void) setAspectRatio:(NSString*)aspect;
 
 @end
