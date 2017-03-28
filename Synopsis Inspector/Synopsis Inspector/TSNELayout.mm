@@ -20,7 +20,7 @@
     NSSize initialSize;
 
 }
-@property (nonatomic, readwrite, strong) NSArray<NSArray<NSNumber*> *>* data;
+@property (nonatomic, readwrite, strong) NSArray<SynopsisDenseFeature*>* features;
 @property (nonatomic, readwrite, assign) NSUInteger dims;
 @property (nonatomic, readwrite, assign) double perplexity;
 @property (nonatomic, readwrite, assign) double theta;
@@ -40,10 +40,10 @@
 
 - (instancetype) init
 {
-    return [self initWithData:nil];
+    return [self initWithFeatures:nil];
 }
 
-- (instancetype) initWithData:(NSArray<NSArray<NSNumber*> *>*)data
+- (instancetype) initWithFeatures:(NSArray<SynopsisDenseFeature*>*)features
 {
     self = [super init];
     if(self)
@@ -55,20 +55,20 @@
         self.normalize = YES;
         self.maxIterations = 1000;
         
-        self.data = data;
+        self.features = features;
         
         self.tsnePoints = [NSMutableArray new];
         
         // We need data.
-        if(!self.data)
+        if(!self.features)
             return nil;
         
         // number of items in our data set
-        self.N = data.count;
+        self.N = features.count;
         
         // number of dimensions a single data point contains
         // Note, should be the same
-        self.D = [(NSArray*)data[0] count];
+        self.D = [self.features[0] featureCount];
         
         X = (double*) malloc(self.D * self.N * sizeof(double));
         Y = (double*) malloc(self.dims * self.N * sizeof(double));
@@ -78,7 +78,8 @@
         {
             for (int j = 0; j < self.D; j++)
             {
-                X[idx] = [data[i][j] doubleValue];
+                double featureValue = [features[i][j] doubleValue];
+                X[idx] = featureValue;
                 idx++;
             }
         }

@@ -27,16 +27,12 @@
     CGSize size = (CGSize){width, self.layer.bounds.size.height};
     CGFloat initialOffset = (CGFloat)0.0;
 
-    for(NSArray* colorArray in self.dominantColorsArray)
+    for(NSColor* color in self.dominantColorsArray)
     {
         CALayer* colorLayer = [CALayer layer];
 
         // TODO: Do I need to enforce linear colorspace here?
-        colorLayer.backgroundColor = [[NSColor colorWithRed:[colorArray[0] floatValue]
-                                                                       green:[colorArray[1] floatValue]
-                                                                        blue:[colorArray[2] floatValue]
-                                                                       alpha:1.0] CGColor];
-
+        colorLayer.backgroundColor = color.CGColor;
         colorLayer.frame = (CGRect){0, 0, size.width, size.height};
         colorLayer.position = (CGPoint){initialOffset + (width * 0.5), size.height * 0.5};
         

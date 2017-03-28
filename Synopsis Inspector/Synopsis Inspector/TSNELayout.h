@@ -7,21 +7,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <Synopsis/Synopsis.h>
 
 @interface TSNELayout : NSCollectionViewLayout
 
-// Data is an array of arrays of floats.
-// Each Array contains features for a specific item. That sub-array is the feature array
-// IE:
-// item 1, histogram features.
-// Item 2, histogram features.
-
-// or
-// Item 1, inception feature vector
-// Item 2, inception feature vector
-// etc.
-// data must be float
-- (instancetype) initWithData:(NSArray<NSArray<NSNumber*> *>*)data NS_DESIGNATED_INITIALIZER;
+- (instancetype) initWithFeatures:(NSArray<SynopsisDenseFeature*>*)features NS_DESIGNATED_INITIALIZER;
 
 @property (readwrite, assign) NSSize itemSize;
 

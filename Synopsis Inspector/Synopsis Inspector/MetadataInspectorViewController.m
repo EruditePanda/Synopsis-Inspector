@@ -5,14 +5,13 @@
 //  Created by vade on 8/22/16.
 //  Copyright © 2016 v002. All rights reserved.
 //
-#import <Synopsis/Constants.h>
+#import <Synopsis/Synopsis.h>
 #import "MetadataInspectorViewController.h"
 #import "MetadataDominantColorsView.h"
 #import "MetadataHistogramView.h"
 #import "MetadataMotionView.h"
 #import "MetadataSingleValueHistoryView.h"
 
-#import <Synopsis/Synopsis.h>
 
 @interface MetadataInspectorViewController ()
 
@@ -21,27 +20,23 @@
 @property (weak) IBOutlet MetadataDominantColorsView* globalDominantColorView;
 @property (weak) IBOutlet MetadataHistogramView* globalHistogramView;
 
-
 @property (weak) IBOutlet MetadataDominantColorsView* dominantColorView;
 @property (weak) IBOutlet MetadataHistogramView* histogramView;
 @property (weak) IBOutlet MetadataMotionView* motionView;
 
 @property (weak) IBOutlet MetadataSingleValueHistoryView* featureVectorHistory;
 @property (weak) IBOutlet NSTextField* featureVectorHistoryCurrentValue;
-@property (strong) NSArray* lastFeatureVector;
+@property (strong) SynopsisDenseFeature* lastFeatureVector;
 
 @property (weak) IBOutlet MetadataSingleValueHistoryView* histogramHistory;
 @property (weak) IBOutlet NSTextField* histogramHistoryCurrentValue;
-@property (strong) NSArray* lastHistogram;
+@property (strong) SynopsisDenseFeature* lastHistogram;
 
 @property (weak) IBOutlet MetadataSingleValueHistoryView* hashHistory;
 @property (weak) IBOutlet NSTextField* hashHistoryCurrentValue;
 @property (strong) NSString* lastHash;
 
-
-
 @property (weak) IBOutlet NSButton* enableTrackerVisualizer;
-
 
 @end
 
@@ -63,18 +58,18 @@
     NSDictionary* standard = [synopsisData valueForKey:kSynopsisStandardMetadataDictKey];
     NSArray* domColors = [standard valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey];
 
-    NSArray* histogram = [standard valueForKey:kSynopsisStandardMetadataHistogramDictKey];
+    SynopsisDenseFeature* histogram = [standard valueForKey:kSynopsisStandardMetadataHistogramDictKey];
     NSString* hash = [standard valueForKey:kSynopsisStandardMetadataPerceptualHashDictKey];
 
-    NSArray* featureVector = [standard valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey];
+    SynopsisDenseFeature* feature = [standard valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey];
 
     float comparedHistograms = 0.0;
     float comparedFeatures = 0.0;
     float comparedHashes = 0.0;
     
-    if(self.lastFeatureVector && self.lastFeatureVector.count && featureVector.count && (self.lastFeatureVector.count == featureVector.count))
+    if(self.lastFeatureVector && [self.lastFeatureVector featureCount] && [feature featureCount] && ([self.lastFeatureVector featureCount] == [feature featureCount]))
     {
-        comparedFeatures = compareFeatureVector(self.lastFeatureVector, featureVector);
+        comparedFeatures = compareFeatureVector(self.lastFeatureVector, feature);
     }
     
     if(self.lastHistogram && histogram)
@@ -88,27 +83,30 @@
     }
     
     self.dominantColorView.dominantColorsArray = domColors;
-    self.histogramView.histogramArray = histogram;
+    self.histogramView.histogram = histogram;
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.dominantColorView updateLayer];
-        [self.histogramView updateLayer];
-
-        [self.featureVectorHistory appendValue:@(comparedFeatures)];
-        [self.featureVectorHistory updateLayer];
         
-        [self.histogramHistory appendValue:@(comparedHistograms)];
-        [self.histogramHistory updateLayer];
-
-        [self.hashHistory appendValue:@(comparedHashes)];
-        [self.hashHistory updateLayer];
-
+        if(self.view.window.isVisible)
+        {
+            [self.dominantColorView updateLayer];
+            [self.histogramView updateLayer];
+            
+            [self.featureVectorHistory appendValue:@(comparedFeatures)];
+            [self.featureVectorHistory updateLayer];
+            
+            [self.histogramHistory appendValue:@(comparedHistograms)];
+            [self.histogramHistory updateLayer];
+            
+            [self.hashHistory appendValue:@(comparedHashes)];
+            [self.hashHistory updateLayer];
+        }
         self.featureVectorHistoryCurrentValue.floatValue = comparedFeatures;
         self.histogramHistoryCurrentValue.floatValue = comparedHistograms;
         self.hashHistoryCurrentValue.floatValue = comparedHashes;
     });
     
-    self.lastFeatureVector = featureVector;
+    self.lastFeatureVector = feature;
     self.lastHistogram = histogram;
     self.lastHash = hash;
 }
@@ -128,7 +126,7 @@
     NSArray* descriptions = [standard valueForKey:kSynopsisStandardMetadataDescriptionDictKey];
     NSString* hash = [standard valueForKey:kSynopsisStandardMetadataPerceptualHashDictKey];
     
-    NSArray* histogram = [standard valueForKey:kSynopsisStandardMetadataHistogramDictKey];
+    SynopsisDenseFeature* histogram = [standard valueForKey:kSynopsisStandardMetadataHistogramDictKey];
     
     NSMutableString* description = [NSMutableString new];
     
@@ -138,7 +136,7 @@
     }
     
     self.globalDominantColorView.dominantColorsArray = domColors;
-    self.globalHistogramView.histogramArray = histogram;
+    self.globalHistogramView.histogram = histogram;
     
     dispatch_async(dispatch_get_main_queue(), ^{
         if(hash)

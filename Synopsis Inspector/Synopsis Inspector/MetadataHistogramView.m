@@ -121,22 +121,22 @@
     CGSize size = (CGSize){width, self.layer.bounds.size.height};
     CGFloat initialOffset = (CGFloat)0.0;
     
+    NSUInteger histogramFeatureCount = [self.histogram featureCount];
+    
+    assert(histogramFeatureCount == 768);
+    
+    histogramFeatureCount /= 3;
     NSUInteger binNumber = 0;
-    for(NSArray* histogramBins in self.histogramArray)
+    for(NSUInteger currBin = 0; currBin < histogramFeatureCount; currBin++)
     {
-        NSNumber* rValue = histogramBins[0];
-        NSNumber* gValue = histogramBins[1];
-        NSNumber* bValue = histogramBins[2];
+        NSNumber* rValue = self.histogram[currBin];
+        NSNumber* gValue = self.histogram[currBin + 256];
+        NSNumber* bValue = self.histogram[currBin + 512];
         
         CALayer* rValueLayer = self.rHistogramCALayers[binNumber];
         CALayer* gValueLayer = self.gHistogramCALayers[binNumber];
         CALayer* bValueLayer = self.bHistogramCALayers[binNumber];
         
-        // TODO: Do I need to enforce linear colorspace here?
-//        rValueLayer.backgroundColor = [[NSColor redColor] CGColor];
-//        gValueLayer.backgroundColor = [[NSColor greenColor] CGColor];
-//        bValueLayer.backgroundColor = [[NSColor blueColor] CGColor];
-//        
         rValueLayer.frame = (CGRect){0, 0, size.width, size.height * rValue.floatValue};
         rValueLayer.position = (CGPoint){initialOffset + (width * 0.5), rValueLayer.frame.size.height * 0.5};
 

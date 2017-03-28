@@ -8,7 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 #import "MetadataLayerBackedView.h"
+#import <Synopsis/Synopsis.h>
 
 @interface MetadataHistogramView : MetadataLayerBackedView
-@property (strong) NSArray* histogramArray;
+@property (strong) SynopsisDenseFeature* histogram;
 @end

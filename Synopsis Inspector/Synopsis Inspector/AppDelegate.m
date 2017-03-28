@@ -6,8 +6,8 @@
 //  Copyright © 2016 v002. All rights reserved.
 //
 
-#import "AppDelegate.h"
 #import <Synopsis/Synopsis.h>
+#import "AppDelegate.h"
 #import <Synopsis/MetadataComparisons.h>
 
 #import "SynopsisCollectionViewItem.h"
@@ -521,7 +521,7 @@
     
         if([self.resultsArrayControler.content count])
         {
-//            [self lazyCreateLayoutsWithContent:self.resultsArrayControler.content];
+            [self lazyCreateLayoutsWithContent:self.resultsArrayControler.content];
         }
     }
     
@@ -609,7 +609,7 @@
         
         
         // Once we are finished, we
-//        [self lazyCreateLayoutsWithContent:self.resultsArrayControler.content];
+        [self lazyCreateLayoutsWithContent:self.resultsArrayControler.content];
     });
 }
 
@@ -871,35 +871,21 @@ static BOOL toggleAspect = false;
 {
     self.layoutStyle.enabled = false;
     
-    NSMutableArray* allMetadataFeatures = [NSMutableArray new];
-    NSMutableArray* allHistogramFeatures = [NSMutableArray new];
-    NSMutableArray* allHybridFeatures = [NSMutableArray new];
+    NSMutableArray<SynopsisDenseFeature*>* allFeatures = [NSMutableArray new];
+    NSMutableArray<SynopsisDenseFeature*>* allHistograms = [NSMutableArray new];
+    NSMutableArray<SynopsisDenseFeature*>* allHybridFeatures = [NSMutableArray new];
 
     for(SynopsisMetadataItem* metadataItem in content)
     {
-        NSArray* feaures = [metadataItem valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey];
-        NSArray* arrayOfChannelHisograms = [metadataItem valueForKey:kSynopsisStandardMetadataHistogramDictKey];
+        SynopsisDenseFeature* feature = [metadataItem valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey];
+        SynopsisDenseFeature* histogram = [metadataItem valueForKey:kSynopsisStandardMetadataHistogramDictKey];
 
         // Add our Feature
-        [allMetadataFeatures addObject:feaures];
+        [allFeatures addObject:feature];
 
-        // Hisgram array is 3 channels, each with bin info
-        // Unroll to 1 array planar rrrr, gggg, bbbb
-        NSMutableArray* planarHistogram = [NSMutableArray new];
+        [allHistograms addObject:histogram];
         
-        for(NSArray* channelHisigram in arrayOfChannelHisograms)
-        {
-            [planarHistogram addObjectsFromArray:channelHisigram];
-        }
-        
-        [allHistogramFeatures addObject:planarHistogram];
-        
-        NSMutableArray* hybridFeature = [NSMutableArray new];
-        
-        [hybridFeature addObjectsFromArray:feaures];
-        [hybridFeature addObjectsFromArray:planarHistogram];
-        
-        [allHybridFeatures addObject:hybridFeature];
+        [allHybridFeatures addObject:[SynopsisDenseFeature denseFeatureByCombiningFeature:feature withFeature:histogram]];
     }
 
     
@@ -908,7 +894,7 @@ static BOOL toggleAspect = false;
     dispatch_group_enter(tsneGroup);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         
-        TSNELayout* tsneLayout = [[TSNELayout alloc] initWithData:allMetadataFeatures];
+        TSNELayout* tsneLayout = [[TSNELayout alloc] initWithFeatures:allFeatures];
         tsneLayout.itemSize = NSMakeSize(300, 300);
         
 //        DBScanLayout* dbScanLayout = [[DBScanLayout alloc] initWithData:allMetadataFeatures];
@@ -924,7 +910,7 @@ static BOOL toggleAspect = false;
     dispatch_group_enter(tsneGroup);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         
-        TSNELayout* tsneLayout = [[TSNELayout alloc] initWithData:allHistogramFeatures];
+        TSNELayout* tsneLayout = [[TSNELayout alloc] initWithFeatures:allHistograms];
         tsneLayout.itemSize = NSMakeSize(300, 300);
         
 //        DBScanLayout* dbScanLayout = [[DBScanLayout alloc] initWithData:allHistogramFeatures];
@@ -940,7 +926,7 @@ static BOOL toggleAspect = false;
     dispatch_group_enter(tsneGroup);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         
-        TSNELayout* tsneLayout = [[TSNELayout alloc] initWithData:allHybridFeatures];
+        TSNELayout* tsneLayout = [[TSNELayout alloc] initWithFeatures:allHybridFeatures];
         tsneLayout.itemSize = NSMakeSize(300, 300);
         
 //        DBScanLayout* dbScanLayout = [[DBScanLayout alloc] initWithData:allHybridFeatures];
@@ -1148,8 +1134,8 @@ static BOOL toggleAspect = false;
 
         
         // Dom Colors
-        NSArray* domColors1 = [NSColor linearColorsWithArraysOfRGBComponents:[item1 valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey]];
-        NSArray* domColors2 = [NSColor linearColorsWithArraysOfRGBComponents:[item2 valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey]];
+        NSArray* domColors1 = [item1 valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey];
+        NSArray* domColors2 = [item2 valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey];
         
         // Color Components
         float hueWeight1 = weightHueDominantColors(domColors1);
@@ -1180,8 +1166,6 @@ static BOOL toggleAspect = false;
         [value appendString:briString];
         
         self.statusField.stringValue = value;
-
-        
     }
     else
     {

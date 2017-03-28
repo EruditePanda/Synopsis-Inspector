@@ -6,8 +6,8 @@
 //  Copyright © 2016 v002. All rights reserved.
 //
 
-#import "SynopsisCollectionViewItem.h"
 #import <Synopsis/Synopsis.h>
+#import "SynopsisCollectionViewItem.h"
 #import <AVFoundation/AVFoundation.h>
 #import "SynopsisCollectionViewItemView.h"
 #import "MetadataInspectorViewController.h"
