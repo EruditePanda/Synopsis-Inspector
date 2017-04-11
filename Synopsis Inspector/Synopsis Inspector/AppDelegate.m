@@ -1132,7 +1132,6 @@ static BOOL toggleAspect = false;
         float motionWeight = fabsf(compareFeatureVector([item1 valueForKey:kSynopsisStandardMetadataMotionVectorDictKey],[item2 valueForKey:kSynopsisStandardMetadataMotionVectorDictKey]));
         NSString* motionString = [NSString stringWithFormat:@" MotionVector : %f", motionWeight];
 
-        
         // Dom Colors
         NSArray* domColors1 = [item1 valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey];
         NSArray* domColors2 = [item2 valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey];
@@ -1152,7 +1151,6 @@ static BOOL toggleAspect = false;
         float briWeight2 = weightBrightnessDominantColors(domColors2);
         float briWeight = 1.0 - fabsf(briWeight1 - briWeight2);
         NSString* briString = [NSString stringWithFormat:@" Brightness : %f", briWeight];
-
         
         NSMutableString* value = [NSMutableString new];
         [value appendString:@"Metrics:"];

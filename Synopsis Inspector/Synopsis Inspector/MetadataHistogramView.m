@@ -112,6 +112,7 @@
 
 - (void) updateLayer
 {
+    
 //    for(CALayer* layer in [[self.layer sublayers] copy])
 //    {
 //        [layer removeFromSuperlayer];
@@ -126,6 +127,7 @@
     assert(histogramFeatureCount == 768);
     
     histogramFeatureCount /= 3;
+    
     NSUInteger binNumber = 0;
     for(NSUInteger currBin = 0; currBin < histogramFeatureCount; currBin++)
     {
