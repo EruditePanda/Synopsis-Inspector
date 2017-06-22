@@ -23,6 +23,7 @@
 @property (readwrite) AVPlayer* player;
 @property (readwrite) AVPlayerItem* playerItem;
 @property (readwrite) AVPlayerItemMetadataOutput* playerItemMetadataOutput;
+@property (readwrite) SynopsisMetadataDecoder* metadataDecoder;
 @property (readwrite) dispatch_queue_t backgroundQueue;
 
 @end
@@ -43,7 +44,6 @@
 
     __weak typeof(self) weakSelf = self; // no retain loop
     [self.playerItemMetadataOutput setDelegate:weakSelf queue:weakSelf.backgroundQueue];
-
 }
 
 - (void) prepareForReuse
@@ -56,7 +56,6 @@
     [(SynopsisCollectionViewItemView*)self.view playerLayer].player = nil;
     [(SynopsisCollectionViewItemView*)self.view playerLayer].opacity = 0.0;
     
-
     self.selected = NO;
 }
 
@@ -82,20 +81,20 @@
 
     if(representedObject)
     {
-        NSString* representedName = [representedObject valueForAttribute:(NSString*)kMDItemFSName];
+//        NSString* representedName = [representedObject valueForAttribute:(NSString*)kMDItemFSName];
         
         NSDictionary* globalMetadata = nil;
         
         NSArray* metadataItems = representedObject.urlAsset.metadata;
         for(AVMetadataItem* metadataItem in metadataItems)
         {
-            globalMetadata = [SynopsisMetadataItem decodeSynopsisMetadata:metadataItem];
+            globalMetadata = [self.metadataDecoder decodeSynopsisMetadata:metadataItem];
             if(globalMetadata)
                 break;
         }
         
         self.inspectorVC.globalMetadata = globalMetadata;
-        self.nameField.stringValue = representedName;
+//        self.nameField.stringValue = representedName;
         
         if(representedObject.cachedImage == NULL)
         {
@@ -135,8 +134,7 @@
     if(image != NULL)
     {
         SynopsisMetadataItem* representedObject = self.representedObject;
-        NSImage* nsImage = [[NSImage alloc] initWithCGImage:image size:NSZeroSize];
-        representedObject.cachedImage = nsImage;
+        representedObject.cachedImage = image;
 
         dispatch_async(dispatch_get_main_queue(), ^(){
             
@@ -149,7 +147,7 @@
 {
     SynopsisMetadataItem* representedObject = self.representedObject;
     SynopsisCollectionViewItemView* view = (SynopsisCollectionViewItemView*)self.view;
-    view.imageLayer.contents = representedObject.cachedImage;
+    view.imageLayer.contents = (id)representedObject.cachedImage;
 }
 
 - (void) beginOptimizeForScolling
@@ -237,7 +235,8 @@
 
     // Work around SlideCarrierView layer contents not being rendered to bitmap.
     [NSGraphicsContext setCurrentContext:[NSGraphicsContext graphicsContextWithBitmapImageRep:bitmap]];
-    [representedObject.cachedImage drawInRect:itemBounds fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
+    // TODO: Fix dragging
+//    [representedObject.cachedImage drawInRect:itemBounds fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
     
     //[(SynopsisCollectionViewItemView*)self.view playerLayer].hidden = YES;
 
@@ -270,7 +269,7 @@
         {
             NSString* key = metadataItem.identifier;
             
-            id decodedJSON = [SynopsisMetadataItem decodeSynopsisMetadata:metadataItem];
+            id decodedJSON = [self.metadataDecoder decodeSynopsisMetadata:metadataItem];
             if(decodedJSON)
             {
                 [metadataDictionary setObject:decodedJSON forKey:key];
@@ -278,10 +277,8 @@
             else
             {
                 id value = metadataItem.value;
-                
                 [metadataDictionary setObject:value forKey:key];
-            }
-            
+            }            
         }
     }
     
