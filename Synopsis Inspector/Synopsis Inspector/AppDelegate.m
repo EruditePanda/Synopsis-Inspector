@@ -173,11 +173,10 @@
                                                  name:NSMetadataQueryDidFinishGatheringNotification
                                                object:self.continuousMetadataSearch];
 
-    
     self.continuousMetadataSearch.delegate = self;
     
     NSPredicate *searchPredicate;
-    searchPredicate = [NSPredicate predicateWithFormat:@"info_synopsis_descriptors like '*'"];
+    searchPredicate = [NSPredicate predicateWithFormat:@"info_synopsis_version >= 0 || info_synopsis_descriptors like '*'"];
     
     [self.continuousMetadataSearch setPredicate:searchPredicate];
     
@@ -518,7 +517,7 @@
     
         if([self.resultsArrayControler.content count])
         {
-            [self lazyCreateLayoutsWithContent:self.resultsArrayControler.content];
+//            [self lazyCreateLayoutsWithContent:self.resultsArrayControler.content];
         }
     }
     
