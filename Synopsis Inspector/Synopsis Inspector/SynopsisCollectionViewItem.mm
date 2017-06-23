@@ -38,6 +38,8 @@
     self.player = [[AVPlayer alloc] init];
     self.nameField.layer.zPosition = 1.0;
     
+    self.metadataDecoder = [[SynopsisMetadataDecoder alloc] initWithVersion:kSynopsislMetadataVersionValue];
+
     self.playerItemMetadataOutput = [[AVPlayerItemMetadataOutput alloc] initWithIdentifiers:nil];
     
     self.backgroundQueue = dispatch_queue_create("info.synopsis.collectionviewitem.backgroundqueue", NULL);
