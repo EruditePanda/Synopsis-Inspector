@@ -7,41 +7,28 @@
 //
 
 #import "MetadataDominantColorsView.h"
+#import <Synopsis/Synopsis.h>
+
+@interface MetadataDominantColorsView ()
+@property (readwrite, strong) SynopsisDominantColorLayer* dominantColorLayer;
+@end
 
 @implementation MetadataDominantColorsView
 
 - (void) awakeFromNib
 {
     [super awakeFromNib];
+    self.dominantColorLayer = [SynopsisDominantColorLayer layer];
+    self.dominantColorLayer.frame = self.layer.bounds;
+    
+    [self.layer addSublayer:self.dominantColorLayer];
+    
 }
 
 - (void) updateLayer
 {
-    for(CALayer* layer in [[self.layer sublayers] copy])
-    {
-        [layer removeFromSuperlayer];
-    }
-    
-    NSUInteger totalColors = self.dominantColorsArray.count;
-    CGFloat width = self.layer.bounds.size.width / (CGFloat)totalColors;
-    CGSize size = (CGSize){width, self.layer.bounds.size.height};
-    CGFloat initialOffset = (CGFloat)0.0;
-
-    for(NSColor* color in self.dominantColorsArray)
-    {
-        CALayer* colorLayer = [CALayer layer];
-
-        // TODO: Do I need to enforce linear colorspace here?
-        colorLayer.backgroundColor = color.CGColor;
-        colorLayer.frame = (CGRect){0, 0, size.width, size.height};
-        colorLayer.position = (CGPoint){initialOffset + (width * 0.5), size.height * 0.5};
-        
-        //        colorLayer.borderColor
-  
-        initialOffset += width;
-        
-        [self.layer addSublayer:colorLayer];
-    }
+    self.dominantColorLayer.dominantColorsArray = self.dominantColorsArray;
+    [self.dominantColorLayer setNeedsDisplay];
 }
 
 @end
