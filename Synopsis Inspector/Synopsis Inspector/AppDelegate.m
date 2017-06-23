@@ -124,9 +124,6 @@
     // Notifcations to help optimize scrolling
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willScroll:) name:NSScrollViewWillStartLiveScrollNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didScroll:) name:NSScrollViewDidEndLiveScrollNotification object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willScroll:) name:NSScrollViewWillStartLiveScrollNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didScroll:) name:NSScrollViewDidEndLiveScrollNotification object:nil];
     
     self.currentlyScrolling = NO;
 
@@ -958,6 +955,7 @@ static BOOL toggleAspect = false;
 
 - (void) didScroll:(NSNotification*)notification
 {
+    NSLog(@"DID SCROLL");
     self.currentlyScrolling = NO;
     
     NSArray* visibleResults = [self.collectionView visibleItems];
