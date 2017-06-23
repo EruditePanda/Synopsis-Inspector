@@ -69,6 +69,7 @@
                 <outlet property="dominantColorView" destination="RJY-QZ-uVx" id="GOB-Zx-jel"/>
                 <outlet property="featureVectorHistory" destination="bcd-eI-JCI" id="yrW-8N-LFY"/>
                 <outlet property="featureVectorHistoryCurrentValue" destination="xHU-78-9gA" id="q2e-Av-pwE"/>
+                <outlet property="featureVectorView" destination="sED-zw-GQJ" id="PiU-YY-X0A"/>
                 <outlet property="globalDescriptors" destination="2NQ-z0-YOe" id="fpD-SH-zq8"/>
                 <outlet property="globalDominantColorView" destination="Jsf-74-eWV" id="hKr-sa-v3g"/>
                 <outlet property="globalHash" destination="1Vm-pI-rbs" id="kd1-Q2-C2g"/>
@@ -95,7 +96,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <tabViewItems>
                         <tabViewItem label="Global" identifier="1" id="P5Y-Rf-Ih2">
-                            <view key="view" wantsLayer="YES" ambiguous="YES" id="QNm-Il-8wp" customClass="TransparentView">
+                            <view key="view" wantsLayer="YES" id="QNm-Il-8wp" customClass="TransparentView">
                                 <rect key="frame" x="10" y="29" width="331" height="308"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
@@ -165,19 +166,10 @@
                             </view>
                         </tabViewItem>
                         <tabViewItem label="Frame" identifier="2" id="9oa-lE-GFo">
-                            <view key="view" wantsLayer="YES" id="v0r-eQ-iho" customClass="TransparentView">
+                            <view key="view" wantsLayer="YES" ambiguous="YES" id="v0r-eQ-iho" customClass="TransparentView">
                                 <rect key="frame" x="10" y="25" width="331" height="312"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bw9-J8-pMD">
-                                        <rect key="frame" x="18" y="241" width="105" height="14"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Histogram" id="ZxR-Aa-JaZ">
-                                            <font key="font" metaFont="smallSystem"/>
-                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                    </textField>
                                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RJY-QZ-uVx" customClass="MetadataDominantColorsView">
                                         <rect key="frame" x="17" y="263" width="297" height="24"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -191,8 +183,30 @@
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
+                                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sED-zw-GQJ" customClass="MetadataFeatureVectorView">
+                                        <rect key="frame" x="17" y="209" width="297" height="24"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    </customView>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sBD-Ac-TZC">
+                                        <rect key="frame" x="18" y="241" width="82" height="14"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Feature Vector" id="XTs-xe-hiy">
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bw9-J8-pMD">
+                                        <rect key="frame" x="18" y="183" width="105" height="14"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Histogram" id="ZxR-Aa-JaZ">
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
                                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xy1-xE-dAM" customClass="MetadataHistogramView">
-                                        <rect key="frame" x="17" y="185" width="297" height="48"/>
+                                        <rect key="frame" x="17" y="127" width="297" height="48"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     </customView>
                                 </subviews>

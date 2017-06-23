@@ -14,6 +14,7 @@
 		1B5FE0331DF9F38E009CF677 /* sptree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1B5FE02D1DF9F38E009CF677 /* sptree.cpp */; };
 		1B5FE0341DF9F38E009CF677 /* tsne.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1B5FE02F1DF9F38E009CF677 /* tsne.cpp */; };
 		1B5FE0351DFA1044009CF677 /* TSNELayout.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1B5FE0281DF9F1F9009CF677 /* TSNELayout.mm */; };
+		1B7155C61EFC97EE00266150 /* MetadataFeatureVectorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B7155C51EFC97EE00266150 /* MetadataFeatureVectorView.m */; };
 		1B96C9951E08853E00DE4BD3 /* dbscan.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1B96C9931E08853E00DE4BD3 /* dbscan.cpp */; };
 		1B96FDE71E0896A500DE4BD3 /* adapt_adt_named.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1B96D5371E08968B00DE4BD3 /* adapt_adt_named.cpp */; };
 		1B96FE4C1E089ED100DE4BD3 /* libomp.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B96FE4B1E089ED100DE4BD3 /* libomp.dylib */; };
@@ -80,6 +81,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		1B7155C81EFC97F000266150 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1BBB10E81D5558C400C22439 /* Synopsis-Framework.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1B4446B81EE1FE4A0075575D;
+			remoteInfo = "Synopsis-iOS";
+		};
 		1BBB10EC1D5558C400C22439 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1BBB10E81D5558C400C22439 /* Synopsis-Framework.xcodeproj */;
@@ -124,6 +132,8 @@
 		1B5FE02F1DF9F38E009CF677 /* tsne.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tsne.cpp; sourceTree = "<group>"; };
 		1B5FE0301DF9F38E009CF677 /* tsne.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tsne.h; sourceTree = "<group>"; };
 		1B5FE0311DF9F38E009CF677 /* vptree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vptree.h; sourceTree = "<group>"; };
+		1B7155C41EFC97EE00266150 /* MetadataFeatureVectorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetadataFeatureVectorView.h; sourceTree = "<group>"; };
+		1B7155C51EFC97EE00266150 /* MetadataFeatureVectorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetadataFeatureVectorView.m; sourceTree = "<group>"; };
 		1B96C9921E08853E00DE4BD3 /* dbscan_vp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dbscan_vp.h; sourceTree = "<group>"; };
 		1B96C9931E08853E00DE4BD3 /* dbscan.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dbscan.cpp; sourceTree = "<group>"; };
 		1B96C9941E08853E00DE4BD3 /* dbscan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dbscan.h; sourceTree = "<group>"; };
@@ -33205,6 +33215,7 @@
 			isa = PBXGroup;
 			children = (
 				1BBB10ED1D5558C400C22439 /* Synopsis.framework */,
+				1B7155C91EFC97F000266150 /* Synopsis.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -33224,6 +33235,8 @@
 				1BDC343F1D6CE2B900D210E8 /* MetadataMotionView.m */,
 				1BCFBEC11E1C41580008CB03 /* MetadataSingleValueHistoryView.h */,
 				1BCFBEC21E1C41580008CB03 /* MetadataSingleValueHistoryView.m */,
+				1B7155C41EFC97EE00266150 /* MetadataFeatureVectorView.h */,
+				1B7155C51EFC97EE00266150 /* MetadataFeatureVectorView.m */,
 			);
 			name = Inspector;
 			sourceTree = "<group>";
@@ -33292,6 +33305,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		1B7155C91EFC97F000266150 /* Synopsis.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Synopsis.framework;
+			remoteRef = 1B7155C81EFC97F000266150 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		1BBB10ED1D5558C400C22439 /* Synopsis.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -33341,6 +33361,7 @@
 				1BD710AE1D620070007D61B9 /* SynopsisCollectionViewItemView.m in Sources */,
 				1B5FE0331DF9F38E009CF677 /* sptree.cpp in Sources */,
 				1BDC34431D6CE38C00D210E8 /* MetadataLayerBackedView.m in Sources */,
+				1B7155C61EFC97EE00266150 /* MetadataFeatureVectorView.m in Sources */,
 				1BDC34491D6F90FC00D210E8 /* TransparentTabView.m in Sources */,
 				1B5FE0351DFA1044009CF677 /* TSNELayout.mm in Sources */,
 				1BCFBEC31E1C41580008CB03 /* MetadataSingleValueHistoryView.m in Sources */,

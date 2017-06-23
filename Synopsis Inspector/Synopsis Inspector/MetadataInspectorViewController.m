@@ -11,7 +11,7 @@
 #import "MetadataHistogramView.h"
 #import "MetadataMotionView.h"
 #import "MetadataSingleValueHistoryView.h"
-
+#import "MetadataFeatureVectorView.h"
 
 @interface MetadataInspectorViewController ()
 
@@ -24,6 +24,7 @@
 @property (weak) IBOutlet MetadataHistogramView* histogramView;
 @property (weak) IBOutlet MetadataMotionView* motionView;
 
+@property (weak) IBOutlet MetadataFeatureVectorView* featureVectorView;
 @property (weak) IBOutlet MetadataSingleValueHistoryView* featureVectorHistory;
 @property (weak) IBOutlet NSTextField* featureVectorHistoryCurrentValue;
 @property (strong) SynopsisDenseFeature* lastFeatureVector;
@@ -84,11 +85,14 @@
     
     self.dominantColorView.dominantColorsArray = domColors;
     self.histogramView.histogram = histogram;
-    
+    self.featureVectorView.feature = feature;
+
     dispatch_async(dispatch_get_main_queue(), ^{
         
 //        if(self.view.window.isVisible)
         {
+            [self.featureVectorView updateLayer];
+            
             [self.dominantColorView updateLayer];
             [self.histogramView updateLayer];
             
@@ -100,6 +104,7 @@
             
             [self.hashHistory appendValue:@(comparedHashes)];
             [self.hashHistory updateLayer];
+            
         }
         self.featureVectorHistoryCurrentValue.floatValue = comparedFeatures;
         self.histogramHistoryCurrentValue.floatValue = comparedHistograms;
