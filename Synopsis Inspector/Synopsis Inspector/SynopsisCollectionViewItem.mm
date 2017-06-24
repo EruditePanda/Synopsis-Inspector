@@ -83,11 +83,23 @@
 
     if(representedObject)
     {
-//        NSString* representedName = [representedObject valueForAttribute:(NSString*)kMDItemFSName];
+        NSString* representedName = nil;
+        
+        AVURLAsset* representedAsset = representedObject.urlAsset;
+        NSArray<AVMetadataItem*>* commonMetadata = [AVMetadataItem metadataItemsFromArray:representedAsset.commonMetadata withLocale:[NSLocale currentLocale]];
+        commonMetadata = [AVMetadataItem metadataItemsFromArray:commonMetadata filteredByIdentifier:AVMetadataCommonIdentifierTitle];
+        if(commonMetadata.count)
+        {
+            representedName = commonMetadata[0].stringValue;
+        }
+        else
+        {
+            representedName = [[representedAsset.URL lastPathComponent] stringByDeletingPathExtension];
+        }
         
         NSDictionary* globalMetadata = nil;
         
-        NSArray* metadataItems = representedObject.urlAsset.metadata;
+        NSArray* metadataItems = representedAsset.metadata;
         for(AVMetadataItem* metadataItem in metadataItems)
         {
             globalMetadata = [self.metadataDecoder decodeSynopsisMetadata:metadataItem];
@@ -96,7 +108,7 @@
         }
         
         self.inspectorVC.globalMetadata = globalMetadata;
-//        self.nameField.stringValue = representedName;
+        self.nameField.stringValue = representedName;
         
         if(representedObject.cachedImage == NULL)
         {
@@ -112,7 +124,7 @@
                 {
                     __strong typeof (self) strongSelf = weakself;
 
-                    AVAssetImageGenerator* imageGenerator = [AVAssetImageGenerator assetImageGeneratorWithAsset:representedObject.urlAsset];
+                    AVAssetImageGenerator* imageGenerator = [AVAssetImageGenerator assetImageGeneratorWithAsset:representedAsset];
                     
                     imageGenerator.apertureMode = AVAssetImageGeneratorApertureModeCleanAperture;
                     imageGenerator.maximumSize = CGSizeMake(300, 300);
@@ -208,7 +220,9 @@
 
 - (IBAction)revealInFinder:(id)sender
 {
-    NSURL* url = [NSURL fileURLWithPath:[self.representedObject valueForAttribute:(NSString*)kMDItemPath]];
+    SynopsisMetadataItem* representedObject = self.representedObject;
+
+    NSURL* url = representedObject.urlAsset.URL;
 
     [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[url]];
 }
