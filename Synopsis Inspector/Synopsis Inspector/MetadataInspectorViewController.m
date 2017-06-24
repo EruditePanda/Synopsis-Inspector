@@ -19,6 +19,7 @@
 @property (weak) IBOutlet NSTextField* globalHash;
 @property (weak) IBOutlet MetadataDominantColorsView* globalDominantColorView;
 @property (weak) IBOutlet MetadataHistogramView* globalHistogramView;
+@property (weak) IBOutlet MetadataFeatureVectorView* globalFeatureVectorView;
 
 @property (weak) IBOutlet MetadataDominantColorsView* dominantColorView;
 @property (weak) IBOutlet MetadataHistogramView* histogramView;
@@ -130,7 +131,8 @@
     NSArray* domColors = [standard valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey];
     NSArray* descriptions = [standard valueForKey:kSynopsisStandardMetadataDescriptionDictKey];
     NSString* hash = [standard valueForKey:kSynopsisStandardMetadataPerceptualHashDictKey];
-    
+
+    SynopsisDenseFeature* feature = [standard valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey];
     SynopsisDenseFeature* histogram = [standard valueForKey:kSynopsisStandardMetadataHistogramDictKey];
     
     NSMutableString* description = [NSMutableString new];
@@ -142,6 +144,7 @@
     
     self.globalDominantColorView.dominantColorsArray = domColors;
     self.globalHistogramView.histogram = histogram;
+    self.globalFeatureVectorView.feature = feature;
     
     dispatch_async(dispatch_get_main_queue(), ^{
         if(hash)
@@ -152,6 +155,7 @@
         
         [self.globalDominantColorView updateLayer];
         [self.globalHistogramView updateLayer];
+        [self.globalFeatureVectorView updateLayer];
     });
 }
 
