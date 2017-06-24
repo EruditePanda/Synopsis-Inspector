@@ -53,12 +53,13 @@
         // Reverse engineered from TSNE algo check
         self.perplexity = (self.features.count - 1) / 3.0;
         
+        self.perplexity = MIN(10.0, self.perplexity);
+        
         // Collectionview is 2D (for now?)
         self.dims = 2;
         self.theta = 0.0;
         self.normalize = YES;
         self.maxIterations = 1000;
-        
         
         self.tsnePoints = [NSMutableArray new];
         
@@ -237,7 +238,6 @@
 
 //    NSRect clipBounds = [[self collectionView] bounds];
 //    CGFloat mag =  1.0 / self.collectionView.enclosingScrollView.minMagnification;
-    
 
     subviewCenter.x *= initialSize.width;
     subviewCenter.y *= initialSize.height ;
