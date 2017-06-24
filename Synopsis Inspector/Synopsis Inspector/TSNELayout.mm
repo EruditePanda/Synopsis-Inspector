@@ -48,14 +48,17 @@
     self = [super init];
     if(self)
     {
+        self.features = features;
+
+        // Reverse engineered from TSNE algo check
+        self.perplexity = (self.features.count - 1) / 3.0;
+        
         // Collectionview is 2D (for now?)
         self.dims = 2;
-        self.perplexity = 10.0;
         self.theta = 0.0;
         self.normalize = YES;
         self.maxIterations = 1000;
         
-        self.features = features;
         
         self.tsnePoints = [NSMutableArray new];
         
