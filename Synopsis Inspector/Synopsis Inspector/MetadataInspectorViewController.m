@@ -38,6 +38,9 @@
 @property (weak) IBOutlet NSTextField* hashHistoryCurrentValue;
 @property (strong) NSString* lastHash;
 
+
+@property (weak) IBOutlet NSTextField* metadataVersionNumber;
+
 @property (weak) IBOutlet NSButton* enableTrackerVisualizer;
 
 @end
@@ -126,7 +129,7 @@
 {
     globalMetadata = dictionary;
     
-//    NSDictionary* synopsisData = [globalMetadata valueForKey:@"mdta/info.synopsis.metadata"];
+    NSUInteger metadataVersion = [[globalMetadata valueForKey:kSynopsislMetadataVersionKey] unsignedIntegerValue];
     NSDictionary* standard = [globalMetadata valueForKey:kSynopsisStandardMetadataDictKey];
     NSArray* domColors = [standard valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey];
     NSArray* descriptions = [standard valueForKey:kSynopsisStandardMetadataDescriptionDictKey];
@@ -152,6 +155,8 @@
         
         if(description)
             self.globalDescriptors.stringValue = description;
+        
+        self.metadataVersionNumber.stringValue = [NSString stringWithFormat:@"Version %lu", (unsigned long)metadataVersion];
         
         [self.globalDominantColorView updateLayer];
         [self.globalHistogramView updateLayer];
