@@ -974,7 +974,7 @@ static BOOL toggleAspect = false;
     {
         // reset to default search
         NSPredicate *searchPredicate;
-        searchPredicate = [NSPredicate predicateWithFormat:@"info_synopsis_descriptors LIKE '*'"];
+        searchPredicate = [NSPredicate predicateWithFormat:@"info_synopsis_version >= 0 || info_synopsis_descriptors LIKE '*'"];
         self.continuousMetadataSearch.predicate = searchPredicate;
     }
     else
