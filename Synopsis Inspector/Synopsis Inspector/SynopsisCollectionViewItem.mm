@@ -71,7 +71,7 @@
     }
     else
     {
-        [(SynopsisCollectionViewItemView*)self.view setBorderColor:nil];
+        [(SynopsisCollectionViewItemView*)self.view setBorderColor:[NSColor clearColor]];
     }
     
     [self.view updateLayer];

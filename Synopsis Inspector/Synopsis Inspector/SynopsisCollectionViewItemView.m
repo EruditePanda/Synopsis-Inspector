@@ -53,6 +53,7 @@
     self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
     self.playerLayer.actions = @{@"contents" : [NSNull null]};
     self.playerLayer.autoresizingMask = kCALayerWidthSizable | kCALayerHeightSizable;
+    self.playerLayer.backgroundColor = [NSColor clearColor].CGColor;
     
     [self.layer insertSublayer:self.playerLayer below:self.label.layer];
     
@@ -157,7 +158,7 @@
     layer.borderColor = self.borderColor.CGColor;
     layer.borderWidth = BORDER_WIDTH;//(self.borderColor ? BORDER_WIDTH : 0.0);
     layer.cornerRadius = CORNER_RADIUS;
-    layer.backgroundColor = [NSColor blackColor].CGColor; //(self.borderColor ? [NSColor lightGrayColor].CGColor : [NSColor grayColor].CGColor);
+    layer.backgroundColor = [NSColor clearColor].CGColor; //(self.borderColor ? [NSColor lightGrayColor].CGColor : [NSColor grayColor].CGColor);
     [self updateTrackingAreas];
 }
 
