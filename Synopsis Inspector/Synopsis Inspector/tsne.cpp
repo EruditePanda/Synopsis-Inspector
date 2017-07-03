@@ -138,7 +138,7 @@ void TSNE::run(double* X, int N, int D, double* Y, int no_dims, double perplexit
   if (skip_random_init != true) {
   	for(int i = 0; i < N * no_dims; i++) Y[i] = randn() * .0001;
   }
-
+    
 	// Perform main training loop
     if(exact) printf("Input similarities computed in %4.2f seconds!\nLearning embedding...\n", (float) (end - start) / CLOCKS_PER_SEC);
     else printf("Input similarities computed in %4.2f seconds (sparsity = %f)!\nLearning embedding...\n", (float) (end - start) / CLOCKS_PER_SEC, (double) row_P[N] / ((double) N * (double) N));

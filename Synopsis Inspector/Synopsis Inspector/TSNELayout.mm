@@ -16,10 +16,9 @@
     TSNE tsne;
     double* X;
     double* Y;
-    
     NSSize initialSize;
-
 }
+
 @property (nonatomic, readwrite, strong) NSArray<SynopsisDenseFeature*>* features;
 @property (nonatomic, readwrite, assign) NSUInteger dims;
 @property (nonatomic, readwrite, assign) double perplexity;
@@ -227,7 +226,6 @@
 
 - (NSCollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     NSInteger count = [[self collectionView] numberOfItemsInSection:0];
     if (count == 0) {
         return nil;
