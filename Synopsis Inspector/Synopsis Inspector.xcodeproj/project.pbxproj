@@ -65,6 +65,7 @@
 		1BBB10D21D527CBE00C22439 /* CGLayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BBB10D11D527CBE00C22439 /* CGLayerView.m */; };
 		1BBB10F91D555DDC00C22439 /* Synopsis.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1BBB10ED1D5558C400C22439 /* Synopsis.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1BBB10FD1D55992200C22439 /* Synopsis.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BBB10ED1D5558C400C22439 /* Synopsis.framework */; };
+		1BC71D421F1504CB006DD7DC /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 1BC71D411F1504CB006DD7DC /* Credits.rtf */; };
 		1BCFBC1A1E0B25740008CB03 /* DBScanLayout.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1BCFBC191E0B25740008CB03 /* DBScanLayout.mm */; };
 		1BCFBEC31E1C41580008CB03 /* MetadataSingleValueHistoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BCFBEC21E1C41580008CB03 /* MetadataSingleValueHistoryView.m */; };
 		1BD710AE1D620070007D61B9 /* SynopsisCollectionViewItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD710AD1D620070007D61B9 /* SynopsisCollectionViewItemView.m */; };
@@ -12468,6 +12469,7 @@
 		1BBB10D01D527CBE00C22439 /* CGLayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGLayerView.h; sourceTree = "<group>"; };
 		1BBB10D11D527CBE00C22439 /* CGLayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CGLayerView.m; sourceTree = "<group>"; };
 		1BBB10E81D5558C400C22439 /* Synopsis-Framework.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "Synopsis-Framework.xcodeproj"; path = "Synopsis-Framework/Synopsis/Synopsis-Framework.xcodeproj"; sourceTree = "<group>"; };
+		1BC71D411F1504CB006DD7DC /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		1BCFBC181E0B25740008CB03 /* DBScanLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBScanLayout.h; sourceTree = "<group>"; };
 		1BCFBC191E0B25740008CB03 /* DBScanLayout.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DBScanLayout.mm; sourceTree = "<group>"; };
 		1BCFBC1E1E0C2D6F0008CB03 /* dataset.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = dataset.h; sourceTree = "<group>"; };
@@ -33207,6 +33209,7 @@
 				1BE325821E00BD3B00BB5A1A /* SynopsisScroller.m */,
 				1BE325841E00BDBB00BB5A1A /* SynopsisScrollView.h */,
 				1BE325851E00BDBB00BB5A1A /* SynopsisScrollView.m */,
+				1BC71D411F1504CB006DD7DC /* Credits.rtf */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -33328,6 +33331,7 @@
 			files = (
 				1B9873FB1D47A5540015E54C /* Assets.xcassets in Resources */,
 				1B9874181D48014C0015E54C /* SynopsisCollectionViewItem.xib in Resources */,
+				1BC71D421F1504CB006DD7DC /* Credits.rtf in Resources */,
 				1B9873FE1D47A5540015E54C /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -33515,7 +33519,7 @@
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				OTHER_TAPI_FLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = "info.v002.Synopsis-Inspector";
+				PRODUCT_BUNDLE_IDENTIFIER = "info.Synopsis.Synopsis-Inspector";
 				PRODUCT_NAME = "Synopsis Inspector";
 			};
 			name = Debug;
@@ -33546,7 +33550,7 @@
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				OTHER_TAPI_FLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = "info.v002.Synopsis-Inspector";
+				PRODUCT_BUNDLE_IDENTIFIER = "info.Synopsis.Synopsis-Inspector";
 				PRODUCT_NAME = "Synopsis Inspector";
 			};
 			name = Release;
