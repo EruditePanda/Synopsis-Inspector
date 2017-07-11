@@ -37,6 +37,7 @@
     
     self.player = [[AVPlayer alloc] init];
     self.nameField.layer.zPosition = 1.0;
+    self.player.volume = 0.0;
     
     self.metadataDecoder = [[SynopsisMetadataDecoder alloc] initWithVersion:kSynopsislMetadataVersionValue];
 
