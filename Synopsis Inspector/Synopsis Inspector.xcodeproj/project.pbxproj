@@ -33514,6 +33514,7 @@
 					"\"$(PROJECT_DIR)/Synopsis\\ Inspector/\"",
 					"\"$(PROJECT_DIR)/Synopsis Inspector/libboost/libs\"",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_CFLAGS = "-fopenmp";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = "";
@@ -33545,6 +33546,7 @@
 					"\"$(PROJECT_DIR)/Synopsis\\ Inspector/\"",
 					"\"$(PROJECT_DIR)/Synopsis Inspector/libboost/libs\"",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_CFLAGS = "-fopenmp";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = "";

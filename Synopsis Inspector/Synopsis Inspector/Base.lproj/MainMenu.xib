@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12121" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12121"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -20,7 +19,6 @@
                 <outlet property="featureVectorSort" destination="twC-4t-m0y" id="yUX-0L-oxk"/>
                 <outlet property="hashSort" destination="w3K-79-FKe" id="t1I-ec-HMH"/>
                 <outlet property="histogramSort" destination="FSS-QP-a3O" id="aYd-TB-dXQ"/>
-                <outlet property="layoutStyle" destination="NI4-mn-ey9" id="4JH-ah-03H"/>
                 <outlet property="statusField" destination="uBo-Ud-SFl" id="M5l-F1-zyd"/>
                 <outlet property="tokenField" destination="6w3-gJ-ZWc" id="ncd-He-m8z"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
@@ -83,9 +81,9 @@
                                     <action selector="newDocument:" target="-1" id="4Si-XN-c54"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Open…" keyEquivalent="o" id="IAo-SY-fd9">
+                            <menuItem title="Open Media Folder…" keyEquivalent="o" id="IAo-SY-fd9">
                                 <connections>
-                                    <action selector="openDocument:" target="-1" id="bVn-NM-KNZ"/>
+                                    <action selector="switchToLocalComputerPathSearchScope:" target="Voe-Tx-rLC" id="oHC-Yo-DeN"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Open Recent" id="tXI-mr-wws">
@@ -100,6 +98,12 @@
                                         </menuItem>
                                     </items>
                                 </menu>
+                            </menuItem>
+                            <menuItem title="Discover All Local Media" id="1UK-8n-QPP">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="switchToLocalComputerSearchScope:" target="Voe-Tx-rLC" id="4Zq-Tk-dgY"/>
+                                </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="m54-Is-iLE"/>
                             <menuItem title="Close" keyEquivalent="w" id="DVo-aG-piG">
@@ -623,19 +627,6 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="View" id="HyV-fh-RgO">
                         <items>
-                            <menuItem title="All Local Media" id="1UK-8n-QPP">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="switchToLocalComputerSearchScope:" target="Voe-Tx-rLC" id="ieP-oK-tqT"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Media in Subdirectory only" id="HX8-WW-4kR">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="switchToLocalComputerPathSearchScope:" target="Voe-Tx-rLC" id="OMb-kH-bgW"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="iGG-xF-6VK"/>
                             <menuItem title="Show Toolbar" keyEquivalent="t" id="snW-S8-Cw5">
                                 <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                 <connections>
@@ -773,34 +764,8 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NI4-mn-ey9">
-                                <rect key="frame" x="516" y="14" width="152" height="15"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="15" id="evB-cA-4Lf"/>
-                                </constraints>
-                                <segmentedCell key="cell" controlSize="mini" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="RWr-h8-3aW">
-                                    <font key="font" metaFont="miniSystem"/>
-                                    <segments>
-                                        <segment image="NSIconViewTemplate">
-                                            <nil key="label"/>
-                                        </segment>
-                                        <segment image="NSFlowViewTemplate" width="43" selected="YES" tag="1">
-                                            <nil key="label"/>
-                                        </segment>
-                                        <segment image="NSListViewTemplate" width="41">
-                                            <nil key="label"/>
-                                        </segment>
-                                        <segment image="NSEnterFullScreenTemplate" width="41">
-                                            <nil key="label"/>
-                                        </segment>
-                                    </segments>
-                                </segmentedCell>
-                                <connections>
-                                    <action selector="switchLayout:" target="Voe-Tx-rLC" id="vRB-yn-Ipo"/>
-                                </connections>
-                            </segmentedControl>
-                            <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TQp-ui-8US">
-                                <rect key="frame" x="93" y="15" width="70" height="13"/>
+                            <slider verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TQp-ui-8US">
+                                <rect key="frame" x="599" y="13" width="70" height="13"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="70" id="qhO-pw-NnU"/>
                                 </constraints>
@@ -817,14 +782,10 @@
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="pTe-hF-2BG" secondAttribute="bottom" constant="16" id="DL4-Bu-R6R"/>
                             <constraint firstItem="fRo-0M-OuZ" firstAttribute="top" secondItem="fGu-kV-DJW" secondAttribute="top" id="Dmu-x0-WaZ"/>
-                            <constraint firstAttribute="trailing" secondItem="NI4-mn-ey9" secondAttribute="trailing" constant="16" id="Eky-h5-rhu"/>
-                            <constraint firstItem="uBo-Ud-SFl" firstAttribute="leading" secondItem="TQp-ui-8US" secondAttribute="trailing" constant="8" id="H1m-dx-Pen"/>
                             <constraint firstItem="pTe-hF-2BG" firstAttribute="leading" secondItem="fGu-kV-DJW" secondAttribute="leading" constant="20" id="HNh-gO-Do8"/>
-                            <constraint firstAttribute="trailing" secondItem="NI4-mn-ey9" secondAttribute="trailing" constant="16" id="eFg-4Y-4Aj"/>
+                            <constraint firstAttribute="trailing" secondItem="TQp-ui-8US" secondAttribute="trailing" constant="14" id="ZhT-QC-ji8"/>
                             <constraint firstItem="fRo-0M-OuZ" firstAttribute="leading" secondItem="fGu-kV-DJW" secondAttribute="leading" id="iBi-JN-XKC"/>
                             <constraint firstAttribute="bottom" secondItem="TQp-ui-8US" secondAttribute="bottom" constant="16" id="kRw-Fh-NkM"/>
-                            <constraint firstAttribute="bottom" secondItem="NI4-mn-ey9" secondAttribute="bottom" constant="14" id="lff-yE-2FT"/>
-                            <constraint firstItem="TQp-ui-8US" firstAttribute="leading" secondItem="fGu-kV-DJW" secondAttribute="leading" constant="93" id="tDI-QX-VC9"/>
                             <constraint firstAttribute="trailing" secondItem="fRo-0M-OuZ" secondAttribute="trailing" id="umq-rw-lMm"/>
                             <constraint firstAttribute="bottom" secondItem="fRo-0M-OuZ" secondAttribute="bottom" constant="46" id="xgv-Y0-4Gy"/>
                         </constraints>
@@ -984,7 +945,6 @@
                     <toolbarItem reference="lhd-Zu-nIq"/>
                     <toolbarItem reference="K3I-ac-OeR"/>
                     <toolbarItem reference="85f-zA-YBp"/>
-                    <toolbarItem reference="e5m-CR-WMi"/>
                 </defaultToolbarItems>
             </toolbar>
             <contentBorderThickness minY="32"/>
@@ -1025,10 +985,6 @@
         <image name="Histogram" width="512" height="512"/>
         <image name="Hue" width="512" height="512"/>
         <image name="Light" width="512" height="512"/>
-        <image name="NSEnterFullScreenTemplate" width="15" height="15"/>
-        <image name="NSFlowViewTemplate" width="18" height="10"/>
-        <image name="NSIconViewTemplate" width="10" height="10"/>
-        <image name="NSListViewTemplate" width="14" height="10"/>
         <image name="NSQuickLookTemplate" width="19" height="12"/>
         <image name="NSRevealFreestandingTemplate" width="14" height="14"/>
         <image name="NSSlideshowTemplate" width="17" height="14"/>
