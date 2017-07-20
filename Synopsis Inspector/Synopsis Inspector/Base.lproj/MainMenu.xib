@@ -17,9 +17,12 @@
             <connections>
                 <outlet property="bestFitSort" destination="rCf-te-0id" id="fj1-fL-zkF"/>
                 <outlet property="collectionView" destination="Zca-Ua-Xm8" id="s6B-EV-cbE"/>
+                <outlet property="featureTSNEMenu" destination="HUo-Cz-CUA" id="Ga6-eB-d70"/>
                 <outlet property="featureVectorSort" destination="twC-4t-m0y" id="yUX-0L-oxk"/>
                 <outlet property="hashSort" destination="w3K-79-FKe" id="t1I-ec-HMH"/>
                 <outlet property="histogramSort" destination="FSS-QP-a3O" id="aYd-TB-dXQ"/>
+                <outlet property="histogramTSNEMenu" destination="Rkg-G5-rTR" id="3g8-hy-8t3"/>
+                <outlet property="hybridTSNEMenu" destination="Jgd-8c-YIH" id="zC8-sq-fGQ"/>
                 <outlet property="statusField" destination="uBo-Ud-SFl" id="M5l-F1-zyd"/>
                 <outlet property="tokenField" destination="6w3-gJ-ZWc" id="ncd-He-m8z"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
@@ -637,17 +640,17 @@
                                                 <action selector="switchLayout:" target="Voe-Tx-rLC" id="1pC-7z-3Cd"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Hybrid Similarity Map" tag="1" keyEquivalent="2" id="Jgd-8c-YIH">
+                                        <menuItem title="Hybrid Similarity Map" tag="1" enabled="NO" keyEquivalent="2" id="Jgd-8c-YIH">
                                             <connections>
                                                 <action selector="switchLayout:" target="Voe-Tx-rLC" id="4k0-qx-2IK"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Feature Similarity Map" tag="2" keyEquivalent="3" id="HUo-Cz-CUA">
+                                        <menuItem title="Feature Similarity Map" tag="2" enabled="NO" keyEquivalent="3" id="HUo-Cz-CUA">
                                             <connections>
                                                 <action selector="switchLayout:" target="Voe-Tx-rLC" id="xeJ-41-k4z"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Hitogram Similarity Map" tag="3" keyEquivalent="4" id="Rkg-G5-rTR">
+                                        <menuItem title="Histogram Similarity Map" tag="3" enabled="NO" keyEquivalent="4" id="Rkg-G5-rTR">
                                             <connections>
                                                 <action selector="switchLayout:" target="Voe-Tx-rLC" id="eGZ-Ee-0U1"/>
                                             </connections>

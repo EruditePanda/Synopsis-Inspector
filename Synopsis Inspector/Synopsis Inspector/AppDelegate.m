@@ -32,6 +32,11 @@
 
 @property (weak) IBOutlet NSSlider* zoomSlider;
 
+@property (weak) IBOutlet NSMenuItem* hybridTSNEMenu;
+@property (weak) IBOutlet NSMenuItem* featureTSNEMenu;
+@property (weak) IBOutlet NSMenuItem* histogramTSNEMenu;
+
+
 @property (weak) IBOutlet NSTextField* statusField;
 @property (strong) NSString* sortStatus;
 @property (strong) NSString* filterStatus;
@@ -49,7 +54,6 @@
 @property (readwrite) BOOL currentlyScrolling;
 
 // Layout
-@property (weak) IBOutlet NSSegmentedControl* layoutStyle;
 @property (atomic, readwrite, strong) AAPLWrappedLayout* wrappedLayout;
 @property (atomic, readwrite, strong) TSNELayout* tsneHybridLayout;
 @property (atomic, readwrite, strong) TSNELayout* tsneFeatureLayout;
@@ -866,8 +870,10 @@ static BOOL toggleAspect = false;
 
 - (void) lazyCreateLayoutsWithContent:(NSArray*)content
 {
-    self.layoutStyle.enabled = false;
-    
+    self.hybridTSNEMenu.enabled = NO;
+    self.featureTSNEMenu.enabled = NO;
+    self.histogramTSNEMenu.enabled = NO;
+
     NSMutableArray<SynopsisDenseFeature*>* allFeatures = [NSMutableArray new];
     NSMutableArray<SynopsisDenseFeature*>* allHistograms = [NSMutableArray new];
     NSMutableArray<SynopsisDenseFeature*>* allHybridFeatures = [NSMutableArray new];
@@ -937,7 +943,9 @@ static BOOL toggleAspect = false;
     });
 
     dispatch_group_notify(tsneGroup, dispatch_get_main_queue(), ^{
-        self.layoutStyle.enabled = YES;
+        self.hybridTSNEMenu.enabled = YES;
+        self.featureTSNEMenu.enabled = YES;
+        self.histogramTSNEMenu.enabled = YES;
     });
 }
 

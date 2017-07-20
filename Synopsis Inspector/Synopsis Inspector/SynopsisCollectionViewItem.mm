@@ -271,8 +271,6 @@
     return [NSArray arrayWithObject:component];
 }
 
-#pragma mark - Metadata delete
-
 #pragma mark - AVPlayerItemMetadataOutputPushDelegate
 
 - (void)metadataOutput:(AVPlayerItemMetadataOutput *)output didOutputTimedMetadataGroups:(NSArray *)groups fromPlayerItemTrack:(AVPlayerItemTrack *)track
