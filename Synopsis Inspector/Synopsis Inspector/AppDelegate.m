@@ -201,6 +201,8 @@
 - (IBAction)switchToLocalComputerSearchScope:(id)sender
 {
     [self setGlobalMetadataSearch];
+    
+    self.window.title = @"Synopsis Analyzer - All Local Media";
 }
 
 - (IBAction)switchToLocalComputerPathSearchScope:(id)sender
@@ -257,6 +259,9 @@
            [self.continuousMetadataSearch setSearchScopes:searchScopes];
            
            [self.continuousMetadataSearch startQuery];
+           
+           self.window.title = [@"Synopsis Analyzer - " stringByAppendingString:openPanel.URL.lastPathComponent];
+
         
        }
     }];
