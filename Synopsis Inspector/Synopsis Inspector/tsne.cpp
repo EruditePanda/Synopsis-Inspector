@@ -90,7 +90,10 @@ void TSNE::run(double* X, int N, int D, double* Y, int no_dims, double perplexit
     for(int i = 0; i < N * D; i++) X[i] /= max_X;
 
     // Compute input similarities for exact t-SNE
-    double* P; unsigned int* row_P; unsigned int* col_P; double* val_P;
+    double* P = nullptr;
+    unsigned int* row_P = nullptr;
+    unsigned int* col_P = nullptr;
+    double* val_P = nullptr;
     if(exact) {
 
         // Compute similarities
@@ -360,7 +363,7 @@ void TSNE::computeGaussianPerplexity(double* X, int N, int D, double* P, double 
 		double min_beta = -DBL_MAX;
 		double max_beta =  DBL_MAX;
 		double tol = 1e-5;
-        double sum_P;
+        double sum_P = 0.0;
 
 		// Iterate until we found a good perplexity
 		int iter = 0;
@@ -458,7 +461,7 @@ void TSNE::computeGaussianPerplexity(double* X, int N, int D, unsigned int** _ro
         double tol = 1e-5;
 
         // Iterate until we found a good perplexity
-        int iter = 0; double sum_P;
+        int iter = 0; double sum_P = 0.0;
         while(!found && iter < 200) {
 
             // Compute Gaussian kernel row

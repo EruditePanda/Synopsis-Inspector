@@ -20,6 +20,7 @@
 @interface AppDelegate ()
 
 @property (weak) IBOutlet NSWindow *window;
+@property (weak) IBOutlet NSWindow *chooseSearchModeSheet;
 @property (weak) IBOutlet NSCollectionView* collectionView;
 
 // Sorting that requires selection of an item to sort relative to:
@@ -42,6 +43,7 @@
 @property (strong) NSString* filterStatus;
 @property (strong) NSString* correlationStatus;
 
+@property (strong) id escapeKeyMonitor;
 
 // Tokens
 @property (strong) NSDictionary* tokenDictionary;
@@ -108,6 +110,28 @@
 
     
     [self updateStatusLabel];
+    
+    
+//    (NSEvent* __nullable (^)(NSEvent*))block;
+    self.escapeKeyMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSEventMaskKeyDown handler:^NSEvent * _Nullable(NSEvent * _Nonnull keyEvent) {
+        switch (keyEvent.keyCode) {
+            case 53: // esc
+
+                for(SynopsisCollectionViewItem* item in self.collectionView.visibleItems)
+                {
+                    [item hidePopOver:self];
+                }
+                break;
+                
+            default:
+                break;
+        }
+        
+        return keyEvent;
+   
+    }];
+    
+    
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
@@ -143,23 +167,6 @@
     // Enable dragging items from our CollectionView to other applications.
     [self.collectionView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
 
-    [self setGlobalMetadataSearch];
-}
-
-- (void)applicationWillTerminate:(NSNotification *)aNotification {
-    // Insert code here to tear down your application
-}
-
-#pragma mark - Metadata Search
-
-- (void) setGlobalMetadataSearch
-{
-    if(self.continuousMetadataSearch)
-    {
-        [self.continuousMetadataSearch disableUpdates];
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:NSMetadataQueryDidUpdateNotification object:self.continuousMetadataSearch];
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:NSMetadataQueryDidFinishGatheringNotification object:self.continuousMetadataSearch];
-    }
     
     
     // Configure the search predicate
@@ -176,23 +183,54 @@
                                              selector:@selector(initalGatherComplete:)
                                                  name:NSMetadataQueryDidFinishGatheringNotification
                                                object:self.continuousMetadataSearch];
-
+    
     self.continuousMetadataSearch.delegate = self;
     
+    [self setGlobalMetadataSearch];
+
+//    [self.window beginSheet:self.chooseSearchModeSheet completionHandler:^(NSModalResponse returnCode) {
+//       
+//        switch (returnCode) {
+//            case NSModalResponseOK:
+//                [self setGlobalMetadataSearch];
+//                break;
+//                
+//            case NSModalResponseOK + 1:
+//                [self switchToLocalComputerPathSearchScope:nil];
+//                break;
+//        }
+//        
+//    }];
+//    
+    
+}
+
+- (IBAction)chooseInitialSearchMode:(id)sender
+{
+    switch([sender tag])
+    {
+        case 0:
+            [self.window endSheet:self.chooseSearchModeSheet returnCode:NSModalResponseOK];
+            break;
+            
+        case 1:
+            [self.window endSheet:self.chooseSearchModeSheet returnCode:NSModalResponseOK + 1];
+            break;
+    }
+}
+
+- (void)applicationWillTerminate:(NSNotification *)aNotification {
+    // Insert code here to tear down your application
+}
+
+#pragma mark - Metadata Search
+
+- (void) setGlobalMetadataSearch
+{
     NSPredicate *searchPredicate;
     searchPredicate = [NSPredicate predicateWithFormat:@"info_synopsis_version >= 0 || info_synopsis_descriptors like '*'"];
     
     [self.continuousMetadataSearch setPredicate:searchPredicate];
-    
-    // Set the search scope. In this case it will search the User's home directory
-    // and the iCloud documents area
-
-    // Configure the sorting of the results so it will order the results by the
-    // display name
-//    NSSortDescriptor* sortKeys = [[NSSortDescriptor alloc] initWithKey:(id)kMDItemDisplayName
-//                                                             ascending:YES];
-//
-//    [self.continuousMetadataSearch setSortDescriptors:[NSArray arrayWithObject:sortKeys]];
     
     NSArray* searchScopes;
     searchScopes = @[NSMetadataQueryIndexedLocalComputerScope];
@@ -220,27 +258,27 @@
     [openPanel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result) {
        if(result == NSFileHandlingPanelOKButton)
        {
-           if(self.continuousMetadataSearch)
-           {
-               [[NSNotificationCenter defaultCenter] removeObserver:self name:NSMetadataQueryDidUpdateNotification object:self.continuousMetadataSearch];
-               [[NSNotificationCenter defaultCenter] removeObserver:self name:NSMetadataQueryDidFinishGatheringNotification object:self.continuousMetadataSearch];
-           }
-
-           self.continuousMetadataSearch = [[NSMetadataQuery alloc] init];
-           
-           
-           // Register the notifications for batch and completion updates
-           [[NSNotificationCenter defaultCenter] addObserver:self
-                                                    selector:@selector(queryDidUpdate:)
-                                                        name:NSMetadataQueryDidUpdateNotification
-                                                      object:self.continuousMetadataSearch];
-           
-           [[NSNotificationCenter defaultCenter] addObserver:self
-                                                    selector:@selector(initalGatherComplete:)
-                                                        name:NSMetadataQueryDidFinishGatheringNotification
-                                                      object:self.continuousMetadataSearch];
-
-           self.continuousMetadataSearch.delegate = self;
+//           if(self.continuousMetadataSearch)
+//           {
+//               [[NSNotificationCenter defaultCenter] removeObserver:self name:NSMetadataQueryDidUpdateNotification object:self.continuousMetadataSearch];
+//               [[NSNotificationCenter defaultCenter] removeObserver:self name:NSMetadataQueryDidFinishGatheringNotification object:self.continuousMetadataSearch];
+//           }
+//
+//           self.continuousMetadataSearch = [[NSMetadataQuery alloc] init];
+//           
+//           
+//           // Register the notifications for batch and completion updates
+//           [[NSNotificationCenter defaultCenter] addObserver:self
+//                                                    selector:@selector(queryDidUpdate:)
+//                                                        name:NSMetadataQueryDidUpdateNotification
+//                                                      object:self.continuousMetadataSearch];
+//           
+//           [[NSNotificationCenter defaultCenter] addObserver:self
+//                                                    selector:@selector(initalGatherComplete:)
+//                                                        name:NSMetadataQueryDidFinishGatheringNotification
+//                                                      object:self.continuousMetadataSearch];
+//
+//           self.continuousMetadataSearch.delegate = self;
            
            NSPredicate *searchPredicate;
            searchPredicate = [NSPredicate predicateWithFormat:@"info_synopsis_version >= 0 || info_synopsis_descriptors like '*'"];
@@ -737,6 +775,9 @@
     [self.histogramSort setTarget:nil];
     [self.histogramSort setAction:nil];
     
+    [self.featureVectorSort setTarget:nil];
+    [self.featureVectorSort setAction:nil];
+
     [self updateStatusLabel];
 
 //    SynopsisCollectionViewItem* item = (SynopsisCollectionViewItem*)collectionView;

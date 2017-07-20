@@ -16,6 +16,7 @@
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
             <connections>
                 <outlet property="bestFitSort" destination="rCf-te-0id" id="fj1-fL-zkF"/>
+                <outlet property="chooseSearchModeSheet" destination="XSr-yq-Ne4" id="gFK-b8-wOh"/>
                 <outlet property="collectionView" destination="Zca-Ua-Xm8" id="s6B-EV-cbE"/>
                 <outlet property="featureTSNEMenu" destination="HUo-Cz-CUA" id="Ga6-eB-d70"/>
                 <outlet property="featureVectorSort" destination="twC-4t-m0y" id="yUX-0L-oxk"/>
@@ -758,8 +759,8 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="YES" preferredMaxLayoutWidth="100" translatesAutoresizingMaskIntoConstraints="NO" id="pTe-hF-2BG">
-                                <rect key="frame" x="18" y="16" width="62" height="11"/>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" preferredMaxLayoutWidth="100" translatesAutoresizingMaskIntoConstraints="NO" id="pTe-hF-2BG">
+                                <rect key="frame" x="18" y="16" width="104" height="11"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="11" id="0wK-zm-mA6"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="58" id="3gi-zU-Emo"/>
@@ -785,8 +786,8 @@
                                     </binding>
                                 </connections>
                             </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uBo-Ud-SFl">
-                                <rect key="frame" x="169" y="15" width="342" height="11"/>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uBo-Ud-SFl">
+                                <rect key="frame" x="139" y="15" width="402" height="11"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="11" id="8tr-gP-zCK"/>
                                 </constraints>
@@ -796,8 +797,8 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <slider verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TQp-ui-8US">
-                                <rect key="frame" x="599" y="13" width="70" height="13"/>
+                            <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TQp-ui-8US">
+                                <rect key="frame" x="599" y="15" width="70" height="13"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="70" id="qhO-pw-NnU"/>
                                 </constraints>
@@ -815,6 +816,7 @@
                             <constraint firstAttribute="bottom" secondItem="pTe-hF-2BG" secondAttribute="bottom" constant="16" id="DL4-Bu-R6R"/>
                             <constraint firstItem="fRo-0M-OuZ" firstAttribute="top" secondItem="fGu-kV-DJW" secondAttribute="top" id="Dmu-x0-WaZ"/>
                             <constraint firstItem="pTe-hF-2BG" firstAttribute="leading" secondItem="fGu-kV-DJW" secondAttribute="leading" constant="20" id="HNh-gO-Do8"/>
+                            <constraint firstItem="uBo-Ud-SFl" firstAttribute="leading" secondItem="pTe-hF-2BG" secondAttribute="trailing" constant="21" id="YTu-R2-JeV"/>
                             <constraint firstAttribute="trailing" secondItem="TQp-ui-8US" secondAttribute="trailing" constant="14" id="ZhT-QC-ji8"/>
                             <constraint firstItem="fRo-0M-OuZ" firstAttribute="leading" secondItem="fGu-kV-DJW" secondAttribute="leading" id="iBi-JN-XKC"/>
                             <constraint firstAttribute="bottom" secondItem="TQp-ui-8US" secondAttribute="bottom" constant="16" id="kRw-Fh-NkM"/>
@@ -826,7 +828,7 @@
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="uBo-Ud-SFl" secondAttribute="bottom" constant="15" id="2G3-mB-0lg"/>
                     <constraint firstAttribute="trailing" secondItem="0bP-5f-bdN" secondAttribute="trailing" id="959-xp-z0w"/>
-                    <constraint firstItem="uBo-Ud-SFl" firstAttribute="centerX" secondItem="EiT-Mj-1SZ" secondAttribute="centerX" id="Dsy-sc-hfp"/>
+                    <constraint firstItem="uBo-Ud-SFl" firstAttribute="centerX" secondItem="EiT-Mj-1SZ" secondAttribute="centerX" constant="-1.5" id="Dsy-sc-hfp"/>
                     <constraint firstAttribute="bottom" secondItem="fGu-kV-DJW" secondAttribute="bottom" id="L1J-6A-NNQ"/>
                     <constraint firstItem="0bP-5f-bdN" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="T5h-SI-jje"/>
                     <constraint firstItem="fGu-kV-DJW" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="V43-aZ-tbq"/>
@@ -839,7 +841,7 @@
                 <allowedToolbarItems>
                     <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="mSf-oc-9ma"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="K3I-ac-OeR"/>
-                    <toolbarItem implicitItemIdentifier="115406B4-16A0-4515-9B6A-330645ACAD86" label="Feature" paletteLabel="Feature" tag="-1" image="NSQuickLookTemplate" id="twC-4t-m0y" userLabel="Feature Sort"/>
+                    <toolbarItem implicitItemIdentifier="115406B4-16A0-4515-9B6A-330645ACAD86" label="Feature" paletteLabel="Feature" tag="-1" image="Feature" id="twC-4t-m0y" userLabel="Feature Sort"/>
                     <toolbarItem implicitItemIdentifier="BFB2B402-8E66-4762-A6DF-767EC98EA500" label="Hash" paletteLabel="Hash" tag="-1" image="Hash" id="w3K-79-FKe"/>
                     <toolbarItem implicitItemIdentifier="8C5C1670-F20C-45CE-B265-FA479779B560" label="Saturation" paletteLabel="Saturation" tag="-1" image="Saturation" id="O1H-Sg-47M">
                         <connections>
@@ -940,33 +942,9 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         </box>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="744D6DAD-D495-4583-96C4-58BCE5E39C19" label="View As" paletteLabel="View As" id="7sS-Dq-yi3">
-                        <nil key="toolTip"/>
-                        <size key="minSize" width="100" height="20"/>
-                        <size key="maxSize" width="104" height="28"/>
-                        <segmentedControl key="view" verticalHuggingPriority="750" id="lQV-lD-mfn">
-                            <rect key="frame" x="0.0" y="14" width="104" height="28"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedRounded" trackingMode="selectOne" id="FCJ-EF-TUx">
-                                <font key="font" metaFont="system"/>
-                                <segments>
-                                    <segment image="Grid" width="32"/>
-                                    <segment image="TSNE" width="32" selected="YES" tag="1"/>
-                                    <segment image="Hierarchy" width="32">
-                                        <nil key="label"/>
-                                    </segment>
-                                </segments>
-                            </segmentedCell>
-                        </segmentedControl>
-                    </toolbarItem>
                     <toolbarItem implicitItemIdentifier="AFE7A535-C546-4FB7-9B67-848EEA939754" label="Motion" paletteLabel="Motion" tag="-1" image="NSSlideshowTemplate" id="dtw-AP-Eb7">
                         <connections>
                             <action selector="motionVectorSortUsingSelectingCell:" target="Voe-Tx-rLC" id="5B1-Ut-NP0"/>
-                        </connections>
-                    </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="0FC3A3A1-AB2D-449E-BA0E-590794239ED0" label="Aspect" paletteLabel="Aspect" tag="-1" image="Aspect" id="e5m-CR-WMi">
-                        <connections>
-                            <action selector="toggleAspectRatio:" target="Voe-Tx-rLC" id="uzJ-8G-KQg"/>
                         </connections>
                     </toolbarItem>
                 </allowedToolbarItems>
@@ -980,7 +958,7 @@
                 </defaultToolbarItems>
             </toolbar>
             <contentBorderThickness minY="32"/>
-            <point key="canvasLocation" x="250" y="-265"/>
+            <point key="canvasLocation" x="249.5" y="-265"/>
         </window>
         <menu id="rqv-o7-9Mx" userLabel="Search Menu">
             <items>
@@ -1004,26 +982,64 @@
         </menu>
         <viewController id="SQA-q7-aFi" customClass="MetadataInspectorViewController"/>
         <userDefaultsController representsSharedInstance="YES" id="oXn-xU-uks"/>
+        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="XSr-yq-Ne4" userLabel="Startup Window">
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="196" y="240" width="715" height="402"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
+            <view key="contentView" wantsLayer="YES" id="xjs-4e-NlS">
+                <rect key="frame" x="0.0" y="0.0" width="715" height="402"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <visualEffectView appearanceType="vibrantDark" fixedFrame="YES" blendingMode="withinWindow" material="ultraDark" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="ccR-gx-SCe" customClass="CustomVisualEffectView">
+                        <rect key="frame" x="0.0" y="0.0" width="715" height="402"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NyU-t7-ULX">
+                                <rect key="frame" x="128" y="100" width="196" height="196"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="square" title="All Local Media" bezelStyle="shadowlessSquare" image="NSComputer" imagePosition="overlaps" alignment="center" alternateImage="NSComputer" imageScaling="proportionallyUpOrDown" inset="2" id="dlw-cs-UCg">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="chooseInitialSearchMode:" target="Voe-Tx-rLC" id="gTN-Zb-hAO"/>
+                                </connections>
+                            </button>
+                            <button fixedFrame="YES" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="P7N-Ht-TYB">
+                                <rect key="frame" x="406" y="135" width="132" height="132"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="square" title="Folder" bezelStyle="shadowlessSquare" image="NSFolder" imagePosition="overlaps" alignment="center" alternateImage="NSFolder" imageScaling="proportionallyUpOrDown" inset="2" id="XGA-cA-Ukl">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="chooseInitialSearchMode:" target="Voe-Tx-rLC" id="r0i-LJ-imy"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                    </visualEffectView>
+                </subviews>
+            </view>
+            <point key="canvasLocation" x="326.5" y="-917"/>
+        </window>
     </objects>
     <resources>
-        <image name="Aspect" width="546" height="395"/>
         <image name="Brightness" width="512" height="512"/>
         <image name="Clear" width="512" height="512"/>
         <image name="Cool" width="512" height="512"/>
         <image name="Dark" width="512" height="512"/>
-        <image name="Grid" width="48" height="48"/>
+        <image name="Feature" width="512" height="512"/>
         <image name="Hash" width="512" height="512"/>
-        <image name="Hierarchy" width="48" height="48"/>
         <image name="Histogram" width="512" height="512"/>
         <image name="Hue" width="512" height="512"/>
         <image name="Light" width="512" height="512"/>
-        <image name="NSQuickLookTemplate" width="19" height="12"/>
+        <image name="NSComputer" width="32" height="32"/>
+        <image name="NSFolder" width="32" height="32"/>
         <image name="NSRevealFreestandingTemplate" width="14" height="14"/>
         <image name="NSSlideshowTemplate" width="17" height="14"/>
         <image name="Neutral" width="512" height="512"/>
         <image name="Saturation" width="512" height="512"/>
         <image name="Smart" width="512" height="512"/>
-        <image name="TSNE" width="48" height="48"/>
         <image name="Warm" width="512" height="512"/>
     </resources>
 </document>
