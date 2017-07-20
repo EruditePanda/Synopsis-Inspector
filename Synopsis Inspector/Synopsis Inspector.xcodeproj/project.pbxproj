@@ -11,11 +11,12 @@
 		1B0B63501D641CC900AA5D0E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0B634F1D641CC900AA5D0E /* AVFoundation.framework */; };
 		1B0D64391D4FB21F00A1AB5D /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0D64381D4FB21F00A1AB5D /* libz.tbd */; };
 		1B0D643C1D4FD48E00A1AB5D /* CustomVisualEffectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0D643B1D4FD48E00A1AB5D /* CustomVisualEffectView.m */; };
+		1B2780751F213A2200658C0B /* Synopsis.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BBB10ED1D5558C400C22439 /* Synopsis.framework */; };
+		1B2780791F213A5A00658C0B /* Synopsis.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1BFB133C1F21378C002C4651 /* Synopsis.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1B5FE0331DF9F38E009CF677 /* sptree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1B5FE02D1DF9F38E009CF677 /* sptree.cpp */; };
 		1B5FE0341DF9F38E009CF677 /* tsne.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1B5FE02F1DF9F38E009CF677 /* tsne.cpp */; };
 		1B5FE0351DFA1044009CF677 /* TSNELayout.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1B5FE0281DF9F1F9009CF677 /* TSNELayout.mm */; };
 		1B7155C61EFC97EE00266150 /* MetadataFeatureVectorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B7155C51EFC97EE00266150 /* MetadataFeatureVectorView.m */; };
-		1B96C9951E08853E00DE4BD3 /* dbscan.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1B96C9931E08853E00DE4BD3 /* dbscan.cpp */; };
 		1B96FDE71E0896A500DE4BD3 /* adapt_adt_named.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1B96D5371E08968B00DE4BD3 /* adapt_adt_named.cpp */; };
 		1B96FE4C1E089ED100DE4BD3 /* libomp.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B96FE4B1E089ED100DE4BD3 /* libomp.dylib */; };
 		1B96FE501E089FA800DE4BD3 /* libboost_chrono.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B96C9991E08966300DE4BD3 /* libboost_chrono.a */; };
@@ -63,10 +64,7 @@
 		1B9874181D48014C0015E54C /* SynopsisCollectionViewItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B9874161D48014C0015E54C /* SynopsisCollectionViewItem.xib */; };
 		1BAA80701D7243F300464810 /* TransparentCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAA806F1D7243F300464810 /* TransparentCollectionView.m */; };
 		1BBB10D21D527CBE00C22439 /* CGLayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BBB10D11D527CBE00C22439 /* CGLayerView.m */; };
-		1BBB10F91D555DDC00C22439 /* Synopsis.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1BBB10ED1D5558C400C22439 /* Synopsis.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		1BBB10FD1D55992200C22439 /* Synopsis.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BBB10ED1D5558C400C22439 /* Synopsis.framework */; };
 		1BC71D421F1504CB006DD7DC /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 1BC71D411F1504CB006DD7DC /* Credits.rtf */; };
-		1BCFBC1A1E0B25740008CB03 /* DBScanLayout.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1BCFBC191E0B25740008CB03 /* DBScanLayout.mm */; };
 		1BCFBEC31E1C41580008CB03 /* MetadataSingleValueHistoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BCFBEC21E1C41580008CB03 /* MetadataSingleValueHistoryView.m */; };
 		1BD710AE1D620070007D61B9 /* SynopsisCollectionViewItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD710AD1D620070007D61B9 /* SynopsisCollectionViewItemView.m */; };
 		1BD710B11D620AC8007D61B9 /* AAPLWrappedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD710B01D620AC8007D61B9 /* AAPLWrappedLayout.m */; };
@@ -96,12 +94,19 @@
 			remoteGlobalIDString = 1BBB10DD1D5542A200C22439;
 			remoteInfo = Synopsis;
 		};
-		1BBB10EF1D5558E500C22439 /* PBXContainerItemProxy */ = {
+		1BFB133B1F21378C002C4651 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1BBB10E81D5558C400C22439 /* Synopsis-Framework.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1BFB13381F2135BF002C4651;
+			remoteInfo = "Synopsis-Decoder-macOS";
+		};
+		1BFB133D1F213790002C4651 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1BBB10E81D5558C400C22439 /* Synopsis-Framework.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 1BBB10DC1D5542A200C22439;
-			remoteInfo = Synopsis;
+			remoteGlobalIDString = 1BFB12C21F2135BF002C4651;
+			remoteInfo = "Synopsis-Decoder-macOS";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -112,8 +117,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				1BBB10F91D555DDC00C22439 /* Synopsis.framework in CopyFiles */,
 				1B96FE7A1E08A42600DE4BD3 /* libomp.dylib in CopyFiles */,
+				1B2780791F213A5A00658C0B /* Synopsis.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -12505,6 +12510,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B2780751F213A2200658C0B /* Synopsis.framework in Frameworks */,
 				1B96FE801E08AD2A00DE4BD3 /* CoreMedia.framework in Frameworks */,
 				1B96FE7E1E08AD2000DE4BD3 /* Quartz.framework in Frameworks */,
 				1B96FE771E08A00700DE4BD3 /* libboost_unit_test_framework.a in Frameworks */,
@@ -12532,7 +12538,6 @@
 				1B96FE4C1E089ED100DE4BD3 /* libomp.dylib in Frameworks */,
 				1B96FE571E089FA800DE4BD3 /* libboost_graph.a in Frameworks */,
 				1B0B634E1D641CC100AA5D0E /* Cocoa.framework in Frameworks */,
-				1BBB10FD1D55992200C22439 /* Synopsis.framework in Frameworks */,
 				1B96FE561E089FA800DE4BD3 /* libboost_filesystem.a in Frameworks */,
 				1B96FE661E089FA900DE4BD3 /* libboost_regex.a in Frameworks */,
 				1B96FE651E089FA900DE4BD3 /* libboost_random.a in Frameworks */,
@@ -33218,6 +33223,7 @@
 			isa = PBXGroup;
 			children = (
 				1BBB10ED1D5558C400C22439 /* Synopsis.framework */,
+				1BFB133C1F21378C002C4651 /* Synopsis.framework */,
 				1B7155C91EFC97F000266150 /* Synopsis.framework */,
 			);
 			name = Products;
@@ -33260,7 +33266,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				1BBB10F01D5558E500C22439 /* PBXTargetDependency */,
+				1BFB133E1F213790002C4651 /* PBXTargetDependency */,
 			);
 			name = "Synopsis Inspector";
 			productName = Synopslight;
@@ -33322,6 +33328,13 @@
 			remoteRef = 1BBB10EC1D5558C400C22439 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		1BFB133C1F21378C002C4651 /* Synopsis.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Synopsis.framework;
+			remoteRef = 1BFB133B1F21378C002C4651 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -33377,8 +33390,6 @@
 				1BBB10D21D527CBE00C22439 /* CGLayerView.m in Sources */,
 				1BDC343A1D6AB30800D210E8 /* MetadataInspectorViewController.m in Sources */,
 				1B5FE0341DF9F38E009CF677 /* tsne.cpp in Sources */,
-				1B96C9951E08853E00DE4BD3 /* dbscan.cpp in Sources */,
-				1BCFBC1A1E0B25740008CB03 /* DBScanLayout.mm in Sources */,
 				1BD710B11D620AC8007D61B9 /* AAPLWrappedLayout.m in Sources */,
 				1BDC343D1D6B64BD00D210E8 /* MetadataHistogramView.m in Sources */,
 				1B9873F61D47A5540015E54C /* AppDelegate.m in Sources */,
@@ -33390,10 +33401,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		1BBB10F01D5558E500C22439 /* PBXTargetDependency */ = {
+		1BFB133E1F213790002C4651 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = Synopsis;
-			targetProxy = 1BBB10EF1D5558E500C22439 /* PBXContainerItemProxy */;
+			name = "Synopsis-Decoder-macOS";
+			targetProxy = 1BFB133D1F213790002C4651 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

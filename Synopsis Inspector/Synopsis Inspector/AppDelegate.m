@@ -54,9 +54,9 @@
 @property (atomic, readwrite, strong) TSNELayout* tsneHybridLayout;
 @property (atomic, readwrite, strong) TSNELayout* tsneFeatureLayout;
 @property (atomic, readwrite, strong) TSNELayout* tsneHistogramLayout;
-@property (atomic, readwrite, strong) DBScanLayout* dbscanHybridLayout;
-@property (atomic, readwrite, strong) DBScanLayout* dbscanFeatureLayout;
-@property (atomic, readwrite, strong) DBScanLayout* dbscanHistogramLayout;
+//@property (atomic, readwrite, strong) DBScanLayout* dbscanHybridLayout;
+//@property (atomic, readwrite, strong) DBScanLayout* dbscanFeatureLayout;
+//@property (atomic, readwrite, strong) DBScanLayout* dbscanHistogramLayout;
 @end
 
 @implementation AppDelegate
@@ -261,7 +261,6 @@
            [self.continuousMetadataSearch startQuery];
            
            self.window.title = [@"Synopsis Analyzer - " stringByAppendingString:openPanel.URL.lastPathComponent];
-
         
        }
     }];
@@ -821,9 +820,6 @@ static BOOL toggleAspect = false;
 
 - (IBAction)switchLayout:(id)sender
 {
-    NSSegmentedControl* control = (NSSegmentedControl*)sender;
-    NSLog(@"sender: %li", (long)control.selectedSegment);
-
     self.zoomSlider.enabled = YES;
 
     NSCollectionViewLayout* layout;
@@ -832,7 +828,7 @@ static BOOL toggleAspect = false;
     self.resultsArrayControler.filterPredicate = nil;
     [self.resultsArrayControler rearrangeObjects];
 
-    switch(control.selectedSegment)
+    switch([sender tag])
     {
         case 0:
         {
@@ -844,17 +840,17 @@ static BOOL toggleAspect = false;
         }
         case 1:
         {
-            layout = self.tsneFeatureLayout;
+            layout = self.tsneHybridLayout;
             break;
         }
         case 2:
         {
-            layout = self.tsneHistogramLayout;
+            layout = self.tsneFeatureLayout;
             break;
         }
         case 3:
         {
-            layout = self.tsneHybridLayout;
+            layout = self.tsneHistogramLayout;
             break;
         }
     }

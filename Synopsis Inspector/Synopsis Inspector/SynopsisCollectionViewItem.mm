@@ -249,7 +249,6 @@
     // Draw our layer into our bitmap
     [itemRootView cacheDisplayInRect:itemBounds toBitmapImageRep:bitmap];
 
-
     // Work around SlideCarrierView layer contents not being rendered to bitmap.
     [NSGraphicsContext setCurrentContext:[NSGraphicsContext graphicsContextWithBitmapImageRep:bitmap]];
     // TODO: Fix dragging

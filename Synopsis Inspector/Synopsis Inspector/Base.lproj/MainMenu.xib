@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12121" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12121"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -627,6 +628,34 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="View" id="HyV-fh-RgO">
                         <items>
+                            <menuItem title="View Mode" id="IBN-ET-Xtg">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="View Mode" id="ZrH-or-JaT">
+                                    <items>
+                                        <menuItem title="Grid" keyEquivalent="1" id="Kqf-hB-ZBq">
+                                            <connections>
+                                                <action selector="switchLayout:" target="Voe-Tx-rLC" id="1pC-7z-3Cd"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Hybrid Similarity Map" tag="1" keyEquivalent="2" id="Jgd-8c-YIH">
+                                            <connections>
+                                                <action selector="switchLayout:" target="Voe-Tx-rLC" id="4k0-qx-2IK"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Feature Similarity Map" tag="2" keyEquivalent="3" id="HUo-Cz-CUA">
+                                            <connections>
+                                                <action selector="switchLayout:" target="Voe-Tx-rLC" id="xeJ-41-k4z"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Hitogram Similarity Map" tag="3" keyEquivalent="4" id="Rkg-G5-rTR">
+                                            <connections>
+                                                <action selector="switchLayout:" target="Voe-Tx-rLC" id="eGZ-Ee-0U1"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="5Bl-ua-psh"/>
                             <menuItem title="Show Toolbar" keyEquivalent="t" id="snW-S8-Cw5">
                                 <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                 <connections>
@@ -948,7 +977,7 @@
                 </defaultToolbarItems>
             </toolbar>
             <contentBorderThickness minY="32"/>
-            <point key="canvasLocation" x="235.5" y="133"/>
+            <point key="canvasLocation" x="250" y="-265"/>
         </window>
         <menu id="rqv-o7-9Mx" userLabel="Search Menu">
             <items>
