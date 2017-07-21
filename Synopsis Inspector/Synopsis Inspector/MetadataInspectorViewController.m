@@ -59,7 +59,7 @@
 {
     frameMetadata = dictionary;
     
-    NSDictionary* synopsisData = [frameMetadata valueForKey:kSynopsislMetadataIdentifier];
+    NSDictionary* synopsisData = [frameMetadata valueForKey:kSynopsisMetadataIdentifier];
     NSDictionary* standard = [synopsisData valueForKey:kSynopsisStandardMetadataDictKey];
     NSArray* domColors = [standard valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey];
 
@@ -129,7 +129,7 @@
 {
     globalMetadata = dictionary;
     
-    NSUInteger metadataVersion = [[globalMetadata valueForKey:kSynopsislMetadataVersionKey] unsignedIntegerValue];
+    NSUInteger metadataVersion = [[globalMetadata valueForKey:kSynopsisMetadataVersionKey] unsignedIntegerValue];
     NSDictionary* standard = [globalMetadata valueForKey:kSynopsisStandardMetadataDictKey];
     NSArray* domColors = [standard valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey];
     NSArray* descriptions = [standard valueForKey:kSynopsisStandardMetadataDescriptionDictKey];
