@@ -121,6 +121,7 @@
                 {
                     [item hidePopOver:self];
                 }
+                return nil;
                 break;
                 
             default:
@@ -186,7 +187,7 @@
     
     self.continuousMetadataSearch.delegate = self;
     
-    [self setGlobalMetadataSearch];
+    [self switchToLocalComputerSearchScope:nil];
 
 //    [self.window beginSheet:self.chooseSearchModeSheet completionHandler:^(NSModalResponse returnCode) {
 //       
@@ -199,9 +200,8 @@
 //                [self switchToLocalComputerPathSearchScope:nil];
 //                break;
 //        }
-//        
 //    }];
-//    
+    
     
 }
 
@@ -225,7 +225,7 @@
 
 #pragma mark - Metadata Search
 
-- (void) setGlobalMetadataSearch
+- (IBAction)switchToLocalComputerSearchScope:(id)sender
 {
     NSPredicate *searchPredicate;
     searchPredicate = [NSPredicate predicateWithFormat:@"info_synopsis_version >= 0 || info_synopsis_descriptors like '*'"];
@@ -233,16 +233,11 @@
     [self.continuousMetadataSearch setPredicate:searchPredicate];
     
     NSArray* searchScopes;
-    searchScopes = @[NSMetadataQueryIndexedLocalComputerScope];
+    searchScopes = @[NSMetadataQueryLocalComputerScope];
     
     [self.continuousMetadataSearch setSearchScopes:searchScopes];
 
     [self.continuousMetadataSearch startQuery];
-}
-
-- (IBAction)switchToLocalComputerSearchScope:(id)sender
-{
-    [self setGlobalMetadataSearch];
     
     self.window.title = @"Synopsis Analyzer - All Local Media";
 }
@@ -258,28 +253,6 @@
     [openPanel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result) {
        if(result == NSFileHandlingPanelOKButton)
        {
-//           if(self.continuousMetadataSearch)
-//           {
-//               [[NSNotificationCenter defaultCenter] removeObserver:self name:NSMetadataQueryDidUpdateNotification object:self.continuousMetadataSearch];
-//               [[NSNotificationCenter defaultCenter] removeObserver:self name:NSMetadataQueryDidFinishGatheringNotification object:self.continuousMetadataSearch];
-//           }
-//
-//           self.continuousMetadataSearch = [[NSMetadataQuery alloc] init];
-//           
-//           
-//           // Register the notifications for batch and completion updates
-//           [[NSNotificationCenter defaultCenter] addObserver:self
-//                                                    selector:@selector(queryDidUpdate:)
-//                                                        name:NSMetadataQueryDidUpdateNotification
-//                                                      object:self.continuousMetadataSearch];
-//           
-//           [[NSNotificationCenter defaultCenter] addObserver:self
-//                                                    selector:@selector(initalGatherComplete:)
-//                                                        name:NSMetadataQueryDidFinishGatheringNotification
-//                                                      object:self.continuousMetadataSearch];
-//
-//           self.continuousMetadataSearch.delegate = self;
-           
            NSPredicate *searchPredicate;
            searchPredicate = [NSPredicate predicateWithFormat:@"info_synopsis_version >= 0 || info_synopsis_descriptors like '*'"];
            
@@ -303,7 +276,6 @@
            [self.continuousMetadataSearch startQuery];
            
            self.window.title = [@"Synopsis Analyzer - " stringByAppendingString:openPanel.URL.lastPathComponent];
-        
        }
     }];
     
@@ -339,7 +311,6 @@
     
     [self setupSortUsingSortDescriptor:perceptualHashSort selectedItem:item];
 }
-
 
 - (IBAction)perceptualHashSortUsingSelectedCell:(id)sender
 {
@@ -713,7 +684,6 @@
 //    } completionHandler:^(BOOL finished) {
 //        
 //    }];
-//    
 }
 
 
@@ -964,7 +934,6 @@ static BOOL toggleAspect = false;
 //        self.dbscanHistogramLayout = dbScanLayout;
 
         dispatch_group_leave(tsneGroup);
-        
     });
 
     dispatch_group_enter(tsneGroup);

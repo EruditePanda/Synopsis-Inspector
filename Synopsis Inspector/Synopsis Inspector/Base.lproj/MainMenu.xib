@@ -990,7 +990,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="715" height="402"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <visualEffectView appearanceType="vibrantDark" fixedFrame="YES" blendingMode="withinWindow" material="ultraDark" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="ccR-gx-SCe" customClass="CustomVisualEffectView">
+                    <visualEffectView appearanceType="vibrantDark" fixedFrame="YES" blendingMode="withinWindow" material="appearanceBased" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="ccR-gx-SCe" customClass="CustomVisualEffectView">
                         <rect key="frame" x="0.0" y="0.0" width="715" height="402"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
