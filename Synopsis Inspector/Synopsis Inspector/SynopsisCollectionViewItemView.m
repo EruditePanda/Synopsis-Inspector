@@ -115,12 +115,6 @@
         [super mouseDown:theEvent];
 }
 
-//-(NSMenu*) menuForEvent:(NSEvent *)event
-//{
-//    return self.contextualMenu;
-//}
-
-
 - (void) setBorderColor:(NSColor*)color
 {
     borderColor = color;
