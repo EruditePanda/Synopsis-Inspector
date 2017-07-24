@@ -13,51 +13,59 @@
 #define BORDER_WIDTH      3.0     // thickness of border when shown, in points
 
 @interface SynopsisCollectionViewItemView ()
+{
+}
 
 @property (weak) IBOutlet SynopsisCollectionViewItem* item;
-@property (readwrite) AVPlayerLayer* playerLayer;
+
 @property (readwrite, weak) IBOutlet NSTextField* label;
 @property (readwrite, assign) BOOL optimizingForScroll;
+@property (readwrite) CALayer* imageLayer;
+@property (readwrite) SynopsisHAPPlayerLayer* playerLayer;
+
 @end
 
 @implementation SynopsisCollectionViewItemView
 
 @synthesize borderColor = borderColor;
 
-+ (id)defaultAnimationForKey:(NSString *)key
-{
-    static CABasicAnimation *basicAnimation = nil;
-    if ([key isEqual:@"frameOrigin"])
-    {
-        if (basicAnimation == nil)
-        {
-            basicAnimation = [[CABasicAnimation alloc] init];
-            [basicAnimation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-        }
-        return basicAnimation;
-    }
-    else
-    {
-        return [super defaultAnimationForKey:key];
-    }
-}
+//+ (id)defaultAnimationForKey:(NSString *)key
+//{
+//    static CABasicAnimation *basicAnimation = nil;
+//    if ([key isEqual:@"frameOrigin"])
+//    {
+//        if (basicAnimation == nil)
+//        {
+//            basicAnimation = [[CABasicAnimation alloc] init];
+//            [basicAnimation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+//        }
+//        return basicAnimation;
+//    }
+//    else
+//    {
+//        return [super defaultAnimationForKey:key];
+//    }
+//}
 
 - (void) commonInit
 {
-    [self.layer addSublayer:self.label.layer];
     
     self.layer.backgroundColor = [NSColor clearColor].CGColor;
-    
-    AVPlayer* player = [[AVPlayer alloc] init];
-    player.volume = 0;
-    self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:player];
+
+    self.playerLayer = [SynopsisHAPPlayerLayer layer];
     self.playerLayer.frame = self.layer.bounds;
-    self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
-    self.playerLayer.actions = @{@"contents" : [NSNull null], @"opacity" : [NSNull null]};
     self.playerLayer.autoresizingMask = kCALayerWidthSizable | kCALayerHeightSizable;
-    self.playerLayer.backgroundColor = [NSColor clearColor].CGColor;
+    self.playerLayer.asynchronous = NO;
+    self.playerLayer.actions = @{@"contents" : [NSNull null], @"opacity" : [NSNull null]};
+    
+//    [self.layer addSublayer:self.playerLayer];
+//    self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:player];
+//    self.playerLayer.frame = self.layer.bounds;
+//    self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
+//    self.playerLayer.backgroundColor = [NSColor blueColor].CGColor;
     
     [self.layer insertSublayer:self.playerLayer below:self.label.layer];
+
     
     self.imageLayer = [CALayer layer];
     self.imageLayer.frame = self.layer.bounds;
@@ -80,6 +88,11 @@
     return self;
 }
 
+- (void) awakeFromNib
+{
+    [self commonInit];
+}
+
 // If we lazily become ready to play, and we are not in optimize moment (scrolling) show then
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
 {
@@ -89,41 +102,31 @@
         {
             if(!self.optimizingForScroll)
             {
-                self.playerLayer.opacity = 1.0;
+                [self.playerLayer endOptimize];
             }
         }
-        return;
     }
-    
-    [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    else
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }
 
-- (void) awakeFromNib
-{
-    [self commonInit];
-}
 
 - (void) beginOptimizeForScrolling
 {
-    self.playerLayer.opacity = 0.0;
-    [self.playerLayer.player pause];
     self.optimizingForScroll = YES;
+    [self.playerLayer beginOptimize];
 }
 
 - (void) endOptimizeForScrolling
 {
     self.optimizingForScroll = NO;
-    if(self.playerLayer.readyForDisplay)
-    {
-        self.playerLayer.opacity = 1.0;
-    }
+    [self.playerLayer endOptimize];
 }
-
 
 - (void) setAspectRatio:(NSString*)aspect
 {
     self.imageLayer.contentsGravity = aspect;
-    self.playerLayer.videoGravity = aspect;
+//    self.playerLayer.videoGravity = aspect;
 }
 
 - (void) mouseEntered:(NSEvent *)theEvent

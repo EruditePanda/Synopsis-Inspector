@@ -22,10 +22,7 @@
 @property (strong) IBOutlet NSPopover* inspectorPopOver;
 
 @property (weak) IBOutlet NSTextField* nameField;
-//@property (readwrite) AVPlayer* player;
-//@property (readwrite) AVPlayerItemMetadataOutput* playerItemMetadataOutput;
 @property (readwrite) SynopsisMetadataDecoder* metadataDecoder;
-@property (readwrite) dispatch_queue_t backgroundQueue;
 
 @end
 
@@ -36,14 +33,9 @@
     [super viewDidLoad];
     // Do view setup here.
     
-//    self.player = [[AVPlayer alloc] init];
     self.nameField.layer.zPosition = 1.0;
     
     self.metadataDecoder = [[SynopsisMetadataDecoder alloc] initWithVersion:kSynopsisMetadataVersionValue];
-
-    self.backgroundQueue = dispatch_queue_create("info.synopsis.collectionviewitem.backgroundqueue", NULL);
-
-//    [self.playerItemMetadataOutput setDelegate:weakSelf queue:weakSelf.backgroundQueue];
 }
 
 - (void) prepareForReuse
@@ -52,8 +44,7 @@
 
     [(SynopsisCollectionViewItemView*)self.view setBorderColor:nil];
     
-    [[(SynopsisCollectionViewItemView*)self.view playerLayer].player pause];
-    [(SynopsisCollectionViewItemView*)self.view playerLayer].opacity = 0.0;
+    [(SynopsisCollectionViewItemView*)self.view beginOptimizeForScrolling];
     
     self.selected = NO;
 }
@@ -71,7 +62,7 @@
         [(SynopsisCollectionViewItemView*)self.view setBorderColor:[NSColor clearColor]];
     }
     
-    [self.view updateLayer];
+//    [self.view updateLayer];
 }
 
 - (void) setRepresentedObject:(SynopsisMetadataItem*)representedObject
@@ -126,7 +117,6 @@
                         [self setViewImage:image];
                 });
             }];
-            
         }
     }
 }
@@ -145,7 +135,8 @@
 
 - (void) beginOptimizeForScolling
 {
-    [(SynopsisCollectionViewItemView*)self.view beginOptimizeForScrolling];
+    SynopsisCollectionViewItemView* view = (SynopsisCollectionViewItemView*)self.view;
+    [view.playerLayer.player pause];
 }
 
 - (void) endOptimizeForScrolling
@@ -157,7 +148,7 @@
     {
 //        NSLog(@"Replace Player Item");
 //        
-//        [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:view.playerLayer.player.currentItem];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:view.playerLayer.player.currentItem];
         
 //        AVPlayerItem* item = [[SynopsisInspectorMediaCache sharedMediaCache] cachedPlayerItemForMetadataItem:representedObject];
 //        if(item)
@@ -183,11 +174,12 @@
                         if(item.outputs.count)
                         {
                             AVPlayerItemMetadataOutput* metadataOutput = (AVPlayerItemMetadataOutput*)[item.outputs firstObject];
-                            [metadataOutput setDelegate:self queue:self.backgroundQueue];
+                            [metadataOutput setDelegate:self queue:[SynopsisInspectorMediaCache sharedMediaCache].metadataQueue];
                         }
                         
-                        [view.playerLayer.player replaceCurrentItemWithPlayerItem:item];
-//                        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loopPlayback:) name:AVPlayerItemDidPlayToEndTimeNotification object:view.playerLayer.player.currentItem];
+                        [view.playerLayer replacePlayerItemWithItem:item];
+                        
+                        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loopPlayback:) name:AVPlayerItemDidPlayToEndTimeNotification object:view.playerLayer.player.currentItem];
                         
                         [view endOptimizeForScrolling];
                     });
@@ -292,7 +284,6 @@
         [self.inspectorVC setFrameMetadata:metadataDictionary];
     }
 }
-
 
 #pragma mark - PopOver
 

@@ -13,8 +13,9 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="272"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sfP-Yd-lRO">
+                <textField wantsLayer="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sfP-Yd-lRO">
                     <rect key="frame" x="18" y="128" width="444" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <shadow key="shadow" blurRadius="1">
                         <size key="offset" width="1" height="1"/>
                         <color key="color" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -26,12 +27,6 @@
                     </textFieldCell>
                 </textField>
             </subviews>
-            <constraints>
-                <constraint firstItem="sfP-Yd-lRO" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="LFZ-pk-tqI"/>
-                <constraint firstItem="sfP-Yd-lRO" firstAttribute="centerY" secondItem="Hz6-mo-xeY" secondAttribute="centerY" id="YWY-GE-HkO"/>
-                <constraint firstItem="sfP-Yd-lRO" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="c56-Ns-4DA"/>
-                <constraint firstAttribute="trailing" secondItem="sfP-Yd-lRO" secondAttribute="trailing" constant="20" id="tgg-Mo-LfX"/>
-            </constraints>
             <connections>
                 <outlet property="item" destination="M2Q-8K-Ovt" id="Ii1-lb-d1s"/>
                 <outlet property="label" destination="sfP-Yd-lRO" id="LiZ-3x-UAa"/>
@@ -99,11 +94,11 @@
                     <tabViewItems>
                         <tabViewItem label="Global" identifier="1" id="P5Y-Rf-Ih2">
                             <view key="view" wantsLayer="YES" ambiguous="YES" id="QNm-Il-8wp" customClass="TransparentView">
-                                <rect key="frame" x="10" y="25" width="331" height="354"/>
+                                <rect key="frame" x="10" y="29" width="331" height="350"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="t60-VF-Tzp">
-                                        <rect key="frame" x="10" y="146" width="105" height="14"/>
+                                        <rect key="frame" x="10" y="142" width="105" height="14"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Histogram" id="k1h-cF-aMb">
                                             <font key="font" metaFont="smallSystem"/>
@@ -112,15 +107,15 @@
                                         </textFieldCell>
                                     </textField>
                                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qgr-W7-SLu" customClass="MetadataHistogramView">
-                                        <rect key="frame" x="12" y="102" width="302" height="36"/>
+                                        <rect key="frame" x="12" y="98" width="302" height="36"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     </customView>
                                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jsf-74-eWV" customClass="MetadataDominantColorsView">
-                                        <rect key="frame" x="12" y="168" width="302" height="24"/>
+                                        <rect key="frame" x="12" y="164" width="302" height="24"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     </customView>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fna-fF-MzM">
-                                        <rect key="frame" x="10" y="200" width="92" height="14"/>
+                                        <rect key="frame" x="10" y="196" width="92" height="14"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Dominant Colors" id="3BV-9c-KzR">
                                             <font key="font" metaFont="smallSystem"/>
@@ -129,7 +124,7 @@
                                         </textFieldCell>
                                     </textField>
                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2NQ-z0-YOe">
-                                        <rect key="frame" x="12" y="284" width="302" height="45"/>
+                                        <rect key="frame" x="12" y="280" width="302" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" controlSize="small" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="border" drawsBackground="YES" id="TNn-vs-bry">
                                             <font key="font" metaFont="smallSystem"/>
@@ -138,7 +133,7 @@
                                         </textFieldCell>
                                     </textField>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ptn-5S-kaj">
-                                        <rect key="frame" x="10" y="334" width="65" height="14"/>
+                                        <rect key="frame" x="10" y="330" width="65" height="14"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Descriptors" id="Gs5-BW-elu">
                                             <font key="font" metaFont="smallSystem"/>
@@ -147,7 +142,7 @@
                                         </textFieldCell>
                                     </textField>
                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Vm-pI-rbs">
-                                        <rect key="frame" x="12" y="222" width="302" height="32"/>
+                                        <rect key="frame" x="12" y="218" width="302" height="32"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" controlSize="small" lineBreakMode="charWrapping" selectable="YES" allowsUndo="NO" sendsActionOnEndEditing="YES" state="on" borderStyle="border" alignment="center" drawsBackground="YES" id="bN0-Sh-jju">
                                             <font key="font" metaFont="smallSystem"/>
@@ -156,7 +151,7 @@
                                         </textFieldCell>
                                     </textField>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gdy-du-vjW">
-                                        <rect key="frame" x="10" y="262" width="31" height="14"/>
+                                        <rect key="frame" x="10" y="258" width="31" height="14"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Hash" id="rg9-lc-r0i">
                                             <font key="font" metaFont="smallSystem"/>
@@ -165,11 +160,11 @@
                                         </textFieldCell>
                                     </textField>
                                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WyM-zJ-PCR" customClass="MetadataFeatureVectorView">
-                                        <rect key="frame" x="12" y="48" width="302" height="24"/>
+                                        <rect key="frame" x="12" y="44" width="302" height="24"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     </customView>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b7w-sV-bWo">
-                                        <rect key="frame" x="13" y="80" width="82" height="14"/>
+                                        <rect key="frame" x="13" y="76" width="82" height="14"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Feature Vector" id="h4G-UH-Gu2">
                                             <font key="font" metaFont="smallSystem"/>
@@ -178,7 +173,7 @@
                                         </textFieldCell>
                                     </textField>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GUy-ZA-7IH">
-                                        <rect key="frame" x="13" y="17" width="99" height="14"/>
+                                        <rect key="frame" x="13" y="13" width="99" height="14"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Metadata Version:" id="dxZ-ic-B1b">
                                             <font key="font" metaFont="smallSystem"/>
@@ -187,7 +182,7 @@
                                         </textFieldCell>
                                     </textField>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wAx-Na-rx5">
-                                        <rect key="frame" x="116" y="17" width="200" height="14"/>
+                                        <rect key="frame" x="116" y="13" width="200" height="14"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" id="xtr-YJ-IHi">
                                             <font key="font" metaFont="smallSystem"/>

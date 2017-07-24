@@ -16,6 +16,9 @@
 @property (readwrite, strong) NSOperationQueue* videoQueue;
 @property (readwrite, strong) NSOperationQueue* imageQueue;
 @property (readwrite, strong) NSCache* mediaCache;
+@property (readwrite, strong) dispatch_queue_t metadataQueue;
+
+@property (readwrite, strong) NSOpenGLContext* glContext;
 
 @end
 
@@ -45,7 +48,24 @@
         self.videoQueue.maxConcurrentOperationCount = NSOperationQueueDefaultMaxConcurrentOperationCount;
         self.videoQueue.qualityOfService = NSQualityOfServiceBackground;
 
+        self.metadataQueue = dispatch_queue_create("video.synopsis.inspector.mediacache.metadataqueue", DISPATCH_QUEUE_SERIAL);
+        
         self.mediaCache = [[NSCache alloc] init];
+        
+        const NSOpenGLPixelFormatAttribute attributes[] = {
+            NSOpenGLPFAOpenGLProfile,  NSOpenGLProfileVersionLegacy,
+            NSOpenGLPFAAccelerated,
+            NSOpenGLPFAColorSize, 32,
+            NSOpenGLPFADepthSize, 24,
+            NSOpenGLPFAAccelerated,
+            NSOpenGLPFAAcceleratedCompute,
+            NSOpenGLPFANoRecovery,
+            (NSOpenGLPixelFormatAttribute)0,
+        };
+        
+        NSOpenGLPixelFormat* pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:attributes];
+        
+        self.glContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:nil];
     }
     
     return self;
@@ -129,8 +149,20 @@
     NSBlockOperation* blockOperation = [NSBlockOperation blockOperationWithBlock:^{
        
         AVPlayerItem* item = [AVPlayerItem playerItemWithAsset:metadataItem.urlAsset];
-        AVPlayerItemMetadataOutput* metdataOut = [[AVPlayerItemMetadataOutput alloc] initWithIdentifiers:nil];
-        [item addOutput:metdataOut];
+        AVPlayerItemMetadataOutput* metadataOut = [[AVPlayerItemMetadataOutput alloc] initWithIdentifiers:nil];
+        metadataOut.suppressesPlayerRendering = YES;
+        
+        NSDictionary* videoOutputSettings = @{(NSString*)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_32BGRA),
+                                              (NSString*)kCVPixelBufferIOSurfacePropertiesKey : @{},
+//                                              (NSString*)kCVPixelBufferIOSurfaceOpenGLFBOCompatibilityKey :@(YES),
+//                                              (NSString*)kCVPixelBufferIOSurfaceOpenGLTextureCompatibilityKey :@(YES),
+                                              };
+ 
+        AVPlayerItemVideoOutput* videoOutput = [[AVPlayerItemVideoOutput alloc] initWithOutputSettings:videoOutputSettings];
+        videoOutput.suppressesPlayerRendering = YES;
+
+        [item addOutput:metadataOut];
+        [item addOutput:videoOutput];
         
         if(item)
         {
