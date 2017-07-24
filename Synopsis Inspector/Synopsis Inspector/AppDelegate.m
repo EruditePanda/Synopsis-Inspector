@@ -16,6 +16,7 @@
 #import "TSNELayout.h"
 #import "DBScanLayout.h"
 #import "MetadataInspectorViewController.h"
+#import "SynopsisInspectorMediaCache.h"
 
 @interface AppDelegate ()
 
@@ -166,9 +167,7 @@
     [self.collectionView registerForDraggedTypes:[NSArray arrayWithObject:NSURLPboardType]];
     
     // Enable dragging items from our CollectionView to other applications.
-    [self.collectionView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
-
-    
+    [self.collectionView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];    
     
     // Configure the search predicate
     // Run and MDQuery to find every file that has tagged XAttr / Spotlight metadata hints for v002 metadata
@@ -965,6 +964,8 @@ static BOOL toggleAspect = false;
 {
     self.currentlyScrolling = YES;
     
+    [[SynopsisInspectorMediaCache sharedMediaCache] beginOptimize];
+    
     // hide ALL AVPlayerLayers
     NSArray* visibleResults = [self.collectionView visibleItems];
 
@@ -979,6 +980,9 @@ static BOOL toggleAspect = false;
     NSArray* visibleResults = [self.collectionView visibleItems];
     
     [visibleResults makeObjectsPerformSelector:@selector(endOptimizeForScrolling)];
+
+    [[SynopsisInspectorMediaCache sharedMediaCache] endOptimize];
+
 }
 
 #pragma mark - Search

@@ -17,4 +17,7 @@
 
 - (void) setAspectRatio:(NSString*)aspect;
 
+- (void) beginOptimizeForScrolling;
+- (void) endOptimizeForScrolling;
+
 @end
