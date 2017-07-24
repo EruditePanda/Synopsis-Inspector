@@ -11,8 +11,8 @@
 #import <AVFoundation/AVFoundation.h>
 #import "SynopsisCollectionViewItemView.h"
 #import "MetadataInspectorViewController.h"
-
 #import "SynopsisInspectorMediaCache.h"
+#import "HapInAVFoundation.h"
 
 @interface SynopsisCollectionViewItem ()
 {
@@ -166,6 +166,8 @@
 //        }
 //        else
         {
+            BOOL containsHap = [representedObject.urlAsset containsHapVideoTrack];
+            
             [[SynopsisInspectorMediaCache sharedMediaCache] generatePlayerItemAsynchronouslyForAsset:representedObject completionHandler:^(AVPlayerItem * _Nullable item, NSError * _Nullable error) {
                
                 if(item)
@@ -177,7 +179,14 @@
                             [metadataOutput setDelegate:self queue:[SynopsisInspectorMediaCache sharedMediaCache].metadataQueue];
                         }
                         
-                        [view.playerLayer replacePlayerItemWithItem:item];
+                        if(containsHap)
+                        {
+                            [view.playerLayer replacePlayerItemWithHAPItem:item];
+                        }
+                        else
+                        {
+                            [view.playerLayer replacePlayerItemWithItem:item];
+                        }
                         
                         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loopPlayback:) name:AVPlayerItemDidPlayToEndTimeNotification object:view.playerLayer.player.currentItem];
                         

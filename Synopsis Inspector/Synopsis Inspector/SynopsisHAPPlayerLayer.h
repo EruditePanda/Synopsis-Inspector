@@ -15,6 +15,7 @@
 @property (nonatomic, readonly, getter=isReadyForDisplay) BOOL readyForDisplay;
 
 - (void) replacePlayerItemWithItem:(AVPlayerItem*)item;
+- (void) replacePlayerItemWithHAPItem:(AVPlayerItem*)item;
 
 - (void) beginOptimize;
 - (void) endOptimize;

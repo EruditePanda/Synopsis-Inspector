@@ -7,6 +7,7 @@
 //
 
 #import "SynopsisInspectorMediaCache.h"
+#import "HapInAVFoundation.h"
 
 #define SynopsisInspectorMediaCacheImageCost 1
 #define SynopsisInspectorMediaCachePlayerCost 10
@@ -91,30 +92,49 @@
 }
 
 - (void) generateAndCacheStillImageAsynchronouslyForAsset:(SynopsisMetadataItem* _Nonnull)metadataItem completionHandler:(SynopsisInspectorMediaCacheImageCompletionHandler _Nullable )completionHandler
-{    
-    NSBlockOperation* blockOperation = [NSBlockOperation blockOperationWithBlock:^{
-        AVAssetImageGenerator* imageGenerator = [AVAssetImageGenerator assetImageGeneratorWithAsset:metadataItem.urlAsset];
-        
-        imageGenerator.apertureMode = AVAssetImageGeneratorApertureModeCleanAperture;
-        imageGenerator.maximumSize = CGSizeMake(300, 300);
-        imageGenerator.appliesPreferredTrackTransform = YES;
-        
-        [imageGenerator generateCGImagesAsynchronouslyForTimes:@[ [NSValue valueWithCMTime:kCMTimeZero]] completionHandler:^(CMTime requestedTime, CGImageRef  _Nullable image, CMTime actualTime, AVAssetImageGeneratorResult result, NSError * _Nullable error){
-            
-            if(error == nil && image != NULL)
-            {
-                [self writeImageToCache: CFBridgingRetain((__bridge id _Nullable)(image)) forKey:[self imageKeyForMetadataItem:metadataItem] cost:SynopsisInspectorMediaCacheImageCost];
-                
-                if(completionHandler)
-                    completionHandler(image, nil);
-            }
-            else
-            {
-                if(completionHandler)
-                    completionHandler(image, nil);
-            }
+{
+    
+    BOOL containsHap = [metadataItem.urlAsset containsHapVideoTrack];
+
+    
+    NSBlockOperation* blockOperation = nil;
+    
+    if(containsHap)
+    {
+        blockOperation = [NSBlockOperation blockOperationWithBlock:^{
+            if(completionHandler)
+                completionHandler(NULL, nil);
         }];
-    }];
+
+    }
+    else
+    {
+        blockOperation = [NSBlockOperation blockOperationWithBlock:^{
+            AVAssetImageGenerator* imageGenerator = [AVAssetImageGenerator assetImageGeneratorWithAsset:metadataItem.urlAsset];
+            
+            imageGenerator.apertureMode = AVAssetImageGeneratorApertureModeCleanAperture;
+            imageGenerator.maximumSize = CGSizeMake(300, 300);
+            imageGenerator.appliesPreferredTrackTransform = YES;
+            
+            [imageGenerator generateCGImagesAsynchronouslyForTimes:@[ [NSValue valueWithCMTime:kCMTimeZero]] completionHandler:^(CMTime requestedTime, CGImageRef  _Nullable image, CMTime actualTime, AVAssetImageGeneratorResult result, NSError * _Nullable error){
+                
+                if(error == nil && image != NULL)
+                {
+                    [self writeImageToCache: CFBridgingRetain((__bridge id _Nullable)(image)) forKey:[self imageKeyForMetadataItem:metadataItem] cost:SynopsisInspectorMediaCacheImageCost];
+                    
+                    if(completionHandler)
+                        completionHandler(image, nil);
+                }
+                else
+                {
+                    NSError* error = [NSError errorWithDomain:NSCocoaErrorDomain code:-1 userInfo:nil];
+
+                    if(completionHandler)
+                        completionHandler(image, error);
+                }
+            }];
+        }];
+    }
     
     [self.imageQueue addOperation:blockOperation];
     
@@ -148,21 +168,35 @@
 {
     NSBlockOperation* blockOperation = [NSBlockOperation blockOperationWithBlock:^{
        
+        BOOL containsHap = [metadataItem.urlAsset containsHapVideoTrack];
+        
         AVPlayerItem* item = [AVPlayerItem playerItemWithAsset:metadataItem.urlAsset];
+        
         AVPlayerItemMetadataOutput* metadataOut = [[AVPlayerItemMetadataOutput alloc] initWithIdentifiers:nil];
         metadataOut.suppressesPlayerRendering = YES;
-        
-        NSDictionary* videoOutputSettings = @{(NSString*)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_32BGRA),
-                                              (NSString*)kCVPixelBufferIOSurfacePropertiesKey : @{},
-//                                              (NSString*)kCVPixelBufferIOSurfaceOpenGLFBOCompatibilityKey :@(YES),
-//                                              (NSString*)kCVPixelBufferIOSurfaceOpenGLTextureCompatibilityKey :@(YES),
-                                              };
- 
-        AVPlayerItemVideoOutput* videoOutput = [[AVPlayerItemVideoOutput alloc] initWithOutputSettings:videoOutputSettings];
-        videoOutput.suppressesPlayerRendering = YES;
-
         [item addOutput:metadataOut];
-        [item addOutput:videoOutput];
+
+        if(!containsHap)
+        {
+            NSDictionary* videoOutputSettings = @{(NSString*)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_32BGRA),
+                                                  (NSString*)kCVPixelBufferIOSurfacePropertiesKey : @{},
+                                                  //                                              (NSString*)kCVPixelBufferIOSurfaceOpenGLFBOCompatibilityKey :@(YES),
+                                                  //                                              (NSString*)kCVPixelBufferIOSurfaceOpenGLTextureCompatibilityKey :@(YES),
+                                                  };
+            
+            AVPlayerItemVideoOutput* videoOutput = [[AVPlayerItemVideoOutput alloc] initWithOutputSettings:videoOutputSettings];
+            videoOutput.suppressesPlayerRendering = YES;
+            [item addOutput:videoOutput];
+        }
+        else
+        {
+            AVAssetTrack* hapAssetTrack = [[metadataItem.urlAsset hapVideoTracks] firstObject];
+            AVPlayerItemHapDXTOutput* hapOutput = [[AVPlayerItemHapDXTOutput alloc] initWithHapAssetTrack:hapAssetTrack];
+            hapOutput.suppressesPlayerRendering = YES;
+            hapOutput.outputAsRGB = NO;
+            
+            [item addOutput:hapOutput];
+        }
         
         if(item)
         {
