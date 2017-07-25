@@ -131,17 +131,17 @@
 
 - (void) mouseEntered:(NSEvent *)theEvent
 {
-    [self.playerLayer.player play];
+    [self.playerLayer play];
 }
 
 - (void) mouseMoved:(NSEvent *)theEvent
 {
-    [self.playerLayer.player play];
+    [self.playerLayer play];
 }
 
 - (void) mouseExited:(NSEvent *)theEvent
 {
-    [self.playerLayer.player pause];
+    [self.playerLayer pause];
 }
 
 - (void) mouseDown:(NSEvent *)theEvent

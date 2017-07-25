@@ -96,7 +96,6 @@
     
     BOOL containsHap = [metadataItem.urlAsset containsHapVideoTrack];
 
-    
     NSBlockOperation* blockOperation = nil;
     
     if(containsHap)

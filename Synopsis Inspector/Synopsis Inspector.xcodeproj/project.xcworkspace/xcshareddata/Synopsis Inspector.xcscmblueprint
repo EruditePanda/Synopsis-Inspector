@@ -4,15 +4,17 @@
 
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
-    "A7A7D73BE0D478A6B7BF50EC87E41BFF64BD43C2" : 9223372036854775807,
     "10711CD1A3B462A296165831806D29D2932AD6D3" : 0,
-    "2607E71EBA339476A2AA0374C0A97B6C6DDE7A75" : 0
+    "729A65D7AF67509EE4E4F93958E87ED82285AB3A" : 9223372036854775807,
+    "2607E71EBA339476A2AA0374C0A97B6C6DDE7A75" : 0,
+    "A7A7D73BE0D478A6B7BF50EC87E41BFF64BD43C2" : 9223372036854775807
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "FCE51BFE-1346-4985-A4CF-650C580A10AF",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
-    "A7A7D73BE0D478A6B7BF50EC87E41BFF64BD43C2" : "Synopsis%20Inspector\/Synopsis%20Inspector\/Synopsis-Framework\/Synopsis\/Synopsis\/CIEDE2000\/",
     "10711CD1A3B462A296165831806D29D2932AD6D3" : "Synopsis%20Inspector\/",
-    "2607E71EBA339476A2AA0374C0A97B6C6DDE7A75" : "Synopsis%20Inspector\/Synopsis%20Inspector\/Synopsis-Framework\/"
+    "729A65D7AF67509EE4E4F93958E87ED82285AB3A" : "Synopsis%20Inspector\/Synopsis%20Inspector\/hap-in-avfoundation\/",
+    "2607E71EBA339476A2AA0374C0A97B6C6DDE7A75" : "Synopsis%20Inspector\/Synopsis%20Inspector\/Synopsis-Framework\/",
+    "A7A7D73BE0D478A6B7BF50EC87E41BFF64BD43C2" : "Synopsis%20Inspector\/Synopsis%20Inspector\/Synopsis-Framework\/Synopsis\/Synopsis\/CIEDE2000\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "Synopsis Inspector",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
@@ -27,6 +29,11 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Synopsis\/Synopsis-Framework.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "2607E71EBA339476A2AA0374C0A97B6C6DDE7A75"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Vidvox\/hap-in-avfoundation.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "729A65D7AF67509EE4E4F93958E87ED82285AB3A"
     },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Synopsis\/CIEDE2000.git",

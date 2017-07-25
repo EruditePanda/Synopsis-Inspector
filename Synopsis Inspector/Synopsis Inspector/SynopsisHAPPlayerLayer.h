@@ -17,6 +17,9 @@
 - (void) replacePlayerItemWithItem:(AVPlayerItem*)item;
 - (void) replacePlayerItemWithHAPItem:(AVPlayerItem*)item;
 
+- (void) play;
+- (void) pause;
+
 - (void) beginOptimize;
 - (void) endOptimize;
 @end
