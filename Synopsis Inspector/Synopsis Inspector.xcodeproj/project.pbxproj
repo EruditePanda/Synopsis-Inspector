@@ -14,7 +14,6 @@
 		1B2780751F213A2200658C0B /* Synopsis.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BBB10ED1D5558C400C22439 /* Synopsis.framework */; };
 		1B2780791F213A5A00658C0B /* Synopsis.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1BFB133C1F21378C002C4651 /* Synopsis.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1B2781081F253CED00658C0B /* SynopsisInspectorMediaCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B2781071F253CEC00658C0B /* SynopsisInspectorMediaCache.m */; };
-		1B27810D1F2639A700658C0B /* SynopsisHAPPlayerLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B27810C1F2639A700658C0B /* SynopsisHAPPlayerLayer.m */; };
 		1B27810F1F263EDE00658C0B /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B27810E1F263EDE00658C0B /* OpenGL.framework */; };
 		1B522F8F1F26961E00550454 /* AVPlayerItemHapDXTOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F5D1F268A3500550454 /* AVPlayerItemHapDXTOutput.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1B522F921F26987B00550454 /* AVAssetAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F551F268A3500550454 /* AVAssetAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -50,6 +49,8 @@
 		1B522FB11F26999300550454 /* snappy-stubs-internal.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F031F268A3500550454 /* snappy-stubs-internal.cc */; };
 		1B522FB21F26999300550454 /* snappy.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F091F268A3500550454 /* snappy.cc */; };
 		1B522FB31F2699B700550454 /* YCoCgDXT.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F741F268A3500550454 /* YCoCgDXT.cpp */; };
+		1B522FB61F27B18400550454 /* AVPlayerHapLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B522FB51F27B18400550454 /* AVPlayerHapLayer.m */; };
+		1B522FB91F27B37B00550454 /* AVAssetHapImageGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B522FB81F27B37B00550454 /* AVAssetHapImageGenerator.m */; };
 		1B5FE0331DF9F38E009CF677 /* sptree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1B5FE02D1DF9F38E009CF677 /* sptree.cpp */; };
 		1B5FE0341DF9F38E009CF677 /* tsne.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1B5FE02F1DF9F38E009CF677 /* tsne.cpp */; };
 		1B5FE0351DFA1044009CF677 /* TSNELayout.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1B5FE0281DF9F1F9009CF677 /* TSNELayout.mm */; };
@@ -183,8 +184,6 @@
 		1B0D643B1D4FD48E00A1AB5D /* CustomVisualEffectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomVisualEffectView.m; sourceTree = "<group>"; };
 		1B2781061F253CEC00658C0B /* SynopsisInspectorMediaCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynopsisInspectorMediaCache.h; sourceTree = "<group>"; };
 		1B2781071F253CEC00658C0B /* SynopsisInspectorMediaCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SynopsisInspectorMediaCache.m; sourceTree = "<group>"; };
-		1B27810B1F2639A700658C0B /* SynopsisHAPPlayerLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynopsisHAPPlayerLayer.h; sourceTree = "<group>"; };
-		1B27810C1F2639A700658C0B /* SynopsisHAPPlayerLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SynopsisHAPPlayerLayer.m; sourceTree = "<group>"; };
 		1B27810E1F263EDE00658C0B /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		1B522EDD1F268A3500550454 /* hap.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = hap.c; sourceTree = "<group>"; };
 		1B522EDE1F268A3500550454 /* hap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = hap.h; sourceTree = "<group>"; };
@@ -330,6 +329,10 @@
 		1B522F871F268A3500550454 /* YCoCg.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = YCoCg.c; sourceTree = "<group>"; };
 		1B522F881F268A3500550454 /* YCoCg.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCoCg.h; sourceTree = "<group>"; };
 		1B522FA31F26995000550454 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		1B522FB41F27B18400550454 /* AVPlayerHapLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVPlayerHapLayer.h; sourceTree = "<group>"; };
+		1B522FB51F27B18400550454 /* AVPlayerHapLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVPlayerHapLayer.m; sourceTree = "<group>"; };
+		1B522FB71F27B37B00550454 /* AVAssetHapImageGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAssetHapImageGenerator.h; sourceTree = "<group>"; };
+		1B522FB81F27B37B00550454 /* AVAssetHapImageGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAssetHapImageGenerator.m; sourceTree = "<group>"; };
 		1B5FE0271DF9F1F9009CF677 /* TSNELayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSNELayout.h; sourceTree = "<group>"; };
 		1B5FE0281DF9F1F9009CF677 /* TSNELayout.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TSNELayout.mm; sourceTree = "<group>"; };
 		1B5FE02C1DF9F38E009CF677 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
@@ -13075,6 +13078,10 @@
 		1B522F531F268A3500550454 /* HapInAVFoundation */ = {
 			isa = PBXGroup;
 			children = (
+				1B522FB41F27B18400550454 /* AVPlayerHapLayer.h */,
+				1B522FB51F27B18400550454 /* AVPlayerHapLayer.m */,
+				1B522FB71F27B37B00550454 /* AVAssetHapImageGenerator.h */,
+				1B522FB81F27B37B00550454 /* AVAssetHapImageGenerator.m */,
 				1B522F541F268A3500550454 /* AVAssetAdditions.h */,
 				1B522F551F268A3500550454 /* AVAssetAdditions.m */,
 				1B522F561F268A3500550454 /* AVAssetReaderHapTrackOutput.h */,
@@ -33772,8 +33779,6 @@
 				1B2781071F253CEC00658C0B /* SynopsisInspectorMediaCache.m */,
 				1B9874141D48014C0015E54C /* SynopsisCollectionViewItem.h */,
 				1B9874151D48014C0015E54C /* SynopsisCollectionViewItem.mm */,
-				1B27810B1F2639A700658C0B /* SynopsisHAPPlayerLayer.h */,
-				1B27810C1F2639A700658C0B /* SynopsisHAPPlayerLayer.m */,
 				1BD710AC1D620070007D61B9 /* SynopsisCollectionViewItemView.h */,
 				1BD710AD1D620070007D61B9 /* SynopsisCollectionViewItemView.m */,
 				1B5FE02A1DF9F1FE009CF677 /* CollectionView */,
@@ -33997,10 +34002,10 @@
 				1B522FAD1F26998000550454 /* singlecolourfit.cpp in Sources */,
 				1B522F941F2698A000550454 /* CMBlockBufferPool.m in Sources */,
 				1B522FA91F26998000550454 /* colourfit.cpp in Sources */,
+				1B522FB91F27B37B00550454 /* AVAssetHapImageGenerator.m in Sources */,
 				1BE325831E00BD3B00BB5A1A /* SynopsisScroller.m in Sources */,
 				1BD710AE1D620070007D61B9 /* SynopsisCollectionViewItemView.m in Sources */,
 				1B5FE0331DF9F38E009CF677 /* sptree.cpp in Sources */,
-				1B27810D1F2639A700658C0B /* SynopsisHAPPlayerLayer.m in Sources */,
 				1B522F8F1F26961E00550454 /* AVPlayerItemHapDXTOutput.m in Sources */,
 				1B522F9E1F26990000550454 /* SquishDecoder.c in Sources */,
 				1B522FA61F26998000550454 /* alpha.cpp in Sources */,
@@ -34008,6 +34013,7 @@
 				1B522FA51F26996100550454 /* hap.c in Sources */,
 				1B522FA81F26998000550454 /* colourblock.cpp in Sources */,
 				1B522F9C1F26990000550454 /* YCoCgDXTEncoder.c in Sources */,
+				1B522FB61F27B18400550454 /* AVPlayerHapLayer.m in Sources */,
 				1B522FAB1F26998000550454 /* maths.cpp in Sources */,
 				1BDC34431D6CE38C00D210E8 /* MetadataLayerBackedView.m in Sources */,
 				1B7155C61EFC97EE00266150 /* MetadataFeatureVectorView.m in Sources */,

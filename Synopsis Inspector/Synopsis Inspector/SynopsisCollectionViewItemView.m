@@ -21,7 +21,7 @@
 @property (readwrite, weak) IBOutlet NSTextField* label;
 @property (readwrite, assign) BOOL optimizingForScroll;
 @property (readwrite) CALayer* imageLayer;
-@property (readwrite) AVPlayerHAPLayer* playerLayer;
+@property (readwrite) AVPlayerHapLayer* playerLayer;
 
 @end
 
@@ -51,7 +51,7 @@
 {
     self.layer.backgroundColor = [NSColor clearColor].CGColor;
 
-    self.playerLayer = [AVPlayerHAPLayer layer];
+    self.playerLayer = [AVPlayerHapLayer layer];
     self.playerLayer.frame = self.layer.bounds;
     self.playerLayer.autoresizingMask = kCALayerWidthSizable | kCALayerHeightSizable;
     self.playerLayer.asynchronous = NO;

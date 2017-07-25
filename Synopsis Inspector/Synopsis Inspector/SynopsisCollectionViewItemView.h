@@ -14,7 +14,7 @@
 @interface SynopsisCollectionViewItemView : NSView
 @property (readwrite) NSColor* borderColor;
 @property (readonly) CALayer* imageLayer;
-@property (readonly) AVPlayerHAPLayer* playerLayer;
+@property (readonly) AVPlayerHapLayer* playerLayer;
 
 - (void) setAspectRatio:(NSString*)aspect;
 
