@@ -130,17 +130,40 @@
 
 - (void) mouseEntered:(NSEvent *)theEvent
 {
-    [self.playerLayer play];
+//    [self.playerLayer play];
+    [self scrubViaEvent:theEvent];
 }
 
 - (void) mouseMoved:(NSEvent *)theEvent
 {
-    [self.playerLayer play];
+//    [self.playerLayer play];
+    [self scrubViaEvent:theEvent];
+}
+
+- (void) scrubViaEvent:(NSEvent*)theEvent
+{
+    NSPoint mouseLocation = [self convertPoint:[theEvent locationInWindow] fromView: nil];
+    
+    CGFloat normalizedMouseX = mouseLocation.x / self.bounds.size.width;
+    
+    CMTime seekTime = CMTimeMultiplyByFloat64(self.playerLayer.player.currentItem.duration, normalizedMouseX);
+    
+    // This is so ugly
+    BOOL requiresFrameReordering = [[self.playerLayer.player.currentItem.asset tracksWithMediaType:AVMediaTypeVideo] firstObject].requiresFrameReordering;
+    
+    CMTime tolerance = kCMTimeZero;
+    if(requiresFrameReordering)
+    {
+        tolerance = kCMTimePositiveInfinity;
+    }
+
+    [self.playerLayer.player seekToTime:seekTime toleranceBefore:tolerance toleranceAfter:tolerance];
+    [self.playerLayer setNeedsDisplay];
 }
 
 - (void) mouseExited:(NSEvent *)theEvent
 {
-    [self.playerLayer pause];
+//    [self.playerLayer pause];
 }
 
 - (void) mouseDown:(NSEvent *)theEvent
@@ -175,7 +198,7 @@
         [self removeTrackingArea:trackingArea];
     }
     
-    int opts = (NSTrackingMouseEnteredAndExited | NSTrackingActiveInActiveApp | NSTrackingAssumeInside | NSTrackingInVisibleRect);
+    int opts = (NSTrackingMouseEnteredAndExited | NSTrackingMouseMoved | NSTrackingActiveInActiveApp | NSTrackingAssumeInside | NSTrackingInVisibleRect);
     NSTrackingArea* trackingArea = [ [NSTrackingArea alloc] initWithRect:[self bounds]
                                                                  options:opts
                                                                    owner:self

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12121" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12121" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12121"/>
@@ -723,14 +723,17 @@
                 <rect key="frame" x="0.0" y="0.0" width="683" height="360"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <visualEffectView appearanceType="vibrantDark" blendingMode="withinWindow" material="appearanceBased" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="fGu-kV-DJW" customClass="CustomVisualEffectView">
+                    <visualEffectView appearanceType="vibrantDark" blendingMode="withinWindow" material="appearanceBased" state="followsWindowActiveState" id="fGu-kV-DJW" customClass="CustomVisualEffectView">
                         <rect key="frame" x="0.0" y="0.0" width="683" height="360"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <box appearanceType="aqua" verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="0bP-5f-bdN">
+                            <box appearanceType="aqua" verticalHuggingPriority="750" boxType="separator" id="0bP-5f-bdN">
                                 <rect key="frame" x="0.0" y="35" width="683" height="5"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </box>
-                            <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" maxMagnification="1" usesPredominantAxisScrolling="NO" findBarPosition="aboveHorizontalRuler" translatesAutoresizingMaskIntoConstraints="NO" id="fRo-0M-OuZ" customClass="SynopsisScrollView">
+                            <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" maxMagnification="1" usesPredominantAxisScrolling="NO" findBarPosition="aboveHorizontalRuler" id="fRo-0M-OuZ" customClass="SynopsisScrollView">
                                 <rect key="frame" x="0.0" y="46" width="683" height="314"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="Yw9-Kg-dix">
                                     <rect key="frame" x="0.0" y="0.0" width="683" height="314"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -744,7 +747,6 @@
                                                 <binding destination="Voe-Tx-rLC" name="content" keyPath="self.resultsArrayControler.arrangedObjects" id="Dov-sq-Ejf"/>
                                                 <binding destination="Voe-Tx-rLC" name="selectionIndexes" keyPath="self.resultsArrayControler.selectionIndexes" previousBinding="Dov-sq-Ejf" id="Mf6-MG-xWH"/>
                                                 <outlet property="delegate" destination="Voe-Tx-rLC" id="1V0-Qu-xmq"/>
-                                                <outlet property="trailingConstraint" destination="umq-rw-lMm" id="z1s-GC-hbD"/>
                                             </connections>
                                         </collectionView>
                                     </subviews>
@@ -759,13 +761,9 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" preferredMaxLayoutWidth="100" translatesAutoresizingMaskIntoConstraints="NO" id="pTe-hF-2BG">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" id="pTe-hF-2BG">
                                 <rect key="frame" x="18" y="16" width="104" height="11"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="11" id="0wK-zm-mA6"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="58" id="3gi-zU-Emo"/>
-                                    <constraint firstAttribute="width" constant="100" id="VJc-Os-sU6"/>
-                                </constraints>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="gud-B1-ZM3">
                                     <font key="font" metaFont="miniSystem"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -786,22 +784,18 @@
                                     </binding>
                                 </connections>
                             </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uBo-Ud-SFl">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" id="uBo-Ud-SFl">
                                 <rect key="frame" x="139" y="15" width="402" height="11"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="11" id="8tr-gP-zCK"/>
-                                </constraints>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Label" id="kpM-Ls-PKA">
                                     <font key="font" metaFont="miniSystem"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TQp-ui-8US">
+                            <slider verticalHuggingPriority="750" id="TQp-ui-8US">
                                 <rect key="frame" x="599" y="15" width="70" height="13"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="70" id="qhO-pw-NnU"/>
-                                </constraints>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <sliderCell key="cell" controlSize="mini" continuous="YES" state="on" alignment="left" minValue="0.14999999999999999" maxValue="1" doubleValue="1" tickMarkPosition="above" sliderType="linear" id="AjU-GX-1Nh">
                                     <connections>
                                         <binding destination="Voe-Tx-rLC" name="enabled" keyPath="self.collectionView.enclosingScrollView.allowsMagnification" id="KsH-Xu-aFr"/>
@@ -812,30 +806,8 @@
                                 </connections>
                             </slider>
                         </subviews>
-                        <constraints>
-                            <constraint firstAttribute="bottom" secondItem="pTe-hF-2BG" secondAttribute="bottom" constant="16" id="DL4-Bu-R6R"/>
-                            <constraint firstItem="fRo-0M-OuZ" firstAttribute="top" secondItem="fGu-kV-DJW" secondAttribute="top" id="Dmu-x0-WaZ"/>
-                            <constraint firstItem="pTe-hF-2BG" firstAttribute="leading" secondItem="fGu-kV-DJW" secondAttribute="leading" constant="20" id="HNh-gO-Do8"/>
-                            <constraint firstItem="uBo-Ud-SFl" firstAttribute="leading" secondItem="pTe-hF-2BG" secondAttribute="trailing" constant="21" id="YTu-R2-JeV"/>
-                            <constraint firstAttribute="trailing" secondItem="TQp-ui-8US" secondAttribute="trailing" constant="14" id="ZhT-QC-ji8"/>
-                            <constraint firstItem="fRo-0M-OuZ" firstAttribute="leading" secondItem="fGu-kV-DJW" secondAttribute="leading" id="iBi-JN-XKC"/>
-                            <constraint firstAttribute="bottom" secondItem="TQp-ui-8US" secondAttribute="bottom" constant="16" id="kRw-Fh-NkM"/>
-                            <constraint firstAttribute="trailing" secondItem="fRo-0M-OuZ" secondAttribute="trailing" id="umq-rw-lMm"/>
-                            <constraint firstAttribute="bottom" secondItem="fRo-0M-OuZ" secondAttribute="bottom" constant="46" id="xgv-Y0-4Gy"/>
-                        </constraints>
                     </visualEffectView>
                 </subviews>
-                <constraints>
-                    <constraint firstAttribute="bottom" secondItem="uBo-Ud-SFl" secondAttribute="bottom" constant="15" id="2G3-mB-0lg"/>
-                    <constraint firstAttribute="trailing" secondItem="0bP-5f-bdN" secondAttribute="trailing" id="959-xp-z0w"/>
-                    <constraint firstItem="uBo-Ud-SFl" firstAttribute="centerX" secondItem="EiT-Mj-1SZ" secondAttribute="centerX" constant="-1.5" id="Dsy-sc-hfp"/>
-                    <constraint firstAttribute="bottom" secondItem="fGu-kV-DJW" secondAttribute="bottom" id="L1J-6A-NNQ"/>
-                    <constraint firstItem="0bP-5f-bdN" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="T5h-SI-jje"/>
-                    <constraint firstItem="fGu-kV-DJW" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="V43-aZ-tbq"/>
-                    <constraint firstItem="fGu-kV-DJW" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="nZx-Uc-Hy5"/>
-                    <constraint firstAttribute="bottom" secondItem="0bP-5f-bdN" secondAttribute="bottom" constant="37" id="oq5-yV-Zaa"/>
-                    <constraint firstAttribute="trailing" secondItem="fGu-kV-DJW" secondAttribute="trailing" id="zcy-RV-wuy"/>
-                </constraints>
             </view>
             <toolbar key="toolbar" implicitIdentifier="9CAFC0F7-09F2-4B74-9587-2421ED09A603" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="gyV-R0-miV">
                 <allowedToolbarItems>
@@ -990,11 +962,11 @@
                 <rect key="frame" x="0.0" y="0.0" width="715" height="402"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <visualEffectView appearanceType="vibrantDark" fixedFrame="YES" blendingMode="withinWindow" material="appearanceBased" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="ccR-gx-SCe" customClass="CustomVisualEffectView">
+                    <visualEffectView appearanceType="vibrantDark" blendingMode="withinWindow" material="appearanceBased" state="followsWindowActiveState" id="ccR-gx-SCe" customClass="CustomVisualEffectView">
                         <rect key="frame" x="0.0" y="0.0" width="715" height="402"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NyU-t7-ULX">
+                            <button id="NyU-t7-ULX">
                                 <rect key="frame" x="128" y="100" width="196" height="196"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="square" title="All Local Media" bezelStyle="shadowlessSquare" image="NSComputer" imagePosition="overlaps" alignment="center" alternateImage="NSComputer" imageScaling="proportionallyUpOrDown" inset="2" id="dlw-cs-UCg">
@@ -1005,7 +977,7 @@
                                     <action selector="chooseInitialSearchMode:" target="Voe-Tx-rLC" id="gTN-Zb-hAO"/>
                                 </connections>
                             </button>
-                            <button fixedFrame="YES" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="P7N-Ht-TYB">
+                            <button tag="1" id="P7N-Ht-TYB">
                                 <rect key="frame" x="406" y="135" width="132" height="132"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="square" title="Folder" bezelStyle="shadowlessSquare" image="NSFolder" imagePosition="overlaps" alignment="center" alternateImage="NSFolder" imageScaling="proportionallyUpOrDown" inset="2" id="XGA-cA-Ukl">
