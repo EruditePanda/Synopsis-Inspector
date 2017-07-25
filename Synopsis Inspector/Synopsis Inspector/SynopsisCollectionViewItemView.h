@@ -9,12 +9,16 @@
 #import <Cocoa/Cocoa.h>
 #import <AVFoundation/AVFoundation.h>
 #import "SynopsisCollectionViewItem.h"
+#import "HapInAVFoundation.h"
 
 @interface SynopsisCollectionViewItemView : NSView
 @property (readwrite) NSColor* borderColor;
-@property (readwrite) CALayer* imageLayer;
-@property (readonly) AVPlayerLayer* playerLayer;
+@property (readonly) CALayer* imageLayer;
+@property (readonly) AVPlayerHapLayer* playerLayer;
 
 - (void) setAspectRatio:(NSString*)aspect;
+
+- (void) beginOptimizeForScrolling;
+- (void) endOptimizeForScrolling;
 
 @end

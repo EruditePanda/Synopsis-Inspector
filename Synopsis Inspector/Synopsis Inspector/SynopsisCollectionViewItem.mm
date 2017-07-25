@@ -11,6 +11,8 @@
 #import <AVFoundation/AVFoundation.h>
 #import "SynopsisCollectionViewItemView.h"
 #import "MetadataInspectorViewController.h"
+#import "SynopsisInspectorMediaCache.h"
+#import "HapInAVFoundation.h"
 
 @interface SynopsisCollectionViewItem ()
 {
@@ -20,11 +22,7 @@
 @property (strong) IBOutlet NSPopover* inspectorPopOver;
 
 @property (weak) IBOutlet NSTextField* nameField;
-@property (readwrite) AVPlayer* player;
-@property (readwrite) AVPlayerItem* playerItem;
-@property (readwrite) AVPlayerItemMetadataOutput* playerItemMetadataOutput;
 @property (readwrite) SynopsisMetadataDecoder* metadataDecoder;
-@property (readwrite) dispatch_queue_t backgroundQueue;
 
 @end
 
@@ -35,18 +33,9 @@
     [super viewDidLoad];
     // Do view setup here.
     
-    self.player = [[AVPlayer alloc] init];
     self.nameField.layer.zPosition = 1.0;
-    self.player.volume = 0.0;
     
     self.metadataDecoder = [[SynopsisMetadataDecoder alloc] initWithVersion:kSynopsisMetadataVersionValue];
-
-    self.playerItemMetadataOutput = [[AVPlayerItemMetadataOutput alloc] initWithIdentifiers:nil];
-    
-    self.backgroundQueue = dispatch_queue_create("info.synopsis.collectionviewitem.backgroundqueue", NULL);
-
-    __weak typeof(self) weakSelf = self; // no retain loop
-    [self.playerItemMetadataOutput setDelegate:weakSelf queue:weakSelf.backgroundQueue];
 }
 
 - (void) prepareForReuse
@@ -55,9 +44,7 @@
 
     [(SynopsisCollectionViewItemView*)self.view setBorderColor:nil];
     
-    [self.player pause];
-    [(SynopsisCollectionViewItemView*)self.view playerLayer].player = nil;
-    [(SynopsisCollectionViewItemView*)self.view playerLayer].opacity = 0.0;
+    [(SynopsisCollectionViewItemView*)self.view beginOptimizeForScrolling];
     
     self.selected = NO;
 }
@@ -75,7 +62,7 @@
         [(SynopsisCollectionViewItemView*)self.view setBorderColor:[NSColor clearColor]];
     }
     
-    [self.view updateLayer];
+//    [self.view updateLayer];
 }
 
 - (void) setRepresentedObject:(SynopsisMetadataItem*)representedObject
@@ -111,63 +98,33 @@
         self.inspectorVC.globalMetadata = globalMetadata;
         self.nameField.stringValue = representedName;
         
-        if(representedObject.cachedImage == NULL)
+        CGImageRef cachedImage = [[SynopsisInspectorMediaCache sharedMediaCache] cachedImageForMetadataItem:representedObject];
+        if(cachedImage)
         {
-            SynopsisCollectionViewItemView* view = (SynopsisCollectionViewItemView*)self.view;
-
-            view.imageLayer.contents = nil;
-            view.playerLayer.player = nil;
-            
-            __weak typeof (self) weakself = self;
-            dispatch_async(self.backgroundQueue, ^{
-
-                if(weakself)
-                {
-                    __strong typeof (self) strongSelf = weakself;
-
-                    AVAssetImageGenerator* imageGenerator = [AVAssetImageGenerator assetImageGeneratorWithAsset:representedAsset];
-                    
-                    imageGenerator.apertureMode = AVAssetImageGeneratorApertureModeCleanAperture;
-                    imageGenerator.maximumSize = CGSizeMake(300, 300);
-                    imageGenerator.appliesPreferredTrackTransform = YES;
-                    
-                    [imageGenerator generateCGImagesAsynchronouslyForTimes:@[ [NSValue valueWithCMTime:kCMTimeZero]] completionHandler:^(CMTime requestedTime, CGImageRef  _Nullable image, CMTime actualTime, AVAssetImageGeneratorResult result, NSError * _Nullable error) {
-                        [strongSelf buildImageForRepresentedObject:image];
-                    }];
-                }
-            });
+            [self setViewImage:cachedImage];
         }
         else
         {
-            [self setViewImage];
+            SynopsisCollectionViewItemView* view = (SynopsisCollectionViewItemView*)self.view;
+            view.imageLayer.contents = nil;
+
+            [self beginOptimizeForScolling];
+            
+            [[SynopsisInspectorMediaCache sharedMediaCache] generateAndCacheStillImageAsynchronouslyForAsset:representedObject completionHandler:^(CGImageRef  _Nullable image, NSError * _Nullable error)
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if(image)
+                        [self setViewImage:image];
+                });
+            }];
         }
     }
 }
 
-- (void) buildImageForRepresentedObject:(CGImageRef)image
+- (void) setViewImage:(CGImageRef)image
 {
-    if(image != NULL)
-    {
-        SynopsisMetadataItem* representedObject = self.representedObject;
-        representedObject.cachedImage = image;
-
-        dispatch_async(dispatch_get_main_queue(), ^(){
-            
-            [self setViewImage];
-        });
-    }
-}
-
-- (void) setViewImage
-{
-    SynopsisMetadataItem* representedObject = self.representedObject;
     SynopsisCollectionViewItemView* view = (SynopsisCollectionViewItemView*)self.view;
-    view.imageLayer.contents = (id)representedObject.cachedImage;
-}
-
-- (void) beginOptimizeForScolling
-{
-    [self.player pause];
+    view.imageLayer.contents = (id)CFBridgingRelease(image);
 }
 
 - (void) setAspectRatio:(NSString*)aspect
@@ -176,47 +133,82 @@
     [view setAspectRatio:aspect];
 }
 
+- (void) beginOptimizeForScolling
+{
+    SynopsisCollectionViewItemView* view = (SynopsisCollectionViewItemView*)self.view;
+    [view.playerLayer.player pause];
+}
 
 - (void) endOptimizeForScrolling
 {
     SynopsisMetadataItem* representedObject = self.representedObject;
-    if([(SynopsisCollectionViewItemView*)self.view playerLayer].player != self.player)
+    SynopsisCollectionViewItemView* view = (SynopsisCollectionViewItemView*)self.view;
+
+    if(view.playerLayer.player.currentItem.asset != representedObject.urlAsset)
     {
-        __weak typeof (self) weakself = self;
-        dispatch_async(self.backgroundQueue, ^{
+//        NSLog(@"Replace Player Item");
+//        
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:view.playerLayer.player.currentItem];
+        
+//        AVPlayerItem* item = [[SynopsisInspectorMediaCache sharedMediaCache] cachedPlayerItemForMetadataItem:representedObject];
+//        if(item)
+//        {
+//            if(item.outputs.count)
+//            {
+//                AVPlayerItemMetadataOutput* metadataOutput = (AVPlayerItemMetadataOutput*)[item.outputs firstObject];
+//                [metadataOutput setDelegate:self queue:self.backgroundQueue];
+//            }
+//            
+//            [view.playerLayer.player replaceCurrentItemWithPlayerItem:item];
+//            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loopPlayback:) name:AVPlayerItemDidPlayToEndTimeNotification object:view.playerLayer.player.currentItem];
+//
+//            [view endOptimizeForScrolling];
+//        }
+//        else
+        {
+            BOOL containsHap = [representedObject.urlAsset containsHapVideoTrack];
             
-            if(weakself)
-            {
-                __strong typeof (self) strongSelf = weakself;
-                
-                if(strongSelf.playerItem)
+            [[SynopsisInspectorMediaCache sharedMediaCache] generatePlayerItemAsynchronouslyForAsset:representedObject completionHandler:^(AVPlayerItem * _Nullable item, NSError * _Nullable error) {
+               
+                if(item)
                 {
-                    //                dispatch_async(dispatch_get_main_queue(), ^{
-                    [[NSNotificationCenter defaultCenter] removeObserver:strongSelf name:AVPlayerItemDidPlayToEndTimeNotification object:strongSelf.playerItem];
-                    //                });
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        if(item.outputs.count)
+                        {
+                            AVPlayerItemMetadataOutput* metadataOutput = (AVPlayerItemMetadataOutput*)[item.outputs firstObject];
+                            [metadataOutput setDelegate:self queue:[SynopsisInspectorMediaCache sharedMediaCache].metadataQueue];
+                        }
+                        
+                        if(containsHap)
+                        {
+                            [view.playerLayer replacePlayerItemWithHAPItem:item];
+                        }
+                        else
+                        {
+                            [view.playerLayer replacePlayerItemWithItem:item];
+                        }
+                        
+                        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loopPlayback:) name:AVPlayerItemDidPlayToEndTimeNotification object:view.playerLayer.player.currentItem];
+                        
+                        [view endOptimizeForScrolling];
+                    });
                 }
-                
-                strongSelf.playerItem = [AVPlayerItem playerItemWithAsset:representedObject.urlAsset];
-                [[NSNotificationCenter defaultCenter] addObserver:strongSelf selector:@selector(loopPlayback:) name:AVPlayerItemDidPlayToEndTimeNotification object:strongSelf.playerItem];
-                
-                [[strongSelf.player currentItem] removeOutput:strongSelf.playerItemMetadataOutput];
-                [strongSelf.player replaceCurrentItemWithPlayerItem:strongSelf.playerItem];
-                [[strongSelf.player currentItem] addOutput:strongSelf.playerItemMetadataOutput];
-                
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [(SynopsisCollectionViewItemView*)strongSelf.view playerLayer].player = strongSelf.player;
-                    [(SynopsisCollectionViewItemView*)strongSelf.view playerLayer].opacity = 1.0;
-                });
-            }
-        });
+            }];
+        }
+    }
+    
+    else
+    {
+        [view endOptimizeForScrolling];
     }
 }
 
 - (void) loopPlayback:(NSNotification*)notification
 {
-    [self.player seekToTime:kCMTimeZero];
-    [self.player play];
+    SynopsisCollectionViewItemView* view = (SynopsisCollectionViewItemView*)self.view;
+
+    [view.playerLayer.player seekToTime:kCMTimeZero];
+    [view.playerLayer.player play];
 }
 
 - (IBAction)revealInFinder:(id)sender
@@ -301,7 +293,6 @@
         [self.inspectorVC setFrameMetadata:metadataDictionary];
     }
 }
-
 
 #pragma mark - PopOver
 

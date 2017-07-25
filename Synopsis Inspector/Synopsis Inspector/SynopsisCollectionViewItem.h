@@ -11,7 +11,6 @@
 
 @interface SynopsisCollectionViewItem : NSCollectionViewItem <AVPlayerItemMetadataOutputPushDelegate>
 
-@property (readonly) AVPlayer* player;
 
 - (void) beginOptimizeForScolling;
 - (void) endOptimizeForScrolling;
