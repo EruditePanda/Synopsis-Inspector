@@ -21,7 +21,7 @@
 @property (readwrite, weak) IBOutlet NSTextField* label;
 @property (readwrite, assign) BOOL optimizingForScroll;
 @property (readwrite) CALayer* imageLayer;
-@property (readwrite) SynopsisHAPPlayerLayer* playerLayer;
+@property (readwrite) AVPlayerHAPLayer* playerLayer;
 
 @end
 
@@ -49,10 +49,9 @@
 
 - (void) commonInit
 {
-    
     self.layer.backgroundColor = [NSColor clearColor].CGColor;
 
-    self.playerLayer = [SynopsisHAPPlayerLayer layer];
+    self.playerLayer = [AVPlayerHAPLayer layer];
     self.playerLayer.frame = self.layer.bounds;
     self.playerLayer.autoresizingMask = kCALayerWidthSizable | kCALayerHeightSizable;
     self.playerLayer.asynchronous = NO;

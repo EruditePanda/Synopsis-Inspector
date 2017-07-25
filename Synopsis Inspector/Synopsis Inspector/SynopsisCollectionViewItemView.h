@@ -9,12 +9,12 @@
 #import <Cocoa/Cocoa.h>
 #import <AVFoundation/AVFoundation.h>
 #import "SynopsisCollectionViewItem.h"
-#import "SynopsisHAPPlayerLayer.h"
+#import "HapInAVFoundation.h"
 
 @interface SynopsisCollectionViewItemView : NSView
 @property (readwrite) NSColor* borderColor;
 @property (readonly) CALayer* imageLayer;
-@property (readonly) SynopsisHAPPlayerLayer* playerLayer;
+@property (readonly) AVPlayerHAPLayer* playerLayer;
 
 - (void) setAspectRatio:(NSString*)aspect;
 
