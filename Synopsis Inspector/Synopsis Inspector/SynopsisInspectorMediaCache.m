@@ -101,8 +101,96 @@
     if(containsHap)
     {
         blockOperation = [NSBlockOperation blockOperationWithBlock:^{
-            if(completionHandler)
-                completionHandler(NULL, nil);
+            
+            // This seems really stupid
+            AVPlayerItem* item = [AVPlayerItem playerItemWithAsset:metadataItem.urlAsset];
+            AVAssetTrack* hapAssetTrack = [[metadataItem.urlAsset hapVideoTracks] firstObject];
+            
+
+            AVPlayerItemHapDXTOutput* hapOutput = [[AVPlayerItemHapDXTOutput alloc] initWithHapAssetTrack:hapAssetTrack];
+            hapOutput.suppressesPlayerRendering = YES;
+            hapOutput.outputAsRGB =YES;
+
+            [item addOutput:hapOutput];
+
+            HapDecoderFrame* rgbFrame = [hapOutput allocFrameForTime:kCMTimeZero];
+            
+            if(rgbFrame)
+            {
+                NSData* rgbData = [NSData dataWithBytes:rgbFrame.rgbData length:rgbFrame.rgbDataSize];
+                
+                CGDataProviderRef provider = CGDataProviderCreateWithCFData((CFDataRef)rgbData);
+//                CGColorSpaceRef cs = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGBLinear);
+                CGColorSpaceRef cs =  CGColorSpaceCreateDeviceRGB();
+                CGBitmapInfo info =  kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedLast;
+                
+                CGImageRef unscaledImage = CGImageCreate(rgbFrame.rgbImgSize.width,
+                                                         rgbFrame.rgbImgSize.height,
+                                                         8,
+                                                         32,
+                                                         rgbFrame.rgbImgSize.width * 4,
+                                                         cs,
+                                                         info,
+                                                         provider,
+                                                         NULL,
+                                                         NO,
+                                                         kCGRenderingIntentDefault);
+                
+                
+                // resize CGImage
+                size_t bitsPerComponent = CGImageGetBitsPerComponent(unscaledImage);
+                size_t bytesPerRow = CGImageGetBytesPerRow(unscaledImage);
+                
+                CGContextRef context = CGBitmapContextCreate(NULL,
+                                                             300,
+                                                             300,
+                                                             bitsPerComponent,
+                                                             bytesPerRow,
+                                                             cs,
+                                                             info);
+                
+                CGRect rect = AVMakeRectWithAspectRatioInsideRect(rgbFrame.rgbImgSize, CGRectMake(0, 0, 300, 300));
+                
+                CGContextSetInterpolationQuality(context, kCGInterpolationLow);
+                
+                CGContextDrawImage(context, rect, unscaledImage);
+                
+                CGImageRef image = CGBitmapContextCreateImage(context);
+                
+                CGColorSpaceRelease(cs);
+                
+                if(image)
+                {
+                    [self writeImageToCache: CFBridgingRetain((__bridge id _Nullable)(image)) forKey:[self imageKeyForMetadataItem:metadataItem] cost:SynopsisInspectorMediaCacheImageCost];
+                    
+                    
+                    if(completionHandler)
+                        completionHandler(image, nil);
+                    
+                    CGImageRelease(image);
+                }
+                
+                else
+                {
+                    // TODO: ERRORS - No CGIMage created
+                    NSError* error = [NSError errorWithDomain:NSCocoaErrorDomain code:-1 userInfo:nil];
+                    
+                    if(completionHandler)
+                        completionHandler(NULL, error);
+                    
+                }
+            }
+            else
+            {
+                // TODO: ERRORS - No HAP Frame
+                NSError* error = [NSError errorWithDomain:NSCocoaErrorDomain code:-1 userInfo:nil];
+                
+                if(completionHandler)
+                    completionHandler(NULL, error);
+                
+            }
+
+            
         }];
 
     }

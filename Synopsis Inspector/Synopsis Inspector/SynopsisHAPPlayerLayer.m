@@ -233,7 +233,8 @@
         {
             CVOpenGLTextureRelease(currentTextureRef);
         }
-        
+
+        CVOpenGLTextureCacheFlush(textureCache, 0);
         CVOpenGLTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
                                                    textureCache,
                                                    currentPixelBuffer,
@@ -471,10 +472,10 @@
         GLfloat aspect = (GLfloat)hapTextureSize.height / (GLfloat)hapTextureSize.width;
         GLfloat texCoords[8] =
         {
-            0.0, 0.0,
-            1.0, 0.0,
+            0.0, 1.0,
             1.0, 1.0,
-            0.0, 1.0
+            1.0, 0.0,
+            0.0, 0.0
         };
         
         GLfloat vertexCoords[8] =
@@ -521,12 +522,6 @@
 - (void) beginOptimize
 {
     [self pause];
-
-//    if(textureCache)
-//    {
-//        CGLSetCurrentContext(context);
-//        CVOpenGLTextureCacheFlush(textureCache, 0);
-//    }
     
     self.opacity = 0.0;
     
