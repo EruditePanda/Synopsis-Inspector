@@ -42,9 +42,12 @@
 {
     [super prepareForReuse];
 
-    [(SynopsisCollectionViewItemView*)self.view setBorderColor:nil];
-    
-    [(SynopsisCollectionViewItemView*)self.view beginOptimizeForScrolling];
+    SynopsisCollectionViewItemView* itemView = (SynopsisCollectionViewItemView*)self.view;
+    itemView.currentTimeFromStart.stringValue = @"";
+    itemView.currentTimeToEnd.stringValue = @"";
+
+    [itemView setSelected:NO];
+    [itemView beginOptimizeForScrolling];
     
     self.selected = NO;
 }
@@ -52,15 +55,17 @@
 - (void) setSelected:(BOOL)selected
 {
     [super setSelected:selected];
-    
-    if(self.selected)
-    {
-        [(SynopsisCollectionViewItemView*)self.view setBorderColor:[NSColor selectedControlColor]];
-    }
-    else
-    {
-        [(SynopsisCollectionViewItemView*)self.view setBorderColor:[NSColor clearColor]];
-    }
+
+    [(SynopsisCollectionViewItemView*)self.view setSelected:self.selected];
+
+//    if(self.selected)
+//    {
+//        [(SynopsisCollectionViewItemView*)self.view setBorderColor:[NSColor grayColor]];
+//    }
+//    else
+//    {
+//        [(SynopsisCollectionViewItemView*)self.view setBorderColor:[NSColor clearColor]];
+//    }
     
 //    [self.view updateLayer];
 }
@@ -94,6 +99,16 @@
             if(globalMetadata)
                 break;
         }
+        
+        SynopsisCollectionViewItemView* itemView = (SynopsisCollectionViewItemView*)self.view;
+        itemView.currentTimeFromStart.stringValue = [NSString stringWithFormat:@"%02.f:%02.f:%02.f", 0.0, 0.0, 0.0];
+        
+        Float64 reminaingInSeconds = CMTimeGetSeconds(representedAsset.duration);
+        Float64 reminaingHours = floor(reminaingInSeconds / (60.0 * 60.0));
+        Float64 reminaingMinutes = floor(reminaingInSeconds / 60.0);
+        Float64 reminaingSeconds = fmod(reminaingInSeconds, 60.0);
+        
+        itemView.currentTimeToEnd.stringValue = [NSString stringWithFormat:@"%02.f:%02.f:%02.f", reminaingHours, reminaingMinutes, reminaingSeconds];
         
         self.inspectorVC.globalMetadata = globalMetadata;
         self.nameField.stringValue = representedName;

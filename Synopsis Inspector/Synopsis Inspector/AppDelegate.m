@@ -97,12 +97,14 @@
     NSArray* hues = @[@"Light", @"Neutral", @"Dark", @"Warm", @"Cool"];
     NSArray* speeds = @[@"Fast", @"Medium", @"Slow"];
     NSArray* directions = @[@"Up", @"Down", @"Left", @"Right", @"Diagonal"];
+    NSArray* shotCategories = @[@"Close Up", @"Extreme Close Up", @"Extreme Long", @"Long", @"Medium"];
 //    NSArray* operators = @[@"AND", @"OR", @"NOT"];
     
-    self.tokenDictionary = @{ @"COLOR" : colors,
-                              @"HUE" : hues,
-                              @"SPEED" : speeds,
-                              @"DIRECTION" : directions,
+    self.tokenDictionary = @{ @"Color:" : colors,
+                              @"Hue:" : hues,
+                              @"Speed:" : speeds,
+                              @"Direction:" : directions,
+                              @"Shot Type:" : shotCategories,
 //                              @"LOGIC" : operators,
 //                              @"AND" : [NSNull null],
 //                              @"OR" : [NSNull null],

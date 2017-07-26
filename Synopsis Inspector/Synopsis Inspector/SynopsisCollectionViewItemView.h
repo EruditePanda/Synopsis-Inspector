@@ -16,9 +16,14 @@
 @property (readonly) CALayer* imageLayer;
 @property (readonly) AVPlayerHapLayer* playerLayer;
 
+@property (readonly) NSTextField* currentTimeFromStart;
+@property (readonly) NSTextField* currentTimeToEnd;
+
 - (void) setAspectRatio:(NSString*)aspect;
 
 - (void) beginOptimizeForScrolling;
 - (void) endOptimizeForScrolling;
+
+- (void) setSelected:(BOOL)selected;
 
 @end

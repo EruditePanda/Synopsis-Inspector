@@ -13164,6 +13164,10 @@
 		1B5FE02A1DF9F1FE009CF677 /* CollectionView */ = {
 			isa = PBXGroup;
 			children = (
+				1B9874141D48014C0015E54C /* SynopsisCollectionViewItem.h */,
+				1B9874151D48014C0015E54C /* SynopsisCollectionViewItem.mm */,
+				1BD710AC1D620070007D61B9 /* SynopsisCollectionViewItemView.h */,
+				1BD710AD1D620070007D61B9 /* SynopsisCollectionViewItemView.m */,
 				1BD710AF1D620AC8007D61B9 /* AAPLWrappedLayout.h */,
 				1BD710B01D620AC8007D61B9 /* AAPLWrappedLayout.m */,
 				1B5FE0271DF9F1F9009CF677 /* TSNELayout.h */,
@@ -33777,10 +33781,6 @@
 				1B9873F51D47A5540015E54C /* AppDelegate.m */,
 				1B2781061F253CEC00658C0B /* SynopsisInspectorMediaCache.h */,
 				1B2781071F253CEC00658C0B /* SynopsisInspectorMediaCache.m */,
-				1B9874141D48014C0015E54C /* SynopsisCollectionViewItem.h */,
-				1B9874151D48014C0015E54C /* SynopsisCollectionViewItem.mm */,
-				1BD710AC1D620070007D61B9 /* SynopsisCollectionViewItemView.h */,
-				1BD710AD1D620070007D61B9 /* SynopsisCollectionViewItemView.m */,
 				1B5FE02A1DF9F1FE009CF677 /* CollectionView */,
 				1BDC34341D6AB02600D210E8 /* Inspector */,
 				1B9874161D48014C0015E54C /* SynopsisCollectionViewItem.xib */,
