@@ -618,9 +618,7 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [self handleQueuryDidUpdate:notification.userInfo];
 
-        
         [self.continuousMetadataSearch enableUpdates];
-        
         
         // Once we are finished, we
         [self lazyCreateLayoutsWithContent:self.resultsArrayControler.content];

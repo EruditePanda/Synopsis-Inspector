@@ -58,6 +58,10 @@
     self.layer.borderWidth = BORDER_WIDTH;//(self.borderColor ? BORDER_WIDTH : 0.0);
     self.layer.cornerRadius = CORNER_RADIUS;
 
+    self.label.layer.opacity = 0.5;
+    self.currentTimeToEnd.layer.opacity = 0.2;
+    self.currentTimeFromStart.layer.opacity = 0.2;
+
     self.playerLayer = [AVPlayerHapLayer layer];
     self.playerLayer.frame = self.layer.bounds;
     self.playerLayer.autoresizingMask = kCALayerWidthSizable | kCALayerHeightSizable;
@@ -147,7 +151,9 @@
 //    [self.playerLayer play];
     [self scrubViaEvent:theEvent];
     self.playheadLayer.opacity = 1.0;
-
+    self.label.layer.opacity = 1.0;
+    self.currentTimeToEnd.layer.opacity = 1.0;
+    self.currentTimeFromStart.layer.opacity = 1.0;
 }
 
 - (void) mouseMoved:(NSEvent *)theEvent
@@ -207,6 +213,9 @@
 //    [self.playerLayer pause];
     
     self.playheadLayer.opacity = 0.0;
+    self.label.layer.opacity = 0.5;
+    self.currentTimeToEnd.layer.opacity = 0.2;
+    self.currentTimeFromStart.layer.opacity = 0.2;
 }
 
 - (void) mouseDown:(NSEvent *)theEvent

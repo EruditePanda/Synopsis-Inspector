@@ -56,6 +56,11 @@
 {
     [super setSelected:selected];
 
+    if(selected)
+        self.view.layer.zPosition = 3.0;
+    else
+        self.view.layer.zPosition = 0.0;
+    
     [(SynopsisCollectionViewItemView*)self.view setSelected:self.selected];
 
 //    if(self.selected)
