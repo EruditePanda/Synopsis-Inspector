@@ -105,7 +105,6 @@
             // This seems really stupid
             AVPlayerItem* item = [AVPlayerItem playerItemWithAsset:metadataItem.urlAsset];
             AVAssetTrack* hapAssetTrack = [[metadataItem.urlAsset hapVideoTracks] firstObject];
-            
 
             AVPlayerItemHapDXTOutput* hapOutput = [[AVPlayerItemHapDXTOutput alloc] initWithHapAssetTrack:hapAssetTrack];
             hapOutput.suppressesPlayerRendering = YES;
@@ -151,6 +150,7 @@
                 
                 CGRect rect = AVMakeRectWithAspectRatioInsideRect(rgbFrame.rgbImgSize, CGRectMake(0, 0, 300, 300));
                 
+                
                 CGContextSetInterpolationQuality(context, kCGInterpolationLow);
                 
                 CGContextDrawImage(context, rect, unscaledImage);
@@ -158,11 +158,13 @@
                 CGImageRef image = CGBitmapContextCreateImage(context);
                 
                 CGColorSpaceRelease(cs);
-                
+                CGImageRelease(unscaledImage);
+                CGContextRelease(context);
+                CGDataProviderRelease(provider);
+
                 if(image)
                 {
                     [self writeImageToCache: CFBridgingRetain((__bridge id _Nullable)(image)) forKey:[self imageKeyForMetadataItem:metadataItem] cost:SynopsisInspectorMediaCacheImageCost];
-                    
                     
                     if(completionHandler)
                         completionHandler(image, nil);
