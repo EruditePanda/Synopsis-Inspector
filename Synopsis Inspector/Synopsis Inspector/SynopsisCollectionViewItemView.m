@@ -200,7 +200,7 @@
             Float64 reminaingMinutes = floor(reminaingInSeconds / 60.0);
             Float64 reminaingSeconds = fmod(reminaingInSeconds, 60.0);
 
-            self.currentTimeToEnd.stringValue = [NSString stringWithFormat:@"%02.f:%02.f:%02.f", reminaingHours, reminaingMinutes, reminaingSeconds];
+            self.currentTimeToEnd.stringValue = [NSString stringWithFormat:@"-%02.f:%02.f:%02.f", reminaingHours, reminaingMinutes, reminaingSeconds];
 
         });
     }];

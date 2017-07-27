@@ -113,7 +113,7 @@
         Float64 reminaingMinutes = floor(reminaingInSeconds / 60.0);
         Float64 reminaingSeconds = fmod(reminaingInSeconds, 60.0);
         
-        itemView.currentTimeToEnd.stringValue = [NSString stringWithFormat:@"%02.f:%02.f:%02.f", reminaingHours, reminaingMinutes, reminaingSeconds];
+        itemView.currentTimeToEnd.stringValue = [NSString stringWithFormat:@"-%02.f:%02.f:%02.f", reminaingHours, reminaingMinutes, reminaingSeconds];
         
         self.inspectorVC.globalMetadata = globalMetadata;
         self.nameField.stringValue = representedName;

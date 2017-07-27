@@ -26,7 +26,7 @@
                     <rect key="frame" x="334" y="20" width="128" height="11"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                     <textFieldCell key="cell" controlSize="mini" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="right" title="Label" id="jYk-JK-JF3">
-                        <font key="font" metaFont="miniSystem"/>
+                        <font key="font" size="9" name="Monaco"/>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
@@ -35,7 +35,7 @@
                     <rect key="frame" x="18" y="20" width="128" height="11"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <textFieldCell key="cell" controlSize="mini" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="left" title="Label" id="CAO-oS-OqS">
-                        <font key="font" metaFont="miniSystem"/>
+                        <font key="font" size="9" name="Monaco"/>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
