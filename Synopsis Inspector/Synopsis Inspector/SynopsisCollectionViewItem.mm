@@ -115,8 +115,12 @@
         
         itemView.currentTimeToEnd.stringValue = [NSString stringWithFormat:@"-%02.f:%02.f:%02.f", reminaingHours, reminaingMinutes, reminaingSeconds];
         
+//        [itemView.currentTimeFromStart sizeToFit];
+//        [itemView.currentTimeToEnd sizeToFit];
+
         self.inspectorVC.globalMetadata = globalMetadata;
         self.nameField.stringValue = representedName;
+//        [self.nameField sizeToFit];
         
         CGImageRef cachedImage = [[SynopsisInspectorMediaCache sharedMediaCache] cachedImageForMetadataItem:representedObject];
         if(cachedImage)
