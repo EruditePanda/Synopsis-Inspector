@@ -287,8 +287,12 @@
 - (SynopsisMetadataItem*) firstSelectedItem
 {
     NSIndexSet *path = [self.collectionView selectionIndexes];
-    SynopsisMetadataItem* item = [[self.resultsArrayControler arrangedObjects] objectAtIndex:[path firstIndex]];
-    return item;
+    if(path.firstIndex != NSNotFound)
+    {
+        SynopsisMetadataItem* item = [[self.resultsArrayControler arrangedObjects] objectAtIndex:[path firstIndex]];
+        return item;
+    }
+    return nil;
 }
 
 - (IBAction)bestMatchSortUsingSelectedCell:(id)sender
@@ -450,7 +454,7 @@
 {
     SynopsisMetadataItem* item = [self firstSelectedItem];
     self.filterStatus = @"Dark Color Filter";
-    [self setupFilterUsingPredicate:[NSPredicate synopsisNeutralColorPredicate] selectedItem:item];
+    [self setupFilterUsingPredicate:[NSPredicate synopsisDarkColorPredicate] selectedItem:item];
 }
 
 - (IBAction)filterNeutralColors:(id)sender
