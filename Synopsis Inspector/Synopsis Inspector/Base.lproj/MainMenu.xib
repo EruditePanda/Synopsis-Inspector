@@ -727,15 +727,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="683" height="360"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView misplaced="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" maxMagnification="1" usesPredominantAxisScrolling="NO" findBarPosition="aboveHorizontalRuler" id="fRo-0M-OuZ" customClass="SynopsisScrollView">
+                            <scrollView misplaced="YES" borderType="line" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" maxMagnification="1" usesPredominantAxisScrolling="NO" findBarPosition="aboveHorizontalRuler" id="fRo-0M-OuZ">
                                 <rect key="frame" x="0.0" y="36" width="683" height="324"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="Yw9-Kg-dix">
-                                    <rect key="frame" x="0.0" y="0.0" width="683" height="324"/>
+                                    <rect key="frame" x="1" y="1" width="681" height="322"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <collectionView selectable="YES" allowsMultipleSelection="YES" id="Zca-Ua-Xm8" customClass="TransparentCollectionView">
-                                            <rect key="frame" x="0.0" y="0.0" width="668" height="324"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="666" height="322"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <collectionViewLayout key="collectionViewLayout" id="Jcz-VS-yYo" customClass="AAPLWrappedLayout"/>
                                             <color key="primaryBackgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
@@ -748,12 +748,12 @@
                                     </subviews>
                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </clipView>
-                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="RT5-Sb-dCz" customClass="SynopsisScroller">
-                                    <rect key="frame" x="0.0" y="299" width="465" height="15"/>
+                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="RT5-Sb-dCz">
+                                    <rect key="frame" x="1" y="307" width="681" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="0sy-jS-7Et" customClass="SynopsisScroller">
-                                    <rect key="frame" x="465" y="0.0" width="15" height="299"/>
+                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="0sy-jS-7Et">
+                                    <rect key="frame" x="666" y="1" width="16" height="322"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
@@ -901,7 +901,7 @@
                             <action selector="actionFromTokenField:" target="Voe-Tx-rLC" id="Q5l-Bh-8Pd"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="234A6395-D654-4597-A38C-CE48B6DCC4A1" label="" paletteLabel="" tag="-1" id="lhd-Zu-nIq">
+                    <toolbarItem implicitItemIdentifier="234A6395-D654-4597-A38C-CE48B6DCC4A1" label="" paletteLabel="" tag="-1" autovalidates="NO" id="lhd-Zu-nIq">
                         <nil key="toolTip"/>
                         <size key="minSize" width="5" height="32"/>
                         <size key="maxSize" width="5" height="32"/>

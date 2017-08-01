@@ -70,8 +70,19 @@
         self.N = features.count;
         
         // number of dimensions a single data point contains
-        // Note, should be the same
-        self.D = [self.features[0] featureCount];
+        // Note: we have a nuance here where some older metadata might
+        // contain different feature counts.
+        // lets find the min and use that
+
+        // Bad broken code from Alpha 1 / 3
+        //self.D = [self.features[0] featureCount];
+
+        __block NSUInteger min = NSUIntegerMax;
+        [self.features enumerateObjectsUsingBlock:^(SynopsisDenseFeature * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            min = MIN(min, [obj featureCount]);
+        }];
+        
+        self.D = min;//[self.features[0] featureCount];
         
         X = (double*) malloc(self.D * self.N * sizeof(double));
         Y = (double*) malloc(self.dims * self.N * sizeof(double));
@@ -177,6 +188,7 @@
     self.collectionView.enclosingScrollView.hasVerticalScroller = YES;
     self.collectionView.enclosingScrollView.hasHorizontalScroller = YES;
     self.collectionView.enclosingScrollView.horizontalScroller.hidden = NO;
+    self.collectionView.enclosingScrollView.verticalScroller.hidden = NO;
     
     self.collectionView.enclosingScrollView.allowsMagnification = YES;
     self.collectionView.enclosingScrollView.maxMagnification = 1.0;
@@ -193,8 +205,6 @@
 
 - (NSSize)collectionViewContentSize
 {
-    self.collectionView.enclosingScrollView.horizontalScroller.hidden = NO;
-
     return initialSize;
 }
 

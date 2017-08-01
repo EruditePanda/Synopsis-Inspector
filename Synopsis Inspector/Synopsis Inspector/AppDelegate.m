@@ -156,14 +156,12 @@
     // Notifcations to help optimize scrolling
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willScroll:) name:NSScrollViewWillStartLiveScrollNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didScroll:) name:NSScrollViewDidEndLiveScrollNotification object:nil];
-    
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willScroll:) name:NSScrollViewWillStartLiveMagnifyNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didScroll:) name:NSScrollViewDidEndLiveMagnifyNotification object:nil];
+
     self.currentlyScrolling = NO;
 
-//    self.collectionView.enclosingScrollView.hasVerticalScroller = YES;
-//    self.collectionView.enclosingScrollView.hasHorizontalScroller = YES;
-//    self.collectionView.enclosingScrollView.autohidesScrollers = NO;
-//    self.collectionView.enclosingScrollView.horizontalScroller.hidden = NO;
-//    self.collectionView.enclosingScrollView.wantsLayer = YES;
 
     // Register for the dropped object types we can accept.
     [self.collectionView registerForDraggedTypes:[NSArray arrayWithObject:NSURLPboardType]];
@@ -240,7 +238,7 @@
 
     [self.continuousMetadataSearch startQuery];
     
-    self.window.title = @"Synopsis Analyzer - All Local Media";
+    self.window.title = @"Synopsis Inspector - All Local Media";
 }
 
 - (IBAction)switchToLocalComputerPathSearchScope:(id)sender
@@ -276,7 +274,7 @@
            
            [self.continuousMetadataSearch startQuery];
            
-           self.window.title = [@"Synopsis Analyzer - " stringByAppendingString:openPanel.URL.lastPathComponent];
+           self.window.title = [@"Synopsis Inspector - " stringByAppendingString:openPanel.URL.lastPathComponent];
        }
     }];
     
@@ -873,13 +871,13 @@ static BOOL toggleAspect = false;
         }
     }
     
-    NSAnimationContext.currentContext.allowsImplicitAnimation = YES;
-    NSAnimationContext.currentContext.duration = 1.0;
-    [NSAnimationContext beginGrouping];
+//    NSAnimationContext.currentContext.allowsImplicitAnimation = YES;
+//    NSAnimationContext.currentContext.duration = 1.0;
+//    [NSAnimationContext beginGrouping];
 
     self.collectionView.animator.collectionViewLayout = layout;
     
-    [NSAnimationContext endGrouping];
+//    [NSAnimationContext endGrouping];
 }
 
 - (void) lazyCreateLayoutsWithContent:(NSArray*)content
@@ -978,15 +976,14 @@ static BOOL toggleAspect = false;
 
 - (void) didScroll:(NSNotification*)notification
 {
-    NSLog(@"DID SCROLL");
-    self.currentlyScrolling = NO;
+    [[SynopsisInspectorMediaCache sharedMediaCache] endOptimize];
     
     NSArray* visibleResults = [self.collectionView visibleItems];
     
     [visibleResults makeObjectsPerformSelector:@selector(endOptimizeForScrolling)];
 
-    [[SynopsisInspectorMediaCache sharedMediaCache] endOptimize];
-
+    self.currentlyScrolling = NO;
+    NSLog(@"DID SCROLL");
 }
 
 #pragma mark - Search

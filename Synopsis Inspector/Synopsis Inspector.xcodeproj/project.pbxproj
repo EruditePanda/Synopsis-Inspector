@@ -101,7 +101,6 @@
 		1B9874171D48014C0015E54C /* SynopsisCollectionViewItem.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1B9874151D48014C0015E54C /* SynopsisCollectionViewItem.mm */; };
 		1B9874181D48014C0015E54C /* SynopsisCollectionViewItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B9874161D48014C0015E54C /* SynopsisCollectionViewItem.xib */; };
 		1BAA80701D7243F300464810 /* TransparentCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAA806F1D7243F300464810 /* TransparentCollectionView.m */; };
-		1BBB10D21D527CBE00C22439 /* CGLayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BBB10D11D527CBE00C22439 /* CGLayerView.m */; };
 		1BC71D421F1504CB006DD7DC /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 1BC71D411F1504CB006DD7DC /* Credits.rtf */; };
 		1BCFBEC31E1C41580008CB03 /* MetadataSingleValueHistoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BCFBEC21E1C41580008CB03 /* MetadataSingleValueHistoryView.m */; };
 		1BD710AE1D620070007D61B9 /* SynopsisCollectionViewItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD710AD1D620070007D61B9 /* SynopsisCollectionViewItemView.m */; };
@@ -113,8 +112,6 @@
 		1BDC34431D6CE38C00D210E8 /* MetadataLayerBackedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC34421D6CE38C00D210E8 /* MetadataLayerBackedView.m */; };
 		1BDC34461D6F8FFE00D210E8 /* TransparentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC34451D6F8FFE00D210E8 /* TransparentView.m */; };
 		1BDC34491D6F90FC00D210E8 /* TransparentTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC34481D6F90FC00D210E8 /* TransparentTabView.m */; };
-		1BE325831E00BD3B00BB5A1A /* SynopsisScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE325821E00BD3B00BB5A1A /* SynopsisScroller.m */; };
-		1BE325861E00BDBB00BB5A1A /* SynopsisScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE325851E00BDBB00BB5A1A /* SynopsisScrollView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -12674,8 +12671,6 @@
 		1B9874161D48014C0015E54C /* SynopsisCollectionViewItem.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SynopsisCollectionViewItem.xib; sourceTree = "<group>"; };
 		1BAA806E1D7243F300464810 /* TransparentCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransparentCollectionView.h; sourceTree = "<group>"; };
 		1BAA806F1D7243F300464810 /* TransparentCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransparentCollectionView.m; sourceTree = "<group>"; };
-		1BBB10D01D527CBE00C22439 /* CGLayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGLayerView.h; sourceTree = "<group>"; };
-		1BBB10D11D527CBE00C22439 /* CGLayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CGLayerView.m; sourceTree = "<group>"; };
 		1BBB10E81D5558C400C22439 /* Synopsis-Framework.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "Synopsis-Framework.xcodeproj"; path = "Synopsis-Framework/Synopsis/Synopsis-Framework.xcodeproj"; sourceTree = "<group>"; };
 		1BC71D411F1504CB006DD7DC /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		1BCFBC181E0B25740008CB03 /* DBScanLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBScanLayout.h; sourceTree = "<group>"; };
@@ -12702,10 +12697,6 @@
 		1BDC34451D6F8FFE00D210E8 /* TransparentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransparentView.m; sourceTree = "<group>"; };
 		1BDC34471D6F90FC00D210E8 /* TransparentTabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransparentTabView.h; sourceTree = "<group>"; };
 		1BDC34481D6F90FC00D210E8 /* TransparentTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransparentTabView.m; sourceTree = "<group>"; };
-		1BE325811E00BD3B00BB5A1A /* SynopsisScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynopsisScroller.h; sourceTree = "<group>"; };
-		1BE325821E00BD3B00BB5A1A /* SynopsisScroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SynopsisScroller.m; sourceTree = "<group>"; };
-		1BE325841E00BDBB00BB5A1A /* SynopsisScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynopsisScrollView.h; sourceTree = "<group>"; };
-		1BE325851E00BDBB00BB5A1A /* SynopsisScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SynopsisScrollView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33799,8 +33790,6 @@
 			children = (
 				1B0D64381D4FB21F00A1AB5D /* libz.tbd */,
 				1B9873F81D47A5540015E54C /* main.m */,
-				1BBB10D01D527CBE00C22439 /* CGLayerView.h */,
-				1BBB10D11D527CBE00C22439 /* CGLayerView.m */,
 				1B0D643A1D4FD48E00A1AB5D /* CustomVisualEffectView.h */,
 				1B0D643B1D4FD48E00A1AB5D /* CustomVisualEffectView.m */,
 				1BDC34441D6F8FFE00D210E8 /* TransparentView.h */,
@@ -33809,10 +33798,6 @@
 				1BDC34481D6F90FC00D210E8 /* TransparentTabView.m */,
 				1BAA806E1D7243F300464810 /* TransparentCollectionView.h */,
 				1BAA806F1D7243F300464810 /* TransparentCollectionView.m */,
-				1BE325811E00BD3B00BB5A1A /* SynopsisScroller.h */,
-				1BE325821E00BD3B00BB5A1A /* SynopsisScroller.m */,
-				1BE325841E00BDBB00BB5A1A /* SynopsisScrollView.h */,
-				1BE325851E00BDBB00BB5A1A /* SynopsisScrollView.m */,
 				1BC71D411F1504CB006DD7DC /* Credits.rtf */,
 			);
 			name = "Supporting Files";
@@ -34003,7 +33988,6 @@
 				1B522F941F2698A000550454 /* CMBlockBufferPool.m in Sources */,
 				1B522FA91F26998000550454 /* colourfit.cpp in Sources */,
 				1B522FB91F27B37B00550454 /* AVAssetHapImageGenerator.m in Sources */,
-				1BE325831E00BD3B00BB5A1A /* SynopsisScroller.m in Sources */,
 				1BD710AE1D620070007D61B9 /* SynopsisCollectionViewItemView.m in Sources */,
 				1B5FE0331DF9F38E009CF677 /* sptree.cpp in Sources */,
 				1B522F8F1F26961E00550454 /* AVPlayerItemHapDXTOutput.m in Sources */,
@@ -34031,14 +34015,12 @@
 				1B2781081F253CED00658C0B /* SynopsisInspectorMediaCache.m in Sources */,
 				1B0D643C1D4FD48E00A1AB5D /* CustomVisualEffectView.m in Sources */,
 				1B522F921F26987B00550454 /* AVAssetAdditions.m in Sources */,
-				1BE325861E00BDBB00BB5A1A /* SynopsisScrollView.m in Sources */,
 				1B522F951F2698AD00550454 /* AVPlayerItemAdditions.m in Sources */,
 				1B522FB01F26999300550454 /* snappy-sinksource.cc in Sources */,
 				1B9873F91D47A5540015E54C /* main.m in Sources */,
 				1B522F931F26989A00550454 /* HapDecoderFrame.m in Sources */,
 				1BDC34331D6AB02100D210E8 /* MetadataDominantColorsView.m in Sources */,
 				1B522FA01F26990000550454 /* Utility.c in Sources */,
-				1BBB10D21D527CBE00C22439 /* CGLayerView.m in Sources */,
 				1B522F981F26990000550454 /* GLDXTEncoder.c in Sources */,
 				1BDC343A1D6AB30800D210E8 /* MetadataInspectorViewController.m in Sources */,
 				1B522F9D1F26990000550454 /* PixelFormats.c in Sources */,
