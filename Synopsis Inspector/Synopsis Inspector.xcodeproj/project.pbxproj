@@ -103,6 +103,8 @@
 		1BAA80701D7243F300464810 /* TransparentCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAA806F1D7243F300464810 /* TransparentCollectionView.m */; };
 		1BC71D421F1504CB006DD7DC /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 1BC71D411F1504CB006DD7DC /* Credits.rtf */; };
 		1BCFBEC31E1C41580008CB03 /* MetadataSingleValueHistoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BCFBEC21E1C41580008CB03 /* MetadataSingleValueHistoryView.m */; };
+		1BD687031F3CC70A00098D24 /* ScaledCoCgYToRGBA.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1BD687011F3CC70A00098D24 /* ScaledCoCgYToRGBA.frag */; };
+		1BD687041F3CC70A00098D24 /* ScaledCoCgYToRGBA.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1BD687021F3CC70A00098D24 /* ScaledCoCgYToRGBA.vert */; };
 		1BD710AE1D620070007D61B9 /* SynopsisCollectionViewItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD710AD1D620070007D61B9 /* SynopsisCollectionViewItemView.m */; };
 		1BD710B11D620AC8007D61B9 /* AAPLWrappedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD710B01D620AC8007D61B9 /* AAPLWrappedLayout.m */; };
 		1BDC34331D6AB02100D210E8 /* MetadataDominantColorsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC34321D6AB02100D210E8 /* MetadataDominantColorsView.m */; };
@@ -12679,6 +12681,8 @@
 		1BCFBC1F1E0C737B0008CB03 /* dbvptree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = dbvptree.h; sourceTree = "<group>"; };
 		1BCFBEC11E1C41580008CB03 /* MetadataSingleValueHistoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetadataSingleValueHistoryView.h; sourceTree = "<group>"; };
 		1BCFBEC21E1C41580008CB03 /* MetadataSingleValueHistoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetadataSingleValueHistoryView.m; sourceTree = "<group>"; };
+		1BD687011F3CC70A00098D24 /* ScaledCoCgYToRGBA.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ScaledCoCgYToRGBA.frag; sourceTree = "<group>"; };
+		1BD687021F3CC70A00098D24 /* ScaledCoCgYToRGBA.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ScaledCoCgYToRGBA.vert; sourceTree = "<group>"; };
 		1BD710AC1D620070007D61B9 /* SynopsisCollectionViewItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynopsisCollectionViewItemView.h; sourceTree = "<group>"; };
 		1BD710AD1D620070007D61B9 /* SynopsisCollectionViewItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SynopsisCollectionViewItemView.m; sourceTree = "<group>"; };
 		1BD710AF1D620AC8007D61B9 /* AAPLWrappedLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLWrappedLayout.h; sourceTree = "<group>"; };
@@ -13069,6 +13073,8 @@
 		1B522F531F268A3500550454 /* HapInAVFoundation */ = {
 			isa = PBXGroup;
 			children = (
+				1BD687011F3CC70A00098D24 /* ScaledCoCgYToRGBA.frag */,
+				1BD687021F3CC70A00098D24 /* ScaledCoCgYToRGBA.vert */,
 				1B522FB41F27B18400550454 /* AVPlayerHapLayer.h */,
 				1B522FB51F27B18400550454 /* AVPlayerHapLayer.m */,
 				1B522FB71F27B37B00550454 /* AVAssetHapImageGenerator.h */,
@@ -33952,6 +33958,8 @@
 				1B9874181D48014C0015E54C /* SynopsisCollectionViewItem.xib in Resources */,
 				1BC71D421F1504CB006DD7DC /* Credits.rtf in Resources */,
 				1B9873FE1D47A5540015E54C /* MainMenu.xib in Resources */,
+				1BD687031F3CC70A00098D24 /* ScaledCoCgYToRGBA.frag in Resources */,
+				1BD687041F3CC70A00098D24 /* ScaledCoCgYToRGBA.vert in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
