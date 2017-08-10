@@ -12,7 +12,7 @@
 
 - (BOOL) isOpaque
 {
-    return NO;
+    return YES;
 }
 
 - (BOOL) allowsVibrancy

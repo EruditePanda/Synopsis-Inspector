@@ -14,15 +14,15 @@
 
 @implementation TransparentCollectionView
 
-- (BOOL) isOpaque
-{
-    return NO;
-}
-
-- (BOOL) allowsVibrancy
-{
-    return YES;
-}
+//- (BOOL) isOpaque
+//{
+//    return NO;
+//}
+//
+//- (BOOL) allowsVibrancy
+//{
+//    return YES;
+//}
 
 
 -(void)setFrameSize:(NSSize)newSize
@@ -35,7 +35,6 @@
         self.enclosingScrollView.usesPredominantAxisScrolling = NO;
         self.enclosingScrollView.horizontalScroller.hidden = NO;
         self.enclosingScrollView.hasHorizontalScroller = YES;
-
     }
     
     [super setFrameSize:newSize];
@@ -46,13 +45,11 @@
     // Fix a bug in our colleciton view not showing our horizontal scroller
     if (frame.size.width != self.collectionViewLayout.collectionViewContentSize.width)
     {
-        
         frame.size.width = self.collectionViewLayout.collectionViewContentSize.width;
         self.enclosingScrollView.autohidesScrollers = NO;
         self.enclosingScrollView.usesPredominantAxisScrolling = NO;
         self.enclosingScrollView.horizontalScroller.hidden = NO;
         self.enclosingScrollView.hasHorizontalScroller = YES;
-
     }
 
     [super setFrame:frame];
