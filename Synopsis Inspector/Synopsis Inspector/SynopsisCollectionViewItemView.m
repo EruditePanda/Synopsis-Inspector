@@ -12,14 +12,20 @@
 #define CORNER_RADIUS     6.0     // corner radius of the shape in points
 #define BORDER_WIDTH      1.0     // thickness of border when shown, in points
 
+#define BGCOLOR 0.075
+#define SELECTEDBGCOLOR 0.1
+
+#define BORDERCOLOR 0.2
+#define SELECTEDBORDERCOLOR 0.6
+
 @interface SynopsisCollectionViewItemView ()
 {
 }
 
 @property (weak) IBOutlet SynopsisCollectionViewItem* item;
 
-@property (weak) IBOutlet NSTextField* currentTimeFromStart;
-@property (weak) IBOutlet NSTextField* currentTimeToEnd;
+@property (strong) IBOutlet NSTextField* currentTimeFromStart;
+@property (strong) IBOutlet NSTextField* currentTimeToEnd;
 @property (readwrite, weak) IBOutlet NSTextField* label;
 
 @property (readwrite, assign) BOOL optimizingForScroll;
@@ -33,28 +39,33 @@
 
 @synthesize borderColor = borderColor;
 
-//+ (id)defaultAnimationForKey:(NSString *)key
-//{
-//    static CABasicAnimation *basicAnimation = nil;
-//    if ([key isEqual:@"frameOrigin"])
-//    {
-//        if (basicAnimation == nil)
-//        {
-//            basicAnimation = [[CABasicAnimation alloc] init];
-//            [basicAnimation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-//        }
-//        return basicAnimation;
-//    }
-//    else
-//    {
-//        return [super defaultAnimationForKey:key];
-//    }
-//}
++ (id)defaultAnimationForKey:(NSString *)key
+{
+    static CABasicAnimation *basicAnimation = nil;
+    if ([key isEqual:@"frameOrigin"])
+    {
+        if (basicAnimation == nil)
+        {
+            basicAnimation = [[CABasicAnimation alloc] init];
+            [basicAnimation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+        }
+        return basicAnimation;
+    }
+    else
+    {
+        return [super defaultAnimationForKey:key];
+    }
+}
+
+- (BOOL) allowsVibrancy
+{
+    return NO;
+}
 
 - (void) commonInit
 {
-    self.layer.backgroundColor = [NSColor colorWithWhite:0.0125 alpha:1].CGColor;
-    self.layer.borderColor = [NSColor colorWithWhite:0.025 alpha:1.0].CGColor;
+    self.layer.backgroundColor = [NSColor colorWithWhite:BGCOLOR alpha:1].CGColor;
+    self.layer.borderColor = [NSColor colorWithWhite:BORDERCOLOR alpha:1.0].CGColor;
     self.layer.borderWidth = BORDER_WIDTH;//(self.borderColor ? BORDER_WIDTH : 0.0);
     self.layer.cornerRadius = CORNER_RADIUS;
 
@@ -65,8 +76,9 @@
     self.playerLayer = [AVPlayerHapLayer layer];
     self.playerLayer.frame = self.layer.bounds;
     self.playerLayer.autoresizingMask = kCALayerWidthSizable | kCALayerHeightSizable;
-    self.playerLayer.asynchronous = NO;
+    self.playerLayer.asynchronous = YES;
     self.playerLayer.actions = @{@"contents" : [NSNull null], @"opacity" : [NSNull null]};
+    
     [self.layer insertSublayer:self.playerLayer below:self.label.layer];
     
     self.playheadLayer = [CALayer layer];
@@ -234,13 +246,13 @@
 {
     if(selected)
     {
-        self.layer.backgroundColor = [NSColor colorWithWhite:0.025 alpha:1].CGColor;
-        self.layer.borderColor = [NSColor colorWithWhite:0.25 alpha:1].CGColor;
+        self.layer.backgroundColor = [NSColor colorWithWhite:SELECTEDBGCOLOR alpha:1].CGColor;
+        self.layer.borderColor = [NSColor colorWithWhite:SELECTEDBORDERCOLOR alpha:1].CGColor;
     }
     else
     {
-        self.layer.backgroundColor = [NSColor colorWithWhite:0.0125 alpha:1].CGColor;
-        self.layer.borderColor = [NSColor colorWithWhite:0.05 alpha:1].CGColor;
+        self.layer.backgroundColor = [NSColor colorWithWhite:BGCOLOR alpha:1].CGColor;
+        self.layer.borderColor = [NSColor colorWithWhite:BORDERCOLOR alpha:1].CGColor;
     }
 
     [self setNeedsDisplay:YES];
