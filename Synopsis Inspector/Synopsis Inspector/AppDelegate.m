@@ -844,14 +844,15 @@ static BOOL toggleAspect = false;
     self.resultsArrayControler.filterPredicate = nil;
     [self.resultsArrayControler rearrangeObjects];
 
+    float zoomAmount = self.zoomSlider.floatValue;
+    
     switch([sender tag])
     {
         case 0:
         {
             layout = self.wrappedLayout;
             self.zoomSlider.enabled = NO;
-            self.zoomSlider.floatValue = 1.0;
-            self.collectionView.enclosingScrollView.magnification = 1.0;
+            zoomAmount = 1.0;
             break;
         }
         case 1:
@@ -871,13 +872,16 @@ static BOOL toggleAspect = false;
         }
     }
     
-//    NSAnimationContext.currentContext.allowsImplicitAnimation = YES;
-//    NSAnimationContext.currentContext.duration = 1.0;
-//    [NSAnimationContext beginGrouping];
+    NSAnimationContext.currentContext.allowsImplicitAnimation = YES;
+    NSAnimationContext.currentContext.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    NSAnimationContext.currentContext.duration = 0.5;
+    [NSAnimationContext beginGrouping];
 
+    self.collectionView.animator.enclosingScrollView.magnification = zoomAmount;
     self.collectionView.animator.collectionViewLayout = layout;
+    self.collectionView.animator.selectionIndexPaths = [NSSet set];
     
-//    [NSAnimationContext endGrouping];
+    [NSAnimationContext endGrouping];
 }
 
 - (void) lazyCreateLayoutsWithContent:(NSArray*)content
