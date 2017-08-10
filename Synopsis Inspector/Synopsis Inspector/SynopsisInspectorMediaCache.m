@@ -49,7 +49,7 @@
         self.videoQueue.maxConcurrentOperationCount = NSOperationQueueDefaultMaxConcurrentOperationCount;
         self.videoQueue.qualityOfService = NSQualityOfServiceBackground;
 
-        self.metadataQueue = dispatch_queue_create("video.synopsis.inspector.mediacache.metadataqueue", DISPATCH_QUEUE_SERIAL);
+        self.metadataQueue = dispatch_queue_create("video.synopsis.inspector.mediacache.metadataqueue", DISPATCH_QUEUE_SERIAL_WITH_AUTORELEASE_POOL);
         
         self.mediaCache = [[NSCache alloc] init];
         
