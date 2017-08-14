@@ -20,7 +20,6 @@
                 <outlet property="collectionView" destination="Zca-Ua-Xm8" id="s6B-EV-cbE"/>
                 <outlet property="featureTSNEMenu" destination="HUo-Cz-CUA" id="Ga6-eB-d70"/>
                 <outlet property="featureVectorSort" destination="twC-4t-m0y" id="yUX-0L-oxk"/>
-                <outlet property="hashSort" destination="w3K-79-FKe" id="t1I-ec-HMH"/>
                 <outlet property="histogramSort" destination="FSS-QP-a3O" id="aYd-TB-dXQ"/>
                 <outlet property="histogramTSNEMenu" destination="Rkg-G5-rTR" id="3g8-hy-8t3"/>
                 <outlet property="hybridTSNEMenu" destination="Jgd-8c-YIH" id="zC8-sq-fGQ"/>
@@ -810,7 +809,6 @@
                     <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="mSf-oc-9ma"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="K3I-ac-OeR"/>
                     <toolbarItem implicitItemIdentifier="115406B4-16A0-4515-9B6A-330645ACAD86" label="Feature" paletteLabel="Feature" toolTip="Sort by Feature Similarity" tag="-1" image="Feature" id="twC-4t-m0y" userLabel="Feature Sort"/>
-                    <toolbarItem implicitItemIdentifier="BFB2B402-8E66-4762-A6DF-767EC98EA500" label="Hash" paletteLabel="Hash" toolTip="Sort by Perceptual Hash Similarity" tag="-1" image="Hash" id="w3K-79-FKe"/>
                     <toolbarItem implicitItemIdentifier="8C5C1670-F20C-45CE-B265-FA479779B560" label="Saturation" paletteLabel="Saturation" toolTip="Sort by Saturation" tag="-1" image="Saturation" id="O1H-Sg-47M">
                         <connections>
                             <action selector="saturationSortUsingSelectedCell:" target="Voe-Tx-rLC" id="B2q-E5-lr6"/>
@@ -911,13 +909,6 @@
                     <toolbarItem reference="rCf-te-0id"/>
                     <toolbarItem reference="twC-4t-m0y"/>
                     <toolbarItem reference="FSS-QP-a3O"/>
-                    <toolbarItem reference="mSf-oc-9ma"/>
-                    <toolbarItem reference="fFj-WC-7tR"/>
-                    <toolbarItem reference="02G-RW-qko"/>
-                    <toolbarItem reference="YVU-NM-wHY"/>
-                    <toolbarItem reference="abU-RB-sla"/>
-                    <toolbarItem reference="doh-d0-EQo"/>
-                    <toolbarItem reference="3i1-aR-eyB"/>
                     <toolbarItem reference="K3I-ac-OeR"/>
                     <toolbarItem reference="85f-zA-YBp"/>
                 </defaultToolbarItems>
@@ -936,6 +927,7 @@
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="r37-Iu-gOq"/>
                 <menuItem title="Clear Recent Items" tag="1002" id="XoG-Na-K2f">
+                    <attributedString key="attributedTitle"/>
                     <modifierMask key="keyEquivalentModifierMask"/>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="NN1-2D-ZeZ"/>
@@ -994,7 +986,6 @@
         <image name="Cool" width="512" height="512"/>
         <image name="Dark" width="512" height="512"/>
         <image name="Feature" width="512" height="512"/>
-        <image name="Hash" width="512" height="512"/>
         <image name="Histogram" width="512" height="512"/>
         <image name="Hue" width="512" height="512"/>
         <image name="Light" width="512" height="512"/>

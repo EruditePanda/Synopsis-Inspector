@@ -315,16 +315,6 @@
     [self setupSortUsingSortDescriptor:perceptualHashSort selectedItem:item];
 }
 
-- (IBAction)perceptualHashSortUsingSelectedCell:(id)sender
-{
-    SynopsisMetadataItem* item = [self firstSelectedItem];
-    
-    NSSortDescriptor* perceptualHashSort = [NSSortDescriptor synopsisHashSortDescriptorRelativeTo:[item valueForKey:kSynopsisStandardMetadataPerceptualHashDictKey]];
-
-    self.sortStatus = @"Relative Hash Sort";
-
-    [self setupSortUsingSortDescriptor:perceptualHashSort selectedItem:item];
-}
 
 - (IBAction)histogramSortUsingSelectingCell:(id)sender
 {
@@ -1134,7 +1124,33 @@ static BOOL toggleAspect = false;
 
 - (void) updateStatusLabel
 {
-    if(self.collectionView.selectionIndexPaths.count == 2)
+    if(self.collectionView.selectionIndexPaths.count == 1)
+    {
+        NSIndexPath* path1 = self.collectionView.selectionIndexPaths.allObjects[0];
+        SynopsisMetadataItem* item1 = [self.resultsArrayControler.arrangedObjects objectAtIndex:path1.item];
+        // Dom Colors
+        NSArray* domColors1 = [item1 valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey];
+
+        // Color Components
+        float hueWeight = weightHueDominantColors(domColors1);
+        NSString* hueString = [NSString stringWithFormat:@" Hue : %f", hueWeight];
+        float satWeight = weightSaturationDominantColors(domColors1);
+        NSString* satString = [NSString stringWithFormat:@" Saturation : %f", satWeight];
+        float briWeight = weightBrightnessDominantColors(domColors1);
+        NSString* briString = [NSString stringWithFormat:@" Brightness : %f", briWeight];
+        
+        NSMutableString* value = [NSMutableString new];
+        [value appendString:@"Metrics:"];
+        
+        [value appendString:hueString];
+        [value appendString:satString];
+        [value appendString:briString];
+        
+        self.statusField.stringValue = value;
+
+    }
+    
+    else if(self.collectionView.selectionIndexPaths.count == 2)
     {
         NSIndexPath* path1 = self.collectionView.selectionIndexPaths.allObjects[0];
         NSIndexPath* path2 = self.collectionView.selectionIndexPaths.allObjects[1];
