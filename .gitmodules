@@ -3,4 +3,4 @@
 	url = https://github.com/Synopsis/Synopsis-Framework.git
 [submodule "Synopsis Inspector/hap-in-avfoundation"]
 	path = Synopsis Inspector/hap-in-avfoundation
-	url = https://github.com/Vidvox/hap-in-avfoundation.git
+	url = https://github.com/Synopsis/hap-in-avfoundation
