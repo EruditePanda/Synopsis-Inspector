@@ -899,9 +899,14 @@
                             <action selector="actionFromTokenField:" target="Voe-Tx-rLC" id="Q5l-Bh-8Pd"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="AFE7A535-C546-4FB7-9B67-848EEA939754" label="Motion" paletteLabel="Motion" tag="-1" image="NSSlideshowTemplate" id="dtw-AP-Eb7">
+                    <toolbarItem implicitItemIdentifier="AFE7A535-C546-4FB7-9B67-848EEA939754" label="Motion Vec" paletteLabel="Motion Vec" tag="-1" image="NSSlideshowTemplate" id="dtw-AP-Eb7">
                         <connections>
                             <action selector="motionVectorSortUsingSelectingCell:" target="Voe-Tx-rLC" id="5B1-Ut-NP0"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="AB381E3E-9DA6-4D22-8E8F-A36D95FC3802" label="Motion" paletteLabel="Motion" tag="-1" image="NSSlideshowTemplate" id="Leb-Qh-nZx">
+                        <connections>
+                            <action selector="motionSortUsingSelectingCell:" target="Voe-Tx-rLC" id="jVO-DN-XyU"/>
                         </connections>
                     </toolbarItem>
                 </allowedToolbarItems>

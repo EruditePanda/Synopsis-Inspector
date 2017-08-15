@@ -339,6 +339,19 @@
 }
 
 
+- (IBAction)motionSortUsingSelectingCell:(id)sender
+{
+    SynopsisMetadataItem* item = [self firstSelectedItem];
+    
+    NSSortDescriptor* motionVectorSort = [NSSortDescriptor synopsisMotionSortDescriptorRelativeTo:[item valueForKey:kSynopsisStandardMetadataMotionDictKey]];
+    
+    self.sortStatus = @"Relative Motion Sort";
+    
+    [self setupSortUsingSortDescriptor:motionVectorSort selectedItem:item];
+}
+
+
+
 - (IBAction)sortDominantColorsRGBUsingSelectingCell:(id)sender
 {
     SynopsisMetadataItem* item = [self firstSelectedItem];
