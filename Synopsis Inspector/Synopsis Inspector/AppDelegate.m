@@ -232,7 +232,7 @@
     [self.continuousMetadataSearch setPredicate:searchPredicate];
     
     NSArray* searchScopes;
-    searchScopes = @[NSMetadataQueryLocalComputerScope];
+    searchScopes = @[NSMetadataQueryIndexedLocalComputerScope];
     
     [self.continuousMetadataSearch setSearchScopes:searchScopes];
 
