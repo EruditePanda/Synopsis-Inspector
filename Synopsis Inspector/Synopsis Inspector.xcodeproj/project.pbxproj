@@ -51,6 +51,8 @@
 		1B522FB31F2699B700550454 /* YCoCgDXT.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F741F268A3500550454 /* YCoCgDXT.cpp */; };
 		1B522FB61F27B18400550454 /* AVPlayerHapLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B522FB51F27B18400550454 /* AVPlayerHapLayer.m */; };
 		1B522FB91F27B37B00550454 /* AVAssetHapImageGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B522FB81F27B37B00550454 /* AVAssetHapImageGenerator.m */; };
+		1B5CDF5D1F438FD100D5D057 /* MediaToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B5CDF5C1F438FD100D5D057 /* MediaToolbox.framework */; };
+		1B5CDF631F438FD700D5D057 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B5CDF621F438FD700D5D057 /* VideoToolbox.framework */; };
 		1B5FE0331DF9F38E009CF677 /* sptree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1B5FE02D1DF9F38E009CF677 /* sptree.cpp */; };
 		1B5FE0341DF9F38E009CF677 /* tsne.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1B5FE02F1DF9F38E009CF677 /* tsne.cpp */; };
 		1B5FE0351DFA1044009CF677 /* TSNELayout.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1B5FE0281DF9F1F9009CF677 /* TSNELayout.mm */; };
@@ -332,6 +334,8 @@
 		1B522FB51F27B18400550454 /* AVPlayerHapLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVPlayerHapLayer.m; sourceTree = "<group>"; };
 		1B522FB71F27B37B00550454 /* AVAssetHapImageGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAssetHapImageGenerator.h; sourceTree = "<group>"; };
 		1B522FB81F27B37B00550454 /* AVAssetHapImageGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAssetHapImageGenerator.m; sourceTree = "<group>"; };
+		1B5CDF5C1F438FD100D5D057 /* MediaToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaToolbox.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/MediaToolbox.framework; sourceTree = DEVELOPER_DIR; };
+		1B5CDF621F438FD700D5D057 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/VideoToolbox.framework; sourceTree = DEVELOPER_DIR; };
 		1B5FE0271DF9F1F9009CF677 /* TSNELayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSNELayout.h; sourceTree = "<group>"; };
 		1B5FE0281DF9F1F9009CF677 /* TSNELayout.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TSNELayout.mm; sourceTree = "<group>"; };
 		1B5FE02C1DF9F38E009CF677 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
@@ -12708,6 +12712,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B5CDF631F438FD700D5D057 /* VideoToolbox.framework in Frameworks */,
+				1B5CDF5D1F438FD100D5D057 /* MediaToolbox.framework in Frameworks */,
 				1B522FA41F26995000550454 /* Accelerate.framework in Frameworks */,
 				1B27810F1F263EDE00658C0B /* OpenGL.framework in Frameworks */,
 				1B2780751F213A2200658C0B /* Synopsis.framework in Frameworks */,
@@ -33745,6 +33751,8 @@
 		1B96FE7C1E08AD2000DE4BD3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1B5CDF621F438FD700D5D057 /* VideoToolbox.framework */,
+				1B5CDF5C1F438FD100D5D057 /* MediaToolbox.framework */,
 				1B522FA31F26995000550454 /* Accelerate.framework */,
 				1B27810E1F263EDE00658C0B /* OpenGL.framework */,
 				1B96FE7F1E08AD2A00DE4BD3 /* CoreMedia.framework */,

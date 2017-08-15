@@ -7,8 +7,10 @@
 //
 
 #import <Synopsis/Synopsis.h>
+#import <VideoToolbox/VTProfessionalVideoWorkflow.h>
+#import <MediaToolbox/MediaToolbox.h>
+
 #import "AppDelegate.h"
-#import <Synopsis/MetadataComparisons.h>
 
 #import "SynopsisCollectionViewItem.h"
 
@@ -70,6 +72,12 @@
 
 - (void) awakeFromNib
 {
+
+    MTRegisterProfessionalVideoWorkflowFormatReaders();
+    VTRegisterProfessionalVideoWorkflowVideoDecoders();
+    VTRegisterProfessionalVideoWorkflowVideoEncoders();
+
+    
     self.collectionView.backgroundColors = @[[NSColor clearColor]];
     
     self.sortStatus = @"No Sort";
