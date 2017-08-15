@@ -123,7 +123,7 @@
 }
 
 // If we lazily become ready to play, and we are not in optimize moment (scrolling) show then
-- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
+- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void *)context
 {
     if(object == self.playerLayer)
     {

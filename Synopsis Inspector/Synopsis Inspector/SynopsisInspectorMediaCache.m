@@ -273,7 +273,7 @@
                                                   //                                              (NSString*)kCVPixelBufferIOSurfaceOpenGLTextureCompatibilityKey :@(YES),
                                                   };
             
-            AVPlayerItemVideoOutput* videoOutput = [[AVPlayerItemVideoOutput alloc] initWithOutputSettings:videoOutputSettings];
+            AVPlayerItemVideoOutput* videoOutput = [[AVPlayerItemVideoOutput alloc] initWithPixelBufferAttributes:videoOutputSettings];
             videoOutput.suppressesPlayerRendering = YES;
             [item addOutput:videoOutput];
         }

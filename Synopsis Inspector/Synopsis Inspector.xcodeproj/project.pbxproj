@@ -34181,6 +34181,7 @@
 				OTHER_TAPI_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "info.Synopsis.Synopsis-Inspector";
 				PRODUCT_NAME = "Synopsis Inspector";
+				SDKROOT = macosx10.11;
 			};
 			name = Debug;
 		};
@@ -34215,6 +34216,7 @@
 				OTHER_TAPI_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "info.Synopsis.Synopsis-Inspector";
 				PRODUCT_NAME = "Synopsis Inspector";
+				SDKROOT = macosx10.11;
 			};
 			name = Release;
 		};

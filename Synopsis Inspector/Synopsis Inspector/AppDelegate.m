@@ -116,7 +116,7 @@
     
     
 //    (NSEvent* __nullable (^)(NSEvent*))block;
-    self.escapeKeyMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSEventMaskKeyDown handler:^NSEvent * _Nullable(NSEvent * _Nonnull keyEvent) {
+    self.escapeKeyMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSKeyDownMask handler:^NSEvent * _Nullable(NSEvent * _Nonnull keyEvent) {
         switch (keyEvent.keyCode) {
             case 53: // esc
 
