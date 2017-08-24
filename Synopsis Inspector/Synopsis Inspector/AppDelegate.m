@@ -151,7 +151,7 @@
     
 //    self.resultsArray = [NSMutableArray new];
     self.resultsArrayControler = [[NSArrayController alloc] initWithContent:[NSMutableArray new]];
-//    self.resultsArrayControler.automaticallyRearrangesObjects = NO;
+    self.resultsArrayControler.automaticallyRearrangesObjects = YES;
     
     NSNib* synopsisResultNib = [[NSNib alloc] initWithNibNamed:@"SynopsisCollectionViewItem" bundle:[NSBundle mainBundle]];
     
@@ -168,6 +168,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willScroll:) name:NSScrollViewWillStartLiveMagnifyNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didScroll:) name:NSScrollViewDidEndLiveMagnifyNotification object:nil];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidResizeCollectionViewHack:) name:NSWindowDidResizeNotification object:nil];
+    
     self.currentlyScrolling = NO;
 
 
@@ -402,30 +404,48 @@
 
 - (void) setupSortUsingSortDescriptor:(NSSortDescriptor*) sortDescriptor selectedItem:(SynopsisMetadataItem*)item
 {
-    NSAnimationContext.currentContext.allowsImplicitAnimation = YES;
-    NSAnimationContext.currentContext.duration = 0.5;
-    [NSAnimationContext beginGrouping];
+    NSArray* before = [self.resultsArrayControler.arrangedObjects copy];
     
     self.resultsArrayControler.sortDescriptors = @[sortDescriptor];
     
-    [self updateStatusLabel];
-
-    if(item != nil)
-    {
-        NSUInteger index = [self.resultsArrayControler.arrangedObjects indexOfObject:item];
-        if(index != NSNotFound)
-        {
-            NSIndexPath* newItem = [NSIndexPath indexPathForItem:index inSection:0];
-            
-            NSSet* newItemSet = [NSSet setWithCollectionViewIndexPath:newItem];
-            
-            [self.resultsArrayControler setSelectionIndex:index];
-            
-            [self.collectionView.animator scrollToItemsAtIndexPaths:newItemSet scrollPosition:NSCollectionViewScrollPositionCenteredVertically];
-        }
-    }
+    NSArray* after = [self.resultsArrayControler.arrangedObjects copy];
     
-    [NSAnimationContext endGrouping];
+    [self.collectionView.animator performBatchUpdates:^{
+        
+        [before enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+            NSIndexPath* beforePath = [NSIndexPath indexPathForItem:idx inSection:0];
+            
+            NSUInteger afterIdx = [after indexOfObject:obj];
+            NSIndexPath* afterPath = [NSIndexPath indexPathForItem:afterIdx inSection:0];
+            
+            if(idx != NSNotFound && afterIdx != NSNotFound)
+            {
+                [self.collectionView.animator moveItemAtIndexPath:beforePath toIndexPath:afterPath];
+            }
+        }];
+        
+        if(item != nil)
+        {
+            NSUInteger index = [self.resultsArrayControler.arrangedObjects indexOfObject:item];
+            if(index != NSNotFound)
+            {
+                NSIndexPath* newItem = [NSIndexPath indexPathForItem:index inSection:0];
+                
+                NSSet* newItemSet = [NSSet setWithCollectionViewIndexPath:newItem];
+                
+                [self.resultsArrayControler setSelectionIndex:index];
+                
+                [self.collectionView.animator scrollToItemsAtIndexPaths:newItemSet scrollPosition:NSCollectionViewScrollPositionCenteredVertically];
+            }
+        }
+
+        
+    } completionHandler:^(BOOL finished) {
+        
+        [self updateStatusLabel];
+
+    }];
 }
 
 #pragma mark - Filtering
@@ -475,31 +495,40 @@
 
 - (void) setupFilterUsingPredicate:(NSPredicate*)predicate selectedItem:(SynopsisMetadataItem*)item
 {
-    NSAnimationContext.currentContext.allowsImplicitAnimation = YES;
-    NSAnimationContext.currentContext.duration = 0.5;
-    
-    [NSAnimationContext beginGrouping];
-
+//    NSArray* before = [self.resultsArrayControler.arrangedObjects copy];
+//    NSMutableSet* beforeSet = [NSMutableSet setWithArray:before];
+//
     self.resultsArrayControler.filterPredicate = predicate;
-    
-    [self updateStatusLabel];
+//
+//    
+//    NSArray* after = [self.resultsArrayControler.arrangedObjects copy];
+//    NSMutableSet* afterSet = [NSMutableSet setWithArray:after];
 
-    if(item != nil)
-    {
-        NSUInteger index = [self.resultsArrayControler.arrangedObjects indexOfObject:item];
-        if(index != NSNotFound)
+    [self.collectionView.animator performBatchUpdates:^{
+        
+        [self.collectionView.animator reloadItemsAtIndexPaths:self.collectionView.indexPathsForVisibleItems];
+        
+        if(item != nil)
         {
-            NSIndexPath* newItem = [NSIndexPath indexPathForItem:index inSection:0];
-            
-            NSSet* newItemSet = [NSSet setWithCollectionViewIndexPath:newItem];
-            
-            [self.resultsArrayControler setSelectionIndex:index];
-            
-            [self.collectionView.animator scrollToItemsAtIndexPaths:newItemSet scrollPosition:NSCollectionViewScrollPositionCenteredVertically];
+            NSUInteger index = [self.resultsArrayControler.arrangedObjects indexOfObject:item];
+            if(index != NSNotFound)
+            {
+                NSIndexPath* newItem = [NSIndexPath indexPathForItem:index inSection:0];
+                
+                NSSet* newItemSet = [NSSet setWithCollectionViewIndexPath:newItem];
+                
+                [self.resultsArrayControler setSelectionIndex:index];
+                
+                [self.collectionView.animator scrollToItemsAtIndexPaths:newItemSet scrollPosition:NSCollectionViewScrollPositionCenteredVertically];
+            }
         }
-    }
+        
+    } completionHandler:^(BOOL finished) {
+        
+        [self updateStatusLabel];
+
+    }];
     
-    [NSAnimationContext endGrouping];
 }
 
 #pragma mark -  Metadata Query Delegate
@@ -680,44 +709,40 @@
         [addedIndexPaths addObject:[NSIndexPath indexPathForItem:(index + indexOfLastItem) inSection:0]];
     }
 
-    
-//    // Now Animate our Collection View with our changes
-//    [self.collectionView.animator performBatchUpdates:^{
-//        
-//        // Handle Updated objects
-//        [[self.collectionView animator] reloadItemsAtIndexPaths:updatedIndexPaths];
-//
-//        // Handle RemovedItems
-//        [[self.collectionView animator] deleteItemsAtIndexPaths:removedIndexPaths];
-//        
-//        // Handle Added items
-//        [[self.collectionView animator] insertItemsAtIndexPaths:addedIndexPaths];
-//        
-//    } completionHandler:^(BOOL finished) {
-//        
-//    }];
+    // Now Animate our Collection View with our changes
+    [self.collectionView.animator performBatchUpdates:^{
+        
+        // Handle Updated objects
+        [[self.collectionView animator] reloadItemsAtIndexPaths:updatedIndexPaths];
+
+        // Handle RemovedItems
+        [[self.collectionView animator] deleteItemsAtIndexPaths:removedIndexPaths];
+        
+        // Handle Added items
+        [[self.collectionView animator] insertItemsAtIndexPaths:addedIndexPaths];
+        
+    } completionHandler:^(BOOL finished) {
+        
+    }];
 }
-
-
-
 
 #pragma mark - Collection View Datasource (Now using Bindings)
 
-//- (NSInteger)collectionView:(NSCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-//{
-//    return [self.resultsArrayControler.arrangedObjects count];
-//}
+- (NSInteger)collectionView:(NSCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    return [self.resultsArrayControler.arrangedObjects count];
+}
 
-//- (NSCollectionViewItem *)collectionView:(NSCollectionView *)collectionView itemForRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    SynopsisCollectionViewItem* item = (SynopsisCollectionViewItem*)[collectionView makeItemWithIdentifier:@"SynopsisCollectionViewItem" forIndexPath:indexPath];
-//    
-//    SynopsisMetadataItem* representedObject = [self.resultsArrayControler.arrangedObjects objectAtIndex:indexPath.item];
-//    
-//    item.representedObject = representedObject;
-//    
-//    return item;
-//}
+- (NSCollectionViewItem *)collectionView:(NSCollectionView *)collectionView itemForRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath
+{
+    SynopsisCollectionViewItem* item = (SynopsisCollectionViewItem*)[collectionView makeItemWithIdentifier:@"SynopsisCollectionViewItem" forIndexPath:indexPath];
+    
+    SynopsisMetadataItem* representedObject = [self.resultsArrayControler.arrangedObjects objectAtIndex:indexPath.item];
+    
+    item.representedObject = representedObject;
+    
+    return item;
+}
 
 #pragma mark - Collection View Delegate
 
@@ -727,9 +752,6 @@
     
     [self.bestFitSort setTarget:self];
     [self.bestFitSort setAction:@selector(bestMatchSortUsingSelectedCell:)];
-
-    [self.hashSort setTarget:self];
-    [self.hashSort setAction:@selector(perceptualHashSortUsingSelectedCell:)];
 
     [self.histogramSort setTarget:self];
     [self.histogramSort setAction:@selector(histogramSortUsingSelectingCell:)];
@@ -857,6 +879,7 @@ static BOOL toggleAspect = false;
 
     float zoomAmount = self.zoomSlider.floatValue;
     
+    
     switch([sender tag])
     {
         case 0:
@@ -864,6 +887,7 @@ static BOOL toggleAspect = false;
             layout = self.wrappedLayout;
             self.zoomSlider.enabled = NO;
             zoomAmount = 1.0;
+            [self.collectionView setFrameSize:self.collectionView.enclosingScrollView.frame.size];;
             break;
         }
         case 1:
@@ -1383,10 +1407,9 @@ static BOOL toggleAspect = false;
             }
             
             return tokenMenu;
-
         }
     }
-//
+
 //    if([self.knownColors containsObject:representedObject])
 //    {
 //        NSMenu *tokenMenu = [[NSMenu alloc] init];
@@ -1400,12 +1423,16 @@ static BOOL toggleAspect = false;
 //        
 //        return tokenMenu;
 //    }
-
-
-
-
     
     return nil;
+}
+
+- (void) windowDidResizeCollectionViewHack:(NSNotification*)notification
+{
+    if(self.collectionView.collectionViewLayout == self.wrappedLayout)
+    {
+        [self.collectionView setFrameSize:self.collectionView.enclosingScrollView.frame.size];
+    }
 }
 
 @end

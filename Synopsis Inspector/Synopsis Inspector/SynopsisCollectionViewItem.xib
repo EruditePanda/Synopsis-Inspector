@@ -2,8 +2,8 @@
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <development version="7000" identifier="xcode"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12121"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner"/>
@@ -51,8 +51,6 @@
         </customView>
         <collectionViewItem nibName="SynopsisCollectionViewItem" identifier="SynopsisCollectionViewItem" id="M2Q-8K-Ovt" customClass="SynopsisCollectionViewItem">
             <connections>
-                <outlet property="currentTimeFromStart" destination="Xwe-tC-tgu" id="xsc-ZP-dqR"/>
-                <outlet property="currentTimeToEnd" destination="5bp-mL-8Ii" id="g2a-RH-MQq"/>
                 <outlet property="inspectorPopOver" destination="CYj-6l-AdA" id="owy-Ic-GcR"/>
                 <outlet property="inspectorVC" destination="UNd-wU-FLE" id="7lt-N3-iY2"/>
                 <outlet property="nameField" destination="sfP-Yd-lRO" id="nG4-8R-YPb"/>

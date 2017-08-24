@@ -2,8 +2,8 @@
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <development version="7000" identifier="xcode"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12121"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -739,8 +739,7 @@
                                             <collectionViewLayout key="collectionViewLayout" id="Jcz-VS-yYo" customClass="AAPLWrappedLayout"/>
                                             <color key="primaryBackgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
                                             <connections>
-                                                <binding destination="Voe-Tx-rLC" name="content" keyPath="self.resultsArrayControler.arrangedObjects" id="Dov-sq-Ejf"/>
-                                                <binding destination="Voe-Tx-rLC" name="selectionIndexes" keyPath="self.resultsArrayControler.selectionIndexes" previousBinding="Dov-sq-Ejf" id="Mf6-MG-xWH"/>
+                                                <outlet property="dataSource" destination="Voe-Tx-rLC" id="ptb-Xw-pTt"/>
                                                 <outlet property="delegate" destination="Voe-Tx-rLC" id="1V0-Qu-xmq"/>
                                             </connections>
                                         </collectionView>
