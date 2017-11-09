@@ -76,7 +76,7 @@
     self.playerLayer = [AVPlayerHapLayer layer];
     self.playerLayer.frame = self.layer.bounds;
     self.playerLayer.autoresizingMask = kCALayerWidthSizable | kCALayerHeightSizable;
-    self.playerLayer.asynchronous = YES;
+//    self.playerLayer.asynchronous = YES;
     self.playerLayer.actions = @{@"contents" : [NSNull null], @"opacity" : [NSNull null]};
     
     [self.layer insertSublayer:self.playerLayer below:self.label.layer];
@@ -213,10 +213,11 @@
             Float64 reminaingSeconds = fmod(reminaingInSeconds, 60.0);
 
             self.currentTimeToEnd.stringValue = [NSString stringWithFormat:@"-%02.f:%02.f:%02.f", reminaingHours, reminaingMinutes, reminaingSeconds];
+
+            [self.playerLayer setNeedsDisplay];
         });
     }];
 
-    [self.playerLayer setNeedsDisplay];
 }
 
 - (void) mouseExited:(NSEvent *)theEvent
