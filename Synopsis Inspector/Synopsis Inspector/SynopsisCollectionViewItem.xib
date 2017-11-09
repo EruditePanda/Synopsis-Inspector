@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12121"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13529"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -97,7 +97,7 @@
                 <outlet property="contentViewController" destination="UNd-wU-FLE" id="4kJ-8j-mcj"/>
             </connections>
         </popover>
-        <visualEffectView appearanceType="vibrantDark" blendingMode="behindWindow" material="appearanceBased" state="followsWindowActiveState" id="qjD-Hn-jMJ">
+        <visualEffectView wantsLayer="YES" appearanceType="vibrantDark" blendingMode="behindWindow" material="appearanceBased" state="followsWindowActiveState" id="qjD-Hn-jMJ">
             <rect key="frame" x="0.0" y="0.0" width="377" height="419"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
@@ -106,11 +106,11 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <tabViewItems>
                         <tabViewItem label="Global" identifier="1" id="P5Y-Rf-Ih2">
-                            <view key="view" wantsLayer="YES" id="QNm-Il-8wp" customClass="TransparentView">
+                            <view key="view" wantsLayer="YES" ambiguous="YES" id="QNm-Il-8wp" customClass="TransparentView">
                                 <rect key="frame" x="10" y="25" width="218" height="0.0"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2NQ-z0-YOe">
+                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2NQ-z0-YOe">
                                         <rect key="frame" x="12" y="-70" width="302" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" controlSize="small" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="border" drawsBackground="YES" id="TNn-vs-bry">
@@ -236,7 +236,7 @@
                             </view>
                         </tabViewItem>
                         <tabViewItem label="Frame Delta" identifier="" id="f9B-Kf-GUR">
-                            <view key="view" wantsLayer="YES" ambiguous="YES" id="P1Y-3y-FRN" customClass="TransparentView">
+                            <view key="view" wantsLayer="YES" id="P1Y-3y-FRN" customClass="TransparentView">
                                 <rect key="frame" x="10" y="25" width="331" height="354"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
@@ -299,7 +299,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="297" height="292"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textView ambiguous="YES" editable="NO" selectable="NO" drawsBackground="NO" importsGraphics="NO" richText="NO" findStyle="panel" id="2Bn-Io-seI">
+                                                <textView ambiguous="YES" editable="NO" selectable="NO" drawsBackground="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" findStyle="panel" id="2Bn-Io-seI">
                                                     <rect key="frame" x="0.0" y="0.0" width="297" height="292"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
