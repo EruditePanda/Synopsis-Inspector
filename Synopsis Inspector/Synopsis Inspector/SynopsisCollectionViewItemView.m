@@ -86,9 +86,9 @@
     self.playheadLayer.backgroundColor = [NSColor redColor].CGColor;
     self.playheadLayer.minificationFilter = kCAFilterNearest;
     self.playheadLayer.magnificationFilter = kCAFilterNearest;
-    self.playheadLayer.compositingFilter = [CIFilter filterWithName:@"CIDifferenceBlendMode"];
+//    self.playheadLayer.compositingFilter = [CIFilter filterWithName:@"CIDifferenceBlendMode"];
     self.playheadLayer.actions = @{@"position" : [NSNull null]};
-    self.playheadLayer.opacity = 0.0;
+    self.playheadLayer.opacity = 1.0;
     [self.layer insertSublayer:self.playheadLayer above:self.playerLayer];
     
     self.imageLayer = [CALayer layer];
