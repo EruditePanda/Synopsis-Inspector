@@ -9,7 +9,6 @@
 #import "TransparentCollectionView.h"
 
 @interface TransparentCollectionView ()
-@property (weak) IBOutlet NSLayoutConstraint* trailingConstraint;
 @end
 
 @implementation TransparentCollectionView
@@ -24,37 +23,36 @@
 //    return YES;
 //}
 
-
+//
 //-(void)setFrameSize:(NSSize)newSize
 //{
 //    if (newSize.width != self.collectionViewLayout.collectionViewContentSize.width)
 //    {
 //        newSize.width = self.collectionViewLayout.collectionViewContentSize.width;
-//        
+//
 //        self.enclosingScrollView.autohidesScrollers = NO;
 //        self.enclosingScrollView.usesPredominantAxisScrolling = NO;
 //        self.enclosingScrollView.horizontalScroller.hidden = NO;
 //        self.enclosingScrollView.hasHorizontalScroller = YES;
 //    }
-//    
+//
 //    [super setFrameSize:newSize];
 //}
 //
-- (void) setFrame:(NSRect)frame
-{
-    // Fix a bug in our colleciton view not showing our horizontal scroller
-    if (frame.size.width != self.collectionViewLayout.collectionViewContentSize.width)
-    {
-        frame.size.width = self.collectionViewLayout.collectionViewContentSize.width;
-        self.enclosingScrollView.autohidesScrollers = NO;
-        self.enclosingScrollView.usesPredominantAxisScrolling = NO;
-        self.enclosingScrollView.horizontalScroller.hidden = NO;
-        self.enclosingScrollView.hasHorizontalScroller = YES;
-    }
-
-    [super setFrame:frame];
-    
-}
+//- (void) setFrame:(NSRect)frame
+//{
+//    // Fix a bug in our colleciton view not showing our horizontal scroller
+//    if (frame.size.width != self.collectionViewLayout.collectionViewContentSize.width)
+//    {
+//        frame.size.width = self.collectionViewLayout.collectionViewContentSize.width;
+//        self.enclosingScrollView.autohidesScrollers = NO;
+//        self.enclosingScrollView.usesPredominantAxisScrolling = NO;
+//        self.enclosingScrollView.horizontalScroller.hidden = NO;
+//        self.enclosingScrollView.hasHorizontalScroller = YES;
+//    }
+//
+//    [super setFrame:frame];
+//}
 //
 //- (void) layout
 //{
@@ -64,13 +62,13 @@
 //    {
 //        //        self.trailingConstraint.constant = -self.collectionViewLayout.collectionViewContentSize.width;
 //        [self setFrameSize:[self.collectionViewLayout collectionViewContentSize]];
-//        
+//
 //        self.enclosingScrollView.autohidesScrollers = NO;
 //        self.enclosingScrollView.usesPredominantAxisScrolling = NO;
 //        self.enclosingScrollView.horizontalScroller.hidden = NO;
 //        self.enclosingScrollView.hasHorizontalScroller = YES;
 //    }
-//    
+//
 //    [super layout];
 //
 //}
