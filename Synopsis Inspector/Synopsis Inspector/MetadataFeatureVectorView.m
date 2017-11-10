@@ -18,6 +18,8 @@
 {
     [super awakeFromNib];
     
+    self.layer = [CALayer layer];
+
     self.featureLayer = [SynopsisDenseFeatureLayer layer];
     self.featureLayer.frame = self.layer.bounds;
     
