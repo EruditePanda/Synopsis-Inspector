@@ -167,12 +167,9 @@
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willScroll:) name:NSScrollViewWillStartLiveMagnifyNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didScroll:) name:NSScrollViewDidEndLiveMagnifyNotification object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidResizeCollectionViewHack:) name:NSWindowDidResizeNotification object:nil];
     
     self.currentlyScrolling = NO;
-
-
+    
     // Register for the dropped object types we can accept.
     [self.collectionView registerForDraggedTypes:[NSArray arrayWithObject:NSURLPboardType]];
     

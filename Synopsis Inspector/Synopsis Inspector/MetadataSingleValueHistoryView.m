@@ -70,7 +70,6 @@
     }
 }
 
-
 - (void) updateLayer
 {
     //    for(CALayer* layer in [[self.layer sublayers] copy])
