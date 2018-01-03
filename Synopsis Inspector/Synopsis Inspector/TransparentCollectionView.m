@@ -13,6 +13,18 @@
 
 @implementation TransparentCollectionView
 
+//- (void) setFrame:(NSRect)frame
+//{
+//    // Fix a bug in our colleciton view not showing our horizontal scroller
+//    if (frame.size.width != self.collectionViewLayout.collectionViewContentSize.width)
+//    {
+//
+//        frame.size.width = self.collectionViewLayout.collectionViewContentSize.width;
+//    }
+//
+//    [super setFrame:frame];
+//}
+
 //- (BOOL) isOpaque
 //{
 //    return NO;

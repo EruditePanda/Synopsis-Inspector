@@ -30,9 +30,9 @@
     self.collectionView.enclosingScrollView.hasVerticalScroller = YES;
     self.collectionView.enclosingScrollView.verticalScroller.hidden = NO;
 
-    self.collectionView.enclosingScrollView.hasHorizontalScroller = NO;
-    self.collectionView.enclosingScrollView.verticalScroller.hidden = YES;
-    self.collectionView.enclosingScrollView.autohidesScrollers = YES;
+    self.collectionView.enclosingScrollView.hasHorizontalScroller = YES;
+    self.collectionView.enclosingScrollView.horizontalScroller.hidden = NO;
+    self.collectionView.enclosingScrollView.autohidesScrollers = NO;
 //        
     self.collectionView.enclosingScrollView.animator.magnification = 1.0;
     self.collectionView.enclosingScrollView.animator.allowsMagnification = NO;

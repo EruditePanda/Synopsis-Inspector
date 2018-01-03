@@ -80,7 +80,7 @@
     self.playerLayer.actions = @{@"contents" : [NSNull null], @"opacity" : [NSNull null]};
     
     [self.layer insertSublayer:self.playerLayer below:self.label.layer];
-    
+        
     self.playheadLayer = [CALayer layer];
     self.playheadLayer.frame = CGRectMake(0, 0, 1, self.layer.frame.size.height);
     self.playheadLayer.backgroundColor = [NSColor redColor].CGColor;

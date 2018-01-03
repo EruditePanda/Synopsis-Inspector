@@ -11,7 +11,7 @@
 
 @interface TSNELayout : NSCollectionViewLayout
 
-- (instancetype) initWithFeatures:(NSArray<SynopsisDenseFeature*>*)features NS_DESIGNATED_INITIALIZER;
+- (instancetype) initWithFeatures:(NSArray<SynopsisDenseFeature*>*)features initialSize:(NSSize)size NS_DESIGNATED_INITIALIZER;
 
 @property (readwrite, assign) NSSize itemSize;
 

@@ -726,15 +726,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="1307" height="557"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView misplaced="YES" borderType="line" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" maxMagnification="1" usesPredominantAxisScrolling="NO" findBarPosition="aboveHorizontalRuler" id="fRo-0M-OuZ">
+                            <scrollView misplaced="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" maxMagnification="1" usesPredominantAxisScrolling="NO" findBarPosition="aboveHorizontalRuler" id="fRo-0M-OuZ">
                                 <rect key="frame" x="0.0" y="36" width="1307" height="521"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="Yw9-Kg-dix">
-                                    <rect key="frame" x="1" y="1" width="1305" height="519"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="1307" height="521"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <collectionView selectable="YES" allowsMultipleSelection="YES" id="Zca-Ua-Xm8" customClass="TransparentCollectionView">
-                                            <rect key="frame" x="0.0" y="0.0" width="1290" height="519"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="1307" height="521"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <collectionViewLayout key="collectionViewLayout" id="Jcz-VS-yYo" customClass="AAPLWrappedLayout"/>
                                             <color key="primaryBackgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
@@ -746,12 +746,12 @@
                                     </subviews>
                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </clipView>
-                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="RT5-Sb-dCz">
-                                    <rect key="frame" x="1" y="402" width="1012" height="16"/>
+                                <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="RT5-Sb-dCz">
+                                    <rect key="frame" x="0.0" y="505" width="1307" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="0sy-jS-7Et">
-                                    <rect key="frame" x="997" y="1" width="16" height="417"/>
+                                <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="0sy-jS-7Et">
+                                    <rect key="frame" x="1291" y="0.0" width="16" height="521"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>

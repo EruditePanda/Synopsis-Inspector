@@ -37,16 +37,17 @@
 
 @implementation TSNELayout
 
-- (instancetype) init
-{
-    return [self initWithFeatures:nil];
-}
+//- (instancetype) init
+//{
+//    return [self initWithFeatures:nil];
+//}
 
-- (instancetype) initWithFeatures:(NSArray<SynopsisDenseFeature*>*)features
+- (instancetype) initWithFeatures:(NSArray<SynopsisDenseFeature*>*)features initialSize:(NSSize)size
 {
     self = [super init];
     if(self)
     {
+        initialSize = size;
         self.features = features;
 
         // Reverse engineered from TSNE algo check
@@ -196,15 +197,24 @@
 //    self.collectionView.enclosingScrollView.magnification = 0.35;
 
     // We resize this value / make a square.
-    NSRect clipBounds = [[self collectionView] frame];
-
-    NSSize size = NSMakeSize(NSMaxY(clipBounds), NSMaxY(clipBounds) );
-    
-    initialSize = size;
+////    NSRect clipBounds = [[self collectionView] frame];
+////
+////    NSSize size = NSMakeSize(NSMaxY(clipBounds), NSMaxY(clipBounds) );
+//
+////    initialSize =    [super collectionViewContentSize];
+//;
+//////    initialSize = NSMakeSize(2048., 2048.);
+////    initialSize = NSMakeSize(768, 768);
+//    initialSize = [self collectionViewContentSize];
 }
 
-- (NSSize)collectionViewContentSize
+- (NSSize) collectionViewContentSize
 {
+    NSRect clipBounds = [[self collectionView] frame];
+
+    initialSize = NSMakeSize(NSMaxY(clipBounds), NSMaxY(clipBounds) );
+//    initialSize = NSMakeSize(10000, 10000);
+//    initialSize = [super collectionViewContentSize];
     return initialSize;
 }
 

@@ -874,32 +874,31 @@ static BOOL toggleAspect = false;
     self.resultsArrayControler.filterPredicate = nil;
     [self.resultsArrayControler rearrangeObjects];
 
-    float zoomAmount = self.zoomSlider.floatValue;
-    
+//    float zoomAmount = self.zoomSlider.floatValue;
     
     switch([sender tag])
     {
         case 0:
         {
             layout = self.wrappedLayout;
-            self.zoomSlider.enabled = NO;
-            zoomAmount = 1.0;
-            [self.collectionView setFrameSize:self.collectionView.enclosingScrollView.frame.size];;
             break;
         }
         case 1:
         {
             layout = self.tsneHybridLayout;
+            [self configureScrollViewForTSNE];
             break;
         }
         case 2:
         {
             layout = self.tsneFeatureLayout;
+            [self configureScrollViewForTSNE];
             break;
         }
         case 3:
         {
             layout = self.tsneHistogramLayout;
+            [self configureScrollViewForTSNE];
             break;
         }
     }
@@ -909,11 +908,41 @@ static BOOL toggleAspect = false;
     NSAnimationContext.currentContext.duration = 0.5;
     [NSAnimationContext beginGrouping];
 
-    self.collectionView.animator.enclosingScrollView.magnification = zoomAmount;
+//    self.collectionView.animator.enclosingScrollView.magnification = zoomAmount;
     self.collectionView.animator.collectionViewLayout = layout;
     self.collectionView.animator.selectionIndexPaths = [NSSet set];
     
     [NSAnimationContext endGrouping];
+}
+
+
+- (void) configureScrollViewForFLow
+{
+    self.zoomSlider.enabled = NO;
+    
+    
+    self.collectionView.enclosingScrollView.autohidesScrollers = NO;
+    self.collectionView.enclosingScrollView.hasVerticalScroller = YES;
+    self.collectionView.enclosingScrollView.hasHorizontalScroller = YES;
+    self.collectionView.enclosingScrollView.horizontalScroller.hidden = NO;
+    self.collectionView.enclosingScrollView.verticalScroller.hidden = NO;
+    self.collectionView.enclosingScrollView.allowsMagnification = YES;
+    
+    self.zoomSlider.enabled = NO;
+//    zoomAmount = 1.0;
+
+}
+
+- (void) configureScrollViewForTSNE
+{
+    self.zoomSlider.enabled = YES;
+    
+    self.collectionView.enclosingScrollView.autohidesScrollers = NO;
+    self.collectionView.enclosingScrollView.hasVerticalScroller = YES;
+    self.collectionView.enclosingScrollView.hasHorizontalScroller = YES;
+    self.collectionView.enclosingScrollView.horizontalScroller.hidden = NO;
+    self.collectionView.enclosingScrollView.verticalScroller.hidden = NO;
+    self.collectionView.enclosingScrollView.allowsMagnification = YES;
 }
 
 - (void) lazyCreateLayoutsWithContent:(NSArray*)content
@@ -922,6 +951,8 @@ static BOOL toggleAspect = false;
     self.featureTSNEMenu.enabled = NO;
     self.histogramTSNEMenu.enabled = NO;
 
+    NSSize collectionViewInitialSize = [self.collectionView frame].size;
+    
     NSMutableArray<SynopsisDenseFeature*>* allFeatures = [NSMutableArray new];
     NSMutableArray<SynopsisDenseFeature*>* allHistograms = [NSMutableArray new];
     NSMutableArray<SynopsisDenseFeature*>* allHybridFeatures = [NSMutableArray new];
@@ -945,7 +976,7 @@ static BOOL toggleAspect = false;
     dispatch_group_enter(tsneGroup);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         
-        TSNELayout* tsneLayout = [[TSNELayout alloc] initWithFeatures:allFeatures];
+        TSNELayout* tsneLayout = [[TSNELayout alloc] initWithFeatures:allFeatures initialSize:collectionViewInitialSize];
         tsneLayout.itemSize = NSMakeSize(300, 300);
         
 //        DBScanLayout* dbScanLayout = [[DBScanLayout alloc] initWithData:allMetadataFeatures];
@@ -961,7 +992,7 @@ static BOOL toggleAspect = false;
     dispatch_group_enter(tsneGroup);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         
-        TSNELayout* tsneLayout = [[TSNELayout alloc] initWithFeatures:allHistograms];
+        TSNELayout* tsneLayout = [[TSNELayout alloc] initWithFeatures:allHistograms initialSize:collectionViewInitialSize];
         tsneLayout.itemSize = NSMakeSize(300, 300);
         
 //        DBScanLayout* dbScanLayout = [[DBScanLayout alloc] initWithData:allHistogramFeatures];
@@ -976,7 +1007,7 @@ static BOOL toggleAspect = false;
     dispatch_group_enter(tsneGroup);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         
-        TSNELayout* tsneLayout = [[TSNELayout alloc] initWithFeatures:allHybridFeatures];
+        TSNELayout* tsneLayout = [[TSNELayout alloc] initWithFeatures:allHybridFeatures initialSize:collectionViewInitialSize];
         tsneLayout.itemSize = NSMakeSize(300, 300);
         
 //        DBScanLayout* dbScanLayout = [[DBScanLayout alloc] initWithData:allHybridFeatures];
@@ -1422,14 +1453,6 @@ static BOOL toggleAspect = false;
 //    }
     
     return nil;
-}
-
-- (void) windowDidResizeCollectionViewHack:(NSNotification*)notification
-{
-    if(self.collectionView.collectionViewLayout == self.wrappedLayout)
-    {
-        [self.collectionView setFrameSize:self.collectionView.enclosingScrollView.frame.size];
-    }
 }
 
 @end
