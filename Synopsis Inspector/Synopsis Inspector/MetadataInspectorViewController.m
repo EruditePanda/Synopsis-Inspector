@@ -20,6 +20,7 @@
 @property (weak) IBOutlet MetadataHistogramView* globalHistogramView;
 @property (weak) IBOutlet MetadataFeatureVectorView* globalFeatureVectorView;
 
+@property (weak) IBOutlet NSTextField* frameDescriptors;
 @property (weak) IBOutlet MetadataDominantColorsView* dominantColorView;
 @property (weak) IBOutlet MetadataHistogramView* histogramView;
 @property (weak) IBOutlet MetadataMotionView* motionView;
@@ -33,9 +34,7 @@
 @property (weak) IBOutlet NSTextField* histogramHistoryCurrentValue;
 @property (strong) SynopsisDenseFeature* lastHistogram;
 
-
 @property (weak) IBOutlet NSTextField* metadataVersionNumber;
-
 @property (weak) IBOutlet NSButton* enableTrackerVisualizer;
 
 @end
@@ -57,6 +56,14 @@
     NSDictionary* synopsisData = [frameMetadata valueForKey:kSynopsisMetadataIdentifier];
     NSDictionary* standard = [synopsisData valueForKey:kSynopsisStandardMetadataDictKey];
     NSArray* domColors = [standard valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey];
+    NSArray* descriptions = [standard valueForKey:kSynopsisStandardMetadataDescriptionDictKey];
+
+    NSMutableString* description = [NSMutableString new];
+    
+    for(NSString* desc in descriptions)
+    {
+        [description appendString:[desc stringByAppendingString:@", "]];
+    }
 
     SynopsisDenseFeature* histogram = [standard valueForKey:kSynopsisStandardMetadataHistogramDictKey];
 
@@ -94,6 +101,9 @@
             [self.histogramHistory appendValue:@(comparedHistograms)];
             [self.histogramHistory updateLayer];
             
+            if(description)
+                self.frameDescriptors.stringValue = description;
+
         }
         self.featureVectorHistoryCurrentValue.floatValue = comparedFeatures;
         self.histogramHistoryCurrentValue.floatValue = comparedHistograms;
