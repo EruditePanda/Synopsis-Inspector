@@ -14,7 +14,7 @@ typedef void (^SynopsisInspectorMediaCacheImageCompletionHandler)(CGImageRef _Nu
 typedef void (^SynopsisInspectorMediaCachePlayerItemCompletionHandler)(AVPlayerItem* _Nullable item, NSError * _Nullable error);
 
 
-@interface SynopsisInspectorMediaCache : NSObject
+@interface SynopsisMediaCache : NSObject
 
 + (instancetype _Nonnull ) sharedMediaCache;
 

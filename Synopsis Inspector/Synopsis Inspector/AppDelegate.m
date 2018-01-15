@@ -18,7 +18,7 @@
 #import "TSNELayout.h"
 #import "DBScanLayout.h"
 #import "MetadataInspectorViewController.h"
-#import "SynopsisInspectorMediaCache.h"
+#import "SynopsisMediaCache.h"
 
 @interface AppDelegate ()
 
@@ -1033,7 +1033,7 @@ static BOOL toggleAspect = false;
 {
     self.currentlyScrolling = YES;
     
-    [[SynopsisInspectorMediaCache sharedMediaCache] beginOptimize];
+    [[SynopsisMediaCache sharedMediaCache] beginOptimize];
     
     // hide ALL AVPlayerLayers
     NSArray* visibleResults = [self.collectionView visibleItems];
@@ -1043,7 +1043,7 @@ static BOOL toggleAspect = false;
 
 - (void) didScroll:(NSNotification*)notification
 {
-    [[SynopsisInspectorMediaCache sharedMediaCache] endOptimize];
+    [[SynopsisMediaCache sharedMediaCache] endOptimize];
     
     NSArray* visibleResults = [self.collectionView visibleItems];
     

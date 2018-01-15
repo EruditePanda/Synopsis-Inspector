@@ -6,13 +6,13 @@
 //  Copyright © 2017 v002. All rights reserved.
 //
 
-#import "SynopsisInspectorMediaCache.h"
+#import "SynopsisMediaCache.h"
 #import "HapInAVFoundation.h"
 
 #define SynopsisInspectorMediaCacheImageCost 1
 #define SynopsisInspectorMediaCachePlayerCost 10
 
-@interface SynopsisInspectorMediaCache ()
+@interface SynopsisMediaCache ()
 
 @property (readwrite, strong) NSOperationQueue* videoQueue;
 @property (readwrite, strong) NSOperationQueue* imageQueue;
@@ -23,14 +23,14 @@
 
 @end
 
-@implementation SynopsisInspectorMediaCache
+@implementation SynopsisMediaCache
 
 + (instancetype) sharedMediaCache
 {
-    static SynopsisInspectorMediaCache* sharedMediaCache = nil;
+    static SynopsisMediaCache* sharedMediaCache = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedMediaCache = [[SynopsisInspectorMediaCache alloc] init];
+        sharedMediaCache = [[SynopsisMediaCache alloc] init];
     });
     
     return sharedMediaCache;

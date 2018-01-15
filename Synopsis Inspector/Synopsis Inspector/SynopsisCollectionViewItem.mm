@@ -11,7 +11,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "SynopsisCollectionViewItemView.h"
 #import "MetadataInspectorViewController.h"
-#import "SynopsisInspectorMediaCache.h"
+#import "SynopsisMediaCache.h"
 #import "HapInAVFoundation.h"
 
 @interface SynopsisCollectionViewItem ()
@@ -122,7 +122,7 @@
         self.nameField.stringValue = representedName;
 //        [self.nameField sizeToFit];
         
-        CGImageRef cachedImage = [[SynopsisInspectorMediaCache sharedMediaCache] cachedImageForMetadataItem:representedObject];
+        CGImageRef cachedImage = [[SynopsisMediaCache sharedMediaCache] cachedImageForMetadataItem:representedObject];
         if(cachedImage)
         {
             [self setViewImage:cachedImage];
@@ -134,7 +134,7 @@
 
             [self beginOptimizeForScolling];
             
-            [[SynopsisInspectorMediaCache sharedMediaCache] generateAndCacheStillImageAsynchronouslyForAsset:representedObject completionHandler:^(CGImageRef  _Nullable image, NSError * _Nullable error)
+            [[SynopsisMediaCache sharedMediaCache] generateAndCacheStillImageAsynchronouslyForAsset:representedObject completionHandler:^(CGImageRef  _Nullable image, NSError * _Nullable error)
             {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     if(image)
@@ -192,7 +192,7 @@
         {
             BOOL containsHap = [representedObject.urlAsset containsHapVideoTrack];
             
-            [[SynopsisInspectorMediaCache sharedMediaCache] generatePlayerItemAsynchronouslyForAsset:representedObject completionHandler:^(AVPlayerItem * _Nullable item, NSError * _Nullable error) {
+            [[SynopsisMediaCache sharedMediaCache] generatePlayerItemAsynchronouslyForAsset:representedObject completionHandler:^(AVPlayerItem * _Nullable item, NSError * _Nullable error) {
                
                 if(item)
                 {
@@ -200,7 +200,7 @@
                         if(item.outputs.count)
                         {
                             AVPlayerItemMetadataOutput* metadataOutput = (AVPlayerItemMetadataOutput*)[item.outputs firstObject];
-                            [metadataOutput setDelegate:self queue:[SynopsisInspectorMediaCache sharedMediaCache].metadataQueue];
+                            [metadataOutput setDelegate:self queue:[SynopsisMediaCache sharedMediaCache].metadataQueue];
                         }
                         
                         if(containsHap)
