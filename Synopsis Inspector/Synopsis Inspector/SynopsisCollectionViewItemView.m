@@ -12,8 +12,8 @@
 #define CORNER_RADIUS     6.0     // corner radius of the shape in points
 #define BORDER_WIDTH      1.0     // thickness of border when shown, in points
 
-#define BGCOLOR 0.075
-#define SELECTEDBGCOLOR 0.1
+#define BGCOLOR 0.025
+#define SELECTEDBGCOLOR 0.05
 
 #define BORDERCOLOR 0.2
 #define SELECTEDBORDERCOLOR 0.6
@@ -64,14 +64,14 @@
 
 - (void) commonInit
 {
-    self.layer.backgroundColor = [NSColor colorWithWhite:BGCOLOR alpha:1].CGColor;
+    self.layer.backgroundColor = [NSColor colorWithWhite:BGCOLOR alpha:1.0].CGColor;
     self.layer.borderColor = [NSColor colorWithWhite:BORDERCOLOR alpha:1.0].CGColor;
     self.layer.borderWidth = BORDER_WIDTH;//(self.borderColor ? BORDER_WIDTH : 0.0);
     self.layer.cornerRadius = CORNER_RADIUS;
 
     self.label.layer.opacity = 0.5;
-    self.currentTimeToEnd.layer.opacity = 0.2;
-    self.currentTimeFromStart.layer.opacity = 0.2;
+    self.currentTimeToEnd.layer.opacity = 0.0;
+    self.currentTimeFromStart.layer.opacity = 0.0;
 
     self.playerLayer = [AVPlayerHapLayer layer];
     self.playerLayer.frame = self.layer.bounds;
@@ -226,8 +226,8 @@
     
     self.playheadLayer.opacity = 0.0;
     self.label.layer.opacity = 0.5;
-    self.currentTimeToEnd.layer.opacity = 0.2;
-    self.currentTimeFromStart.layer.opacity = 0.2;
+    self.currentTimeToEnd.layer.opacity = 0.0;
+    self.currentTimeFromStart.layer.opacity = 0.0;
 }
 
 - (void) mouseDown:(NSEvent *)theEvent

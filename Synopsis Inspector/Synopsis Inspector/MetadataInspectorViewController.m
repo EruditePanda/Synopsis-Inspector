@@ -62,7 +62,15 @@
     
     for(NSString* desc in descriptions)
     {
-        [description appendString:[desc stringByAppendingString:@", "]];
+        // Hack to make the description 'key' not have a comma
+        if([desc hasSuffix:@":"])
+        {
+            [description appendString:[desc stringByAppendingString:@" "]];
+        }
+        else
+        {
+            [description appendString:[desc stringByAppendingString:@", "]];
+        }
     }
 
     SynopsisDenseFeature* histogram = [standard valueForKey:kSynopsisStandardMetadataHistogramDictKey];
@@ -88,7 +96,7 @@
 
     dispatch_async(dispatch_get_main_queue(), ^{
         
-//        if(self.view.window.isVisible)
+        if(self.view.window.isVisible)
         {
             [self.featureVectorView updateLayer];
             
@@ -134,9 +142,17 @@
     
     for(NSString* desc in descriptions)
     {
-        [description appendString:[desc stringByAppendingString:@", "]];
+        // Hack to make the description 'key' not have a comma
+        if([desc hasSuffix:@":"])
+        {
+            [description appendString:[desc stringByAppendingString:@" "]];
+        }
+        else
+        {
+            [description appendString:[desc stringByAppendingString:@", "]];
+        }
     }
-    
+
     self.globalDominantColorView.dominantColorsArray = domColors;
     self.globalHistogramView.histogram = histogram;
     self.globalFeatureVectorView.feature = feature;
