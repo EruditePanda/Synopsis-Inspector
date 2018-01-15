@@ -79,9 +79,9 @@
     return [@"IMAGE-" stringByAppendingString:metadataItem.url.absoluteString];
 }
 
-- (void) writeImageToCache:(_Nullable CGImageRef)image forKey:(nonnull id)key cost:(NSUInteger)cost
+- (void) writeImageToCache:(_Nullable CGImageRef)image forKey:(nonnull id)key
 {
-    [self.mediaCache setObject:(__bridge id _Nullable)(image) forKey:key cost:cost];
+    [self.mediaCache setObject:(__bridge id _Nullable)(image) forKey:key];
 }
 
 - (nullable CGImageRef) cachedImageForMetadataItem:(SynopsisMetadataItem* _Nonnull)metadataItem
@@ -164,7 +164,7 @@
 
                 if(image)
                 {
-                    [self writeImageToCache: CFBridgingRetain((__bridge id _Nullable)(image)) forKey:[self imageKeyForMetadataItem:metadataItem] cost:SynopsisInspectorMediaCacheImageCost];
+                    [self writeImageToCache: CFBridgingRetain((__bridge id _Nullable)(image)) forKey:[self imageKeyForMetadataItem:metadataItem] ];
                     
                     if(completionHandler)
                         completionHandler(image, nil);
@@ -191,10 +191,7 @@
                     completionHandler(NULL, error);
                 
             }
-
-            
         }];
-
     }
     else
     {
@@ -209,7 +206,7 @@
                 
                 if(error == nil && image != NULL)
                 {
-                    [self writeImageToCache: CFBridgingRetain((__bridge id _Nullable)(image)) forKey:[self imageKeyForMetadataItem:metadataItem] cost:SynopsisInspectorMediaCacheImageCost];
+                    [self writeImageToCache: CFBridgingRetain((__bridge id _Nullable)(image)) forKey:[self imageKeyForMetadataItem:metadataItem]];
                     
                     if(completionHandler)
                         completionHandler(image, nil);
