@@ -183,13 +183,13 @@
     CMTime seekTime = CMTimeMultiplyByFloat64(self.playerLayer.player.currentItem.duration, normalizedMouseX);
     
     // This is so ugly
-    BOOL requiresFrameReordering = [[self.playerLayer.player.currentItem.asset tracksWithMediaType:AVMediaTypeVideo] firstObject].requiresFrameReordering;
+//    BOOL requiresFrameReordering = [[self.playerLayer.player.currentItem.asset tracksWithMediaType:AVMediaTypeVideo] firstObject].requiresFrameReordering;
     
     CMTime tolerance = kCMTimeZero;
-    if(requiresFrameReordering)
-    {
-        tolerance = kCMTimePositiveInfinity;
-    }
+//    if(requiresFrameReordering)
+//    {
+//        tolerance = kCMTimePositiveInfinity;
+//    }
 
     [self.playerLayer.player seekToTime:seekTime toleranceBefore:tolerance toleranceAfter:tolerance completionHandler:^(BOOL finished) {
         dispatch_async(dispatch_get_main_queue(), ^{
