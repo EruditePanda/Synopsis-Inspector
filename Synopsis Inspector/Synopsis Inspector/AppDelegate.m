@@ -574,7 +574,7 @@
     
         if([self.resultsArrayControler.content count])
         {
-            [self lazyCreateLayoutsWithContent:self.resultsArrayControler.content];
+//            [self lazyCreateLayoutsWithContent:self.resultsArrayControler.content];
         }
     }
     
@@ -660,7 +660,7 @@
         [self.continuousMetadataSearch enableUpdates];
         
         // Once we are finished, we
-        [self lazyCreateLayoutsWithContent:self.resultsArrayControler.content];
+//        [self lazyCreateLayoutsWithContent:self.resultsArrayControler.content];
     });
 }
 
@@ -1032,7 +1032,9 @@ static BOOL toggleAspect = false;
 - (void) willScroll:(NSNotification*)notifcation
 {
     self.currentlyScrolling = YES;
-    
+
+    [[SynopsisCache sharedCache] returnOnlyCachedResults];
+
     [[SynopsisMediaCache sharedMediaCache] beginOptimize];
     
     // hide ALL AVPlayerLayers
@@ -1043,6 +1045,8 @@ static BOOL toggleAspect = false;
 
 - (void) didScroll:(NSNotification*)notification
 {
+    [[SynopsisCache sharedCache] returnCachedAndUncachedResults];
+    
     [[SynopsisMediaCache sharedMediaCache] endOptimize];
     
     NSArray* visibleResults = [self.collectionView visibleItems];
@@ -1052,6 +1056,12 @@ static BOOL toggleAspect = false;
     self.currentlyScrolling = NO;
     NSLog(@"DID SCROLL");
 }
+
+//MAKE A SYNOPSIS MEDIA ITEM CACHE THAT HANDLES GLOBAL METADATA DECODING / CACHING
+////
+//WE CAN THEN USE THAT TO BACK OUR ARRAY FOR QUICK SEARCHES AND SHIT
+//
+//MAKE A SUBCLASS OF THAT WHICH CAN HANDLE 
 
 #pragma mark - Search
 

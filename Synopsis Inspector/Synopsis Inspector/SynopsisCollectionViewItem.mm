@@ -45,6 +45,7 @@
     SynopsisCollectionViewItemView* itemView = (SynopsisCollectionViewItemView*)self.view;
     itemView.currentTimeFromStart.stringValue = @"";
     itemView.currentTimeToEnd.stringValue = @"";
+    [self setViewImage:nil];
 
     [itemView setSelected:NO];
     [itemView beginOptimizeForScrolling];
@@ -81,6 +82,11 @@
 
     if(representedObject)
     {
+        // Fire off heavy async operations first
+        [self asyncSetImage];
+        [self asyncSetGlobalMetadata];
+        
+        // Grab asset name, or use file name if not
         NSString* representedName = nil;
         
         AVURLAsset* representedAsset = representedObject.urlAsset;
@@ -95,15 +101,9 @@
             representedName = [[representedAsset.URL lastPathComponent] stringByDeletingPathExtension];
         }
         
-        NSDictionary* globalMetadata = nil;
-        
-        NSArray* metadataItems = representedAsset.metadata;
-        for(AVMetadataItem* metadataItem in metadataItems)
-        {
-            globalMetadata = [self.metadataDecoder decodeSynopsisMetadata:metadataItem];
-            if(globalMetadata)
-                break;
-        }
+        self.nameField.stringValue = representedName;
+
+      
         
         SynopsisCollectionViewItemView* itemView = (SynopsisCollectionViewItemView*)self.view;
         itemView.currentTimeFromStart.stringValue = [NSString stringWithFormat:@"%02.f:%02.f:%02.f", 0.0, 0.0, 0.0];
@@ -114,41 +114,36 @@
         Float64 reminaingSeconds = fmod(reminaingInSeconds, 60.0);
         
         itemView.currentTimeToEnd.stringValue = [NSString stringWithFormat:@"-%02.f:%02.f:%02.f", reminaingHours, reminaingMinutes, reminaingSeconds];
-        
-//        [itemView.currentTimeFromStart sizeToFit];
-//        [itemView.currentTimeToEnd sizeToFit];
-
-        self.inspectorVC.globalMetadata = globalMetadata;
-        self.nameField.stringValue = representedName;
-//        [self.nameField sizeToFit];
-        
-        CGImageRef cachedImage = [[SynopsisMediaCache sharedMediaCache] cachedImageForMetadataItem:representedObject];
-        if(cachedImage)
-        {
-            [self setViewImage:cachedImage];
-        }
-        else
-        {
-            SynopsisCollectionViewItemView* view = (SynopsisCollectionViewItemView*)self.view;
-            view.imageLayer.contents = nil;
-
-            [self beginOptimizeForScolling];
-            
-            [[SynopsisMediaCache sharedMediaCache] generateAndCacheStillImageAsynchronouslyForAsset:representedObject completionHandler:^(CGImageRef  _Nullable image, NSError * _Nullable error)
-            {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    if(image)
-                        [self setViewImage:image];
-                });
-            }];
-        }
     }
 }
 
-- (void) setViewImage:(CGImageRef)image
+- (void) asyncSetImage
+{
+    [[SynopsisCache sharedCache] cachedImageForItem:self.representedObject completionHandler:^(id  _Nullable cachedValue, NSError * _Nullable error) {
+        NSImage* image = (NSImage*)cachedValue;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(image)
+                [self setViewImage:image];
+        });
+    }];
+}
+
+- (void) asyncSetGlobalMetadata
+{
+    // Cache and decode metadata in a background queue
+    [[SynopsisCache sharedCache] cachedGlobalMetadataForItem:self.representedObject completionHandler:^(id  _Nullable cachedValue, NSError * _Nullable error) {
+        
+        NSDictionary* globalMetadata = (NSDictionary*)cachedValue;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.inspectorVC.globalMetadata = globalMetadata;
+        });
+    }];
+}
+
+- (void) setViewImage:(NSImage*)image
 {
     SynopsisCollectionViewItemView* view = (SynopsisCollectionViewItemView*)self.view;
-    view.imageLayer.contents = (id)CFBridgingRelease(image);
+    view.imageLayer.contents = image;
 }
 
 - (void) setAspectRatio:(NSString*)aspect
@@ -168,29 +163,43 @@
     SynopsisMetadataItem* representedObject = self.representedObject;
     SynopsisCollectionViewItemView* view = (SynopsisCollectionViewItemView*)self.view;
 
+    [self asyncSetGlobalMetadata];
+    [self asyncSetImage];
+    
     if(view.playerLayer.player.currentItem.asset != representedObject.urlAsset)
     {
 //        NSLog(@"Replace Player Item");
 //        
         [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:view.playerLayer.player.currentItem];
         
-//        AVPlayerItem* item = [[SynopsisInspectorMediaCache sharedMediaCache] cachedPlayerItemForMetadataItem:representedObject];
+        BOOL containsHap = [representedObject.urlAsset containsHapVideoTrack];
+
+//        AVPlayerItem* item = [[SynopsisMediaCache sharedMediaCache] cachedPlayerItemForMetadataItem:representedObject];
 //        if(item)
 //        {
-//            if(item.outputs.count)
-//            {
-//                AVPlayerItemMetadataOutput* metadataOutput = (AVPlayerItemMetadataOutput*)[item.outputs firstObject];
-//                [metadataOutput setDelegate:self queue:self.backgroundQueue];
-//            }
-//            
-//            [view.playerLayer.player replaceCurrentItemWithPlayerItem:item];
-//            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loopPlayback:) name:AVPlayerItemDidPlayToEndTimeNotification object:view.playerLayer.player.currentItem];
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                if(item.outputs.count)
+//                {
+//                    AVPlayerItemMetadataOutput* metadataOutput = (AVPlayerItemMetadataOutput*)[item.outputs firstObject];
+//                    [metadataOutput setDelegate:self queue:[SynopsisMediaCache sharedMediaCache].metadataQueue];
+//                }
 //
-//            [view endOptimizeForScrolling];
+//                if(containsHap)
+//                {
+//                    [view.playerLayer replacePlayerItemWithHAPItem:item];
+//                }
+//                else
+//                {
+//                    [view.playerLayer replacePlayerItemWithItem:item];
+//                }
+//
+//                [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loopPlayback:) name:AVPlayerItemDidPlayToEndTimeNotification object:view.playerLayer.player.currentItem];
+//
+//                [view endOptimizeForScrolling];
+//            });
 //        }
 //        else
         {
-            BOOL containsHap = [representedObject.urlAsset containsHapVideoTrack];
             
             [[SynopsisMediaCache sharedMediaCache] generatePlayerItemAsynchronouslyForAsset:representedObject completionHandler:^(AVPlayerItem * _Nullable item, NSError * _Nullable error) {
                

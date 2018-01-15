@@ -19,7 +19,7 @@
 @property (readwrite, strong) NSCache* mediaCache;
 @property (readwrite, strong) dispatch_queue_t metadataQueue;
 
-@property (readwrite, strong) NSOpenGLContext* glContext;
+@property (readwrite, atomic, assign) BOOL isCurrentlyOptimized;
 
 @end
 
@@ -41,6 +41,7 @@
     self = [super init];
     if(self)
     {
+        self.isCurrentlyOptimized = NO;
         self.imageQueue = [[NSOperationQueue alloc] init];
         self.imageQueue.maxConcurrentOperationCount = NSOperationQueueDefaultMaxConcurrentOperationCount;
         self.imageQueue.qualityOfService = NSQualityOfServiceBackground;
@@ -52,21 +53,6 @@
         self.metadataQueue = dispatch_queue_create("video.synopsis.inspector.mediacache.metadataqueue", DISPATCH_QUEUE_SERIAL);
         
         self.mediaCache = [[NSCache alloc] init];
-        
-        const NSOpenGLPixelFormatAttribute attributes[] = {
-            NSOpenGLPFAOpenGLProfile,  NSOpenGLProfileVersionLegacy,
-            NSOpenGLPFAAccelerated,
-            NSOpenGLPFAColorSize, 32,
-            NSOpenGLPFADepthSize, 24,
-            NSOpenGLPFAAccelerated,
-            NSOpenGLPFAAcceleratedCompute,
-            NSOpenGLPFANoRecovery,
-            (NSOpenGLPixelFormatAttribute)0,
-        };
-        
-        NSOpenGLPixelFormat* pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:attributes];
-        
-        self.glContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:nil];
     }
     
     return self;
@@ -93,6 +79,16 @@
 
 - (void) generateAndCacheStillImageAsynchronouslyForAsset:(SynopsisMetadataItem* _Nonnull)metadataItem completionHandler:(SynopsisInspectorMediaCacheImageCompletionHandler _Nullable )completionHandler
 {
+
+    if(self.isCurrentlyOptimized)
+    {
+        if(completionHandler)
+        {
+            completionHandler(nil, nil);
+        }
+        return;
+    }
+
     
     BOOL containsHap = [metadataItem.urlAsset containsHapVideoTrack];
 
@@ -102,6 +98,8 @@
     {
         blockOperation = [NSBlockOperation blockOperationWithBlock:^{
             
+            NSLog(@"Image Async Generation");
+
             // This seems really stupid
             AVPlayerItem* item = [AVPlayerItem playerItemWithAsset:metadataItem.urlAsset];
             AVAssetTrack* hapAssetTrack = [[metadataItem.urlAsset hapVideoTracks] firstObject];
@@ -189,13 +187,14 @@
                 
                 if(completionHandler)
                     completionHandler(NULL, error);
-                
             }
         }];
     }
     else
     {
         blockOperation = [NSBlockOperation blockOperationWithBlock:^{
+
+                    NSLog(@"Image Async Generation");
             AVAssetImageGenerator* imageGenerator = [AVAssetImageGenerator assetImageGeneratorWithAsset:metadataItem.urlAsset];
             
             imageGenerator.apertureMode = AVAssetImageGeneratorApertureModeCleanAperture;
@@ -235,7 +234,7 @@
 
 - (void) writePlayerItemToCache:(AVPlayerItem*)playerItem forKey:(nonnull id)key cost:(NSUInteger)cost
 {
-    [self.mediaCache setObject:playerItem forKey:key cost:cost];
+    [self.mediaCache setObject:playerItem forKey:key];
 }
 
 - (AVPlayerItem*) cachedPlayerItemForMetadataItem:(SynopsisMetadataItem* _Nonnull)metadataItem
@@ -243,7 +242,9 @@
     AVPlayerItem* item = (AVPlayerItem*)[self.mediaCache objectForKey:[self playerItemKeyForMetadataItem:metadataItem]];
     
     if(item)
+    {
         NSLog(@"PlayerItem Cache Hit");
+    }
     else
         NSLog(@"PlayerItem Cache Miss");
     
@@ -251,9 +252,20 @@
 }
 
 - (void) generatePlayerItemAsynchronouslyForAsset:(SynopsisMetadataItem* _Nonnull)metadataItem completionHandler:(SynopsisInspectorMediaCachePlayerItemCompletionHandler _Nullable )completionHandler
-{
+{    
+    
+    if(self.isCurrentlyOptimized)
+    {
+        if(completionHandler)
+        {
+            completionHandler(nil, nil);
+        }
+        return;
+    }
+
     NSBlockOperation* blockOperation = [NSBlockOperation blockOperationWithBlock:^{
        
+//        NSLog(@"Player Item Async Generation");
         BOOL containsHap = [metadataItem.urlAsset containsHapVideoTrack];
         
         AVPlayerItem* item = [AVPlayerItem playerItemWithAsset:metadataItem.urlAsset];
@@ -313,13 +325,23 @@
 
 - (void) beginOptimize
 {
+    self.isCurrentlyOptimized = YES;
     [self.videoQueue cancelAllOperations];
     [self.videoQueue setSuspended:YES];
+
+    [self.imageQueue cancelAllOperations];
+    [self.imageQueue setSuspended:YES];
+
 }
 
 - (void) endOptimize
 {
+    self.isCurrentlyOptimized = NO;
+//    [self.videoQueue cancelAllOperations];
     [self.videoQueue setSuspended:NO];
+
+//    [self.imageQueue cancelAllOperations];
+    [self.imageQueue setSuspended:NO];
 }
 
 

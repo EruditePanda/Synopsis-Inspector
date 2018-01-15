@@ -20,8 +20,6 @@ typedef void (^SynopsisInspectorMediaCachePlayerItemCompletionHandler)(AVPlayerI
 
 @property (readonly, strong) dispatch_queue_t _Nonnull metadataQueue;
 
-@property (readonly, strong) NSOpenGLContext* _Nonnull glContext;
-
 // Image Caching
 - (void) generateAndCacheStillImageAsynchronouslyForAsset:(SynopsisMetadataItem* _Nonnull)metadataItem completionHandler:(SynopsisInspectorMediaCacheImageCompletionHandler _Nullable )completionHandler;
 
@@ -29,7 +27,6 @@ typedef void (^SynopsisInspectorMediaCachePlayerItemCompletionHandler)(AVPlayerI
 
 // Player Item Caching
 - (void) generatePlayerItemAsynchronouslyForAsset:(SynopsisMetadataItem* _Nonnull)metadataItem completionHandler:(SynopsisInspectorMediaCachePlayerItemCompletionHandler _Nullable )completionHandler;
-
 
 - (void) beginOptimize;
 - (void) endOptimize;
