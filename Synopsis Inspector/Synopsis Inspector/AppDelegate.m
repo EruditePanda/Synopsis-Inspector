@@ -18,7 +18,6 @@
 #import "TSNELayout.h"
 #import "DBScanLayout.h"
 #import "MetadataInspectorViewController.h"
-#import "SynopsisMediaCache.h"
 
 @interface AppDelegate ()
 
@@ -1035,7 +1034,7 @@ static BOOL toggleAspect = false;
 
     [[SynopsisCache sharedCache] returnOnlyCachedResults];
 
-    [[SynopsisMediaCache sharedMediaCache] beginOptimize];
+//    [[SynopsisMediaCache sharedMediaCache] beginOptimize];
     
     // hide ALL AVPlayerLayers
     NSArray* visibleResults = [self.collectionView visibleItems];
@@ -1047,7 +1046,7 @@ static BOOL toggleAspect = false;
 {
     [[SynopsisCache sharedCache] returnCachedAndUncachedResults];
     
-    [[SynopsisMediaCache sharedMediaCache] endOptimize];
+//    [[SynopsisMediaCache sharedMediaCache] endOptimize];
     
     NSArray* visibleResults = [self.collectionView visibleItems];
     

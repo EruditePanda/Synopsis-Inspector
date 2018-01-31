@@ -162,7 +162,7 @@
         if(description)
             self.globalDescriptors.stringValue = description;
         
-        self.metadataVersionNumber.stringValue = [NSString stringWithFormat:@"Version %lu", (unsigned long)metadataVersion];
+        self.metadataVersionNumber.stringValue = [NSString stringWithFormat:@"Metadata Version: %lu", (unsigned long)metadataVersion];
         
         [self.globalDominantColorView updateLayer];
         [self.globalHistogramView updateLayer];

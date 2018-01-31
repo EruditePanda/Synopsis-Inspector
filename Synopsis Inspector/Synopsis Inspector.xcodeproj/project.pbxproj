@@ -13,7 +13,6 @@
 		1B0D643C1D4FD48E00A1AB5D /* CustomVisualEffectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0D643B1D4FD48E00A1AB5D /* CustomVisualEffectView.m */; };
 		1B2780751F213A2200658C0B /* Synopsis.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BBB10ED1D5558C400C22439 /* Synopsis.framework */; };
 		1B2780791F213A5A00658C0B /* Synopsis.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1BFB133C1F21378C002C4651 /* Synopsis.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		1B2781081F253CED00658C0B /* SynopsisMediaCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B2781071F253CEC00658C0B /* SynopsisMediaCache.m */; };
 		1B27810F1F263EDE00658C0B /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B27810E1F263EDE00658C0B /* OpenGL.framework */; };
 		1B522F8F1F26961E00550454 /* AVPlayerItemHapDXTOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F5D1F268A3500550454 /* AVPlayerItemHapDXTOutput.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1B522F921F26987B00550454 /* AVAssetAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F551F268A3500550454 /* AVAssetAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -34028,7 +34027,6 @@
 				1B522FAE1F26998000550454 /* squish.cpp in Sources */,
 				1B522F961F26990000550454 /* DXTBlocks.c in Sources */,
 				1B96FDE71E0896A500DE4BD3 /* adapt_adt_named.cpp in Sources */,
-				1B2781081F253CED00658C0B /* SynopsisMediaCache.m in Sources */,
 				1B0D643C1D4FD48E00A1AB5D /* CustomVisualEffectView.m in Sources */,
 				1B522F921F26987B00550454 /* AVAssetAdditions.m in Sources */,
 				1B522F951F2698AD00550454 /* AVPlayerItemAdditions.m in Sources */,

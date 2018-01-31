@@ -11,7 +11,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "SynopsisCollectionViewItemView.h"
 #import "MetadataInspectorViewController.h"
-#import "SynopsisMediaCache.h"
+//#import "SynopsisMediaCache.h"
 #import "HapInAVFoundation.h"
 
 @interface SynopsisCollectionViewItem ()
@@ -165,7 +165,8 @@
 
     [self asyncSetGlobalMetadata];
     [self asyncSetImage];
-    
+
+    /*
     if(view.playerLayer.player.currentItem.asset != representedObject.urlAsset)
     {
 //        NSLog(@"Replace Player Item");
@@ -234,6 +235,8 @@
     {
         [view endOptimizeForScrolling];
     }
+     
+     */
 }
 
 - (void) loopPlayback:(NSNotification*)notification
