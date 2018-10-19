@@ -96,7 +96,7 @@
 
     dispatch_async(dispatch_get_main_queue(), ^{
         
-        if(self.view.window.isVisible)
+//        if(self.view.window.isVisible)
         {
             [self.featureVectorView updateLayer];
             

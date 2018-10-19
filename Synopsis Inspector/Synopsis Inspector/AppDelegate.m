@@ -12,12 +12,15 @@
 
 #import "AppDelegate.h"
 
+#import "HapInAVFoundation.h"
+
 #import "SynopsisCollectionViewItem.h"
 
 #import "AAPLWrappedLayout.h"
 #import "TSNELayout.h"
 #import "DBScanLayout.h"
 #import "MetadataInspectorViewController.h"
+#import "PlayerView.h"
 
 @interface AppDelegate ()
 
@@ -39,6 +42,10 @@
 @property (weak) IBOutlet NSMenuItem* featureTSNEMenu;
 @property (weak) IBOutlet NSMenuItem* histogramTSNEMenu;
 
+@property (readwrite, strong) IBOutlet MetadataInspectorViewController* metadataInspector;
+@property (readwrite, strong) IBOutlet PlayerView* playerView;
+@property (readwrite) SynopsisMetadataDecoder* metadataDecoder;
+@property (readwrite, strong) dispatch_queue_t metadataQueue;
 
 @property (weak) IBOutlet NSTextField* statusField;
 @property (strong) NSString* sortStatus;
@@ -54,8 +61,6 @@
 //@property (strong) NSMutableArray* resultsArray;
 @property (strong) NSArrayController* resultsArrayControler;
 @property (strong) NSMetadataQuery* continuousMetadataSearch;
-
-@property (readwrite) BOOL currentlyScrolling;
 
 // Layout
 @property (atomic, readwrite, strong) AAPLWrappedLayout* wrappedLayout;
@@ -145,9 +150,11 @@
     
 }
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    
-    
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
+{    
+    self.metadataDecoder = [[SynopsisMetadataDecoder alloc] initWithVersion:kSynopsisMetadataVersionValue];
+    self.metadataQueue = dispatch_queue_create("metadataqueue", DISPATCH_QUEUE_SERIAL);
+
 //    self.resultsArray = [NSMutableArray new];
     self.resultsArrayControler = [[NSArrayController alloc] initWithContent:[NSMutableArray new]];
     self.resultsArrayControler.automaticallyRearrangesObjects = YES;
@@ -161,13 +168,11 @@
     self.collectionView.animator.collectionViewLayout = self.wrappedLayout;
     
     // Notifcations to help optimize scrolling
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willScroll:) name:NSScrollViewWillStartLiveScrollNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didScroll:) name:NSScrollViewDidEndLiveScrollNotification object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willScroll:) name:NSScrollViewWillStartLiveMagnifyNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didScroll:) name:NSScrollViewDidEndLiveMagnifyNotification object:nil];
-    
-    self.currentlyScrolling = NO;
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willScroll:) name:NSScrollViewWillStartLiveScrollNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didScroll:) name:NSScrollViewDidEndLiveScrollNotification object:nil];
+//
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willScroll:) name:NSScrollViewWillStartLiveMagnifyNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didScroll:) name:NSScrollViewDidEndLiveMagnifyNotification object:nil];
     
     // Register for the dropped object types we can accept.
     [self.collectionView registerForDraggedTypes:[NSArray arrayWithObject:NSURLPboardType]];
@@ -761,7 +766,109 @@
 //    
 //    SynopsisCollectionViewItem* item = (SynopsisCollectionViewItem*)collectionView;
 //    item.metadataDelegate = self.metadataInspectorVC;
+    
+    NSIndexPath* zerothSelection = [indexPaths anyObject];
+    
+    SynopsisCollectionViewItem* colletionViewItem = (SynopsisCollectionViewItem*)[self.collectionView itemAtIndex:zerothSelection.item];
+    SynopsisMetadataItem* metadataItem = (SynopsisMetadataItem*)colletionViewItem.representedObject;
+    
+    [[SynopsisCache sharedCache] cachedGlobalMetadataForItem:metadataItem completionHandler:^(id  _Nullable cachedValue, NSError * _Nullable error) {
+        
+        NSDictionary* globalMetadata = (NSDictionary*)cachedValue;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.metadataInspector.globalMetadata = globalMetadata;
+        });
+    }];
+    
+    // Set up our video player to the currently selected item
+    
+    
+    if(self.playerView.playerLayer.player.currentItem.asset != metadataItem.asset)
+    {
+        BOOL containsHap = [metadataItem.asset containsHapVideoTrack];
+        
+        AVPlayerItem* item = [AVPlayerItem playerItemWithAsset:metadataItem.asset];
+        
+        AVPlayerItemMetadataOutput* metadataOut = [[AVPlayerItemMetadataOutput alloc] initWithIdentifiers:nil];
+        metadataOut.suppressesPlayerRendering = YES;
+        [item addOutput:metadataOut];
+        
+        if(!containsHap)
+        {
+            NSDictionary* videoOutputSettings = @{(NSString*)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_32BGRA),
+                                                  (NSString*)kCVPixelBufferIOSurfacePropertiesKey : @{},
+                                                  //                                              (NSString*)kCVPixelBufferIOSurfaceOpenGLFBOCompatibilityKey :@(YES),
+                                                  //                                              (NSString*)kCVPixelBufferIOSurfaceOpenGLTextureCompatibilityKey :@(YES),
+                                                  };
+            
+            AVPlayerItemVideoOutput* videoOutput = [[AVPlayerItemVideoOutput alloc] initWithPixelBufferAttributes:videoOutputSettings];
+            videoOutput.suppressesPlayerRendering = YES;
+            [item addOutput:videoOutput];
+        }
+        else
+        {
+            AVAssetTrack* hapAssetTrack = [[metadataItem.asset hapVideoTracks] firstObject];
+            AVPlayerItemHapDXTOutput* hapOutput = [[AVPlayerItemHapDXTOutput alloc] initWithHapAssetTrack:hapAssetTrack];
+            hapOutput.suppressesPlayerRendering = YES;
+            hapOutput.outputAsRGB = NO;
+            
+            [item addOutput:hapOutput];
+        }
+        
+        //        AVPlayerItem* item = [[SynopsisMediaCache sharedMediaCache] cachedPlayerItemForMetadataItem:representedObject];
+        if(item)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if(item.outputs.count)
+                {
+                    AVPlayerItemMetadataOutput* metadataOutput = (AVPlayerItemMetadataOutput*)[item.outputs firstObject];
+                    [metadataOutput setDelegate:self queue:self.metadataQueue];
+                }
+                
+                if(containsHap)
+                {
+                    [self.playerView.playerLayer replacePlayerItemWithHAPItem:item];
+                }
+                else
+                {
+                    [self.playerView.playerLayer replacePlayerItemWithItem:item];
+                }
+                
+            });
+        }
+        //        else
+        //        {
+        //
+        //            [[SynopsisMediaCache sharedMediaCache] generatePlayerItemAsynchronouslyForAsset:representedObject completionHandler:^(AVPlayerItem * _Nullable item, NSError * _Nullable error) {
+        //
+        //                if(item)
+        //                {
+        //                    dispatch_async(dispatch_get_main_queue(), ^{
+        //                        if(item.outputs.count)
+        //                        {
+        //                            AVPlayerItemMetadataOutput* metadataOutput = (AVPlayerItemMetadataOutput*)[item.outputs firstObject];
+        //                            [metadataOutput setDelegate:self queue:[SynopsisMediaCache sharedMediaCache].metadataQueue];
+        //                        }
+        //
+        //                        if(containsHap)
+        //                        {
+        //                            [view.playerLayer replacePlayerItemWithHAPItem:item];
+        //                        }
+        //                        else
+        //                        {
+        //                            [view.playerLayer replacePlayerItemWithItem:item];
+        //                        }
+        //
+        //                        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loopPlayback:) name:AVPlayerItemDidPlayToEndTimeNotification object:view.playerLayer.player.currentItem];
+        //
+        //                        [view endOptimizeForScrolling];
+        //                    });
+        //                }
+        //            }];
+        //        }
+    }
 
+    
 }
 
 - (void)collectionView:(NSCollectionView *)collectionView didDeselectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
@@ -779,20 +886,8 @@
     [self.featureVectorSort setAction:nil];
 
     [self updateStatusLabel];
-
-//    SynopsisCollectionViewItem* item = (SynopsisCollectionViewItem*)collectionView;
-//    item.metadataDelegate = nil;
-
 }
 
-- (void)collectionView:(NSCollectionView *)collectionView willDisplayItem:(NSCollectionViewItem *)item forRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath
-{
-    SynopsisCollectionViewItem* synopsisItem = (SynopsisCollectionViewItem*)item;
-    if(!self.currentlyScrolling)
-    {
-        [synopsisItem endOptimizeForScrolling];
-    }
-}
 
 #pragma mark - Collection View Dragging Source
 
@@ -929,7 +1024,6 @@ static BOOL toggleAspect = false;
     
     self.zoomSlider.enabled = NO;
 //    zoomAmount = 1.0;
-
 }
 
 - (void) configureScrollViewForTSNE
@@ -1026,35 +1120,6 @@ static BOOL toggleAspect = false;
     });
 }
 
-#pragma mark - Scroll View
-
-- (void) willScroll:(NSNotification*)notifcation
-{
-    self.currentlyScrolling = YES;
-
-    [[SynopsisCache sharedCache] returnOnlyCachedResults];
-
-//    [[SynopsisMediaCache sharedMediaCache] beginOptimize];
-    
-    // hide ALL AVPlayerLayers
-    NSArray* visibleResults = [self.collectionView visibleItems];
-
-    [visibleResults makeObjectsPerformSelector:@selector(beginOptimizeForScolling)];
-}
-
-- (void) didScroll:(NSNotification*)notification
-{
-    [[SynopsisCache sharedCache] returnCachedAndUncachedResults];
-    
-//    [[SynopsisMediaCache sharedMediaCache] endOptimize];
-    
-    NSArray* visibleResults = [self.collectionView visibleItems];
-    
-    [visibleResults makeObjectsPerformSelector:@selector(endOptimizeForScrolling)];
-
-    self.currentlyScrolling = NO;
-    NSLog(@"DID SCROLL");
-}
 
 //MAKE A SYNOPSIS MEDIA ITEM CACHE THAT HANDLES GLOBAL METADATA DECODING / CACHING
 ////
@@ -1462,6 +1527,37 @@ static BOOL toggleAspect = false;
 //    }
     
     return nil;
+}
+
+#pragma mark - AVPlayerItemMetadataOutputPushDelegate
+
+- (void)metadataOutput:(AVPlayerItemMetadataOutput *)output didOutputTimedMetadataGroups:(NSArray *)groups fromPlayerItemTrack:(AVPlayerItemTrack *)track
+{
+    NSMutableDictionary* metadataDictionary = [NSMutableDictionary dictionary];
+    
+    for(AVTimedMetadataGroup* group in groups)
+    {
+        for(AVMetadataItem* metadataItem in group.items)
+        {
+            NSString* key = metadataItem.identifier;
+            
+            id decodedJSON = [self.metadataDecoder decodeSynopsisMetadata:metadataItem];
+            if(decodedJSON)
+            {
+                [metadataDictionary setObject:decodedJSON forKey:key];
+            }
+            else
+            {
+                id value = metadataItem.value;
+                [metadataDictionary setObject:value forKey:key];
+            }
+        }
+    }
+    
+    if(self.metadataInspector)
+    {
+        [self.metadataInspector setFrameMetadata:metadataDictionary];
+    }
 }
 
 @end

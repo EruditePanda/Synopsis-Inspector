@@ -11,10 +11,6 @@
 
 @interface SynopsisCollectionViewItem : NSCollectionViewItem <AVPlayerItemMetadataOutputPushDelegate>
 
-
-- (void) beginOptimizeForScolling;
-- (void) endOptimizeForScrolling;
-
 - (BOOL) isShowingPopOver;
 - (IBAction)hidePopOver:(id)sender;
 - (IBAction)showPopOver:(id)sender;
