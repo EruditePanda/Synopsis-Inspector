@@ -10,16 +10,10 @@
 #import "SynopsisCollectionViewItem.h"
 #import <AVFoundation/AVFoundation.h>
 #import "SynopsisCollectionViewItemView.h"
-#import "MetadataInspectorViewController.h"
-//#import "SynopsisMediaCache.h"
-#import "HapInAVFoundation.h"
 
 @interface SynopsisCollectionViewItem ()
 {
 }
-// Strong because the Collectionview doesnt have a handle to these seperate xib resources when associating to the CollectionViewItem's view.
-@property (strong) IBOutlet MetadataInspectorViewController* inspectorVC;
-@property (strong) IBOutlet NSPopover* inspectorPopOver;
 
 @property (weak) IBOutlet NSTextField* nameField;
 
@@ -81,7 +75,6 @@
     {
         // Fire off heavy async operations first
         [self asyncSetImage];
-        [self asyncSetGlobalMetadata];
         
         // Grab asset name, or use file name if not
         NSString* representedName = nil;
@@ -123,18 +116,6 @@
             {
                 NSLog(@"null image from cache");
             }
-        });
-    }];
-}
-
-- (void) asyncSetGlobalMetadata
-{
-    // Cache and decode metadata in a background queue
-    [[SynopsisCache sharedCache] cachedGlobalMetadataForItem:self.representedObject completionHandler:^(id  _Nullable cachedValue, NSError * _Nullable error) {
-        
-        NSDictionary* globalMetadata = (NSDictionary*)cachedValue;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.inspectorVC.globalMetadata = globalMetadata;
         });
     }];
 }
@@ -206,23 +187,6 @@
     return [NSArray arrayWithObject:component];
 }
 
-
-#pragma mark - PopOver
-
-- (BOOL) isShowingPopOver
-{
-    return self.inspectorPopOver.shown;
-}
-
-- (IBAction)showPopOver:(id)sender
-{
-    [self.inspectorPopOver showRelativeToRect:[self.view bounds] ofView:self.view preferredEdge:NSRectEdgeMinY];
-}
-
-- (IBAction)hidePopOver:(id)sender
-{
-    [self.inspectorPopOver performClose:self];
-}
 
 
 @end

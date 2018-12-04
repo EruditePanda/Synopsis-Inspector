@@ -22,7 +22,7 @@
 #import "MetadataInspectorViewController.h"
 #import "PlayerView.h"
 
-@interface AppDelegate ()
+@interface AppDelegate () <AVPlayerItemMetadataOutputPushDelegate>
 
 @property (weak) IBOutlet NSWindow *window;
 @property (weak) IBOutlet NSWindow *chooseSearchModeSheet;
@@ -125,29 +125,6 @@
 
     
     [self updateStatusLabel];
-    
-    
-//    (NSEvent* __nullable (^)(NSEvent*))block;
-    self.escapeKeyMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSKeyDownMask handler:^NSEvent * _Nullable(NSEvent * _Nonnull keyEvent) {
-        switch (keyEvent.keyCode) {
-            case 53: // esc
-
-                for(SynopsisCollectionViewItem* item in self.collectionView.visibleItems)
-                {
-                    [item hidePopOver:self];
-                }
-                return nil;
-                break;
-                
-            default:
-                break;
-        }
-        
-        return keyEvent;
-   
-    }];
-    
-    
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
@@ -649,9 +626,7 @@
 //        }
 //    
 //        self.resultsArray = [self.continuousMetadataSearch.results mutableCopy];
-//    }
-    
-//    [self lazyCreateTSNELayout];
+//    }    
 }
 
 - (void)queryDidUpdate:(NSNotification*)notification;
@@ -664,7 +639,7 @@
         [self.continuousMetadataSearch enableUpdates];
         
         // Once we are finished, we
-//        [self lazyCreateLayoutsWithContent:self.resultsArrayControler.content];
+        //[self lazyCreateLayoutsWithContent:self.resultsArrayControler.content];
     });
 }
 
@@ -815,10 +790,9 @@
             [item addOutput:hapOutput];
         }
         
-        //        AVPlayerItem* item = [[SynopsisMediaCache sharedMediaCache] cachedPlayerItemForMetadataItem:representedObject];
         if(item)
         {
-            dispatch_async(dispatch_get_main_queue(), ^{
+//            dispatch_async(dispatch_get_main_queue(), ^{
                 if(item.outputs.count)
                 {
                     AVPlayerItemMetadataOutput* metadataOutput = (AVPlayerItemMetadataOutput*)[item.outputs firstObject];
@@ -834,38 +808,11 @@
                     [self.playerView.playerLayer replacePlayerItemWithItem:item];
                 }
                 
-            });
+                [self.playerView seekToTime:kCMTimeZero];
+                
+//            });
         }
-        //        else
-        //        {
-        //
-        //            [[SynopsisMediaCache sharedMediaCache] generatePlayerItemAsynchronouslyForAsset:representedObject completionHandler:^(AVPlayerItem * _Nullable item, NSError * _Nullable error) {
-        //
-        //                if(item)
-        //                {
-        //                    dispatch_async(dispatch_get_main_queue(), ^{
-        //                        if(item.outputs.count)
-        //                        {
-        //                            AVPlayerItemMetadataOutput* metadataOutput = (AVPlayerItemMetadataOutput*)[item.outputs firstObject];
-        //                            [metadataOutput setDelegate:self queue:[SynopsisMediaCache sharedMediaCache].metadataQueue];
-        //                        }
-        //
-        //                        if(containsHap)
-        //                        {
-        //                            [view.playerLayer replacePlayerItemWithHAPItem:item];
-        //                        }
-        //                        else
-        //                        {
-        //                            [view.playerLayer replacePlayerItemWithItem:item];
-        //                        }
-        //
-        //                        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loopPlayback:) name:AVPlayerItemDidPlayToEndTimeNotification object:view.playerLayer.player.currentItem];
-        //
-        //                        [view endOptimizeForScrolling];
-        //                    });
-        //                }
-        //            }];
-        //        }
+   
     }
 
     

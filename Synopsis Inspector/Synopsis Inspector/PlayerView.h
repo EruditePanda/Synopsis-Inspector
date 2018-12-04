@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PlayerView : NSView
 @property (readonly) AVPlayerHapLayer* playerLayer;
+- (void) seekToTime:(CMTime)seekTime;
 
 @end
 

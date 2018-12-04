@@ -114,33 +114,41 @@
 {
     //    [self.playerLayer play];
     [self scrubViaEvent:theEvent];
-    self.playheadLayer.opacity = 1.0;
-//    self.label.layer.opacity = 1.0;
-    self.currentTimeToEnd.layer.opacity = 1.0;
-    self.currentTimeFromStart.layer.opacity = 1.0;
 }
 
 - (void) scrubViaEvent:(NSEvent*)theEvent
 {
+    self.playheadLayer.opacity = 1.0;
+    //    self.label.layer.opacity = 1.0;
+    self.currentTimeToEnd.layer.opacity = 1.0;
+    self.currentTimeFromStart.layer.opacity = 1.0;
+
     NSPoint mouseLocation = [self convertPoint:[theEvent locationInWindow] fromView: nil];
     
     CGFloat normalizedMouseX = mouseLocation.x / self.bounds.size.width;
     
     CMTime seekTime = CMTimeMultiplyByFloat64(self.playerLayer.player.currentItem.duration, normalizedMouseX);
     
+    [self seekToTime:seekTime];
     // This is so ugly
     //    BOOL requiresFrameReordering = [[self.playerLayer.player.currentItem.asset tracksWithMediaType:AVMediaTypeVideo] firstObject].requiresFrameReordering;
     
-    CMTime tolerance = kCMTimeZero;
     //    if(requiresFrameReordering)
     //    {
     //        tolerance = kCMTimePositiveInfinity;
     //    }
+}
+
+- (void) seekToTime:(CMTime)seekTime
+{
+    CMTime tolerance = kCMTimeZero;
+    CGFloat playheadPosition = CMTimeGetSeconds(seekTime) / CMTimeGetSeconds(self.playerLayer.player.currentItem.duration) * self.bounds.size.width;
     
     [self.playerLayer.player seekToTime:seekTime toleranceBefore:tolerance toleranceAfter:tolerance completionHandler:^(BOOL finished) {
         dispatch_async(dispatch_get_main_queue(), ^{
             CGFloat height = self.playerLayer.videoRect.size.height;
-            self.playheadLayer.frame = CGRectMake(mouseLocation.x, (self.bounds.size.height - height) * 0.5, 1, height);
+            
+            self.playheadLayer.frame = CGRectMake( playheadPosition  , (self.bounds.size.height - height) * 0.5, 1, height);
             
             CMTime currentTime = self.playerLayer.player.currentTime;
             
@@ -163,7 +171,6 @@
             [self.playerLayer setNeedsDisplay];
         });
     }];
-    
 }
 
 - (void) mouseExited:(NSEvent *)theEvent

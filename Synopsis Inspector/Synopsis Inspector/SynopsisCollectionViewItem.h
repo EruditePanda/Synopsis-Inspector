@@ -9,11 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import <AVFoundation/AVFoundation.h>
 
-@interface SynopsisCollectionViewItem : NSCollectionViewItem <AVPlayerItemMetadataOutputPushDelegate>
-
-- (BOOL) isShowingPopOver;
-- (IBAction)hidePopOver:(id)sender;
-- (IBAction)showPopOver:(id)sender;
+@interface SynopsisCollectionViewItem : NSCollectionViewItem
 
 - (void) setAspectRatio:(NSString*)aspect;
 
