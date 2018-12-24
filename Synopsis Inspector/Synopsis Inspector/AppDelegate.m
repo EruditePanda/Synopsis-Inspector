@@ -268,6 +268,39 @@
     
 }
 
+#pragma mark - Force Specific Files
+
+- (IBAction)switchForcedFiles:(id)sender
+{
+    [self.continuousMetadataSearch stopQuery];
+    
+    NSOpenPanel* openPanel = [NSOpenPanel openPanel];
+    openPanel.allowedFileTypes = [AVURLAsset audiovisualTypes];
+    openPanel.canChooseDirectories = false;
+    openPanel.allowsMultipleSelection = true;
+    
+    [openPanel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result) {
+        if(result == NSFileHandlingPanelOKButton)
+        {
+            [self.resultsArrayControler removeObjects:self.resultsArrayControler.content];
+
+            for(NSURL* url in openPanel.URLs)
+            {
+                SynopsisMetadataItem* item = [[SynopsisMetadataItem alloc] initWithURL:url];
+                if(item)
+                    [self.resultsArrayControler addObject:item];
+            }
+        
+            NSLog(@"initial gather complete");
+            
+            [self.collectionView reloadData];
+
+            self.window.title = [@"Synopsis Inspector - " stringByAppendingString:openPanel.URL.lastPathComponent];
+        }
+        
+    }];
+}
+
 #pragma mark - Sorting
 
 - (SynopsisMetadataItem*) firstSelectedItem
