@@ -19,6 +19,7 @@
 @property (weak) IBOutlet MetadataDominantColorsView* globalDominantColorView;
 @property (weak) IBOutlet MetadataHistogramView* globalHistogramView;
 @property (weak) IBOutlet MetadataFeatureVectorView* globalFeatureVectorView;
+@property (weak) IBOutlet MetadataFeatureVectorView* globalProbabilityView;
 
 @property (weak) IBOutlet NSTextField* frameDescriptors;
 @property (weak) IBOutlet MetadataDominantColorsView* dominantColorView;
@@ -29,6 +30,9 @@
 @property (weak) IBOutlet MetadataSingleValueHistoryView* featureVectorHistory;
 @property (weak) IBOutlet NSTextField* featureVectorHistoryCurrentValue;
 @property (strong) SynopsisDenseFeature* lastFeatureVector;
+
+@property (weak) IBOutlet MetadataFeatureVectorView* probabilityView;
+
 
 @property (weak) IBOutlet MetadataSingleValueHistoryView* histogramHistory;
 @property (weak) IBOutlet NSTextField* histogramHistoryCurrentValue;
@@ -77,6 +81,9 @@
 
     SynopsisDenseFeature* feature = [standard valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey];
 
+    SynopsisDenseFeature* probability = [standard valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey];
+
+    
     float comparedHistograms = 0.0;
     float comparedFeatures = 0.0;
     
@@ -93,13 +100,15 @@
     self.dominantColorView.dominantColorsArray = domColors;
     self.histogramView.histogram = histogram;
     self.featureVectorView.feature = feature;
+    self.probabilityView.feature = probability;
 
     dispatch_async(dispatch_get_main_queue(), ^{
         
 //        if(self.view.window.isVisible)
         {
             [self.featureVectorView updateLayer];
-            
+            [self.probabilityView updateLayer];
+
             [self.dominantColorView updateLayer];
             [self.histogramView updateLayer];
             
@@ -134,7 +143,7 @@
     NSDictionary* standard = [globalMetadata valueForKey:kSynopsisStandardMetadataDictKey];
     NSArray* domColors = [standard valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey];
     NSArray* descriptions = [standard valueForKey:kSynopsisStandardMetadataDescriptionDictKey];
-
+    SynopsisDenseFeature* probability = [standard valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey];
     SynopsisDenseFeature* feature = [standard valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey];
     SynopsisDenseFeature* histogram = [standard valueForKey:kSynopsisStandardMetadataHistogramDictKey];
     
@@ -156,7 +165,8 @@
     self.globalDominantColorView.dominantColorsArray = domColors;
     self.globalHistogramView.histogram = histogram;
     self.globalFeatureVectorView.feature = feature;
-    
+    self.globalProbabilityView.feature = probability;
+
     dispatch_async(dispatch_get_main_queue(), ^{
         
         if(description)
@@ -167,6 +177,8 @@
         [self.globalDominantColorView updateLayer];
         [self.globalHistogramView updateLayer];
         [self.globalFeatureVectorView updateLayer];
+        [self.globalProbabilityView updateLayer];
+
     });
 }
 

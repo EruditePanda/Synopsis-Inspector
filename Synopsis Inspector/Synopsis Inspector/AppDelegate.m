@@ -1007,7 +1007,7 @@ static BOOL toggleAspect = false;
 
         [allHistograms addObject:histogram];
         
-        [allHybridFeatures addObject:[SynopsisDenseFeature denseFeatureByCombiningFeature:feature withFeature:histogram]];
+        [allHybridFeatures addObject:[SynopsisDenseFeature denseFeatureByAppendingFeature:feature withFeature:histogram]];
     }
 
     

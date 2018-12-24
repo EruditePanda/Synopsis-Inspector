@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -841,11 +841,11 @@
                                                 <tabViewItems>
                                                     <tabViewItem label="Global" identifier="1" id="bd3-7p-BvJ">
                                                         <view key="view" id="KyK-xS-HwM" customClass="TransparentView">
-                                                            <rect key="frame" x="10" y="25" width="394" height="671"/>
+                                                            <rect key="frame" x="10" y="29" width="394" height="667"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i9O-83-aVG">
-                                                                    <rect key="frame" x="17" y="551" width="360" height="95"/>
+                                                                    <rect key="frame" x="17" y="547" width="360" height="95"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" controlSize="small" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="border" drawsBackground="YES" id="Ah9-E3-oOZ">
                                                                         <font key="font" metaFont="smallSystem"/>
@@ -854,19 +854,19 @@
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="riF-Ez-oKq" customClass="MetadataHistogramView">
-                                                                    <rect key="frame" x="17" y="431" width="360" height="36"/>
+                                                                    <rect key="frame" x="17" y="427" width="360" height="36"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                 </customView>
                                                                 <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Dg-tD-22K" customClass="MetadataDominantColorsView">
-                                                                    <rect key="frame" x="17" y="497" width="360" height="24"/>
+                                                                    <rect key="frame" x="17" y="493" width="360" height="24"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                 </customView>
                                                                 <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JlD-mq-ucA" customClass="MetadataFeatureVectorView">
-                                                                    <rect key="frame" x="17" y="377" width="360" height="24"/>
+                                                                    <rect key="frame" x="17" y="373" width="360" height="24"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                 </customView>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="o6w-58-k7N">
-                                                                    <rect key="frame" x="15" y="651" width="65" height="14"/>
+                                                                    <rect key="frame" x="15" y="647" width="65" height="14"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Descriptors" id="eWX-Kq-i2e">
                                                                         <font key="font" metaFont="smallSystem"/>
@@ -875,7 +875,7 @@
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mCx-by-R07">
-                                                                    <rect key="frame" x="15" y="475" width="105" height="14"/>
+                                                                    <rect key="frame" x="15" y="471" width="105" height="14"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Histogram" id="SyW-gX-YTT">
                                                                         <font key="font" metaFont="smallSystem"/>
@@ -884,7 +884,7 @@
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="i5f-8E-QX2">
-                                                                    <rect key="frame" x="15" y="529" width="92" height="14"/>
+                                                                    <rect key="frame" x="15" y="525" width="92" height="14"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Dominant Colors" id="F9R-xd-6bG">
                                                                         <font key="font" metaFont="smallSystem"/>
@@ -893,9 +893,22 @@
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6q8-89-5EI">
-                                                                    <rect key="frame" x="15" y="409" width="82" height="14"/>
+                                                                    <rect key="frame" x="15" y="405" width="82" height="14"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Feature Vector" id="pQa-UH-JIT">
+                                                                        <font key="font" metaFont="smallSystem"/>
+                                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                                <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gsF-oN-Y2Z" customClass="MetadataFeatureVectorView">
+                                                                    <rect key="frame" x="17" y="318" width="360" height="24"/>
+                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                                </customView>
+                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GVm-bw-Jp0">
+                                                                    <rect key="frame" x="15" y="350" width="69" height="14"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Probabilities" id="WbR-Vx-7bu">
                                                                         <font key="font" metaFont="smallSystem"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -961,6 +974,19 @@
                                                                     <rect key="frame" x="15" y="409" width="118" height="14"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Frame Feature Vector" id="GUo-9f-Pdr">
+                                                                        <font key="font" metaFont="smallSystem"/>
+                                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                                <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UhM-ix-cwG" customClass="MetadataFeatureVectorView">
+                                                                    <rect key="frame" x="17" y="323" width="360" height="24"/>
+                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                                </customView>
+                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mIO-R7-6GO">
+                                                                    <rect key="frame" x="15" y="355" width="69" height="14"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Probabilities" id="6xU-Gg-EBa">
                                                                         <font key="font" metaFont="smallSystem"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -1252,9 +1278,11 @@
                 <outlet property="globalDominantColorView" destination="2Dg-tD-22K" id="pP2-CL-619"/>
                 <outlet property="globalFeatureVectorView" destination="JlD-mq-ucA" id="0P4-wt-fjz"/>
                 <outlet property="globalHistogramView" destination="riF-Ez-oKq" id="bZr-0h-qHT"/>
+                <outlet property="globalProbabilityView" destination="gsF-oN-Y2Z" id="3b1-9A-bej"/>
                 <outlet property="histogramHistory" destination="cbV-e1-SrL" id="6DT-BW-Toh"/>
                 <outlet property="histogramHistoryCurrentValue" destination="YT5-nJ-rKb" id="qMo-XT-EYg"/>
                 <outlet property="histogramView" destination="BWC-Cy-Ofc" id="0Hn-P2-vYS"/>
+                <outlet property="probabilityView" destination="UhM-ix-cwG" id="6gr-z8-s16"/>
             </connections>
         </viewController>
         <userDefaultsController representsSharedInstance="YES" id="oXn-xU-uks"/>
