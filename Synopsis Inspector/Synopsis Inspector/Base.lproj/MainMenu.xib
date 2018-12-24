@@ -78,9 +78,9 @@
                         </items>
                     </menu>
                 </menuItem>
-                <menuItem id="dMs-cI-mzQ">
+                <menuItem title="File" id="dMs-cI-mzQ">
                     <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" id="bib-Uj-vzu">
+                    <menu key="submenu" title="File" id="bib-Uj-vzu">
                         <items>
                             <menuItem title="New" keyEquivalent="n" id="Was-JA-tGl">
                                 <connections>
