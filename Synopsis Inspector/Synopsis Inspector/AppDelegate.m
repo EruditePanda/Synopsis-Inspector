@@ -279,6 +279,10 @@
     openPanel.canChooseDirectories = false;
     openPanel.allowsMultipleSelection = true;
     
+    NSArray* currentSortDescriptors = self.resultsArrayControler.sortDescriptors;
+    
+    self.resultsArrayControler.sortDescriptors = @[];
+    
     [openPanel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result) {
         if(result == NSFileHandlingPanelOKButton)
         {
@@ -289,6 +293,8 @@
                 SynopsisMetadataItem* item = [[SynopsisMetadataItem alloc] initWithURL:url];
                 if(item)
                     [self.resultsArrayControler addObject:item];
+                else
+                    NSLog(@"Unable to load metadata for: %@", url);
             }
         
             NSLog(@"initial gather complete");
@@ -297,6 +303,8 @@
 
             self.window.title = [@"Synopsis Inspector - " stringByAppendingString:openPanel.URL.lastPathComponent];
         }
+        
+        self.resultsArrayControler.sortDescriptors = currentSortDescriptors;
         
     }];
 }
