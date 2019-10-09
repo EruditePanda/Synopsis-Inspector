@@ -693,7 +693,7 @@
         [self.continuousMetadataSearch enableUpdates];
         
         // Once we are finished, we
-        //[self lazyCreateLayoutsWithContent:self.resultsArrayControler.content];
+//        [self lazyCreateLayoutsWithContent:self.resultsArrayControler.content];
     });
 }
 
@@ -957,6 +957,11 @@ static BOOL toggleAspect = false;
         toggleAspect = !toggleAspect;
         [item setAspectRatio: (toggleAspect) ? AVLayerVideoGravityResizeAspect : AVLayerVideoGravityResizeAspectFill];
     }
+}
+
+- (IBAction)calculateLayouts:(id)sender
+{
+    [self lazyCreateLayoutsWithContent:self.resultsArrayControler.content];
 }
 
 - (IBAction)switchLayout:(id)sender
@@ -1272,33 +1277,35 @@ static BOOL toggleAspect = false;
 
 - (void) updateStatusLabel
 {
-    if(self.collectionView.selectionIndexPaths.count == 1)
-    {
-        NSIndexPath* path1 = self.collectionView.selectionIndexPaths.allObjects[0];
-        SynopsisMetadataItem* item1 = [self.resultsArrayControler.arrangedObjects objectAtIndex:path1.item];
-        // Dom Colors
-        NSArray* domColors1 = [item1 valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey];
-
-        // Color Components
-        float hueWeight = weightHueDominantColors(domColors1);
-        NSString* hueString = [NSString stringWithFormat:@" Hue : %f", hueWeight];
-        float satWeight = weightSaturationDominantColors(domColors1);
-        NSString* satString = [NSString stringWithFormat:@" Saturation : %f", satWeight];
-        float briWeight = weightBrightnessDominantColors(domColors1);
-        NSString* briString = [NSString stringWithFormat:@" Brightness : %f", briWeight];
-        
-        NSMutableString* value = [NSMutableString new];
-        [value appendString:@"Metrics:"];
-        
-        [value appendString:hueString];
-        [value appendString:satString];
-        [value appendString:briString];
-        
-        self.statusField.stringValue = value;
-
-    }
+//    if(self.collectionView.selectionIndexPaths.count == 1)
+//    {
+//        self.statusField.stringValue = @"";
+//
+////        NSIndexPath* path1 = self.collectionView.selectionIndexPaths.allObjects[0];
+////        SynopsisMetadataItem* item1 = [self.resultsArrayControler.arrangedObjects objectAtIndex:path1.item];
+////        // Dom Colors
+////        NSArray* domColors1 = [item1 valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey];
+////
+////        // Color Components
+////        float hueWeight = weightHueDominantColors(domColors1);
+////        NSString* hueString = [NSString stringWithFormat:@" Hue : %f", hueWeight];
+////        float satWeight = weightSaturationDominantColors(domColors1);
+////        NSString* satString = [NSString stringWithFormat:@" Saturation : %f", satWeight];
+////        float briWeight = weightBrightnessDominantColors(domColors1);
+////        NSString* briString = [NSString stringWithFormat:@" Brightness : %f", briWeight];
+////
+////        NSMutableString* value = [NSMutableString new];
+////        [value appendString:@"Metrics:"];
+////
+////        [value appendString:hueString];
+////        [value appendString:satString];
+////        [value appendString:briString];
+////
+////        self.statusField.stringValue = value;
+//
+//    }
     
-    else if(self.collectionView.selectionIndexPaths.count == 2)
+    if(self.collectionView.selectionIndexPaths.count == 2)
     {
         NSIndexPath* path1 = self.collectionView.selectionIndexPaths.allObjects[0];
         NSIndexPath* path2 = self.collectionView.selectionIndexPaths.allObjects[1];
@@ -1310,47 +1317,52 @@ static BOOL toggleAspect = false;
         float featureWeight = compareFeatureVector([item1 valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey],[item2 valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey]);
         NSString* featureString = [NSString stringWithFormat:@" Features : %f", featureWeight];
 
-        // Hash
-        float hashWeight = compareGlobalHashes([item1 valueForKey:kSynopsisStandardMetadataPerceptualHashDictKey],[item2 valueForKey:kSynopsisStandardMetadataPerceptualHashDictKey]);
-        NSString* hashString = [NSString stringWithFormat:@" Perceptual Hash : %f", hashWeight];
+        float probabiltyWeight = compareFeatureVector([item1 valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey],[item2 valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey]);
+        NSString* probabilityString = [NSString stringWithFormat:@" Probailities : %f", probabiltyWeight];
+
         
-        // Histogram
+        // Hash
+//        float hashWeight = compareGlobalHashes([item1 valueForKey:kSynopsisStandardMetadataPerceptualHashDictKey],[item2 valueForKey:kSynopsisStandardMetadataPerceptualHashDictKey]);
+//        NSString* hashString = [NSString stringWithFormat:@" Perceptual Hash : %f", hashWeight];
+//
+//        // Histogram
         float histWeight = compareHistogtams([item1 valueForKey:kSynopsisStandardMetadataHistogramDictKey],[item2 valueForKey:kSynopsisStandardMetadataHistogramDictKey]);
         NSString* histString = [NSString stringWithFormat:@" Histogram : %f", histWeight];
-
-        float motionWeight = fabsf(compareFeatureVector([item1 valueForKey:kSynopsisStandardMetadataMotionVectorDictKey],[item2 valueForKey:kSynopsisStandardMetadataMotionVectorDictKey]));
-        NSString* motionString = [NSString stringWithFormat:@" MotionVector : %f", motionWeight];
-
-        // Dom Colors
-        NSArray* domColors1 = [item1 valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey];
-        NSArray* domColors2 = [item2 valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey];
-        
-        // Color Components
-        float hueWeight1 = weightHueDominantColors(domColors1);
-        float hueWeight2 = weightHueDominantColors(domColors2);
-        float hueWeight = 1.0 - fabsf(hueWeight1 - hueWeight2);
-        NSString* hueString = [NSString stringWithFormat:@" Hue : %f", hueWeight];
-
-        float satWeight1 = weightSaturationDominantColors(domColors1);
-        float satWeight2 = weightSaturationDominantColors(domColors2);
-        float satWeight = 1.0 - fabsf(satWeight1 - satWeight2);
-        NSString* satString = [NSString stringWithFormat:@" Saturation : %f", satWeight];
-
-        float briWeight1 = weightBrightnessDominantColors(domColors1);
-        float briWeight2 = weightBrightnessDominantColors(domColors2);
-        float briWeight = 1.0 - fabsf(briWeight1 - briWeight2);
-        NSString* briString = [NSString stringWithFormat:@" Brightness : %f", briWeight];
-        
+//
+//        float motionWeight = fabsf(compareFeatureVector([item1 valueForKey:kSynopsisStandardMetadataMotionVectorDictKey],[item2 valueForKey:kSynopsisStandardMetadataMotionVectorDictKey]));
+//        NSString* motionString = [NSString stringWithFormat:@" MotionVector : %f", motionWeight];
+//
+//        // Dom Colors
+//        NSArray* domColors1 = [item1 valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey];
+//        NSArray* domColors2 = [item2 valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey];
+//
+//        // Color Components
+//        float hueWeight1 = weightHueDominantColors(domColors1);
+//        float hueWeight2 = weightHueDominantColors(domColors2);
+//        float hueWeight = 1.0 - fabsf(hueWeight1 - hueWeight2);
+//        NSString* hueString = [NSString stringWithFormat:@" Hue : %f", hueWeight];
+//
+//        float satWeight1 = weightSaturationDominantColors(domColors1);
+//        float satWeight2 = weightSaturationDominantColors(domColors2);
+//        float satWeight = 1.0 - fabsf(satWeight1 - satWeight2);
+//        NSString* satString = [NSString stringWithFormat:@" Saturation : %f", satWeight];
+//
+//        float briWeight1 = weightBrightnessDominantColors(domColors1);
+//        float briWeight2 = weightBrightnessDominantColors(domColors2);
+//        float briWeight = 1.0 - fabsf(briWeight1 - briWeight2);
+//        NSString* briString = [NSString stringWithFormat:@" Brightness : %f", briWeight];
+//
         NSMutableString* value = [NSMutableString new];
         [value appendString:@"Metrics:"];
         
         [value appendString:featureString];
-        [value appendString:hashString];
+        [value appendString:probabilityString];
+//        [value appendString:hashString];
         [value appendString:histString];
-        [value appendString:motionString];
-        [value appendString:hueString];
-        [value appendString:satString];
-        [value appendString:briString];
+//        [value appendString:motionString];
+//        [value appendString:hueString];
+//        [value appendString:satString];
+//        [value appendString:briString];
         
         self.statusField.stringValue = value;
     }
