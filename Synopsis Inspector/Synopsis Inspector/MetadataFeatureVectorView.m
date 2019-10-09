@@ -26,6 +26,11 @@
     [self.layer addSublayer:self.featureLayer];
 }
 
+- (BOOL) wantsUpdateLayer
+{
+    return YES;
+}
+
 - (void) updateLayer
 {
     self.featureLayer.feature = self.feature;

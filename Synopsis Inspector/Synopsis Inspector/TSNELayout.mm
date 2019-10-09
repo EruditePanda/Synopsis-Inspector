@@ -184,7 +184,7 @@
 
 - (void)prepareLayout {
     [super prepareLayout];
-    
+        
     self.collectionView.enclosingScrollView.autohidesScrollers = NO;
     self.collectionView.enclosingScrollView.hasVerticalScroller = YES;
     self.collectionView.enclosingScrollView.hasHorizontalScroller = YES;
@@ -257,12 +257,12 @@
 //    NSRect clipBounds = [[self collectionView] bounds];
 //    CGFloat mag =  1.0 / self.collectionView.enclosingScrollView.minMagnification;
 
-    subviewCenter.x *= initialSize.width;
-    subviewCenter.y *= initialSize.height ;
+    subviewCenter.x *= initialSize.width / 2.0;
+    subviewCenter.y *= initialSize.height / 2.0 ;
 //    subviewCenter.x += clipBounds.origin.x ;
 //    subviewCenter.y += clipBounds.origin.y ;
     
-    NSRect itemFrame = NSMakeRect(subviewCenter.x - 0.5 * self.itemSize.width, subviewCenter.y - 0.5 * self.itemSize.height, self.itemSize.width, self.itemSize.height);
+    NSRect itemFrame = NSMakeRect(subviewCenter.x - 0.5 * (self.itemSize.width * 0.5), subviewCenter.y - 0.5 * (self.itemSize.height * 0.5), self.itemSize.width, self.itemSize.height);
     
 //    NSLog(@"itemFrame: %@", NSStringFromRect(itemFrame));
 
