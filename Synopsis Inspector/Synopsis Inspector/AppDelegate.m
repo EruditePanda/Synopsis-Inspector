@@ -327,11 +327,12 @@
     SynopsisMetadataItem* item = [self firstSelectedItem];
     
     NSSortDescriptor* bestMatchSortDescriptor = [NSSortDescriptor synopsisBestMatchSortDescriptorRelativeTo:[item valueForKey:kSynopsisStandardMetadataDictKey]];
-    
+
     self.sortStatus = @"Relative Best Match Sort";
     
     [self setupSortUsingSortDescriptor:bestMatchSortDescriptor selectedItem:item];
 }
+
 
 - (IBAction)featureVectorSortUsingSelectedCell:(id)sender
 {
@@ -343,6 +344,18 @@
     
     [self setupSortUsingSortDescriptor:perceptualHashSort selectedItem:item];
 }
+
+- (IBAction)probabilitySortUsingSelectedCell:(id)sender
+{
+    SynopsisMetadataItem* item = [self firstSelectedItem];
+    
+    NSSortDescriptor* sortDescriptor = [NSSortDescriptor synopsisSortViaKey:kSynopsisStandardMetadataProbabilitiesDictKey relativeTo:item];
+    
+    self.sortStatus = @"Relative Best Match Sort";
+    
+    [self setupSortUsingSortDescriptor:sortDescriptor selectedItem:item];
+}
+
 
 
 - (IBAction)histogramSortUsingSelectingCell:(id)sender
