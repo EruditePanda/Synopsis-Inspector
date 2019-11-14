@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import <AVFoundation/AVFoundation.h>
 #import "SynopsisCollectionViewItem.h"
-#import "HapInAVFoundation.h"
+#import <HapInAVFoundation/HapInAVFoundation.h>
 
 @interface SynopsisCollectionViewItemView : NSView
 @property (readwrite) NSColor* borderColor;
