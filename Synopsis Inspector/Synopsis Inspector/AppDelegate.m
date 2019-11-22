@@ -12,7 +12,7 @@
 
 #import "AppDelegate.h"
 
-#import "HapInAVFoundation.h"
+#import <HapInAVFoundation/HapInAVFoundation.h>
 
 #import "SynopsisCollectionViewItem.h"
 
