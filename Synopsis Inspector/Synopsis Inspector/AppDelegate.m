@@ -23,6 +23,9 @@
 #import "PlayerView.h"
 #import "SynopsisCacheWithHap.h"
 
+
+
+
 @interface AppDelegate () <AVPlayerItemMetadataOutputPushDelegate>
 
 @property (weak) IBOutlet NSWindow *window;
@@ -73,6 +76,9 @@
 //@property (atomic, readwrite, strong) DBScanLayout* dbscanFeatureLayout;
 //@property (atomic, readwrite, strong) DBScanLayout* dbscanHistogramLayout;
 @end
+
+
+
 
 @implementation AppDelegate
 
@@ -128,8 +134,42 @@
     
     [self updateStatusLabel];
     
-    self.previewViewHeightConstraint = [self.playerView.heightAnchor constraintEqualToAnchor:self.playerView.widthAnchor multiplier:1.0 constant:0];
+    [[NSUserDefaults standardUserDefaults] setObject:@YES forKey:@"NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints"];
+    
+    [clipView setTranslatesAutoresizingMaskIntoConstraints:NO];
+	[containerView setTranslatesAutoresizingMaskIntoConstraints:NO];
+	[previewBox setTranslatesAutoresizingMaskIntoConstraints:NO];
+	[self.playerView setTranslatesAutoresizingMaskIntoConstraints:NO];
+	[attribsTabView setTranslatesAutoresizingMaskIntoConstraints:NO];
+	
+	[containerView.leadingAnchor constraintEqualToAnchor:clipView.leadingAnchor constant:0].active = true;
+	[containerView.trailingAnchor constraintEqualToAnchor:clipView.trailingAnchor constant:0].active = true;
+	[containerView.topAnchor constraintEqualToAnchor:clipView.topAnchor constant:0].active = true;
+	[containerView.bottomAnchor constraintEqualToAnchor:attribsTabView.bottomAnchor constant:20].active = true;
+	
+	[clipView.leadingAnchor constraintEqualToAnchor:clipView.superview.leadingAnchor constant:0].active = true;
+	[clipView.topAnchor constraintEqualToAnchor:clipView.superview.topAnchor constant:0].active = true;
+	[clipView.trailingAnchor constraintEqualToAnchor:clipView.superview.trailingAnchor constant:-15].active = true;
+	
+	[previewBox.leadingAnchor constraintEqualToAnchor:previewBox.superview.leadingAnchor constant:8].active = true;
+	[previewBox.trailingAnchor constraintEqualToAnchor:previewBox.superview.trailingAnchor constant:-8].active = true;
+	[previewBox.topAnchor constraintEqualToAnchor:previewBox.superview.topAnchor constant:8].active = true;
+	[previewBox.heightAnchor constraintGreaterThanOrEqualToConstant:50].active = true;
+	
+	[attribsTabView.leadingAnchor constraintEqualToAnchor:attribsTabView.superview.leadingAnchor constant:8].active = true;
+	[attribsTabView.trailingAnchor constraintEqualToAnchor:attribsTabView.superview.trailingAnchor constant:-8].active = true;
+	[attribsTabView.topAnchor constraintEqualToAnchor:previewBox.bottomAnchor constant:8].active = true;
+	
+	
+	[previewBox.bottomAnchor constraintEqualToAnchor:self.playerView.bottomAnchor constant:20].active = true;
+	[self.playerView.leadingAnchor constraintEqualToAnchor:self.playerView.superview.leadingAnchor constant:20].active = true;
+	[self.playerView.trailingAnchor constraintEqualToAnchor:self.playerView.superview.trailingAnchor constant:-20].active = true;
+	[self.playerView.topAnchor constraintEqualToAnchor:self.playerView.superview.topAnchor constant:20].active = true;
+	//[self.playerView.heightAnchor constraintEqualToAnchor:self.playerView.widthAnchor constant:0].active = true;
+	//[self.playerView.heightAnchor constraintGreaterThanOrEqualToConstant:50].active = true;
+	self.previewViewHeightConstraint = [self.playerView.heightAnchor constraintEqualToAnchor:self.playerView.widthAnchor multiplier:0.25 constant:0];
 	self.previewViewHeightConstraint.active = true;
+	
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
@@ -803,7 +843,7 @@
     if (self.previewViewHeightConstraint != nil)	{
 		[self.playerView removeConstraint:self.previewViewHeightConstraint];
 		self.previewViewHeightConstraint = nil;
-		self.previewViewHeightConstraint = [self.playerView.heightAnchor constraintEqualToAnchor:self.playerView.widthAnchor multiplier:1.0 constant:0];
+		self.previewViewHeightConstraint = [self.playerView.heightAnchor constraintEqualToAnchor:self.playerView.widthAnchor multiplier:tmpSize.height/tmpSize.width constant:0];
 		self.previewViewHeightConstraint.active = true;
 	}
     

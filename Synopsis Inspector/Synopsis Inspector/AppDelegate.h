@@ -8,7 +8,12 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface AppDelegate : NSObject <NSApplicationDelegate, NSCollectionViewDelegate, NSMetadataQueryDelegate, NSTokenFieldDelegate>
+@interface AppDelegate : NSObject <NSApplicationDelegate, NSCollectionViewDelegate, NSMetadataQueryDelegate, NSTokenFieldDelegate>	{
+	IBOutlet NSClipView		*clipView;
+	IBOutlet NSView			*containerView;
+	IBOutlet NSBox			*previewBox;
+	IBOutlet NSTabView		*attribsTabView;
+}
 
 @end
 
