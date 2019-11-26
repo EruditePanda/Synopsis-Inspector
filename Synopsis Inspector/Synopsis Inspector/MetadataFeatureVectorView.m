@@ -29,6 +29,7 @@
 - (void) updateLayer
 {
     self.featureLayer.feature = self.feature;
+    self.featureLayer.frame = self.layer.bounds;
     [self.featureLayer setNeedsDisplay];
 }
 
