@@ -835,7 +835,8 @@
     
     // Set up our video player to the currently selected item
     
-    [self.playerView loadAsset:metadataItem.asset];
+    //	DO NOT use this 'loadAsset' method- if you do, the UI won't update to display the metadata
+    //[self.playerView loadAsset:metadataItem.asset];
     
     NSArray				*vidTracks = [metadataItem.asset tracksWithMediaType:AVMediaTypeVideo];
     AVAssetTrack		*vidTrack = (vidTracks==nil || vidTracks.count<1) ? nil : [vidTracks objectAtIndex:0];
@@ -848,7 +849,7 @@
 	}
     
     
-    /*
+    
     if(self.playerView.playerLayer.player.currentItem.asset != metadataItem.asset)
     {
         BOOL containsHap = [metadataItem.asset containsHapVideoTrack];
@@ -905,7 +906,7 @@
         }
    
     }
-	*/
+
     
 }
 
