@@ -79,7 +79,7 @@
 
 - (void) generateAndCacheStillImageAsynchronouslyForAsset:(SynopsisMetadataItem* _Nonnull)metadataItem completionHandler:(SynopsisInspectorMediaCacheImageCompletionHandler _Nullable )completionHandler
 {
-
+	NSLog(@"%s",__func__);
     if(self.isCurrentlyOptimized)
     {
         if(completionHandler)

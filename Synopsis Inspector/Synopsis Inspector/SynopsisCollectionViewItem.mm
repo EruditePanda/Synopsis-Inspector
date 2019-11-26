@@ -10,6 +10,10 @@
 #import "SynopsisCollectionViewItem.h"
 #import <AVFoundation/AVFoundation.h>
 #import "SynopsisCollectionViewItemView.h"
+#import "SynopsisCacheWithHap.h"
+
+
+
 
 @interface SynopsisCollectionViewItem ()
 {
@@ -19,7 +23,11 @@
 
 @end
 
+
+
+
 @implementation SynopsisCollectionViewItem
+
 
 - (void)viewDidLoad
 {
@@ -107,7 +115,7 @@
 
 - (void) asyncSetImage
 {
-    [[SynopsisCache sharedCache] cachedImageForItem:self.representedObject atTime:kCMTimeZero completionHandler:^(CGImageRef _Nullable image, NSError * _Nullable error) {
+    [[SynopsisCacheWithHap sharedCache] cachedImageForItem:self.representedObject atTime:kCMTimeZero completionHandler:^(CGImageRef _Nullable image, NSError * _Nullable error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             
             if(image)

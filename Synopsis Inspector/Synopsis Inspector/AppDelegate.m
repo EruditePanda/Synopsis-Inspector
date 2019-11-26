@@ -21,6 +21,7 @@
 #import "DBScanLayout.h"
 #import "MetadataInspectorViewController.h"
 #import "PlayerView.h"
+#import "SynopsisCacheWithHap.h"
 
 @interface AppDelegate () <AVPlayerItemMetadataOutputPushDelegate>
 
@@ -44,6 +45,7 @@
 
 @property (readwrite, strong) IBOutlet MetadataInspectorViewController* metadataInspector;
 @property (readwrite, strong) IBOutlet PlayerView* playerView;
+@property (strong,readwrite) NSLayoutConstraint * previewViewHeightConstraint;
 @property (readwrite) SynopsisMetadataDecoder* metadataDecoder;
 @property (readwrite, strong) dispatch_queue_t metadataQueue;
 
@@ -125,6 +127,9 @@
 
     
     [self updateStatusLabel];
+    
+    self.previewViewHeightConstraint = [self.playerView.heightAnchor constraintEqualToAnchor:self.playerView.widthAnchor multiplier:1.0 constant:0];
+	self.previewViewHeightConstraint.active = true;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
@@ -780,7 +785,7 @@
     SynopsisCollectionViewItem* colletionViewItem = (SynopsisCollectionViewItem*)[self.collectionView itemAtIndex:zerothSelection.item];
     SynopsisMetadataItem* metadataItem = (SynopsisMetadataItem*)colletionViewItem.representedObject;
     
-    [[SynopsisCache sharedCache] cachedGlobalMetadataForItem:metadataItem completionHandler:^(id  _Nullable cachedValue, NSError * _Nullable error) {
+    [[SynopsisCacheWithHap sharedCache] cachedGlobalMetadataForItem:metadataItem completionHandler:^(id  _Nullable cachedValue, NSError * _Nullable error) {
         
         NSDictionary* globalMetadata = (NSDictionary*)cachedValue;
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -790,7 +795,20 @@
     
     // Set up our video player to the currently selected item
     
+    [self.playerView loadAsset:metadataItem.asset];
     
+    NSArray				*vidTracks = [metadataItem.asset tracksWithMediaType:AVMediaTypeVideo];
+    AVAssetTrack		*vidTrack = (vidTracks==nil || vidTracks.count<1) ? nil : [vidTracks objectAtIndex:0];
+    CGSize				tmpSize = (vidTrack==nil) ? CGSizeMake(1,1) : [vidTrack naturalSize];
+    if (self.previewViewHeightConstraint != nil)	{
+		[self.playerView removeConstraint:self.previewViewHeightConstraint];
+		self.previewViewHeightConstraint = nil;
+		self.previewViewHeightConstraint = [self.playerView.heightAnchor constraintEqualToAnchor:self.playerView.widthAnchor multiplier:1.0 constant:0];
+		self.previewViewHeightConstraint.active = true;
+	}
+    
+    
+    /*
     if(self.playerView.playerLayer.player.currentItem.asset != metadataItem.asset)
     {
         BOOL containsHap = [metadataItem.asset containsHapVideoTrack];
@@ -847,7 +865,7 @@
         }
    
     }
-
+	*/
     
 }
 
