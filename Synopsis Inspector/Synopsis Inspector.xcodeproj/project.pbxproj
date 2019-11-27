@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A1E31C0237DF95D009DE35C /* HapInAVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A1E31B9237DF94C009DE35C /* HapInAVFoundation.framework */; };
+		1A1E31C1237DF965009DE35C /* HapInAVFoundation.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1A1E31B9237DF94C009DE35C /* HapInAVFoundation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1B0B634E1D641CC100AA5D0E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0B634D1D641CC100AA5D0E /* Cocoa.framework */; };
 		1B0B63501D641CC900AA5D0E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0B634F1D641CC900AA5D0E /* AVFoundation.framework */; };
 		1B0D64391D4FB21F00A1AB5D /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0D64381D4FB21F00A1AB5D /* libz.tbd */; };
@@ -14,42 +16,7 @@
 		1B2780751F213A2200658C0B /* Synopsis.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BBB10ED1D5558C400C22439 /* Synopsis.framework */; };
 		1B2780791F213A5A00658C0B /* Synopsis.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1BFB133C1F21378C002C4651 /* Synopsis.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1B27810F1F263EDE00658C0B /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B27810E1F263EDE00658C0B /* OpenGL.framework */; };
-		1B522F8F1F26961E00550454 /* AVPlayerItemHapDXTOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F5D1F268A3500550454 /* AVPlayerItemHapDXTOutput.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		1B522F921F26987B00550454 /* AVAssetAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F551F268A3500550454 /* AVAssetAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		1B522F931F26989A00550454 /* HapDecoderFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F611F268A3500550454 /* HapDecoderFrame.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		1B522F941F2698A000550454 /* CMBlockBufferPool.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F5F1F268A3500550454 /* CMBlockBufferPool.m */; };
-		1B522F951F2698AD00550454 /* AVPlayerItemAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F5B1F268A3500550454 /* AVPlayerItemAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		1B522F961F26990000550454 /* DXTBlocks.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F681F268A3500550454 /* DXTBlocks.c */; };
-		1B522F971F26990000550454 /* DXTBlocksSSSE3.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F6A1F268A3500550454 /* DXTBlocksSSSE3.c */; };
-		1B522F981F26990000550454 /* GLDXTEncoder.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F6C1F268A3500550454 /* GLDXTEncoder.c */; };
-		1B522F991F26990000550454 /* HapCodecGL.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F6E1F268A3500550454 /* HapCodecGL.c */; };
-		1B522F9A1F26990000550454 /* squish-c.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F701F268A3500550454 /* squish-c.cpp */; };
-		1B522F9B1F26990000550454 /* SquishEncoder.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F721F268A3500550454 /* SquishEncoder.c */; };
-		1B522F9C1F26990000550454 /* YCoCgDXTEncoder.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F761F268A3500550454 /* YCoCgDXTEncoder.c */; };
-		1B522F9D1F26990000550454 /* PixelFormats.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F7B1F268A3500550454 /* PixelFormats.c */; };
-		1B522F9E1F26990000550454 /* SquishDecoder.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F7D1F268A3500550454 /* SquishDecoder.c */; };
-		1B522F9F1F26990000550454 /* SquishRGTC1Decoder.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F7F1F268A3500550454 /* SquishRGTC1Decoder.c */; };
-		1B522FA01F26990000550454 /* Utility.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F811F268A3500550454 /* Utility.c */; };
-		1B522FA11F26990000550454 /* ImageMath.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F851F268A3500550454 /* ImageMath.c */; };
-		1B522FA21F26990000550454 /* YCoCg.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F871F268A3500550454 /* YCoCg.c */; };
 		1B522FA41F26995000550454 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B522FA31F26995000550454 /* Accelerate.framework */; };
-		1B522FA51F26996100550454 /* hap.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B522EDD1F268A3500550454 /* hap.c */; };
-		1B522FA61F26998000550454 /* alpha.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F121F268A3500550454 /* alpha.cpp */; };
-		1B522FA71F26998000550454 /* clusterfit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F151F268A3500550454 /* clusterfit.cpp */; };
-		1B522FA81F26998000550454 /* colourblock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F181F268A3500550454 /* colourblock.cpp */; };
-		1B522FA91F26998000550454 /* colourfit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F1A1F268A3500550454 /* colourfit.cpp */; };
-		1B522FAA1F26998000550454 /* colourset.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F1C1F268A3500550454 /* colourset.cpp */; };
-		1B522FAB1F26998000550454 /* maths.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F271F268A3500550454 /* maths.cpp */; };
-		1B522FAC1F26998000550454 /* rangefit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F291F268A3500550454 /* rangefit.cpp */; };
-		1B522FAD1F26998000550454 /* singlecolourfit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F301F268A3500550454 /* singlecolourfit.cpp */; };
-		1B522FAE1F26998000550454 /* squish.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F341F268A3500550454 /* squish.cpp */; };
-		1B522FAF1F26998B00550454 /* snappy-c.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1B522EFE1F268A3500550454 /* snappy-c.cc */; };
-		1B522FB01F26999300550454 /* snappy-sinksource.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F011F268A3500550454 /* snappy-sinksource.cc */; };
-		1B522FB11F26999300550454 /* snappy-stubs-internal.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F031F268A3500550454 /* snappy-stubs-internal.cc */; };
-		1B522FB21F26999300550454 /* snappy.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F091F268A3500550454 /* snappy.cc */; };
-		1B522FB31F2699B700550454 /* YCoCgDXT.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1B522F741F268A3500550454 /* YCoCgDXT.cpp */; };
-		1B522FB61F27B18400550454 /* AVPlayerHapLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B522FB51F27B18400550454 /* AVPlayerHapLayer.m */; };
-		1B522FB91F27B37B00550454 /* AVAssetHapImageGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B522FB81F27B37B00550454 /* AVAssetHapImageGenerator.m */; };
 		1B5CDF5D1F438FD100D5D057 /* MediaToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B5CDF5C1F438FD100D5D057 /* MediaToolbox.framework */; };
 		1B5CDF631F438FD700D5D057 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B5CDF621F438FD700D5D057 /* VideoToolbox.framework */; };
 		1B5FE0331DF9F38E009CF677 /* sptree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1B5FE02D1DF9F38E009CF677 /* sptree.cpp */; };
@@ -105,8 +72,6 @@
 		1BAA80701D7243F300464810 /* TransparentCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAA806F1D7243F300464810 /* TransparentCollectionView.m */; };
 		1BC71D421F1504CB006DD7DC /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 1BC71D411F1504CB006DD7DC /* Credits.rtf */; };
 		1BCFBEC31E1C41580008CB03 /* MetadataSingleValueHistoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BCFBEC21E1C41580008CB03 /* MetadataSingleValueHistoryView.m */; };
-		1BD687031F3CC70A00098D24 /* ScaledCoCgYToRGBA.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1BD687011F3CC70A00098D24 /* ScaledCoCgYToRGBA.frag */; };
-		1BD687041F3CC70A00098D24 /* ScaledCoCgYToRGBA.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1BD687021F3CC70A00098D24 /* ScaledCoCgYToRGBA.vert */; };
 		1BD710AE1D620070007D61B9 /* SynopsisCollectionViewItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD710AD1D620070007D61B9 /* SynopsisCollectionViewItemView.m */; };
 		1BD710B11D620AC8007D61B9 /* AAPLWrappedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD710B01D620AC8007D61B9 /* AAPLWrappedLayout.m */; };
 		1BDC34331D6AB02100D210E8 /* MetadataDominantColorsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC34321D6AB02100D210E8 /* MetadataDominantColorsView.m */; };
@@ -119,19 +84,33 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		1B522F8A1F268A3500550454 /* PBXContainerItemProxy */ = {
+		1A1E31B8237DF94C009DE35C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 1B522EE21F268A3500550454 /* snappy.xcodeproj */;
+			containerPortal = 1A1E31B0237DF94C009DE35C /* HapInAVFoundation.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = E2830FCA17E0C43A005E72C3;
-			remoteInfo = snappy;
+			remoteGlobalIDString = 1A97F5AB1A38ABBF00E0DC74;
+			remoteInfo = HapInAVFoundation;
 		};
-		1B522F8D1F268A3500550454 /* PBXContainerItemProxy */ = {
+		1A1E31BA237DF94C009DE35C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 1B522F501F268A3500550454 /* squish.xcodeproj */;
+			containerPortal = 1A1E31B0237DF94C009DE35C /* HapInAVFoundation.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = E25D562517E0E02B008DD459;
-			remoteInfo = squish;
+			remoteGlobalIDString = 1A3230141A3BA14000DDB2E0;
+			remoteInfo = "HapInAVF Test App";
+		};
+		1A1E31BC237DF94C009DE35C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1A1E31B0237DF94C009DE35C /* HapInAVFoundation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1A3BABFD1A65239C0065403A;
+			remoteInfo = "AVF Batch Converter";
+		};
+		1A1E31BE237DF953009DE35C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1A1E31B0237DF94C009DE35C /* HapInAVFoundation.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 1A97F5AA1A38ABBF00E0DC74;
+			remoteInfo = HapInAVFoundation;
 		};
 		1B7155C81EFC97F000266150 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -170,6 +149,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				1A1E31C1237DF965009DE35C /* HapInAVFoundation.framework in CopyFiles */,
 				1B96FE7A1E08A42600DE4BD3 /* libomp.dylib in CopyFiles */,
 				1B2780791F213A5A00658C0B /* Synopsis.framework in CopyFiles */,
 			);
@@ -178,6 +158,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1A1E31B0237DF94C009DE35C /* HapInAVFoundation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HapInAVFoundation.xcodeproj; path = "hap-in-avfoundation/HapInAVFoundation.xcodeproj"; sourceTree = "<group>"; };
 		1B0B634D1D641CC100AA5D0E /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		1B0B634F1D641CC900AA5D0E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		1B0D64381D4FB21F00A1AB5D /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -186,154 +167,7 @@
 		1B2781061F253CEC00658C0B /* SynopsisMediaCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynopsisMediaCache.h; sourceTree = "<group>"; };
 		1B2781071F253CEC00658C0B /* SynopsisMediaCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SynopsisMediaCache.m; sourceTree = "<group>"; };
 		1B27810E1F263EDE00658C0B /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
-		1B522EDD1F268A3500550454 /* hap.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = hap.c; sourceTree = "<group>"; };
-		1B522EDE1F268A3500550454 /* hap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = hap.h; sourceTree = "<group>"; };
-		1B522EE01F268A3500550454 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		1B522EE21F268A3500550454 /* snappy.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = snappy.xcodeproj; sourceTree = "<group>"; };
-		1B522EE61F268A3500550454 /* aclocal.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = aclocal.m4; sourceTree = "<group>"; };
-		1B522EE71F268A3500550454 /* AUTHORS */ = {isa = PBXFileReference; lastKnownFileType = text; path = AUTHORS; sourceTree = "<group>"; };
-		1B522EE81F268A3500550454 /* autogen.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = autogen.sh; sourceTree = "<group>"; };
-		1B522EE91F268A3500550454 /* ChangeLog */ = {isa = PBXFileReference; lastKnownFileType = text; path = ChangeLog; sourceTree = "<group>"; };
-		1B522EEA1F268A3500550454 /* config.guess */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = config.guess; sourceTree = "<group>"; };
-		1B522EEB1F268A3500550454 /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
-		1B522EEC1F268A3500550454 /* config.h.in */ = {isa = PBXFileReference; lastKnownFileType = text; path = config.h.in; sourceTree = "<group>"; };
-		1B522EED1F268A3500550454 /* config.sub */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = config.sub; sourceTree = "<group>"; };
-		1B522EEE1F268A3500550454 /* configure */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = configure; sourceTree = "<group>"; };
-		1B522EEF1F268A3500550454 /* configure.ac */ = {isa = PBXFileReference; lastKnownFileType = text; path = configure.ac; sourceTree = "<group>"; };
-		1B522EF01F268A3500550454 /* COPYING */ = {isa = PBXFileReference; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
-		1B522EF11F268A3500550454 /* depcomp */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = depcomp; sourceTree = "<group>"; };
-		1B522EF21F268A3500550454 /* format_description.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = format_description.txt; sourceTree = "<group>"; };
-		1B522EF31F268A3500550454 /* framing_format.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = framing_format.txt; sourceTree = "<group>"; };
-		1B522EF41F268A3500550454 /* INSTALL */ = {isa = PBXFileReference; lastKnownFileType = text; path = INSTALL; sourceTree = "<group>"; };
-		1B522EF51F268A3500550454 /* install-sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "install-sh"; sourceTree = "<group>"; };
-		1B522EF61F268A3500550454 /* ltmain.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ltmain.sh; sourceTree = "<group>"; };
-		1B522EF81F268A3500550454 /* gtest.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = gtest.m4; sourceTree = "<group>"; };
-		1B522EF91F268A3500550454 /* Makefile.am */ = {isa = PBXFileReference; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
-		1B522EFA1F268A3500550454 /* Makefile.in */ = {isa = PBXFileReference; lastKnownFileType = text; path = Makefile.in; sourceTree = "<group>"; };
-		1B522EFB1F268A3500550454 /* missing */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = missing; sourceTree = "<group>"; };
-		1B522EFC1F268A3500550454 /* NEWS */ = {isa = PBXFileReference; lastKnownFileType = text; path = NEWS; sourceTree = "<group>"; };
-		1B522EFD1F268A3500550454 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
-		1B522EFE1F268A3500550454 /* snappy-c.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "snappy-c.cc"; sourceTree = "<group>"; };
-		1B522EFF1F268A3500550454 /* snappy-c.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "snappy-c.h"; sourceTree = "<group>"; };
-		1B522F001F268A3500550454 /* snappy-internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "snappy-internal.h"; sourceTree = "<group>"; };
-		1B522F011F268A3500550454 /* snappy-sinksource.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "snappy-sinksource.cc"; sourceTree = "<group>"; };
-		1B522F021F268A3500550454 /* snappy-sinksource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "snappy-sinksource.h"; sourceTree = "<group>"; };
-		1B522F031F268A3500550454 /* snappy-stubs-internal.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "snappy-stubs-internal.cc"; sourceTree = "<group>"; };
-		1B522F041F268A3500550454 /* snappy-stubs-internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "snappy-stubs-internal.h"; sourceTree = "<group>"; };
-		1B522F051F268A3500550454 /* snappy-stubs-public.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "snappy-stubs-public.h"; sourceTree = "<group>"; };
-		1B522F061F268A3500550454 /* snappy-stubs-public.h.in */ = {isa = PBXFileReference; lastKnownFileType = text; path = "snappy-stubs-public.h.in"; sourceTree = "<group>"; };
-		1B522F071F268A3500550454 /* snappy-test.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "snappy-test.cc"; sourceTree = "<group>"; };
-		1B522F081F268A3500550454 /* snappy-test.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "snappy-test.h"; sourceTree = "<group>"; };
-		1B522F091F268A3500550454 /* snappy.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = snappy.cc; sourceTree = "<group>"; };
-		1B522F0A1F268A3500550454 /* snappy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = snappy.h; sourceTree = "<group>"; };
-		1B522F0B1F268A3500550454 /* snappy_unittest.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = snappy_unittest.cc; sourceTree = "<group>"; };
-		1B522F0D1F268A3500550454 /* snappy.vcxproj */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = snappy.vcxproj; sourceTree = "<group>"; };
-		1B522F0E1F268A3500550454 /* snappy.vcxproj.filters */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = snappy.vcxproj.filters; sourceTree = "<group>"; };
-		1B522F101F268A3500550454 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		1B522F121F268A3500550454 /* alpha.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = alpha.cpp; sourceTree = "<group>"; };
-		1B522F131F268A3500550454 /* alpha.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alpha.h; sourceTree = "<group>"; };
-		1B522F141F268A3500550454 /* ChangeLog */ = {isa = PBXFileReference; lastKnownFileType = text; path = ChangeLog; sourceTree = "<group>"; };
-		1B522F151F268A3500550454 /* clusterfit.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = clusterfit.cpp; sourceTree = "<group>"; };
-		1B522F161F268A3500550454 /* clusterfit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = clusterfit.h; sourceTree = "<group>"; };
-		1B522F171F268A3500550454 /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
-		1B522F181F268A3500550454 /* colourblock.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = colourblock.cpp; sourceTree = "<group>"; };
-		1B522F191F268A3500550454 /* colourblock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = colourblock.h; sourceTree = "<group>"; };
-		1B522F1A1F268A3500550454 /* colourfit.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = colourfit.cpp; sourceTree = "<group>"; };
-		1B522F1B1F268A3500550454 /* colourfit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = colourfit.h; sourceTree = "<group>"; };
-		1B522F1C1F268A3500550454 /* colourset.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = colourset.cpp; sourceTree = "<group>"; };
-		1B522F1D1F268A3500550454 /* colourset.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = colourset.h; sourceTree = "<group>"; };
-		1B522F1E1F268A3500550454 /* config */ = {isa = PBXFileReference; lastKnownFileType = text; path = config; sourceTree = "<group>"; };
-		1B522F1F1F268A3500550454 /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
-		1B522F201F268A3500550454 /* Doxyfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Doxyfile; sourceTree = "<group>"; };
-		1B522F221F268A3500550454 /* squishgen.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = squishgen.cpp; sourceTree = "<group>"; };
-		1B522F231F268A3500550454 /* squishpng.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = squishpng.cpp; sourceTree = "<group>"; };
-		1B522F241F268A3500550454 /* squishtest.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = squishtest.cpp; sourceTree = "<group>"; };
-		1B522F251F268A3500550454 /* GNUmakefile */ = {isa = PBXFileReference; lastKnownFileType = text; path = GNUmakefile; sourceTree = "<group>"; };
-		1B522F261F268A3500550454 /* libSquish.pro */ = {isa = PBXFileReference; lastKnownFileType = text; path = libSquish.pro; sourceTree = "<group>"; };
-		1B522F271F268A3500550454 /* maths.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = maths.cpp; sourceTree = "<group>"; };
-		1B522F281F268A3500550454 /* maths.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = maths.h; sourceTree = "<group>"; };
-		1B522F291F268A3500550454 /* rangefit.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = rangefit.cpp; sourceTree = "<group>"; };
-		1B522F2A1F268A3500550454 /* rangefit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = rangefit.h; sourceTree = "<group>"; };
-		1B522F2B1F268A3500550454 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
-		1B522F2C1F268A3500550454 /* simd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = simd.h; sourceTree = "<group>"; };
-		1B522F2D1F268A3500550454 /* simd_float.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = simd_float.h; sourceTree = "<group>"; };
-		1B522F2E1F268A3500550454 /* simd_sse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = simd_sse.h; sourceTree = "<group>"; };
-		1B522F2F1F268A3500550454 /* simd_ve.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = simd_ve.h; sourceTree = "<group>"; };
-		1B522F301F268A3500550454 /* singlecolourfit.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = singlecolourfit.cpp; sourceTree = "<group>"; };
-		1B522F311F268A3500550454 /* singlecolourfit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = singlecolourfit.h; sourceTree = "<group>"; };
-		1B522F321F268A3500550454 /* singlecolourlookup.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = singlecolourlookup.inl; sourceTree = "<group>"; };
-		1B522F331F268A3500550454 /* sources.pro */ = {isa = PBXFileReference; lastKnownFileType = text; path = sources.pro; sourceTree = "<group>"; };
-		1B522F341F268A3500550454 /* squish.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = squish.cpp; sourceTree = "<group>"; };
-		1B522F351F268A3500550454 /* squish.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = squish.h; sourceTree = "<group>"; };
-		1B522F381F268A3500550454 /* squish.vcproj */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = squish.vcproj; sourceTree = "<group>"; };
-		1B522F3A1F268A3500550454 /* squishpng.vcproj */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = squishpng.vcproj; sourceTree = "<group>"; };
-		1B522F3C1F268A3500550454 /* squishtest.vcproj */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = squishtest.vcproj; sourceTree = "<group>"; };
-		1B522F3F1F268A3500550454 /* squish.vcproj */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = squish.vcproj; sourceTree = "<group>"; };
-		1B522F401F268A3500550454 /* squish.sln */ = {isa = PBXFileReference; lastKnownFileType = text; path = squish.sln; sourceTree = "<group>"; };
-		1B522F421F268A3500550454 /* squishpng.vcproj */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = squishpng.vcproj; sourceTree = "<group>"; };
-		1B522F441F268A3500550454 /* squishtest.vcproj */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = squishtest.vcproj; sourceTree = "<group>"; };
-		1B522F471F268A3500550454 /* squish.vcproj */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = squish.vcproj; sourceTree = "<group>"; };
-		1B522F481F268A3500550454 /* squish.sln */ = {isa = PBXFileReference; lastKnownFileType = text; path = squish.sln; sourceTree = "<group>"; };
-		1B522F4A1F268A3500550454 /* squishpng.vcproj */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = squishpng.vcproj; sourceTree = "<group>"; };
-		1B522F4C1F268A3500550454 /* squishtest.vcproj */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = squishtest.vcproj; sourceTree = "<group>"; };
-		1B522F4E1F268A3500550454 /* squish.vcxproj */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = squish.vcxproj; sourceTree = "<group>"; };
-		1B522F4F1F268A3500550454 /* squish.vcxproj.filters */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = squish.vcxproj.filters; sourceTree = "<group>"; };
-		1B522F501F268A3500550454 /* squish.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = squish.xcodeproj; sourceTree = "<group>"; };
-		1B522F541F268A3500550454 /* AVAssetAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AVAssetAdditions.h; sourceTree = "<group>"; };
-		1B522F551F268A3500550454 /* AVAssetAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AVAssetAdditions.m; sourceTree = "<group>"; };
-		1B522F561F268A3500550454 /* AVAssetReaderHapTrackOutput.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AVAssetReaderHapTrackOutput.h; sourceTree = "<group>"; };
-		1B522F571F268A3500550454 /* AVAssetReaderHapTrackOutput.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AVAssetReaderHapTrackOutput.m; sourceTree = "<group>"; };
-		1B522F581F268A3500550454 /* AVAssetWriterHapInput.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AVAssetWriterHapInput.h; sourceTree = "<group>"; };
-		1B522F591F268A3500550454 /* AVAssetWriterHapInput.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AVAssetWriterHapInput.m; sourceTree = "<group>"; };
-		1B522F5A1F268A3500550454 /* AVPlayerItemAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AVPlayerItemAdditions.h; sourceTree = "<group>"; };
-		1B522F5B1F268A3500550454 /* AVPlayerItemAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AVPlayerItemAdditions.m; sourceTree = "<group>"; };
-		1B522F5C1F268A3500550454 /* AVPlayerItemHapDXTOutput.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AVPlayerItemHapDXTOutput.h; sourceTree = "<group>"; };
-		1B522F5D1F268A3500550454 /* AVPlayerItemHapDXTOutput.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AVPlayerItemHapDXTOutput.m; sourceTree = "<group>"; };
-		1B522F5E1F268A3500550454 /* CMBlockBufferPool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMBlockBufferPool.h; sourceTree = "<group>"; };
-		1B522F5F1F268A3500550454 /* CMBlockBufferPool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMBlockBufferPool.m; sourceTree = "<group>"; };
-		1B522F601F268A3500550454 /* HapDecoderFrame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HapDecoderFrame.h; sourceTree = "<group>"; };
-		1B522F611F268A3500550454 /* HapDecoderFrame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HapDecoderFrame.m; sourceTree = "<group>"; };
-		1B522F621F268A3500550454 /* HapEncoderFrame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HapEncoderFrame.h; sourceTree = "<group>"; };
-		1B522F631F268A3500550454 /* HapEncoderFrame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HapEncoderFrame.m; sourceTree = "<group>"; };
-		1B522F641F268A3500550454 /* HapInAVFoundation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HapInAVFoundation.h; sourceTree = "<group>"; };
-		1B522F651F268A3500550454 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1B522F681F268A3500550454 /* DXTBlocks.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = DXTBlocks.c; sourceTree = "<group>"; };
-		1B522F691F268A3500550454 /* DXTBlocks.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DXTBlocks.h; sourceTree = "<group>"; };
-		1B522F6A1F268A3500550454 /* DXTBlocksSSSE3.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = DXTBlocksSSSE3.c; sourceTree = "<group>"; };
-		1B522F6B1F268A3500550454 /* DXTEncoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DXTEncoder.h; sourceTree = "<group>"; };
-		1B522F6C1F268A3500550454 /* GLDXTEncoder.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = GLDXTEncoder.c; sourceTree = "<group>"; };
-		1B522F6D1F268A3500550454 /* GLDXTEncoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLDXTEncoder.h; sourceTree = "<group>"; };
-		1B522F6E1F268A3500550454 /* HapCodecGL.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = HapCodecGL.c; sourceTree = "<group>"; };
-		1B522F6F1F268A3500550454 /* HapCodecGL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HapCodecGL.h; sourceTree = "<group>"; };
-		1B522F701F268A3500550454 /* squish-c.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "squish-c.cpp"; sourceTree = "<group>"; };
-		1B522F711F268A3500550454 /* squish-c.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "squish-c.h"; sourceTree = "<group>"; };
-		1B522F721F268A3500550454 /* SquishEncoder.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = SquishEncoder.c; sourceTree = "<group>"; };
-		1B522F731F268A3500550454 /* SquishEncoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SquishEncoder.h; sourceTree = "<group>"; };
-		1B522F741F268A3500550454 /* YCoCgDXT.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = YCoCgDXT.cpp; sourceTree = "<group>"; };
-		1B522F751F268A3500550454 /* YCoCgDXT.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCoCgDXT.h; sourceTree = "<group>"; };
-		1B522F761F268A3500550454 /* YCoCgDXTEncoder.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = YCoCgDXTEncoder.c; sourceTree = "<group>"; };
-		1B522F771F268A3500550454 /* YCoCgDXTEncoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCoCgDXTEncoder.h; sourceTree = "<group>"; };
-		1B522F781F268A3500550454 /* HapCodecSubTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HapCodecSubTypes.h; sourceTree = "<group>"; };
-		1B522F791F268A3500550454 /* HapInAVFoundation_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HapInAVFoundation_Prefix.pch; sourceTree = "<group>"; };
-		1B522F7A1F268A3500550454 /* HapPlatform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HapPlatform.h; sourceTree = "<group>"; };
-		1B522F7B1F268A3500550454 /* PixelFormats.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = PixelFormats.c; sourceTree = "<group>"; };
-		1B522F7C1F268A3500550454 /* PixelFormats.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PixelFormats.h; sourceTree = "<group>"; };
-		1B522F7D1F268A3500550454 /* SquishDecoder.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = SquishDecoder.c; sourceTree = "<group>"; };
-		1B522F7E1F268A3500550454 /* SquishDecoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SquishDecoder.h; sourceTree = "<group>"; };
-		1B522F7F1F268A3500550454 /* SquishRGTC1Decoder.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = SquishRGTC1Decoder.c; sourceTree = "<group>"; };
-		1B522F801F268A3500550454 /* SquishRGTC1Decoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SquishRGTC1Decoder.h; sourceTree = "<group>"; };
-		1B522F811F268A3500550454 /* Utility.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Utility.c; sourceTree = "<group>"; };
-		1B522F821F268A3500550454 /* Utility.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utility.h; sourceTree = "<group>"; };
-		1B522F831F268A3500550454 /* Utility.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Utility.m; sourceTree = "<group>"; };
-		1B522F851F268A3500550454 /* ImageMath.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ImageMath.c; sourceTree = "<group>"; };
-		1B522F861F268A3500550454 /* ImageMath.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageMath.h; sourceTree = "<group>"; };
-		1B522F871F268A3500550454 /* YCoCg.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = YCoCg.c; sourceTree = "<group>"; };
-		1B522F881F268A3500550454 /* YCoCg.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCoCg.h; sourceTree = "<group>"; };
 		1B522FA31F26995000550454 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
-		1B522FB41F27B18400550454 /* AVPlayerHapLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVPlayerHapLayer.h; sourceTree = "<group>"; };
-		1B522FB51F27B18400550454 /* AVPlayerHapLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVPlayerHapLayer.m; sourceTree = "<group>"; };
-		1B522FB71F27B37B00550454 /* AVAssetHapImageGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAssetHapImageGenerator.h; sourceTree = "<group>"; };
-		1B522FB81F27B37B00550454 /* AVAssetHapImageGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAssetHapImageGenerator.m; sourceTree = "<group>"; };
 		1B5CDF5C1F438FD100D5D057 /* MediaToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaToolbox.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/MediaToolbox.framework; sourceTree = DEVELOPER_DIR; };
 		1B5CDF621F438FD700D5D057 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/VideoToolbox.framework; sourceTree = DEVELOPER_DIR; };
 		1B5FE0271DF9F1F9009CF677 /* TSNELayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSNELayout.h; sourceTree = "<group>"; };
@@ -12687,8 +12521,6 @@
 		1BCFBC1F1E0C737B0008CB03 /* dbvptree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = dbvptree.h; sourceTree = "<group>"; };
 		1BCFBEC11E1C41580008CB03 /* MetadataSingleValueHistoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetadataSingleValueHistoryView.h; sourceTree = "<group>"; };
 		1BCFBEC21E1C41580008CB03 /* MetadataSingleValueHistoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetadataSingleValueHistoryView.m; sourceTree = "<group>"; };
-		1BD687011F3CC70A00098D24 /* ScaledCoCgYToRGBA.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ScaledCoCgYToRGBA.frag; sourceTree = "<group>"; };
-		1BD687021F3CC70A00098D24 /* ScaledCoCgYToRGBA.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ScaledCoCgYToRGBA.vert; sourceTree = "<group>"; };
 		1BD710AC1D620070007D61B9 /* SynopsisCollectionViewItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynopsisCollectionViewItemView.h; sourceTree = "<group>"; };
 		1BD710AD1D620070007D61B9 /* SynopsisCollectionViewItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SynopsisCollectionViewItemView.m; sourceTree = "<group>"; };
 		1BD710AF1D620AC8007D61B9 /* AAPLWrappedLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLWrappedLayout.h; sourceTree = "<group>"; };
@@ -12714,6 +12546,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A1E31C0237DF95D009DE35C /* HapInAVFoundation.framework in Frameworks */,
 				1B5CDF631F438FD700D5D057 /* VideoToolbox.framework in Frameworks */,
 				1B5CDF5D1F438FD100D5D057 /* MediaToolbox.framework in Frameworks */,
 				1B522FA41F26995000550454 /* Accelerate.framework in Frameworks */,
@@ -12765,6 +12598,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1A1E31B1237DF94C009DE35C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1A1E31B9237DF94C009DE35C /* HapInAVFoundation.framework */,
+				1A1E31BB237DF94C009DE35C /* HapInAVF Test App.app */,
+				1A1E31BD237DF94C009DE35C /* AVF Batch Converter.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		1B0B63511D641CD100AA5D0E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -12773,397 +12616,6 @@
 			);
 			name = Frameworks;
 			path = ..;
-			sourceTree = "<group>";
-		};
-		1B522ED81F268A2900550454 /* HAP */ = {
-			isa = PBXGroup;
-			children = (
-				1B522EDB1F268A3500550454 /* external */,
-				1B522F531F268A3500550454 /* HapInAVFoundation */,
-				1B522F661F268A3500550454 /* source */,
-			);
-			name = HAP;
-			sourceTree = "<group>";
-		};
-		1B522EDB1F268A3500550454 /* external */ = {
-			isa = PBXGroup;
-			children = (
-				1B522EDC1F268A3500550454 /* hap */,
-				1B522EDF1F268A3500550454 /* snappy */,
-				1B522F0F1F268A3500550454 /* squish */,
-			);
-			name = external;
-			path = "hap-in-avfoundation/external";
-			sourceTree = SOURCE_ROOT;
-		};
-		1B522EDC1F268A3500550454 /* hap */ = {
-			isa = PBXGroup;
-			children = (
-				1B522EDD1F268A3500550454 /* hap.c */,
-				1B522EDE1F268A3500550454 /* hap.h */,
-			);
-			path = hap;
-			sourceTree = "<group>";
-		};
-		1B522EDF1F268A3500550454 /* snappy */ = {
-			isa = PBXGroup;
-			children = (
-				1B522EE01F268A3500550454 /* README.md */,
-				1B522EE11F268A3500550454 /* snappy-mac */,
-				1B522EE51F268A3500550454 /* snappy-source */,
-				1B522F0C1F268A3500550454 /* snappy-windows */,
-			);
-			path = snappy;
-			sourceTree = "<group>";
-		};
-		1B522EE11F268A3500550454 /* snappy-mac */ = {
-			isa = PBXGroup;
-			children = (
-				1B522EE21F268A3500550454 /* snappy.xcodeproj */,
-			);
-			path = "snappy-mac";
-			sourceTree = "<group>";
-		};
-		1B522EE31F268A3500550454 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				1B522F8B1F268A3500550454 /* libsnappy.dylib */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		1B522EE51F268A3500550454 /* snappy-source */ = {
-			isa = PBXGroup;
-			children = (
-				1B522EE61F268A3500550454 /* aclocal.m4 */,
-				1B522EE71F268A3500550454 /* AUTHORS */,
-				1B522EE81F268A3500550454 /* autogen.sh */,
-				1B522EE91F268A3500550454 /* ChangeLog */,
-				1B522EEA1F268A3500550454 /* config.guess */,
-				1B522EEB1F268A3500550454 /* config.h */,
-				1B522EEC1F268A3500550454 /* config.h.in */,
-				1B522EED1F268A3500550454 /* config.sub */,
-				1B522EEE1F268A3500550454 /* configure */,
-				1B522EEF1F268A3500550454 /* configure.ac */,
-				1B522EF01F268A3500550454 /* COPYING */,
-				1B522EF11F268A3500550454 /* depcomp */,
-				1B522EF21F268A3500550454 /* format_description.txt */,
-				1B522EF31F268A3500550454 /* framing_format.txt */,
-				1B522EF41F268A3500550454 /* INSTALL */,
-				1B522EF51F268A3500550454 /* install-sh */,
-				1B522EF61F268A3500550454 /* ltmain.sh */,
-				1B522EF71F268A3500550454 /* m4 */,
-				1B522EF91F268A3500550454 /* Makefile.am */,
-				1B522EFA1F268A3500550454 /* Makefile.in */,
-				1B522EFB1F268A3500550454 /* missing */,
-				1B522EFC1F268A3500550454 /* NEWS */,
-				1B522EFD1F268A3500550454 /* README */,
-				1B522EFE1F268A3500550454 /* snappy-c.cc */,
-				1B522EFF1F268A3500550454 /* snappy-c.h */,
-				1B522F001F268A3500550454 /* snappy-internal.h */,
-				1B522F011F268A3500550454 /* snappy-sinksource.cc */,
-				1B522F021F268A3500550454 /* snappy-sinksource.h */,
-				1B522F031F268A3500550454 /* snappy-stubs-internal.cc */,
-				1B522F041F268A3500550454 /* snappy-stubs-internal.h */,
-				1B522F051F268A3500550454 /* snappy-stubs-public.h */,
-				1B522F061F268A3500550454 /* snappy-stubs-public.h.in */,
-				1B522F071F268A3500550454 /* snappy-test.cc */,
-				1B522F081F268A3500550454 /* snappy-test.h */,
-				1B522F091F268A3500550454 /* snappy.cc */,
-				1B522F0A1F268A3500550454 /* snappy.h */,
-				1B522F0B1F268A3500550454 /* snappy_unittest.cc */,
-			);
-			path = "snappy-source";
-			sourceTree = "<group>";
-		};
-		1B522EF71F268A3500550454 /* m4 */ = {
-			isa = PBXGroup;
-			children = (
-				1B522EF81F268A3500550454 /* gtest.m4 */,
-			);
-			path = m4;
-			sourceTree = "<group>";
-		};
-		1B522F0C1F268A3500550454 /* snappy-windows */ = {
-			isa = PBXGroup;
-			children = (
-				1B522F0D1F268A3500550454 /* snappy.vcxproj */,
-				1B522F0E1F268A3500550454 /* snappy.vcxproj.filters */,
-			);
-			path = "snappy-windows";
-			sourceTree = "<group>";
-		};
-		1B522F0F1F268A3500550454 /* squish */ = {
-			isa = PBXGroup;
-			children = (
-				1B522F101F268A3500550454 /* README.md */,
-				1B522F111F268A3500550454 /* squish-source */,
-				1B522F4D1F268A3500550454 /* squish-windows */,
-				1B522F501F268A3500550454 /* squish.xcodeproj */,
-			);
-			path = squish;
-			sourceTree = "<group>";
-		};
-		1B522F111F268A3500550454 /* squish-source */ = {
-			isa = PBXGroup;
-			children = (
-				1B522F121F268A3500550454 /* alpha.cpp */,
-				1B522F131F268A3500550454 /* alpha.h */,
-				1B522F141F268A3500550454 /* ChangeLog */,
-				1B522F151F268A3500550454 /* clusterfit.cpp */,
-				1B522F161F268A3500550454 /* clusterfit.h */,
-				1B522F171F268A3500550454 /* CMakeLists.txt */,
-				1B522F181F268A3500550454 /* colourblock.cpp */,
-				1B522F191F268A3500550454 /* colourblock.h */,
-				1B522F1A1F268A3500550454 /* colourfit.cpp */,
-				1B522F1B1F268A3500550454 /* colourfit.h */,
-				1B522F1C1F268A3500550454 /* colourset.cpp */,
-				1B522F1D1F268A3500550454 /* colourset.h */,
-				1B522F1E1F268A3500550454 /* config */,
-				1B522F1F1F268A3500550454 /* config.h */,
-				1B522F201F268A3500550454 /* Doxyfile */,
-				1B522F211F268A3500550454 /* extra */,
-				1B522F251F268A3500550454 /* GNUmakefile */,
-				1B522F261F268A3500550454 /* libSquish.pro */,
-				1B522F271F268A3500550454 /* maths.cpp */,
-				1B522F281F268A3500550454 /* maths.h */,
-				1B522F291F268A3500550454 /* rangefit.cpp */,
-				1B522F2A1F268A3500550454 /* rangefit.h */,
-				1B522F2B1F268A3500550454 /* README */,
-				1B522F2C1F268A3500550454 /* simd.h */,
-				1B522F2D1F268A3500550454 /* simd_float.h */,
-				1B522F2E1F268A3500550454 /* simd_sse.h */,
-				1B522F2F1F268A3500550454 /* simd_ve.h */,
-				1B522F301F268A3500550454 /* singlecolourfit.cpp */,
-				1B522F311F268A3500550454 /* singlecolourfit.h */,
-				1B522F321F268A3500550454 /* singlecolourlookup.inl */,
-				1B522F331F268A3500550454 /* sources.pro */,
-				1B522F341F268A3500550454 /* squish.cpp */,
-				1B522F351F268A3500550454 /* squish.h */,
-				1B522F361F268A3500550454 /* vs7 */,
-				1B522F3D1F268A3500550454 /* vs8 */,
-				1B522F451F268A3500550454 /* vs9 */,
-			);
-			path = "squish-source";
-			sourceTree = "<group>";
-		};
-		1B522F211F268A3500550454 /* extra */ = {
-			isa = PBXGroup;
-			children = (
-				1B522F221F268A3500550454 /* squishgen.cpp */,
-				1B522F231F268A3500550454 /* squishpng.cpp */,
-				1B522F241F268A3500550454 /* squishtest.cpp */,
-			);
-			path = extra;
-			sourceTree = "<group>";
-		};
-		1B522F361F268A3500550454 /* vs7 */ = {
-			isa = PBXGroup;
-			children = (
-				1B522F371F268A3500550454 /* squish */,
-				1B522F391F268A3500550454 /* squishpng */,
-				1B522F3B1F268A3500550454 /* squishtest */,
-			);
-			path = vs7;
-			sourceTree = "<group>";
-		};
-		1B522F371F268A3500550454 /* squish */ = {
-			isa = PBXGroup;
-			children = (
-				1B522F381F268A3500550454 /* squish.vcproj */,
-			);
-			path = squish;
-			sourceTree = "<group>";
-		};
-		1B522F391F268A3500550454 /* squishpng */ = {
-			isa = PBXGroup;
-			children = (
-				1B522F3A1F268A3500550454 /* squishpng.vcproj */,
-			);
-			path = squishpng;
-			sourceTree = "<group>";
-		};
-		1B522F3B1F268A3500550454 /* squishtest */ = {
-			isa = PBXGroup;
-			children = (
-				1B522F3C1F268A3500550454 /* squishtest.vcproj */,
-			);
-			path = squishtest;
-			sourceTree = "<group>";
-		};
-		1B522F3D1F268A3500550454 /* vs8 */ = {
-			isa = PBXGroup;
-			children = (
-				1B522F3E1F268A3500550454 /* squish */,
-				1B522F401F268A3500550454 /* squish.sln */,
-				1B522F411F268A3500550454 /* squishpng */,
-				1B522F431F268A3500550454 /* squishtest */,
-			);
-			path = vs8;
-			sourceTree = "<group>";
-		};
-		1B522F3E1F268A3500550454 /* squish */ = {
-			isa = PBXGroup;
-			children = (
-				1B522F3F1F268A3500550454 /* squish.vcproj */,
-			);
-			path = squish;
-			sourceTree = "<group>";
-		};
-		1B522F411F268A3500550454 /* squishpng */ = {
-			isa = PBXGroup;
-			children = (
-				1B522F421F268A3500550454 /* squishpng.vcproj */,
-			);
-			path = squishpng;
-			sourceTree = "<group>";
-		};
-		1B522F431F268A3500550454 /* squishtest */ = {
-			isa = PBXGroup;
-			children = (
-				1B522F441F268A3500550454 /* squishtest.vcproj */,
-			);
-			path = squishtest;
-			sourceTree = "<group>";
-		};
-		1B522F451F268A3500550454 /* vs9 */ = {
-			isa = PBXGroup;
-			children = (
-				1B522F461F268A3500550454 /* squish */,
-				1B522F481F268A3500550454 /* squish.sln */,
-				1B522F491F268A3500550454 /* squishpng */,
-				1B522F4B1F268A3500550454 /* squishtest */,
-			);
-			path = vs9;
-			sourceTree = "<group>";
-		};
-		1B522F461F268A3500550454 /* squish */ = {
-			isa = PBXGroup;
-			children = (
-				1B522F471F268A3500550454 /* squish.vcproj */,
-			);
-			path = squish;
-			sourceTree = "<group>";
-		};
-		1B522F491F268A3500550454 /* squishpng */ = {
-			isa = PBXGroup;
-			children = (
-				1B522F4A1F268A3500550454 /* squishpng.vcproj */,
-			);
-			path = squishpng;
-			sourceTree = "<group>";
-		};
-		1B522F4B1F268A3500550454 /* squishtest */ = {
-			isa = PBXGroup;
-			children = (
-				1B522F4C1F268A3500550454 /* squishtest.vcproj */,
-			);
-			path = squishtest;
-			sourceTree = "<group>";
-		};
-		1B522F4D1F268A3500550454 /* squish-windows */ = {
-			isa = PBXGroup;
-			children = (
-				1B522F4E1F268A3500550454 /* squish.vcxproj */,
-				1B522F4F1F268A3500550454 /* squish.vcxproj.filters */,
-			);
-			path = "squish-windows";
-			sourceTree = "<group>";
-		};
-		1B522F511F268A3500550454 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				1B522F8E1F268A3500550454 /* libsquish.dylib */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		1B522F531F268A3500550454 /* HapInAVFoundation */ = {
-			isa = PBXGroup;
-			children = (
-				1BD687011F3CC70A00098D24 /* ScaledCoCgYToRGBA.frag */,
-				1BD687021F3CC70A00098D24 /* ScaledCoCgYToRGBA.vert */,
-				1B522FB41F27B18400550454 /* AVPlayerHapLayer.h */,
-				1B522FB51F27B18400550454 /* AVPlayerHapLayer.m */,
-				1B522FB71F27B37B00550454 /* AVAssetHapImageGenerator.h */,
-				1B522FB81F27B37B00550454 /* AVAssetHapImageGenerator.m */,
-				1B522F541F268A3500550454 /* AVAssetAdditions.h */,
-				1B522F551F268A3500550454 /* AVAssetAdditions.m */,
-				1B522F561F268A3500550454 /* AVAssetReaderHapTrackOutput.h */,
-				1B522F571F268A3500550454 /* AVAssetReaderHapTrackOutput.m */,
-				1B522F581F268A3500550454 /* AVAssetWriterHapInput.h */,
-				1B522F591F268A3500550454 /* AVAssetWriterHapInput.m */,
-				1B522F5A1F268A3500550454 /* AVPlayerItemAdditions.h */,
-				1B522F5B1F268A3500550454 /* AVPlayerItemAdditions.m */,
-				1B522F5C1F268A3500550454 /* AVPlayerItemHapDXTOutput.h */,
-				1B522F5D1F268A3500550454 /* AVPlayerItemHapDXTOutput.m */,
-				1B522F5E1F268A3500550454 /* CMBlockBufferPool.h */,
-				1B522F5F1F268A3500550454 /* CMBlockBufferPool.m */,
-				1B522F601F268A3500550454 /* HapDecoderFrame.h */,
-				1B522F611F268A3500550454 /* HapDecoderFrame.m */,
-				1B522F621F268A3500550454 /* HapEncoderFrame.h */,
-				1B522F631F268A3500550454 /* HapEncoderFrame.m */,
-				1B522F641F268A3500550454 /* HapInAVFoundation.h */,
-				1B522F651F268A3500550454 /* Info.plist */,
-			);
-			name = HapInAVFoundation;
-			path = "hap-in-avfoundation/HapInAVFoundation";
-			sourceTree = SOURCE_ROOT;
-		};
-		1B522F661F268A3500550454 /* source */ = {
-			isa = PBXGroup;
-			children = (
-				1B522F671F268A3500550454 /* DXT */,
-				1B522F781F268A3500550454 /* HapCodecSubTypes.h */,
-				1B522F791F268A3500550454 /* HapInAVFoundation_Prefix.pch */,
-				1B522F7A1F268A3500550454 /* HapPlatform.h */,
-				1B522F7B1F268A3500550454 /* PixelFormats.c */,
-				1B522F7C1F268A3500550454 /* PixelFormats.h */,
-				1B522F7D1F268A3500550454 /* SquishDecoder.c */,
-				1B522F7E1F268A3500550454 /* SquishDecoder.h */,
-				1B522F7F1F268A3500550454 /* SquishRGTC1Decoder.c */,
-				1B522F801F268A3500550454 /* SquishRGTC1Decoder.h */,
-				1B522F811F268A3500550454 /* Utility.c */,
-				1B522F821F268A3500550454 /* Utility.h */,
-				1B522F831F268A3500550454 /* Utility.m */,
-				1B522F841F268A3500550454 /* YCoCg */,
-			);
-			name = source;
-			path = "hap-in-avfoundation/source";
-			sourceTree = SOURCE_ROOT;
-		};
-		1B522F671F268A3500550454 /* DXT */ = {
-			isa = PBXGroup;
-			children = (
-				1B522F681F268A3500550454 /* DXTBlocks.c */,
-				1B522F691F268A3500550454 /* DXTBlocks.h */,
-				1B522F6A1F268A3500550454 /* DXTBlocksSSSE3.c */,
-				1B522F6B1F268A3500550454 /* DXTEncoder.h */,
-				1B522F6C1F268A3500550454 /* GLDXTEncoder.c */,
-				1B522F6D1F268A3500550454 /* GLDXTEncoder.h */,
-				1B522F6E1F268A3500550454 /* HapCodecGL.c */,
-				1B522F6F1F268A3500550454 /* HapCodecGL.h */,
-				1B522F701F268A3500550454 /* squish-c.cpp */,
-				1B522F711F268A3500550454 /* squish-c.h */,
-				1B522F721F268A3500550454 /* SquishEncoder.c */,
-				1B522F731F268A3500550454 /* SquishEncoder.h */,
-				1B522F741F268A3500550454 /* YCoCgDXT.cpp */,
-				1B522F751F268A3500550454 /* YCoCgDXT.h */,
-				1B522F761F268A3500550454 /* YCoCgDXTEncoder.c */,
-				1B522F771F268A3500550454 /* YCoCgDXTEncoder.h */,
-			);
-			path = DXT;
-			sourceTree = "<group>";
-		};
-		1B522F841F268A3500550454 /* YCoCg */ = {
-			isa = PBXGroup;
-			children = (
-				1B522F851F268A3500550454 /* ImageMath.c */,
-				1B522F861F268A3500550454 /* ImageMath.h */,
-				1B522F871F268A3500550454 /* YCoCg.c */,
-				1B522F881F268A3500550454 /* YCoCg.h */,
-			);
-			path = YCoCg;
 			sourceTree = "<group>";
 		};
 		1B5FE02A1DF9F1FE009CF677 /* CollectionView */ = {
@@ -33766,10 +33218,11 @@
 		1B9873E81D47A5540015E54C = {
 			isa = PBXGroup;
 			children = (
-				1BBB10E81D5558C400C22439 /* Synopsis-Framework.xcodeproj */,
 				1B9873F31D47A5540015E54C /* Synopsis Inspector */,
 				1B9873F21D47A5540015E54C /* Products */,
 				1B96FE7C1E08AD2000DE4BD3 /* Frameworks */,
+				1A1E31B0237DF94C009DE35C /* HapInAVFoundation.xcodeproj */,
+				1BBB10E81D5558C400C22439 /* Synopsis-Framework.xcodeproj */,
 			);
 			sourceTree = "<group>";
 		};
@@ -33796,7 +33249,6 @@
 				1B9873FA1D47A5540015E54C /* Assets.xcassets */,
 				1B9873FC1D47A5540015E54C /* MainMenu.xib */,
 				1B9873FF1D47A5540015E54C /* Info.plist */,
-				1B522ED81F268A2900550454 /* HAP */,
 				1B0B63511D641CD100AA5D0E /* Frameworks */,
 				1B9873F71D47A5540015E54C /* Supporting Files */,
 			);
@@ -33868,6 +33320,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				1A1E31BF237DF953009DE35C /* PBXTargetDependency */,
 				1BFB133E1F213790002C4651 /* PBXTargetDependency */,
 			);
 			name = "Synopsis Inspector";
@@ -33905,12 +33358,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 1B522EE31F268A3500550454 /* Products */;
-					ProjectRef = 1B522EE21F268A3500550454 /* snappy.xcodeproj */;
-				},
-				{
-					ProductGroup = 1B522F511F268A3500550454 /* Products */;
-					ProjectRef = 1B522F501F268A3500550454 /* squish.xcodeproj */;
+					ProductGroup = 1A1E31B1237DF94C009DE35C /* Products */;
+					ProjectRef = 1A1E31B0237DF94C009DE35C /* HapInAVFoundation.xcodeproj */;
 				},
 				{
 					ProductGroup = 1BBB10E91D5558C400C22439 /* Products */;
@@ -33925,18 +33374,25 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		1B522F8B1F268A3500550454 /* libsnappy.dylib */ = {
+		1A1E31B9237DF94C009DE35C /* HapInAVFoundation.framework */ = {
 			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.dylib";
-			path = libsnappy.dylib;
-			remoteRef = 1B522F8A1F268A3500550454 /* PBXContainerItemProxy */;
+			fileType = wrapper.framework;
+			path = HapInAVFoundation.framework;
+			remoteRef = 1A1E31B8237DF94C009DE35C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		1B522F8E1F268A3500550454 /* libsquish.dylib */ = {
+		1A1E31BB237DF94C009DE35C /* HapInAVF Test App.app */ = {
 			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.dylib";
-			path = libsquish.dylib;
-			remoteRef = 1B522F8D1F268A3500550454 /* PBXContainerItemProxy */;
+			fileType = wrapper.application;
+			path = "HapInAVF Test App.app";
+			remoteRef = 1A1E31BA237DF94C009DE35C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1A1E31BD237DF94C009DE35C /* AVF Batch Converter.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "AVF Batch Converter.app";
+			remoteRef = 1A1E31BC237DF94C009DE35C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		1B7155C91EFC97F000266150 /* Synopsis.framework */ = {
@@ -33971,8 +33427,6 @@
 				1B9874181D48014C0015E54C /* SynopsisCollectionViewItem.xib in Resources */,
 				1BC71D421F1504CB006DD7DC /* Credits.rtf in Resources */,
 				1B9873FE1D47A5540015E54C /* MainMenu.xib in Resources */,
-				1BD687031F3CC70A00098D24 /* ScaledCoCgYToRGBA.frag in Resources */,
-				1BD687041F3CC70A00098D24 /* ScaledCoCgYToRGBA.vert in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -33999,68 +33453,38 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B522FA21F26990000550454 /* YCoCg.c in Sources */,
-				1B522FAC1F26998000550454 /* rangefit.cpp in Sources */,
-				1B522FAF1F26998B00550454 /* snappy-c.cc in Sources */,
-				1B522F971F26990000550454 /* DXTBlocksSSSE3.c in Sources */,
 				1BDC34461D6F8FFE00D210E8 /* TransparentView.m in Sources */,
 				1BAA80701D7243F300464810 /* TransparentCollectionView.m in Sources */,
-				1B522FAD1F26998000550454 /* singlecolourfit.cpp in Sources */,
-				1B522F941F2698A000550454 /* CMBlockBufferPool.m in Sources */,
-				1B522FA91F26998000550454 /* colourfit.cpp in Sources */,
-				1B522FB91F27B37B00550454 /* AVAssetHapImageGenerator.m in Sources */,
 				1BD710AE1D620070007D61B9 /* SynopsisCollectionViewItemView.m in Sources */,
 				1B5FE0331DF9F38E009CF677 /* sptree.cpp in Sources */,
-				1B522F8F1F26961E00550454 /* AVPlayerItemHapDXTOutput.m in Sources */,
-				1B522F9E1F26990000550454 /* SquishDecoder.c in Sources */,
-				1B522FA61F26998000550454 /* alpha.cpp in Sources */,
 				1B972857217948C400C78FBF /* PlayerView.m in Sources */,
-				1B522FAA1F26998000550454 /* colourset.cpp in Sources */,
-				1B522FA51F26996100550454 /* hap.c in Sources */,
-				1B522FA81F26998000550454 /* colourblock.cpp in Sources */,
-				1B522F9C1F26990000550454 /* YCoCgDXTEncoder.c in Sources */,
-				1B522FB61F27B18400550454 /* AVPlayerHapLayer.m in Sources */,
-				1B522FAB1F26998000550454 /* maths.cpp in Sources */,
 				1BDC34431D6CE38C00D210E8 /* MetadataLayerBackedView.m in Sources */,
 				1B7155C61EFC97EE00266150 /* MetadataFeatureVectorView.m in Sources */,
-				1B522FA11F26990000550454 /* ImageMath.c in Sources */,
 				1BDC34491D6F90FC00D210E8 /* TransparentTabView.m in Sources */,
-				1B522FB21F26999300550454 /* snappy.cc in Sources */,
-				1B522FB31F2699B700550454 /* YCoCgDXT.cpp in Sources */,
 				1B5FE0351DFA1044009CF677 /* TSNELayout.mm in Sources */,
-				1B522F9B1F26990000550454 /* SquishEncoder.c in Sources */,
 				1BCFBEC31E1C41580008CB03 /* MetadataSingleValueHistoryView.m in Sources */,
-				1B522F9F1F26990000550454 /* SquishRGTC1Decoder.c in Sources */,
-				1B522FAE1F26998000550454 /* squish.cpp in Sources */,
-				1B522F961F26990000550454 /* DXTBlocks.c in Sources */,
 				1B96FDE71E0896A500DE4BD3 /* adapt_adt_named.cpp in Sources */,
 				1B0D643C1D4FD48E00A1AB5D /* CustomVisualEffectView.m in Sources */,
-				1B522F921F26987B00550454 /* AVAssetAdditions.m in Sources */,
-				1B522F951F2698AD00550454 /* AVPlayerItemAdditions.m in Sources */,
-				1B522FB01F26999300550454 /* snappy-sinksource.cc in Sources */,
 				1B9873F91D47A5540015E54C /* main.m in Sources */,
-				1B522F931F26989A00550454 /* HapDecoderFrame.m in Sources */,
 				1BDC34331D6AB02100D210E8 /* MetadataDominantColorsView.m in Sources */,
-				1B522FA01F26990000550454 /* Utility.c in Sources */,
-				1B522F981F26990000550454 /* GLDXTEncoder.c in Sources */,
 				1BDC343A1D6AB30800D210E8 /* MetadataInspectorViewController.m in Sources */,
-				1B522F9D1F26990000550454 /* PixelFormats.c in Sources */,
 				1B5FE0341DF9F38E009CF677 /* tsne.cpp in Sources */,
-				1B522F9A1F26990000550454 /* squish-c.cpp in Sources */,
 				1BD710B11D620AC8007D61B9 /* AAPLWrappedLayout.m in Sources */,
-				1B522F991F26990000550454 /* HapCodecGL.c in Sources */,
 				1BDC343D1D6B64BD00D210E8 /* MetadataHistogramView.m in Sources */,
-				1B522FA71F26998000550454 /* clusterfit.cpp in Sources */,
 				1B9873F61D47A5540015E54C /* AppDelegate.m in Sources */,
 				1BDC34401D6CE2B900D210E8 /* MetadataMotionView.m in Sources */,
 				1B9874171D48014C0015E54C /* SynopsisCollectionViewItem.mm in Sources */,
-				1B522FB11F26999300550454 /* snappy-stubs-internal.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1A1E31BF237DF953009DE35C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = HapInAVFoundation;
+			targetProxy = 1A1E31BE237DF953009DE35C /* PBXContainerItemProxy */;
+		};
 		1BFB133E1F213790002C4651 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Synopsis-Decoder-macOS";

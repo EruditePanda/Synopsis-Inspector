@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "HapInAVFoundation.h"
+#import <HapInAVFoundation/HapInAVFoundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
