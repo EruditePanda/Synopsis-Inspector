@@ -16,15 +16,14 @@
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
             <connections>
                 <outlet property="attribsTabView" destination="Nlg-Rf-cm6" id="adk-Na-UHe"/>
-                <outlet property="chooseSearchModeSheet" destination="XSr-yq-Ne4" id="gFK-b8-wOh"/>
                 <outlet property="clipView" destination="uo2-Jw-iGw" id="Qa1-mP-YRt"/>
                 <outlet property="collectionView" destination="Zca-Ua-Xm8" id="s6B-EV-cbE"/>
                 <outlet property="containerView" destination="8t8-eM-jeM" id="Cun-s6-uOT"/>
                 <outlet property="dataController" destination="UeJ-CV-63y" id="ZeF-bm-SFV"/>
+                <outlet property="fileController" destination="m8K-Bw-pYg" id="S7p-B7-QLy"/>
                 <outlet property="playerView" destination="W0a-Il-fSH" id="anu-4v-x92"/>
                 <outlet property="previewBox" destination="b3U-F2-yq9" id="Dj1-Jq-Mmc"/>
                 <outlet property="resultsArrayController" destination="itd-B0-X5S" id="DnG-LY-r3Z"/>
-                <outlet property="tokenField" destination="6w3-gJ-ZWc" id="ncd-He-m8z"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
@@ -86,12 +85,12 @@
                             </menuItem>
                             <menuItem title="Open Media Folder…" keyEquivalent="o" id="IAo-SY-fd9">
                                 <connections>
-                                    <action selector="switchToLocalComputerPathSearchScope:" target="Voe-Tx-rLC" id="oHC-Yo-DeN"/>
+                                    <action selector="switchToLocalComputerPathSearchScope:" target="m8K-Bw-pYg" id="MVJ-vF-cGr"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Open Media Files…" keyEquivalent="O" id="A3w-jE-qd9">
                                 <connections>
-                                    <action selector="switchForcedFiles:" target="Voe-Tx-rLC" id="2fp-CX-RCE"/>
+                                    <action selector="switchForcedFiles:" target="m8K-Bw-pYg" id="iew-cA-YGh"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Open Recent" id="tXI-mr-wws">
@@ -110,7 +109,7 @@
                             <menuItem title="Discover All Local Media" id="1UK-8n-QPP">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="switchToLocalComputerSearchScope:" target="Voe-Tx-rLC" id="4Zq-Tk-dgY"/>
+                                    <action selector="switchToLocalComputerSearchScope:" target="m8K-Bw-pYg" id="T0w-UW-ALp"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="m54-Is-iLE"/>
@@ -1115,21 +1114,9 @@
                     <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="mSf-oc-9ma"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="K3I-ac-OeR"/>
                     <toolbarItem implicitItemIdentifier="115406B4-16A0-4515-9B6A-330645ACAD86" label="Feature" paletteLabel="Feature" toolTip="Sort by Feature Similarity" tag="-1" image="Feature" id="twC-4t-m0y" userLabel="Feature Sort"/>
-                    <toolbarItem implicitItemIdentifier="8C5C1670-F20C-45CE-B265-FA479779B560" label="Saturation" paletteLabel="Saturation" toolTip="Sort by Saturation" tag="-1" image="Saturation" id="O1H-Sg-47M">
-                        <connections>
-                            <action selector="saturationSortUsingSelectedCell:" target="Voe-Tx-rLC" id="B2q-E5-lr6"/>
-                        </connections>
-                    </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="9F5CF487-1E4E-444C-802D-94888B16F638" label="Hue" paletteLabel="Hue" toolTip="Sort by Hue" tag="-1" image="Hue" id="Zcg-Uc-HtM">
-                        <connections>
-                            <action selector="hueSortUsingSelectedCell:" target="Voe-Tx-rLC" id="4jd-VL-O7D"/>
-                        </connections>
-                    </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="F8253122-EF2C-4C95-8A10-9676379185BD" label="Brightness" paletteLabel="Brightness" toolTip="Sort by Brightness" tag="-1" image="Brightness" id="f0F-zV-DYJ">
-                        <connections>
-                            <action selector="brightnessSortUsingSelectedCell:" target="Voe-Tx-rLC" id="mUq-CQ-1Im"/>
-                        </connections>
-                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="8C5C1670-F20C-45CE-B265-FA479779B560" label="Saturation" paletteLabel="Saturation" toolTip="Sort by Saturation" tag="-1" image="Saturation" id="O1H-Sg-47M"/>
+                    <toolbarItem implicitItemIdentifier="9F5CF487-1E4E-444C-802D-94888B16F638" label="Hue" paletteLabel="Hue" toolTip="Sort by Hue" tag="-1" image="Hue" id="Zcg-Uc-HtM"/>
+                    <toolbarItem implicitItemIdentifier="F8253122-EF2C-4C95-8A10-9676379185BD" label="Brightness" paletteLabel="Brightness" toolTip="Sort by Brightness" tag="-1" image="Brightness" id="f0F-zV-DYJ"/>
                     <toolbarItem implicitItemIdentifier="F2AB7FFF-9081-446D-8F90-453657E530A8" label="Histogram" paletteLabel="Histogram" toolTip="Sort by Histogram Similarity" tag="-1" image="Histogram" id="FSS-QP-a3O"/>
                     <toolbarItem implicitItemIdentifier="5428B973-A39F-43D4-AB52-247B94D078A9" label="Hybrid" paletteLabel="Hybrid" toolTip="Sort by Perceptual Similarity (Features and Histogram)" tag="-1" image="Smart" id="rCf-te-0id"/>
                     <toolbarItem implicitItemIdentifier="247CFAA9-C1FD-4660-BA4F-518616BC3250" label="All" paletteLabel="All" toolTip="Reset Color Filters" tag="-1" image="Clear" id="3i1-aR-eyB">
@@ -1182,7 +1169,7 @@
                             </connections>
                         </searchField>
                         <connections>
-                            <action selector="search:" target="Voe-Tx-rLC" id="qHW-CR-Cys"/>
+                            <action selector="search:" target="m8K-Bw-pYg" id="GO4-bq-73G"/>
                         </connections>
                     </toolbarItem>
                     <toolbarItem implicitItemIdentifier="84F2B4E7-CF06-498B-83CD-C613AF780A12" label="Filter By" paletteLabel="Filter By" image="NSRevealFreestandingTemplate" id="P71-qX-gnu">
@@ -1198,11 +1185,11 @@
                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                             </tokenFieldCell>
                             <connections>
-                                <outlet property="delegate" destination="Voe-Tx-rLC" id="ZGi-97-9Nq"/>
+                                <outlet property="delegate" destination="m8K-Bw-pYg" id="4Cb-Oa-2Rc"/>
                             </connections>
                         </tokenField>
                         <connections>
-                            <action selector="actionFromTokenField:" target="Voe-Tx-rLC" id="Q5l-Bh-8Pd"/>
+                            <action selector="actionFromTokenField:" target="m8K-Bw-pYg" id="Sn9-Dz-Pu2"/>
                         </connections>
                     </toolbarItem>
                     <toolbarItem implicitItemIdentifier="AFE7A535-C546-4FB7-9B67-848EEA939754" label="Motion Vec" paletteLabel="Motion Vec" tag="-1" image="NSSlideshowTemplate" id="dtw-AP-Eb7">
@@ -1287,7 +1274,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="chooseInitialSearchMode:" target="Voe-Tx-rLC" id="gTN-Zb-hAO"/>
+                                    <action selector="chooseInitialSearchMode:" target="m8K-Bw-pYg" id="CWd-pA-zJY"/>
                                 </connections>
                             </button>
                             <button fixedFrame="YES" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="P7N-Ht-TYB">
@@ -1298,7 +1285,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="chooseInitialSearchMode:" target="Voe-Tx-rLC" id="r0i-LJ-imy"/>
+                                    <action selector="chooseInitialSearchMode:" target="m8K-Bw-pYg" id="Zi9-FR-rgg"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -1311,20 +1298,34 @@
             <connections>
                 <outlet property="appDelegate" destination="Voe-Tx-rLC" id="eNb-va-cE4"/>
                 <outlet property="bestFitSort" destination="rCf-te-0id" id="TZU-59-eba"/>
+                <outlet property="brightSort" destination="f0F-zV-DYJ" id="anQ-Nt-qcJ"/>
                 <outlet property="collectionView" destination="Zca-Ua-Xm8" id="2gw-dY-T0a"/>
                 <outlet property="featureTSNEMenu" destination="HUo-Cz-CUA" id="RIb-Wk-rJu"/>
                 <outlet property="featureVectorSort" destination="twC-4t-m0y" id="jav-xB-FKM"/>
                 <outlet property="histogramSort" destination="FSS-QP-a3O" id="zbb-mI-Qxq"/>
                 <outlet property="histogramTSNEMenu" destination="Rkg-G5-rTR" id="a5H-EK-HwD"/>
+                <outlet property="hueSort" destination="Zcg-Uc-HtM" id="eLP-0M-FZM"/>
                 <outlet property="hybridTSNEMenu" destination="Jgd-8c-YIH" id="ZdH-re-acd"/>
                 <outlet property="metadataInspector" destination="SQA-q7-aFi" id="GFR-Rr-uW3"/>
                 <outlet property="playerView" destination="W0a-Il-fSH" id="GXs-f0-UOY"/>
                 <outlet property="resultsArrayController" destination="itd-B0-X5S" id="UHP-Rr-ndd"/>
+                <outlet property="satSort" destination="O1H-Sg-47M" id="sBI-yk-WhP"/>
                 <outlet property="statusField" destination="uBo-Ud-SFl" id="C7q-2k-7TO"/>
                 <outlet property="zoomSlider" destination="q3u-1t-s43" id="Gsr-fL-Io4"/>
             </connections>
         </customObject>
         <arrayController id="itd-B0-X5S"/>
+        <customObject id="m8K-Bw-pYg" customClass="FileController">
+            <connections>
+                <outlet property="appDelegate" destination="Voe-Tx-rLC" id="DNG-Gr-p8F"/>
+                <outlet property="chooseSearchModeSheet" destination="XSr-yq-Ne4" id="EBF-pa-91i"/>
+                <outlet property="collectionView" destination="Zca-Ua-Xm8" id="0gM-dQ-ttC"/>
+                <outlet property="dataController" destination="UeJ-CV-63y" id="XSr-T2-qKu"/>
+                <outlet property="resultsArrayController" destination="itd-B0-X5S" id="SKP-dR-hJq"/>
+                <outlet property="tokenField" destination="6w3-gJ-ZWc" id="vy5-9q-TmA"/>
+                <outlet property="window" destination="QvC-M9-y7g" id="6bu-Wc-pfq"/>
+            </connections>
+        </customObject>
     </objects>
     <resources>
         <image name="Brightness" width="512" height="512"/>

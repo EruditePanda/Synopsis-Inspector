@@ -48,6 +48,10 @@
 @property (weak) IBOutlet NSToolbarItem* histogramSort;
 @property (weak) IBOutlet NSToolbarItem* featureVectorSort;
 
+@property (weak) IBOutlet NSToolbarItem* satSort;
+@property (weak) IBOutlet NSToolbarItem* hueSort;
+@property (weak) IBOutlet NSToolbarItem* brightSort;
+
 @property (readwrite, strong) IBOutlet MetadataInspectorViewController* metadataInspector;
 
 @property (readwrite, strong) IBOutlet PlayerView* playerView;
@@ -238,6 +242,15 @@
 
     [self.featureVectorSort setTarget:appDelegate];
     [self.featureVectorSort setAction:@selector(featureVectorSortUsingSelectedCell:)];
+
+    [self.satSort setTarget:appDelegate];
+    [self.satSort setAction:@selector(saturationSortUsingSelectedCell:)];
+
+    [self.hueSort setTarget:appDelegate];
+    [self.hueSort setAction:@selector(hueSortUsingSelectedCell:)];
+
+    [self.brightSort setTarget:appDelegate];
+    [self.brightSort setAction:@selector(brightnessSortUsingSelectedCell:)];
     
     [self updateStatusLabel];
 
@@ -414,6 +427,7 @@
 //    self.collectionView.enclosingScrollView.magnification = [sender floatValue];
 //}
 
+/*
 static BOOL toggleAspect = false;
 - (IBAction)toggleAspectRatio:(id)sender
 {
@@ -423,6 +437,7 @@ static BOOL toggleAspect = false;
         [item setAspectRatio: (toggleAspect) ? AVLayerVideoGravityResizeAspect : AVLayerVideoGravityResizeAspectFill];
     }
 }
+*/
 
 - (IBAction)switchLayout:(id)sender
 {

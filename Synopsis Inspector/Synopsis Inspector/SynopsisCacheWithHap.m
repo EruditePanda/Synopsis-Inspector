@@ -112,7 +112,7 @@
 }
 
 - (void) cachedImageForItem:(SynopsisMetadataItem* _Nonnull)metadataItem atTime:(CMTime)time completionHandler:(SynopsisCacheImageCompletionHandler _Nullable )handler;	{
-	NSLog(@"%s",__func__);
+	//NSLog(@"%s",__func__);
 	NSBlockOperation* operation = [NSBlockOperation blockOperationWithBlock:^{
 
 		NSString* key = [self imageKeyForItem:metadataItem atTime:time];
@@ -127,7 +127,7 @@
 		}
 		// Generate and cache if nil
 		else if(!cachedImage && self.acceptNewOperations)	{
-			NSLog(@"\tshould be generating image...");
+			//NSLog(@"\tshould be generating image...");
 			if ([metadataItem.asset containsHapVideoTrack]) {
 				AVAssetHapImageGenerator	*imageGenerator = [AVAssetHapImageGenerator assetHapImageGeneratorWithAsset:metadataItem.asset];
 				
