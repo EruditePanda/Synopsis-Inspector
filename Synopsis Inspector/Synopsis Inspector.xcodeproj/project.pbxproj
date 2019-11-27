@@ -10,6 +10,7 @@
 		1A1E31C0237DF95D009DE35C /* HapInAVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A1E31B9237DF94C009DE35C /* HapInAVFoundation.framework */; };
 		1A1E31C1237DF965009DE35C /* HapInAVFoundation.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1A1E31B9237DF94C009DE35C /* HapInAVFoundation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1A348CB1238D5E5E0049878A /* SynopsisCacheWithHap.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A348CB0238D5E5E0049878A /* SynopsisCacheWithHap.m */; };
+		1ACF9367238EB78E00D5CC05 /* DataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ACF9366238EB78E00D5CC05 /* DataController.m */; };
 		1AFB9634238DA67100ECAC06 /* FlippedClipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AFB9633238DA67100ECAC06 /* FlippedClipView.m */; };
 		1B0B634E1D641CC100AA5D0E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0B634D1D641CC100AA5D0E /* Cocoa.framework */; };
 		1B0B63501D641CC900AA5D0E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0B634F1D641CC900AA5D0E /* AVFoundation.framework */; };
@@ -140,6 +141,8 @@
 		1A348CAF238D5E5E0049878A /* SynopsisCacheWithHap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SynopsisCacheWithHap.h; sourceTree = "<group>"; };
 		1A348CB0238D5E5E0049878A /* SynopsisCacheWithHap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SynopsisCacheWithHap.m; sourceTree = "<group>"; };
 		1AA37A01238C8C600090520B /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		1ACF9365238EB78E00D5CC05 /* DataController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataController.h; sourceTree = "<group>"; };
+		1ACF9366238EB78E00D5CC05 /* DataController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DataController.m; sourceTree = "<group>"; };
 		1AFB962C238DA67000ECAC06 /* FlippedClipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlippedClipView.h; sourceTree = "<group>"; };
 		1AFB9633238DA67100ECAC06 /* FlippedClipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlippedClipView.m; sourceTree = "<group>"; };
 		1B0B634D1D641CC100AA5D0E /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -327,6 +330,8 @@
 				1B9874161D48014C0015E54C /* SynopsisCollectionViewItem.xib */,
 				1B9873FA1D47A5540015E54C /* Assets.xcassets */,
 				1B9873FC1D47A5540015E54C /* MainMenu.xib */,
+				1ACF9365238EB78E00D5CC05 /* DataController.h */,
+				1ACF9366238EB78E00D5CC05 /* DataController.m */,
 				1B9873FF1D47A5540015E54C /* Info.plist */,
 				1B0B63511D641CD100AA5D0E /* Frameworks */,
 				1B9873F71D47A5540015E54C /* Supporting Files */,
@@ -569,6 +574,7 @@
 				1BD710B11D620AC8007D61B9 /* AAPLWrappedLayout.m in Sources */,
 				1AFB9634238DA67100ECAC06 /* FlippedClipView.m in Sources */,
 				1BDC343D1D6B64BD00D210E8 /* MetadataHistogramView.m in Sources */,
+				1ACF9367238EB78E00D5CC05 /* DataController.m in Sources */,
 				1B9873F61D47A5540015E54C /* AppDelegate.m in Sources */,
 				1BDC34401D6CE2B900D210E8 /* MetadataMotionView.m in Sources */,
 				1B9874171D48014C0015E54C /* SynopsisCollectionViewItem.mm in Sources */,

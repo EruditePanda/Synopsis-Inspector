@@ -16,23 +16,16 @@
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
             <connections>
                 <outlet property="attribsTabView" destination="Nlg-Rf-cm6" id="adk-Na-UHe"/>
-                <outlet property="bestFitSort" destination="rCf-te-0id" id="fj1-fL-zkF"/>
                 <outlet property="chooseSearchModeSheet" destination="XSr-yq-Ne4" id="gFK-b8-wOh"/>
                 <outlet property="clipView" destination="uo2-Jw-iGw" id="Qa1-mP-YRt"/>
                 <outlet property="collectionView" destination="Zca-Ua-Xm8" id="s6B-EV-cbE"/>
                 <outlet property="containerView" destination="8t8-eM-jeM" id="Cun-s6-uOT"/>
-                <outlet property="featureTSNEMenu" destination="HUo-Cz-CUA" id="Ga6-eB-d70"/>
-                <outlet property="featureVectorSort" destination="twC-4t-m0y" id="yUX-0L-oxk"/>
-                <outlet property="histogramSort" destination="FSS-QP-a3O" id="aYd-TB-dXQ"/>
-                <outlet property="histogramTSNEMenu" destination="Rkg-G5-rTR" id="3g8-hy-8t3"/>
-                <outlet property="hybridTSNEMenu" destination="Jgd-8c-YIH" id="zC8-sq-fGQ"/>
-                <outlet property="metadataInspector" destination="SQA-q7-aFi" id="dvd-Wc-flV"/>
+                <outlet property="dataController" destination="UeJ-CV-63y" id="ZeF-bm-SFV"/>
                 <outlet property="playerView" destination="W0a-Il-fSH" id="anu-4v-x92"/>
                 <outlet property="previewBox" destination="b3U-F2-yq9" id="Dj1-Jq-Mmc"/>
-                <outlet property="statusField" destination="uBo-Ud-SFl" id="M5l-F1-zyd"/>
+                <outlet property="resultsArrayController" destination="itd-B0-X5S" id="DnG-LY-r3Z"/>
                 <outlet property="tokenField" destination="6w3-gJ-ZWc" id="ncd-He-m8z"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
-                <outlet property="zoomSlider" destination="TQp-ui-8US" id="BTN-Qv-1mm"/>
             </connections>
         </customObject>
         <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
@@ -648,22 +641,22 @@
                                     <items>
                                         <menuItem title="Grid" keyEquivalent="1" id="Kqf-hB-ZBq">
                                             <connections>
-                                                <action selector="switchLayout:" target="Voe-Tx-rLC" id="1pC-7z-3Cd"/>
+                                                <action selector="switchLayout:" target="UeJ-CV-63y" id="prn-GM-ycW"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Hybrid Similarity Map" tag="1" enabled="NO" keyEquivalent="2" id="Jgd-8c-YIH">
                                             <connections>
-                                                <action selector="switchLayout:" target="Voe-Tx-rLC" id="4k0-qx-2IK"/>
+                                                <action selector="switchLayout:" target="UeJ-CV-63y" id="Bac-Za-pXk"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Feature Similarity Map" tag="2" enabled="NO" keyEquivalent="3" id="HUo-Cz-CUA">
                                             <connections>
-                                                <action selector="switchLayout:" target="Voe-Tx-rLC" id="xeJ-41-k4z"/>
+                                                <action selector="switchLayout:" target="UeJ-CV-63y" id="B7f-nO-gdr"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Histogram Similarity Map" tag="3" enabled="NO" keyEquivalent="4" id="Rkg-G5-rTR">
                                             <connections>
-                                                <action selector="switchLayout:" target="Voe-Tx-rLC" id="eGZ-Ee-0U1"/>
+                                                <action selector="switchLayout:" target="UeJ-CV-63y" id="cBS-jW-MtD"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -745,16 +738,9 @@
                                     <font key="font" metaFont="miniSystem"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    <connections>
-                                        <binding destination="Voe-Tx-rLC" name="displayPatternValue1" keyPath="self.resultsArrayControler.arrangedObjects.@count" id="KBq-up-3oo">
-                                            <dictionary key="options">
-                                                <string key="NSDisplayPattern">%{value1}@ Items</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
                                 </textFieldCell>
                                 <connections>
-                                    <binding destination="Voe-Tx-rLC" name="displayPatternValue1" keyPath="self.resultsArrayControler.arrangedObjects.@count" id="mdN-aI-NIC">
+                                    <binding destination="itd-B0-X5S" name="displayPatternValue1" keyPath="arrangedObjects.@count" id="Jc7-sy-axb">
                                         <dictionary key="options">
                                             <string key="NSDisplayPattern">%{value1}@ Items</string>
                                         </dictionary>
@@ -770,18 +756,6 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TQp-ui-8US">
-                                <rect key="frame" x="1229" y="15" width="70" height="13"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                <sliderCell key="cell" controlSize="mini" continuous="YES" state="on" alignment="left" minValue="0.14999999999999999" maxValue="1" doubleValue="1" tickMarkPosition="above" sliderType="linear" id="AjU-GX-1Nh">
-                                    <connections>
-                                        <binding destination="Voe-Tx-rLC" name="enabled" keyPath="self.collectionView.enclosingScrollView.allowsMagnification" id="KsH-Xu-aFr"/>
-                                    </connections>
-                                </sliderCell>
-                                <connections>
-                                    <binding destination="Voe-Tx-rLC" name="value" keyPath="self.collectionView.enclosingScrollView.magnification" id="AwG-8P-0F9"/>
-                                </connections>
-                            </slider>
                             <scrollView fixedFrame="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" maxMagnification="1" usesPredominantAxisScrolling="NO" findBarPosition="aboveHorizontalRuler" translatesAutoresizingMaskIntoConstraints="NO" id="fRo-0M-OuZ">
                                 <rect key="frame" x="0.0" y="50" width="913" height="754"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -795,8 +769,8 @@
                                             <collectionViewLayout key="collectionViewLayout" id="Jcz-VS-yYo" customClass="AAPLWrappedLayout"/>
                                             <color key="primaryBackgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
                                             <connections>
-                                                <outlet property="dataSource" destination="Voe-Tx-rLC" id="ptb-Xw-pTt"/>
-                                                <outlet property="delegate" destination="Voe-Tx-rLC" id="1V0-Qu-xmq"/>
+                                                <outlet property="dataSource" destination="UeJ-CV-63y" id="1Jx-iG-WhG"/>
+                                                <outlet property="delegate" destination="UeJ-CV-63y" id="PSO-z0-d7s"/>
                                             </connections>
                                         </collectionView>
                                     </subviews>
@@ -868,11 +842,11 @@
                                                     <tabViewItems>
                                                         <tabViewItem label="Global" identifier="1" id="bd3-7p-BvJ">
                                                             <view key="view" ambiguous="YES" id="KyK-xS-HwM" customClass="TransparentView">
-                                                                <rect key="frame" x="10" y="25" width="394" height="462"/>
+                                                                <rect key="frame" x="10" y="29" width="394" height="458"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <subviews>
                                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i9O-83-aVG">
-                                                                        <rect key="frame" x="17" y="342" width="360" height="95"/>
+                                                                        <rect key="frame" x="17" y="338" width="360" height="95"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                         <textFieldCell key="cell" controlSize="small" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="border" drawsBackground="YES" id="Ah9-E3-oOZ">
                                                                             <font key="font" metaFont="smallSystem"/>
@@ -881,19 +855,19 @@
                                                                         </textFieldCell>
                                                                     </textField>
                                                                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="riF-Ez-oKq" customClass="MetadataHistogramView">
-                                                                        <rect key="frame" x="17" y="222" width="360" height="36"/>
+                                                                        <rect key="frame" x="17" y="218" width="360" height="36"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                     </customView>
                                                                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Dg-tD-22K" customClass="MetadataDominantColorsView">
-                                                                        <rect key="frame" x="17" y="288" width="360" height="24"/>
+                                                                        <rect key="frame" x="17" y="284" width="360" height="24"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                     </customView>
                                                                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JlD-mq-ucA" customClass="MetadataFeatureVectorView">
-                                                                        <rect key="frame" x="17" y="168" width="360" height="24"/>
+                                                                        <rect key="frame" x="17" y="164" width="360" height="24"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                     </customView>
                                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="o6w-58-k7N">
-                                                                        <rect key="frame" x="15" y="442" width="65" height="14"/>
+                                                                        <rect key="frame" x="15" y="438" width="65" height="14"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Descriptors" id="eWX-Kq-i2e">
                                                                             <font key="font" metaFont="smallSystem"/>
@@ -902,7 +876,7 @@
                                                                         </textFieldCell>
                                                                     </textField>
                                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mCx-by-R07">
-                                                                        <rect key="frame" x="15" y="266" width="105" height="14"/>
+                                                                        <rect key="frame" x="15" y="262" width="105" height="14"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Histogram" id="SyW-gX-YTT">
                                                                             <font key="font" metaFont="smallSystem"/>
@@ -911,7 +885,7 @@
                                                                         </textFieldCell>
                                                                     </textField>
                                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="i5f-8E-QX2">
-                                                                        <rect key="frame" x="15" y="320" width="92" height="14"/>
+                                                                        <rect key="frame" x="15" y="316" width="92" height="14"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Dominant Colors" id="F9R-xd-6bG">
                                                                             <font key="font" metaFont="smallSystem"/>
@@ -920,7 +894,7 @@
                                                                         </textFieldCell>
                                                                     </textField>
                                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6q8-89-5EI">
-                                                                        <rect key="frame" x="15" y="200" width="82" height="14"/>
+                                                                        <rect key="frame" x="15" y="196" width="82" height="14"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Feature Vector" id="pQa-UH-JIT">
                                                                             <font key="font" metaFont="smallSystem"/>
@@ -929,11 +903,11 @@
                                                                         </textFieldCell>
                                                                     </textField>
                                                                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gsF-oN-Y2Z" customClass="MetadataFeatureVectorView">
-                                                                        <rect key="frame" x="17" y="113" width="360" height="24"/>
+                                                                        <rect key="frame" x="17" y="109" width="360" height="24"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                     </customView>
                                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GVm-bw-Jp0">
-                                                                        <rect key="frame" x="15" y="145" width="69" height="14"/>
+                                                                        <rect key="frame" x="15" y="141" width="69" height="14"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Probabilities" id="WbR-Vx-7bu">
                                                                             <font key="font" metaFont="smallSystem"/>
@@ -1084,7 +1058,7 @@
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="0Yy-9y-cEj">
                                                                             <rect key="frame" x="0.0" y="0.0" width="360" height="442"/>
-                                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                            <autoresizingMask key="autoresizingMask"/>
                                                                             <subviews>
                                                                                 <textView ambiguous="YES" editable="NO" selectable="NO" drawsBackground="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" findStyle="panel" spellingCorrection="YES" id="5a8-q9-2ol">
                                                                                     <rect key="frame" x="0.0" y="0.0" width="360" height="442"/>
@@ -1124,6 +1098,14 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
+                            <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q3u-1t-s43">
+                                <rect key="frame" x="1155" y="14" width="138" height="13"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <sliderCell key="cell" controlSize="mini" continuous="YES" state="on" alignment="left" minValue="200" maxValue="400" doubleValue="200" tickMarkPosition="above" sliderType="linear" id="D7m-sn-p1I"/>
+                                <connections>
+                                    <action selector="zoomSliderUsed:" target="UeJ-CV-63y" id="Wca-ls-EiX"/>
+                                </connections>
+                            </slider>
                         </subviews>
                     </visualEffectView>
                 </subviews>
@@ -1325,6 +1307,24 @@
             </view>
             <point key="canvasLocation" x="326.5" y="-917"/>
         </window>
+        <customObject id="UeJ-CV-63y" customClass="DataController">
+            <connections>
+                <outlet property="appDelegate" destination="Voe-Tx-rLC" id="eNb-va-cE4"/>
+                <outlet property="bestFitSort" destination="rCf-te-0id" id="TZU-59-eba"/>
+                <outlet property="collectionView" destination="Zca-Ua-Xm8" id="2gw-dY-T0a"/>
+                <outlet property="featureTSNEMenu" destination="HUo-Cz-CUA" id="RIb-Wk-rJu"/>
+                <outlet property="featureVectorSort" destination="twC-4t-m0y" id="jav-xB-FKM"/>
+                <outlet property="histogramSort" destination="FSS-QP-a3O" id="zbb-mI-Qxq"/>
+                <outlet property="histogramTSNEMenu" destination="Rkg-G5-rTR" id="a5H-EK-HwD"/>
+                <outlet property="hybridTSNEMenu" destination="Jgd-8c-YIH" id="ZdH-re-acd"/>
+                <outlet property="metadataInspector" destination="SQA-q7-aFi" id="GFR-Rr-uW3"/>
+                <outlet property="playerView" destination="W0a-Il-fSH" id="GXs-f0-UOY"/>
+                <outlet property="resultsArrayController" destination="itd-B0-X5S" id="UHP-Rr-ndd"/>
+                <outlet property="statusField" destination="uBo-Ud-SFl" id="C7q-2k-7TO"/>
+                <outlet property="zoomSlider" destination="q3u-1t-s43" id="Gsr-fL-Io4"/>
+            </connections>
+        </customObject>
+        <arrayController id="itd-B0-X5S"/>
     </objects>
     <resources>
         <image name="Brightness" width="512" height="512"/>
