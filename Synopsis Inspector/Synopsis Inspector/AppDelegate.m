@@ -1554,10 +1554,13 @@ static BOOL toggleAspect = false;
         {
             NSString* key = metadataItem.identifier;
             
-            id decodedJSON = [self.metadataDecoder decodeSynopsisMetadata:metadataItem];
-            if(decodedJSON)
+            if ([key isEqualToString:kSynopsisMetadataIdentifier])
             {
-                [metadataDictionary setObject:decodedJSON forKey:key];
+                id metadata = [self.metadataDecoder decodeSynopsisMetadata:metadataItem];
+                if(metadata)
+                {
+                    [metadataDictionary setObject:metadata forKey:key];
+                }
             }
             else
             {
@@ -1567,7 +1570,7 @@ static BOOL toggleAspect = false;
         }
     }
     
-    if(self.metadataInspector)
+    if(self.metadataInspector && metadataDictionary)
     {
         [self.metadataInspector setFrameMetadata:metadataDictionary];
     }
