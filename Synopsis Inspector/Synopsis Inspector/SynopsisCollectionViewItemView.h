@@ -15,8 +15,8 @@
 @property (readwrite) NSColor* borderColor;
 @property (readonly) CALayer* imageLayer;
 
-@property (readonly) NSTextField* currentTimeFromStart;
-@property (readonly) NSTextField* currentTimeToEnd;
+//@property (readonly) NSTextField* currentTimeFromStart;
+//@property (readonly) NSTextField* currentTimeToEnd;
 
 - (void) setSelected:(BOOL)selected;
 

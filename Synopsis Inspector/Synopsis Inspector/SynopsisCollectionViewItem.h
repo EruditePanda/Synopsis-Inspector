@@ -11,6 +11,6 @@
 
 @interface SynopsisCollectionViewItem : NSCollectionViewItem
 
-- (void) setAspectRatio:(NSString*)aspect;
+//- (void) setAspectRatio:(NSString*)aspect;
 
 @end

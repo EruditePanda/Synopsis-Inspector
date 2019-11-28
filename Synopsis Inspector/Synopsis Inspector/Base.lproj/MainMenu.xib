@@ -1098,9 +1098,9 @@
                                 </scroller>
                             </scrollView>
                             <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q3u-1t-s43">
-                                <rect key="frame" x="1155" y="14" width="138" height="13"/>
+                                <rect key="frame" x="913" y="14" width="380" height="15"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                <sliderCell key="cell" controlSize="mini" continuous="YES" state="on" alignment="left" minValue="200" maxValue="400" doubleValue="200" tickMarkPosition="above" sliderType="linear" id="D7m-sn-p1I"/>
+                                <sliderCell key="cell" controlSize="mini" continuous="YES" state="on" alignment="left" minValue="3" maxValue="20" doubleValue="4" tickMarkPosition="above" numberOfTickMarks="18" allowsTickMarkValuesOnly="YES" sliderType="linear" id="D7m-sn-p1I"/>
                                 <connections>
                                     <action selector="zoomSliderUsed:" target="UeJ-CV-63y" id="Wca-ls-EiX"/>
                                 </connections>

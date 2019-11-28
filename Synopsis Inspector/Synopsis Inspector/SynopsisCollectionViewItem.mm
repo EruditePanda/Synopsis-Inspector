@@ -42,8 +42,8 @@
     [super prepareForReuse];
 
     SynopsisCollectionViewItemView* itemView = (SynopsisCollectionViewItemView*)self.view;
-    itemView.currentTimeFromStart.stringValue = @"";
-    itemView.currentTimeToEnd.stringValue = @"";
+    //itemView.currentTimeFromStart.stringValue = @"";
+    //itemView.currentTimeToEnd.stringValue = @"";
     [self setViewImage:nil];
 
     [itemView setSelected:NO];
@@ -102,14 +102,12 @@
         self.nameField.stringValue = representedName;
         
         SynopsisCollectionViewItemView* itemView = (SynopsisCollectionViewItemView*)self.view;
-        itemView.currentTimeFromStart.stringValue = [NSString stringWithFormat:@"%02.f:%02.f:%02.f", 0.0, 0.0, 0.0];
-        
-        Float64 reminaingInSeconds = CMTimeGetSeconds(representedAsset.duration);
-        Float64 reminaingHours = floor(reminaingInSeconds / (60.0 * 60.0));
-        Float64 reminaingMinutes = floor(reminaingInSeconds / 60.0);
-        Float64 reminaingSeconds = fmod(reminaingInSeconds, 60.0);
-        
-        itemView.currentTimeToEnd.stringValue = [NSString stringWithFormat:@"-%02.f:%02.f:%02.f", reminaingHours, reminaingMinutes, reminaingSeconds];
+        //itemView.currentTimeFromStart.stringValue = [NSString stringWithFormat:@"%02.f:%02.f:%02.f", 0.0, 0.0, 0.0];
+        //Float64 reminaingInSeconds = CMTimeGetSeconds(representedAsset.duration);
+        //Float64 reminaingHours = floor(reminaingInSeconds / (60.0 * 60.0));
+        //Float64 reminaingMinutes = floor(reminaingInSeconds / 60.0);
+        //Float64 reminaingSeconds = fmod(reminaingInSeconds, 60.0);
+        //itemView.currentTimeToEnd.stringValue = [NSString stringWithFormat:@"-%02.f:%02.f:%02.f", reminaingHours, reminaingMinutes, reminaingSeconds];
     }
 }
 
@@ -133,13 +131,13 @@
     SynopsisCollectionViewItemView* view = (SynopsisCollectionViewItemView*)self.view;
     view.imageLayer.contents = (id) CFBridgingRelease(image);
 }
-
+/*
 - (void) setAspectRatio:(NSString*)aspect
 {
 //    SynopsisCollectionViewItemView* view = (SynopsisCollectionViewItemView*)self.view;
 //    [view setAspectRatio:aspect];
 }
-
+*/
 
 - (IBAction)revealInFinder:(id)sender
 {

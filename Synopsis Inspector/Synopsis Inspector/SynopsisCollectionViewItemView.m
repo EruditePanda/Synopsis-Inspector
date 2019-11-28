@@ -18,19 +18,24 @@
 #define BORDERCOLOR 0.2
 #define SELECTEDBORDERCOLOR 0.6
 
-@interface SynopsisCollectionViewItemView ()
-{
+
+
+
+@interface SynopsisCollectionViewItemView ()	{
 }
 
 @property (weak) IBOutlet SynopsisCollectionViewItem* item;
 
-@property (strong) IBOutlet NSTextField* currentTimeFromStart;
-@property (strong) IBOutlet NSTextField* currentTimeToEnd;
+//@property (strong) IBOutlet NSTextField* currentTimeFromStart;
+//@property (strong) IBOutlet NSTextField* currentTimeToEnd;
 @property (readwrite, weak) IBOutlet NSTextField* label;
 
 @property (readwrite) CALayer* imageLayer;
 
 @end
+
+
+
 
 @implementation SynopsisCollectionViewItemView
 
@@ -67,12 +72,12 @@
     self.layer.cornerRadius = CORNER_RADIUS;
 
     self.label.layer.opacity = 0.5;
-    self.currentTimeToEnd.layer.opacity = 0.0;
-    self.currentTimeFromStart.layer.opacity = 0.0;
+    //self.currentTimeToEnd.layer.opacity = 0.0;
+    //self.currentTimeFromStart.layer.opacity = 0.0;
     
     self.imageLayer = [CALayer layer];
     self.imageLayer.frame = self.layer.bounds;
-    self.imageLayer.contentsGravity = @"resizeAspect";
+    self.imageLayer.contentsGravity = kCAGravityResizeAspect;
     self.imageLayer.actions = @{@"contents" : [NSNull null]};
     self.imageLayer.autoresizingMask =  kCALayerWidthSizable | kCALayerHeightSizable;
     [self.layer addSublayer:self.imageLayer];
@@ -93,13 +98,13 @@
 {
     [self commonInit];
 }
-
+/*
 - (void) setAspectRatio:(NSString*)aspect
 {
     self.imageLayer.contentsGravity = aspect;
 //    self.playerLayer.videoGravity = aspect;
 }
-
+*/
 - (void) setSelected:(BOOL)selected
 {
     if(selected)
