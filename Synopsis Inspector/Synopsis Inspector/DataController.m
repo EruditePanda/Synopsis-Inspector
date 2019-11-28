@@ -97,17 +97,37 @@
 	// Enable dragging items from our CollectionView to other applications.
 	[self.collectionView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
 	
+	//	bang the zoom slider so our layout is consistent
 	[self pushZoomSliderValToLayout];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidFinishLaunching:) name:NSApplicationDidFinishLaunchingNotification object:nil];
 }
 - (void) applicationDidFinishLaunching:(NSNotification *)note	{
+	//	we need to add these constraints when the app finishes launching because if we add them before the app delegate sets up the other constraints on its UI items, we get an autolayout error.  because apparently the order of constraints matters.
 	self.previewViewHeightConstraint = [self.playerView.heightAnchor constraintEqualToAnchor:self.playerView.widthAnchor multiplier:0.25 constant:0];
 	self.previewViewHeightConstraint.active = true;
+	
+	//	register to receive KVO notifications of the scroll view's frame
+	[self.collectionView
+		addObserver:self
+		forKeyPath:@"superview.frame"
+		options:NSKeyValueObservingOptionNew
+		context:NULL];
 }
 
 - (void) reloadData {
 	[self.collectionView reloadData];
+}
+
+
+#pragma mark - KVO
+
+- (void) observeValueForKeyPath:(NSString *)p ofObject:(id)o change:(NSDictionary *)ch context:(void*)cx	{
+	//NSLog(@"%s",__func__);
+	if (o == self.collectionView)	{
+		//NSLog(@"\tcollectionView frame change");
+		[self pushZoomSliderValToLayout];
+	}
 }
 
 
