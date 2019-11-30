@@ -20,6 +20,12 @@
 
 
 
+
+static DataController			*_globalDataController = nil;
+
+
+
+
 @interface DataController ()
 
 @property (weak) IBOutlet NSCollectionView* collectionView;
@@ -73,6 +79,21 @@
 @implementation DataController
 
 
++ (instancetype) global	{
+	return _globalDataController;
+}
+- (id) init	{
+	self = [super init];
+	if (self != nil)	{
+		if (_globalDataController == nil)	{
+			static dispatch_once_t		onceToken;
+			dispatch_once(&onceToken, ^{
+				_globalDataController = self;
+			});
+		}
+	}
+	return self;
+}
 - (void) awakeFromNib	{
 	self.metadataDecoder = [[SynopsisMetadataDecoder alloc] initWithVersion:kSynopsisMetadataVersionValue];
 	self.metadataQueue = dispatch_queue_create("metadataqueue", DISPATCH_QUEUE_SERIAL);
@@ -116,6 +137,7 @@
 }
 
 - (void) reloadData {
+	NSLog(@"%s",__func__);
 	[self.collectionView reloadData];
 }
 
@@ -239,19 +261,21 @@
 
 - (NSCollectionViewItem *)collectionView:(NSCollectionView *)collectionView itemForRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath
 {
+	//NSLog(@"%s ... %@",__func__,indexPath);
 	SynopsisCollectionViewItem* item = (SynopsisCollectionViewItem*)[collectionView makeItemWithIdentifier:@"SynopsisCollectionViewItem" forIndexPath:indexPath];
 	
 	SynopsisMetadataItem* representedObject = [self.resultsArrayController.arrangedObjects objectAtIndex:indexPath.item];
-	
 	item.representedObject = representedObject;
+	//NSLog(@"\tmade item %@",item);
 	
 	return item;
 }
 
 #pragma mark - Collection View Delegate
 
-- (void)collectionView:(NSCollectionView *)collectionView didSelectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
+- (void)collectionView:(NSCollectionView *)cv didSelectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
 {
+	//NSLog(@"%s ... %@",__func__,indexPaths);
 //	  NSCollectionViewItem* item = [self.collectionView itemAtIndex]
 	
 	[self.bestFitSort setTarget:appDelegate];
@@ -281,9 +305,14 @@
 //	  item.metadataDelegate = self.metadataInspectorVC;
 	
 	NSIndexPath* zerothSelection = [indexPaths anyObject];
+	//NSLog(@"\tnumber of items in section (%d) is %d", zerothSelection.section, [cv numberOfItemsInSection:zerothSelection.section]);
+	//NSLog(@"\tzerothSelection is %@, index is %d", zerothSelection,zerothSelection.item);
+	//SynopsisCollectionViewItem* collectionViewItem = (SynopsisCollectionViewItem*)[cv itemAtIndex:zerothSelection.item];
+	SynopsisCollectionViewItem* collectionViewItem = (SynopsisCollectionViewItem*)[cv itemAtIndexPath:zerothSelection];
+	//NSLog(@"\tcollectionViewItem is %@",collectionViewItem);
+	SynopsisMetadataItem* metadataItem = (SynopsisMetadataItem*)collectionViewItem.representedObject;
+	//NSLog(@"\tmetdataItem is %@",metadataItem);
 	
-	SynopsisCollectionViewItem* colletionViewItem = (SynopsisCollectionViewItem*)[self.collectionView itemAtIndex:zerothSelection.item];
-	SynopsisMetadataItem* metadataItem = (SynopsisMetadataItem*)colletionViewItem.representedObject;
 	
 	[[SynopsisCacheWithHap sharedCache] cachedGlobalMetadataForItem:metadataItem completionHandler:^(id	 _Nullable cachedValue, NSError * _Nullable error) {
 		

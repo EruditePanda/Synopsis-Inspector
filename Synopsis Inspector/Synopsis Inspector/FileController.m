@@ -12,6 +12,16 @@
 #import "DataController.h"
 #import <Synopsis/Synopsis.h>
 
+#import "DataController.h"
+
+
+
+
+//	this queue is used to asynchronously load SynopsisMetadataItem instances
+static dispatch_queue_t				_globalMDLoadQueue = nil;
+//	this group is entered when we begin async loading of a metadata instance, and left when loading has completed
+static dispatch_group_t				_globalMDLoadGroup = nil;
+
 
 
 
@@ -37,6 +47,13 @@
 @implementation FileController
 
 
++ (void) initialize	{
+	static dispatch_once_t		onceToken;
+	dispatch_once(&onceToken, ^{
+		_globalMDLoadQueue = dispatch_queue_create("MDLoadQueue", dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_CONCURRENT, DISPATCH_QUEUE_PRIORITY_HIGH, -1));
+		_globalMDLoadGroup = dispatch_group_create();
+	});
+}
 - (void) awakeFromNib	{
 	// For Token Filtering logic:
 	self.tokenField.tokenStyle = NSTokenStyleSquared;
@@ -126,7 +143,7 @@
 
 #pragma mark - Metadata Search
 
-- (IBAction)switchToLocalComputerSearchScope:(id)sender
+- (IBAction) switchToLocalComputerSearchScope:(id)sender
 {
 	NSLog(@"%s",__func__);
 	NSPredicate *searchPredicate;
@@ -144,76 +161,163 @@
 	self.window.title = @"Synopsis Inspector - All Local Media";
 }
 
-- (IBAction)switchToLocalComputerPathSearchScope:(id)sender
+
+#pragma mark - Force Specific Files
+
+
+- (IBAction) switchToLocalComputerPathSearchScope:(id)sender
 {
-	[self.continuousMetadataSearch stopQuery];
+	NSLog(@"%s",__func__);
 
 	NSOpenPanel* openPanel = [NSOpenPanel openPanel];
 	openPanel.allowedFileTypes = nil;
 	openPanel.canChooseDirectories = TRUE;
+	openPanel.canChooseFiles = NO;
+	openPanel.allowsMultipleSelection = NO;
 	
 	[openPanel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result) {
-	   if(result == NSFileHandlingPanelOKButton)
-	   {
-		   NSPredicate *searchPredicate;
-		   searchPredicate = [NSPredicate predicateWithFormat:@"info_synopsis_version >= 0 || info_synopsis_descriptors like '*'"];
-		   
-		   [self.continuousMetadataSearch setPredicate:searchPredicate];
-		   
-		   // Set the search scope. In this case it will search the User's home directory
-		   // and the iCloud documents area
-		   
-		   // Configure the sorting of the results so it will order the results by the
-		   // display name
-//			 NSSortDescriptor* sortKeys = [[NSSortDescriptor alloc] initWithKey:(id)kMDItemDisplayName
-//																	  ascending:YES];
-//			 
-//			 [self.continuousMetadataSearch setSortDescriptors:[NSArray arrayWithObject:sortKeys]];
-		   
-		   NSArray* searchScopes;
-		   searchScopes = @[openPanel.URL];
-		   
-		   [self.continuousMetadataSearch setSearchScopes:searchScopes];
-		   
-		   [self.continuousMetadataSearch startQuery];
-		   
-		   self.window.title = [@"Synopsis Inspector - " stringByAppendingString:openPanel.URL.lastPathComponent];
-	   }
+		if(result == NSFileHandlingPanelOKButton)
+		{
+	   		//	halt the MD query, we're not going to uses it while running files manually
+	   		[self.continuousMetadataSearch stopQuery];
+			
+	   		//[self.resultsArrayController removeObject:self.resultsArrayController.content];
+	   		//[[DataController global] reloadData];
+			
+	   		NSArray			*tmpArray = self.resultsArrayController.arrangedObjects;
+	   		[self.resultsArrayController
+	   			removeObjectsAtArrangedObjectIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,tmpArray.count)]];
+	   		[[DataController global] reloadData];
+	   		
+	   		/*
+	   		NSUInteger		tmpIndex = 0;
+	   		NSMutableSet	*setToRemove = [[NSMutableSet alloc] init];
+	   		NSMutableSet	*setToInsert = [[NSMutableSet alloc] init];
+	   		for (id tmpItem in tmpArray)	{
+	   			[setToRemove addObject:[NSIndexPath indexPathForItem:tmpIndex inSection:0]];
+	   			++tmpIndex;
+	   		}
+	   		*/
+	   		self.window.title = [@"Synopsis Inspector - " stringByAppendingString:openPanel.URL.lastPathComponent];
+	   		
+	   		//	now we want to run through the contents of the directory recursively...
+	   		NSFileManager			*fm = [NSFileManager defaultManager];
+			NSDirectoryEnumerationOptions		iterOpts = NSDirectoryEnumerationSkipsPackageDescendants | NSDirectoryEnumerationSkipsHiddenFiles;
+			//	this makes the search recursive...
+			iterOpts = iterOpts | NSDirectoryEnumerationSkipsSubdirectoryDescendants;
+			NSDirectoryEnumerator				*dirIt = [fm
+				enumeratorAtURL:openPanel.URL
+				includingPropertiesForKeys:@[ NSURLIsDirectoryKey ]
+				options:iterOpts
+				errorHandler:nil];
+			
+			//tmpIndex = 0;
+			for (NSURL *fileURL in dirIt)	{
+				NSError			*nsErr = nil;
+				NSNumber		*isDir = nil;
+				if (![fileURL getResourceValue:&isDir forKey:NSURLIsDirectoryKey error:&nsErr])	{
+				}
+				else if (![isDir boolValue])	{
+					//	enter the metadata load group...
+					dispatch_group_enter(_globalMDLoadGroup);
+					//	make a metadata item async
+					SynopsisMetadataItem		*item = [[SynopsisMetadataItem alloc]
+						initWithURL:fileURL
+						onQueue:_globalMDLoadQueue
+						completionHandler:^(SynopsisMetadataItem *completedItem)	{
+							//	leave the group so anything that needs to wait until all MD items have loaded can do sso
+							dispatch_group_leave(_globalMDLoadGroup);
+						}];
+					//	if we were able to make a metadata item, add it to the results array controller
+					if (item == nil)
+						continue;
+					
+					[self.resultsArrayController addObject:item];
+					
+					//[setToInsert addObject:[NSIndexPath indexPathForItem:tmpIndex inSection:0]];
+					//++tmpIndex;
+				}
+			}
+			
+			dispatch_group_wait(_globalMDLoadGroup, DISPATCH_TIME_FOREVER);
+			
+			//dispatch_async(dispatch_get_main_queue(), ^{
+				[[DataController global] reloadData];
+			//});
+			
+			/*
+			[self.collectionView performBatchUpdates:^{
+				NSLog(@"\tshould be doing the updates...");
+				[self.collectionView deleteItemsAtIndexPaths:setToRemove];
+				[self.collectionView insertItemsAtIndexPaths:setToInsert];
+				NSLog(@"\tupdates should be complete...");
+		
+			} completionHandler:^(BOOL finished) {
+				NSLog(@"\tupdate completion handler running...");
+			}];
+			*/
+		}
 	}];
 	
 }
 
-#pragma mark - Force Specific Files
-
 - (IBAction)switchForcedFiles:(id)sender
 {
-	[self.continuousMetadataSearch stopQuery];
+	NSLog(@"%s",__func__);
 	
 	NSOpenPanel* openPanel = [NSOpenPanel openPanel];
 	openPanel.allowedFileTypes = [AVURLAsset audiovisualTypes];
 	openPanel.canChooseDirectories = false;
+	openPanel.canChooseFiles = true;
 	openPanel.allowsMultipleSelection = true;
 	
 	[openPanel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result) {
 		if(result == NSFileHandlingPanelOKButton)
 		{
-			[self.resultsArrayController removeObjects:self.resultsArrayController.content];
-
-			for(NSURL* url in openPanel.URLs)
-			{
-				SynopsisMetadataItem* item = [[SynopsisMetadataItem alloc] initWithURL:url];
-				if(item)
-					[self.resultsArrayController addObject:item];
-			}
-		
-			NSLog(@"initial gather complete");
+			//	halt the MD query, we're not going to uses it while running files manually
+	   		[self.continuousMetadataSearch stopQuery];
 			
-			[self.dataController reloadData];
-
-			self.window.title = [@"Synopsis Inspector - " stringByAppendingString:openPanel.URL.lastPathComponent];
+			//	clear the results array controller, reload the collection view immediately
+	   		NSArray			*tmpArray = self.resultsArrayController.arrangedObjects;
+	   		[self.resultsArrayController
+	   			removeObjectsAtArrangedObjectIndexes:[NSIndexSet
+	   				indexSetWithIndexesInRange:NSMakeRange(0,tmpArray.count)]];
+	   		
+	   		NSArray			*urls = openPanel.URLs;
+	   		if (urls.count > 0)	{
+	   			NSURL			*firstURL = urls[0];
+	   			self.window.title = [@"Synopsis Inspector - " stringByAppendingString:firstURL.lastPathComponent];
+	   		}
+	   		
+	   		//	run through the array of selected URLs
+	   		NSMutableArray		*addedItems = [[NSMutableArray alloc] init];
+	   		for (NSURL *fileURL in urls)	{
+	   			//	enter the metadata load group...
+				dispatch_group_enter(_globalMDLoadGroup);
+				//	make a metadata item async
+				SynopsisMetadataItem		*item = [[SynopsisMetadataItem alloc]
+					initWithURL:fileURL
+					onQueue:_globalMDLoadQueue
+					completionHandler:^(SynopsisMetadataItem *completedItem)	{
+						//	leave the group so anything that needs to wait until all MD items have loaded can do sso
+						dispatch_group_leave(_globalMDLoadGroup);
+					}];
+				//	if we were able to make a metadata item, add it to the results array controller
+				if (item == nil)
+					continue;
+				[addedItems addObject:item];
+	   		}
+	   		[self.resultsArrayController addObjects:addedItems];
+	   		
+			dispatch_group_wait(_globalMDLoadGroup, DISPATCH_TIME_FOREVER);
+			
+			//dispatch_async(dispatch_get_main_queue(), ^{
+				[[DataController global] reloadData];
+			//});
 		}
 		
 	}];
+	
 }
 
 
@@ -222,7 +326,20 @@
 - (id)metadataQuery:(NSMetadataQuery *)query replacementObjectForResultObject:(NSMetadataItem *)result
 {
 	// Swap our metadata item for a SynopsisMetadataItem which has some Key Value updates
+	/*
 	SynopsisMetadataItem* item = [[SynopsisMetadataItem alloc] initWithURL:[NSURL fileURLWithPath:[result valueForAttribute:(NSString*)kMDItemPath]]];
+	*/
+	
+	dispatch_group_enter(_globalMDLoadGroup);
+	//	make a metadata item async
+	SynopsisMetadataItem		*item = [[SynopsisMetadataItem alloc]
+		initWithURL:[NSURL fileURLWithPath:[result valueForAttribute:(NSString *)kMDItemPath]]
+		onQueue:_globalMDLoadQueue
+		completionHandler:^(SynopsisMetadataItem *completedItem)	{
+			//	leave the group so anything that needs to wait until all MD items have loaded can do sso
+			dispatch_group_leave(_globalMDLoadGroup);
+			//	when we finish creating the MD item, call the throttled callback
+		}];
 	
 	return item;
 }
@@ -232,7 +349,7 @@
 // Method invoked when the initial query gathering is completed
 // OR IF WE REPLACE THE PREDICATE
 - (void)initalGatherComplete:(NSNotification*)notification	{
-	NSLog(@"%s",__func__);
+	//NSLog(@"%s",__func__);
 	[self.continuousMetadataSearch disableUpdates];
 
 	dispatch_async(dispatch_get_main_queue(), ^{
@@ -244,9 +361,13 @@
 }
 
 - (void) handleInitialGatherComplete	{
-	NSLog(@"%s",__func__);
+	//NSLog(@"%s",__func__);
 	// Temporary fix to get spotlight search working
-	[self.resultsArrayController removeObjects:self.resultsArrayController.content];
+	//[self.resultsArrayController removeObjects:self.resultsArrayController.content];
+	NSArray			*tmpArray = self.resultsArrayController.content;
+	[self.resultsArrayController
+		removeObjectsAtArrangedObjectIndexes:[NSIndexSet
+			indexSetWithIndexesInRange:NSMakeRange(0,tmpArray.count)]];
 	
 	// Ideally, we want to run an initial populate pass
 	// And then animate things coming and going
@@ -256,11 +377,11 @@
 //	  if(self.resultsArray.count == 0)
 	{
 		NSMutableArray		*tmpArray = [self.continuousMetadataSearch.results mutableCopy];
-		NSLog(@"\tfound %ld items",tmpArray.count);
+		//NSLog(@"\tfound %ld items",tmpArray.count);
 		
 		[self.resultsArrayController addObjects:tmpArray ];
 		
-		[self.dataController reloadData];
+		[[DataController global] reloadData];
 	
 		if([self.resultsArrayController.content count])
 		{
@@ -325,22 +446,30 @@
 	{
 		[addedIndexPaths addObject:[NSIndexPath indexPathForItem:(index + indexOfLastItem) inSection:0]];
 	}
-
+	
+	
+	//	commenting this out and using a simple 'reloadData' because something is very wrong:
+	//	- the completion handler never runs
+	//	- subsequent attempts to reload the items results in a collection view that cannot retrieve its
+	//		items (calls to 'itemAtIndexPath:' return nil even for valid indexes)
+	/*
 	// Now Animate our Collection View with our changes
-	[self.collectionView.animator performBatchUpdates:^{
-		
+	[self.collectionView performBatchUpdates:^{
+		NSLog(@"\tbatch update beginning...");
 		// Handle Updated objects
-		[[self.collectionView animator] reloadItemsAtIndexPaths:updatedIndexPaths];
+		[self.collectionView reloadItemsAtIndexPaths:updatedIndexPaths];
 
 		// Handle RemovedItems
-		[[self.collectionView animator] deleteItemsAtIndexPaths:removedIndexPaths];
+		[self.collectionView deleteItemsAtIndexPaths:removedIndexPaths];
 		
 		// Handle Added items
-		[[self.collectionView animator] insertItemsAtIndexPaths:addedIndexPaths];
+		[self.collectionView insertItemsAtIndexPaths:addedIndexPaths];
 		
 	} completionHandler:^(BOOL finished) {
-		
+		NSLog(@"\tcompletion handler from %s running",__func__);
 	}];
+	*/
+	[self.collectionView reloadData];
 }
 
 

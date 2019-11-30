@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 	IBOutlet AppDelegate		*appDelegate;
 }
 
++ (instancetype) global;
+
 - (SynopsisMetadataItem*) firstSelectedItem;
 
 - (void) reloadData;

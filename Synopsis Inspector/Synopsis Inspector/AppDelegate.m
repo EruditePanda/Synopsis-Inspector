@@ -72,7 +72,7 @@
     
     [self.dataController updateStatusLabel];
     
-    [[NSUserDefaults standardUserDefaults] setObject:@YES forKey:@"NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints"];
+    //[[NSUserDefaults standardUserDefaults] setObject:@YES forKey:@"NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints"];
     
     //	set the positioning of the various UI items in the inspector
     [clipView setTranslatesAutoresizingMaskIntoConstraints:NO];

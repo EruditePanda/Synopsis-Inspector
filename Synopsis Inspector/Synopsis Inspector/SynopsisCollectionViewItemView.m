@@ -86,7 +86,7 @@
 
 - (instancetype) initWithFrame:(NSRect)frameRect
 {
-    self = [super initWithFrame:frameRect];
+   self = [super initWithFrame:frameRect];
     if(self)
     {
         [self commonInit];

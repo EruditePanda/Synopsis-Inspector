@@ -11,9 +11,10 @@
 @class AppDelegate;
 
 
-
-
 NS_ASSUME_NONNULL_BEGIN
+
+
+
 
 @interface FileController : NSObject	{
 	IBOutlet AppDelegate		*appDelegate;
@@ -22,5 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (IBAction)chooseInitialSearchMode:(id)sender;
 
 @end
+
+
+
 
 NS_ASSUME_NONNULL_END

@@ -29,6 +29,7 @@
 @implementation SynopsisCollectionViewItem
 
 
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

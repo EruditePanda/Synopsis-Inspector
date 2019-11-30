@@ -1,9 +1,9 @@
 //
-//  MetadataInspectorViewController.m
-//  Synopsis Inspector
+//	MetadataInspectorViewController.m
+//	Synopsis Inspector
 //
-//  Created by vade on 8/22/16.
-//  Copyright © 2016 v002. All rights reserved.
+//	Created by vade on 8/22/16.
+//	Copyright © 2016 v002. All rights reserved.
 //
 #import <Synopsis/Synopsis.h>
 #import "MetadataInspectorViewController.h"
@@ -12,6 +12,9 @@
 #import "MetadataMotionView.h"
 #import "MetadataSingleValueHistoryView.h"
 #import "MetadataFeatureVectorView.h"
+
+
+
 
 @interface MetadataInspectorViewController ()
 
@@ -43,6 +46,9 @@
 
 @end
 
+
+
+
 @implementation MetadataInspectorViewController
 
 @synthesize frameMetadata;
@@ -50,136 +56,136 @@
 
 - (NSDictionary*) frameMetadata
 {
-    return frameMetadata;
+	return frameMetadata;
 }
 
 - (void) setFrameMetadata:(NSDictionary *)dictionary
 {
-    frameMetadata = dictionary;
-    
-    NSDictionary* synopsisData = [frameMetadata valueForKey:kSynopsisMetadataIdentifier];
-    NSDictionary* standard = [synopsisData valueForKey:kSynopsisStandardMetadataDictKey];
-    NSArray* domColors = [standard valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey];
-    NSArray* descriptions = [standard valueForKey:kSynopsisStandardMetadataDescriptionDictKey];
+	frameMetadata = dictionary;
+	
+	NSDictionary* synopsisData = [frameMetadata valueForKey:kSynopsisMetadataIdentifier];
+	NSDictionary* standard = [synopsisData valueForKey:kSynopsisStandardMetadataDictKey];
+	NSArray* domColors = [standard valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey];
+	NSArray* descriptions = [standard valueForKey:kSynopsisStandardMetadataDescriptionDictKey];
 
-    NSMutableString* description = [NSMutableString new];
-    
-    for(NSString* desc in descriptions)
-    {
-        // Hack to make the description 'key' not have a comma
-        if([desc hasSuffix:@":"])
-        {
-            [description appendString:[desc stringByAppendingString:@" "]];
-        }
-        else
-        {
-            [description appendString:[desc stringByAppendingString:@", "]];
-        }
-    }
+	NSMutableString* description = [NSMutableString new];
+	
+	for(NSString* desc in descriptions)
+	{
+		// Hack to make the description 'key' not have a comma
+		if([desc hasSuffix:@":"])
+		{
+			[description appendString:[desc stringByAppendingString:@" "]];
+		}
+		else
+		{
+			[description appendString:[desc stringByAppendingString:@", "]];
+		}
+	}
 
-    SynopsisDenseFeature* histogram = [standard valueForKey:kSynopsisStandardMetadataHistogramDictKey];
+	SynopsisDenseFeature* histogram = [standard valueForKey:kSynopsisStandardMetadataHistogramDictKey];
 
-    SynopsisDenseFeature* feature = [standard valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey];
+	SynopsisDenseFeature* feature = [standard valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey];
 
-    SynopsisDenseFeature* probability = [standard valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey];
+	SynopsisDenseFeature* probability = [standard valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey];
 
-    
-    float comparedHistograms = 0.0;
-    float comparedFeatures = 0.0;
-    
-    if(self.lastFeatureVector && [self.lastFeatureVector featureCount] && [feature featureCount] && ([self.lastFeatureVector featureCount] == [feature featureCount]))
-    {
-        comparedFeatures = compareFeatureVector(self.lastFeatureVector, feature);
-    }
-    
-    if(self.lastHistogram && histogram)
-    {
-        comparedHistograms = compareHistogtams(self.lastHistogram, histogram);
-    }
-    
-    self.dominantColorView.dominantColorsArray = domColors;
-    self.histogramView.histogram = histogram;
-    self.featureVectorView.feature = feature;
-    self.probabilityView.feature = probability;
+	
+	float comparedHistograms = 0.0;
+	float comparedFeatures = 0.0;
+	
+	if(self.lastFeatureVector && [self.lastFeatureVector featureCount] && [feature featureCount] && ([self.lastFeatureVector featureCount] == [feature featureCount]))
+	{
+		comparedFeatures = compareFeatureVector(self.lastFeatureVector, feature);
+	}
+	
+	if(self.lastHistogram && histogram)
+	{
+		comparedHistograms = compareHistogtams(self.lastHistogram, histogram);
+	}
+	
+	self.dominantColorView.dominantColorsArray = domColors;
+	self.histogramView.histogram = histogram;
+	self.featureVectorView.feature = feature;
+	self.probabilityView.feature = probability;
 
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
-//        if(self.view.window.isVisible)
-        {
-            [self.featureVectorView updateLayer];
-            [self.probabilityView updateLayer];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		
+//		  if(self.view.window.isVisible)
+		{
+			[self.featureVectorView updateLayer];
+			[self.probabilityView updateLayer];
 
-            [self.dominantColorView updateLayer];
-            [self.histogramView updateLayer];
-            
-            [self.featureVectorHistory appendValue:@(comparedFeatures)];
-            [self.featureVectorHistory updateLayer];
-            
-            [self.histogramHistory appendValue:@(comparedHistograms)];
-            [self.histogramHistory updateLayer];
-            
-            if(description)
-                self.frameDescriptors.stringValue = description;
+			[self.dominantColorView updateLayer];
+			[self.histogramView updateLayer];
+			
+			[self.featureVectorHistory appendValue:@(comparedFeatures)];
+			[self.featureVectorHistory updateLayer];
+			
+			[self.histogramHistory appendValue:@(comparedHistograms)];
+			[self.histogramHistory updateLayer];
+			
+			if(description)
+				self.frameDescriptors.stringValue = description;
 
-        }
-        self.featureVectorHistoryCurrentValue.floatValue = comparedFeatures;
-        self.histogramHistoryCurrentValue.floatValue = comparedHistograms;
-    });
-    
-    self.lastFeatureVector = feature;
-    self.lastHistogram = histogram;
+		}
+		self.featureVectorHistoryCurrentValue.floatValue = comparedFeatures;
+		self.histogramHistoryCurrentValue.floatValue = comparedHistograms;
+	});
+	
+	self.lastFeatureVector = feature;
+	self.lastHistogram = histogram;
 }
 
 - (NSDictionary*) globalMetadata
 {
-    return globalMetadata;
+	return globalMetadata;
 }
 
 - (void) setGlobalMetadata:(NSDictionary *)dictionary
 {
-    globalMetadata = dictionary;
-    
-    NSUInteger metadataVersion = [[globalMetadata valueForKey:kSynopsisMetadataVersionKey] unsignedIntegerValue];
-    NSDictionary* standard = [globalMetadata valueForKey:kSynopsisStandardMetadataDictKey];
-    NSArray* domColors = [standard valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey];
-    NSArray* descriptions = [standard valueForKey:kSynopsisStandardMetadataDescriptionDictKey];
-    SynopsisDenseFeature* probability = [standard valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey];
-    SynopsisDenseFeature* feature = [standard valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey];
-    SynopsisDenseFeature* histogram = [standard valueForKey:kSynopsisStandardMetadataHistogramDictKey];
-    
-    NSMutableString* description = [NSMutableString new];
-    
-    for(NSString* desc in descriptions)
-    {
-        // Hack to make the description 'key' not have a comma
-        if([desc hasSuffix:@":"])
-        {
-            [description appendString:[desc stringByAppendingString:@" "]];
-        }
-        else
-        {
-            [description appendString:[desc stringByAppendingString:@", "]];
-        }
-    }
+	globalMetadata = dictionary;
+	
+	NSUInteger metadataVersion = [[globalMetadata valueForKey:kSynopsisMetadataVersionKey] unsignedIntegerValue];
+	NSDictionary* standard = [globalMetadata valueForKey:kSynopsisStandardMetadataDictKey];
+	NSArray* domColors = [standard valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey];
+	NSArray* descriptions = [standard valueForKey:kSynopsisStandardMetadataDescriptionDictKey];
+	SynopsisDenseFeature* probability = [standard valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey];
+	SynopsisDenseFeature* feature = [standard valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey];
+	SynopsisDenseFeature* histogram = [standard valueForKey:kSynopsisStandardMetadataHistogramDictKey];
+	
+	NSMutableString* description = [NSMutableString new];
+	
+	for(NSString* desc in descriptions)
+	{
+		// Hack to make the description 'key' not have a comma
+		if([desc hasSuffix:@":"])
+		{
+			[description appendString:[desc stringByAppendingString:@" "]];
+		}
+		else
+		{
+			[description appendString:[desc stringByAppendingString:@", "]];
+		}
+	}
 
-    self.globalDominantColorView.dominantColorsArray = domColors;
-    self.globalHistogramView.histogram = histogram;
-    self.globalFeatureVectorView.feature = feature;
-    self.globalProbabilityView.feature = probability;
+	self.globalDominantColorView.dominantColorsArray = domColors;
+	self.globalHistogramView.histogram = histogram;
+	self.globalFeatureVectorView.feature = feature;
+	self.globalProbabilityView.feature = probability;
 
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
-        if(description)
-            self.globalDescriptors.stringValue = description;
-        
-        self.metadataVersionNumber.stringValue = [NSString stringWithFormat:@"Metadata Version: %lu", (unsigned long)metadataVersion];
-        
-        [self.globalDominantColorView updateLayer];
-        [self.globalHistogramView updateLayer];
-        [self.globalFeatureVectorView updateLayer];
-        [self.globalProbabilityView updateLayer];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		
+		if(description)
+			self.globalDescriptors.stringValue = description;
+		
+		self.metadataVersionNumber.stringValue = [NSString stringWithFormat:@"Metadata Version: %lu", (unsigned long)metadataVersion];
+		
+		[self.globalDominantColorView updateLayer];
+		[self.globalHistogramView updateLayer];
+		[self.globalFeatureVectorView updateLayer];
+		[self.globalProbabilityView updateLayer];
 
-    });
+	});
 }
 
 @end
