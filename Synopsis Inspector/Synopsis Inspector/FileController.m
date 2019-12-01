@@ -338,7 +338,6 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 		completionHandler:^(SynopsisMetadataItem *completedItem)	{
 			//	leave the group so anything that needs to wait until all MD items have loaded can do sso
 			dispatch_group_leave(_globalMDLoadGroup);
-			//	when we finish creating the MD item, call the throttled callback
 		}];
 	
 	return item;

@@ -114,17 +114,25 @@
 
 - (void) asyncSetImage
 {
-    [[SynopsisCacheWithHap sharedCache] cachedImageForItem:self.representedObject atTime:kCMTimeZero completionHandler:^(CGImageRef _Nullable image, NSError * _Nullable error) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            if(image)
-                [self setViewImage:image];
-            else
-            {
-                NSLog(@"null image from cache");
-            }
-        });
-    }];
+	SynopsisMetadataItem		*repObj = self.representedObject;
+	
+    [[SynopsisCacheWithHap sharedCache]
+    	cachedImageForItem:repObj
+    	atTime:kCMTimeZero
+    	completionHandler:^(CGImageRef _Nullable image, NSError * _Nullable error) {
+			//	if the represented object we're caching an image for is no longer this item's represented object (fast scrolling), bail
+			if (repObj != self.representedObject)
+				return;
+			
+			dispatch_async(dispatch_get_main_queue(), ^{
+				if(image)
+					[self setViewImage:image];
+				else
+				{
+					NSLog(@"null image from cache");
+				}
+			});
+		}];
 }
 
 - (void) setViewImage:(CGImageRef)image
