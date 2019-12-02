@@ -724,7 +724,7 @@
                                     </binding>
                                 </connections>
                             </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uBo-Ud-SFl">
+                            <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uBo-Ud-SFl">
                                 <rect key="frame" x="443" y="15" width="1257" height="11"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Label" id="kpM-Ls-PKA">
@@ -733,7 +733,7 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TQp-ui-8US">
+                            <slider hidden="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TQp-ui-8US">
                                 <rect key="frame" x="2070" y="15" width="70" height="13"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <sliderCell key="cell" controlSize="mini" continuous="YES" state="on" alignment="left" minValue="0.14999999999999999" maxValue="1" doubleValue="1" tickMarkPosition="above" sliderType="linear" id="AjU-GX-1Nh">
