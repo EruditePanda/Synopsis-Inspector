@@ -14,7 +14,6 @@
 		1B0D64391D4FB21F00A1AB5D /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0D64381D4FB21F00A1AB5D /* libz.tbd */; };
 		1B0D643C1D4FD48E00A1AB5D /* CustomVisualEffectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0D643B1D4FD48E00A1AB5D /* CustomVisualEffectView.m */; };
 		1B2780751F213A2200658C0B /* Synopsis.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BBB10ED1D5558C400C22439 /* Synopsis.framework */; };
-		1B2780791F213A5A00658C0B /* Synopsis.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1BFB133C1F21378C002C4651 /* Synopsis.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1B27810F1F263EDE00658C0B /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B27810E1F263EDE00658C0B /* OpenGL.framework */; };
 		1B522FA41F26995000550454 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B522FA31F26995000550454 /* Accelerate.framework */; };
 		1B5CDF5D1F438FD100D5D057 /* MediaToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B5CDF5C1F438FD100D5D057 /* MediaToolbox.framework */; };
@@ -119,26 +118,33 @@
 			remoteGlobalIDString = 1B4446B81EE1FE4A0075575D;
 			remoteInfo = "Synopsis-iOS";
 		};
+		1B8AED55239591F00028AA20 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1A1E31B0237DF94C009DE35C /* HapInAVFoundation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1A4D2CCE207E47CD003FE56B;
+			remoteInfo = "HapInAVFoundation-static";
+		};
+		1B8AED57239591F00028AA20 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1A1E31B0237DF94C009DE35C /* HapInAVFoundation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1AABDE8A207E544000D8F504;
+			remoteInfo = AVFtoHap;
+		};
+		1B8AED5B239591F30028AA20 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1BBB10E81D5558C400C22439 /* Synopsis-Framework.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 1BBB10DC1D5542A200C22439;
+			remoteInfo = "Synopsis-macOS";
+		};
 		1BBB10EC1D5558C400C22439 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1BBB10E81D5558C400C22439 /* Synopsis-Framework.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 1BBB10DD1D5542A200C22439;
 			remoteInfo = Synopsis;
-		};
-		1BFB133B1F21378C002C4651 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1BBB10E81D5558C400C22439 /* Synopsis-Framework.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1BFB13381F2135BF002C4651;
-			remoteInfo = "Synopsis-Decoder-macOS";
-		};
-		1BFB133D1F213790002C4651 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1BBB10E81D5558C400C22439 /* Synopsis-Framework.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 1BFB12C21F2135BF002C4651;
-			remoteInfo = "Synopsis-Decoder-macOS";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -151,7 +157,6 @@
 			files = (
 				1A1E31C1237DF965009DE35C /* HapInAVFoundation.framework in CopyFiles */,
 				1B96FE7A1E08A42600DE4BD3 /* libomp.dylib in CopyFiles */,
-				1B2780791F213A5A00658C0B /* Synopsis.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -12602,8 +12607,10 @@
 			isa = PBXGroup;
 			children = (
 				1A1E31B9237DF94C009DE35C /* HapInAVFoundation.framework */,
+				1B8AED56239591F00028AA20 /* libHapInAVFoundation.a */,
 				1A1E31BB237DF94C009DE35C /* HapInAVF Test App.app */,
 				1A1E31BD237DF94C009DE35C /* AVF Batch Converter.app */,
+				1B8AED58239591F00028AA20 /* AVFtoHap */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -33277,7 +33284,6 @@
 			isa = PBXGroup;
 			children = (
 				1BBB10ED1D5558C400C22439 /* Synopsis.framework */,
-				1BFB133C1F21378C002C4651 /* Synopsis.framework */,
 				1B7155C91EFC97F000266150 /* Synopsis.framework */,
 			);
 			name = Products;
@@ -33320,8 +33326,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				1B8AED5C239591F30028AA20 /* PBXTargetDependency */,
 				1A1E31BF237DF953009DE35C /* PBXTargetDependency */,
-				1BFB133E1F213790002C4651 /* PBXTargetDependency */,
 			);
 			name = "Synopsis Inspector";
 			productName = Synopslight;
@@ -33402,18 +33408,25 @@
 			remoteRef = 1B7155C81EFC97F000266150 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		1B8AED56239591F00028AA20 /* libHapInAVFoundation.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libHapInAVFoundation.a;
+			remoteRef = 1B8AED55239591F00028AA20 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1B8AED58239591F00028AA20 /* AVFtoHap */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = AVFtoHap;
+			remoteRef = 1B8AED57239591F00028AA20 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		1BBB10ED1D5558C400C22439 /* Synopsis.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = Synopsis.framework;
 			remoteRef = 1BBB10EC1D5558C400C22439 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		1BFB133C1F21378C002C4651 /* Synopsis.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Synopsis.framework;
-			remoteRef = 1BFB133B1F21378C002C4651 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -33485,10 +33498,10 @@
 			name = HapInAVFoundation;
 			targetProxy = 1A1E31BE237DF953009DE35C /* PBXContainerItemProxy */;
 		};
-		1BFB133E1F213790002C4651 /* PBXTargetDependency */ = {
+		1B8AED5C239591F30028AA20 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = "Synopsis-Decoder-macOS";
-			targetProxy = 1BFB133D1F213790002C4651 /* PBXContainerItemProxy */;
+			name = "Synopsis-macOS";
+			targetProxy = 1B8AED5B239591F30028AA20 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

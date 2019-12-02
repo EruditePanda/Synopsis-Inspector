@@ -77,7 +77,7 @@
     return image;
 }
 
-- (void) generateAndCacheStillImageAsynchronouslyForAsset:(SynopsisMetadataItem* _Nonnull)metadataItem completionHandler:(SynopsisInspectorMediaCacheImageCompletionHandler _Nullable )completionHandler
+- (void) generateAndCacheStillImageAsynchronouslyForAsset:(SynopsisMetadataItem* _Nonnull)metadataItem atTime:(CMTIme)time completionHandler:(SynopsisInspectorMediaCacheImageCompletionHandler _Nullable )completionHandler
 {
 
     if(self.isCurrentlyOptimized)
@@ -201,7 +201,7 @@
             imageGenerator.maximumSize = CGSizeMake(300, 300);
             imageGenerator.appliesPreferredTrackTransform = YES;
             
-            [imageGenerator generateCGImagesAsynchronouslyForTimes:@[ [NSValue valueWithCMTime:kCMTimeZero]] completionHandler:^(CMTime requestedTime, CGImageRef  _Nullable image, CMTime actualTime, AVAssetImageGeneratorResult result, NSError * _Nullable error){
+            [imageGenerator generateCGImagesAsynchronouslyForTimes:@[ [NSValue valueWithCMTime:time]] completionHandler:^(CMTime requestedTime, CGImageRef  _Nullable image, CMTime actualTime, AVAssetImageGeneratorResult result, NSError * _Nullable error){
                 
                 if(error == nil && image != NULL)
                 {

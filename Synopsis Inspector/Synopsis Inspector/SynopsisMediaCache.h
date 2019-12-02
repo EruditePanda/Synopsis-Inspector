@@ -21,7 +21,7 @@ typedef void (^SynopsisInspectorMediaCachePlayerItemCompletionHandler)(AVPlayerI
 @property (readonly, strong) dispatch_queue_t _Nonnull metadataQueue;
 
 // Image Caching
-- (void) generateAndCacheStillImageAsynchronouslyForAsset:(SynopsisMetadataItem* _Nonnull)metadataItem completionHandler:(SynopsisInspectorMediaCacheImageCompletionHandler _Nullable )completionHandler;
+- (void) generateAndCacheStillImageAsynchronouslyForAsset:(SynopsisMetadataItem* _Nonnull)metadataItem atTime:(CMTIme)time completionHandler:(SynopsisInspectorMediaCacheImageCompletionHandler _Nullable )completionHandler
 
 - (nullable CGImageRef) cachedImageForMetadataItem:(SynopsisMetadataItem* _Nonnull)metadataItem;
 

@@ -47,9 +47,12 @@
         self.enclosingScrollView.autohidesScrollers = NO;
         self.enclosingScrollView.usesPredominantAxisScrolling = NO;
 
-        self.enclosingScrollView.hasVerticalScroller = newSize.height > self.enclosingScrollView.frame.size.height;
-        self.enclosingScrollView.verticalScroller.hidden = newSize.height <= self.enclosingScrollView.frame.size.height;
-
+        if ( newSize.height > 0 )
+        {
+            self.enclosingScrollView.hasVerticalScroller = newSize.height > self.enclosingScrollView.frame.size.height;
+            self.enclosingScrollView.verticalScroller.hidden = newSize.height <= self.enclosingScrollView.frame.size.height;
+        }
+        
         self.enclosingScrollView.hasHorizontalScroller = newSize.width > self.enclosingScrollView.frame.size.width;
         self.enclosingScrollView.horizontalScroller.hidden = newSize.width <= self.enclosingScrollView.frame.size.width;
 

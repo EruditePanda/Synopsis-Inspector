@@ -136,7 +136,7 @@
 
 //    self.resultsArray = [NSMutableArray new];
     self.resultsArrayControler = [[NSArrayController alloc] initWithContent:[NSMutableArray new]];
-    self.resultsArrayControler.automaticallyRearrangesObjects = YES;
+    self.resultsArrayControler.automaticallyRearrangesObjects = NO;
     
     NSNib* synopsisResultNib = [[NSNib alloc] initWithNibNamed:@"SynopsisCollectionViewItem" bundle:[NSBundle mainBundle]];
     
@@ -163,6 +163,8 @@
     // Run and MDQuery to find every file that has tagged XAttr / Spotlight metadata hints for v002 metadata
     self.continuousMetadataSearch = [[NSMetadataQuery alloc] init];
     
+    self.continuousMetadataSearch.delegate = self;
+
     // Register the notifications for batch and completion updates
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(queryDidUpdate:)
@@ -174,9 +176,8 @@
                                                  name:NSMetadataQueryDidFinishGatheringNotification
                                                object:self.continuousMetadataSearch];
     
-    self.continuousMetadataSearch.delegate = self;
     
-    [self switchToLocalComputerSearchScope:nil];
+//    [self switchToLocalComputerSearchScope:nil];
 
 //    [self.window beginSheet:self.chooseSearchModeSheet completionHandler:^(NSModalResponse returnCode) {
 //       
@@ -707,6 +708,10 @@
     NSArray* updatedItems = [userInfo objectForKey:NSMetadataQueryUpdateChangedItemsKey];
     NSArray* removedItems = [userInfo objectForKey:NSMetadataQueryUpdateRemovedItemsKey];
     
+    NSLog(@"handleQueuryDidUpdate Added: %li", addedItems.count );
+    NSLog(@"handleQueuryDidUpdate Updated: %li", updatedItems.count );
+    NSLog(@"handleQueuryDidUpdate Removed: %li", removedItems.count );
+
     // Cache updaed objects indices
     NSMutableSet* updatedIndexPaths = [[NSMutableSet alloc] init];
     NSMutableIndexSet* updatedIndexSet = [[NSMutableIndexSet alloc] init];
