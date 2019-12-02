@@ -107,7 +107,10 @@
 
 - (void) asyncSetImage
 {
-    [[SynopsisCache sharedCache] cachedImageForItem:self.representedObject atTime:kCMTimeZero completionHandler:^(CGImageRef _Nullable image, NSError * _Nullable error) {
+    
+    CMTime time = CMTimeMinimum( CMTimeMakeWithSeconds(2.0, 600), [self.representedObject asset].duration);
+    
+    [[SynopsisCache sharedCache] cachedImageForItem:self.representedObject atTime:time completionHandler:^(CGImageRef _Nullable image, NSError * _Nullable error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             
             if(image)
@@ -149,7 +152,7 @@
     [NSGraphicsContext saveGraphicsState];
     NSGraphicsContext *oldContext = [NSGraphicsContext currentContext];
     
-    SynopsisMetadataItem* representedObject = self.representedObject;
+//    SynopsisMetadataItem* representedObject = self.representedObject;
 
     // Image itemRootView.
     NSView *itemRootView = self.view;

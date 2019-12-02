@@ -40,6 +40,7 @@
 
 @property (weak) IBOutlet NSMenuItem* hybridTSNEMenu;
 @property (weak) IBOutlet NSMenuItem* featureTSNEMenu;
+@property (weak) IBOutlet NSMenuItem* predictionTSNEMenu;
 @property (weak) IBOutlet NSMenuItem* histogramTSNEMenu;
 
 @property (readwrite, strong) IBOutlet MetadataInspectorViewController* metadataInspector;
@@ -66,6 +67,7 @@
 @property (atomic, readwrite, strong) AAPLWrappedLayout* wrappedLayout;
 @property (atomic, readwrite, strong) TSNELayout* tsneHybridLayout;
 @property (atomic, readwrite, strong) TSNELayout* tsneFeatureLayout;
+@property (atomic, readwrite, strong) TSNELayout* tsnePredictionLayout;
 @property (atomic, readwrite, strong) TSNELayout* tsneHistogramLayout;
 //@property (atomic, readwrite, strong) DBScanLayout* dbscanHybridLayout;
 //@property (atomic, readwrite, strong) DBScanLayout* dbscanFeatureLayout;
@@ -753,6 +755,7 @@
         
     } completionHandler:^(BOOL finished) {
         
+        NSLog(@"Completion");
     }];
 }
 
@@ -997,6 +1000,12 @@ static BOOL toggleAspect = false;
         }
         case 3:
         {
+            layout = self.tsnePredictionLayout;
+            [self configureScrollViewForTSNE];
+            break;
+        }
+        case 4:
+        {
             layout = self.tsneHistogramLayout;
             [self configureScrollViewForTSNE];
             break;
@@ -1048,6 +1057,7 @@ static BOOL toggleAspect = false;
 {
     self.hybridTSNEMenu.enabled = NO;
     self.featureTSNEMenu.enabled = NO;
+    self.predictionTSNEMenu.enabled = NO;
     self.histogramTSNEMenu.enabled = NO;
 
     NSSize collectionViewInitialSize = [self.collectionView frame].size;
@@ -1055,15 +1065,17 @@ static BOOL toggleAspect = false;
     NSMutableArray<SynopsisDenseFeature*>* allFeatures = [NSMutableArray new];
     NSMutableArray<SynopsisDenseFeature*>* allHistograms = [NSMutableArray new];
     NSMutableArray<SynopsisDenseFeature*>* allHybridFeatures = [NSMutableArray new];
+    NSMutableArray<SynopsisDenseFeature*>* allPredictionFeatures = [NSMutableArray new];
 
     for(SynopsisMetadataItem* metadataItem in content)
     {
         SynopsisDenseFeature* feature = [metadataItem valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey];
+        SynopsisDenseFeature* probabilities = [metadataItem valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey];
         SynopsisDenseFeature* histogram = [metadataItem valueForKey:kSynopsisStandardMetadataHistogramDictKey];
 
         // Add our Feature
         [allFeatures addObject:feature];
-
+        [allPredictionFeatures addObject:probabilities];
         [allHistograms addObject:histogram];
         
         [allHybridFeatures addObject:[SynopsisDenseFeature denseFeatureByAppendingFeature:feature withFeature:histogram]];
@@ -1077,12 +1089,7 @@ static BOOL toggleAspect = false;
         
         TSNELayout* tsneLayout = [[TSNELayout alloc] initWithFeatures:allFeatures initialSize:collectionViewInitialSize];
         tsneLayout.itemSize = NSMakeSize(300, 300);
-        
-//        DBScanLayout* dbScanLayout = [[DBScanLayout alloc] initWithData:allMetadataFeatures];
-//        dbScanLayout.itemSize = NSMakeSize(400, 200);
-
         self.tsneFeatureLayout = tsneLayout;
-//        self.dbscanFeatureLayout = dbScanLayout;
         
         dispatch_group_leave(tsneGroup);
         
@@ -1093,13 +1100,17 @@ static BOOL toggleAspect = false;
         
         TSNELayout* tsneLayout = [[TSNELayout alloc] initWithFeatures:allHistograms initialSize:collectionViewInitialSize];
         tsneLayout.itemSize = NSMakeSize(300, 300);
-        
-//        DBScanLayout* dbScanLayout = [[DBScanLayout alloc] initWithData:allHistogramFeatures];
-//        dbScanLayout.itemSize = NSMakeSize(400, 200);
-
         self.tsneHistogramLayout = tsneLayout;
-//        self.dbscanHistogramLayout = dbScanLayout;
 
+        dispatch_group_leave(tsneGroup);
+    });
+    
+    dispatch_group_enter(tsneGroup);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        
+        TSNELayout* tsneLayout = [[TSNELayout alloc] initWithFeatures:allPredictionFeatures initialSize:collectionViewInitialSize];
+        tsneLayout.itemSize = NSMakeSize(300, 300);
+        self.tsnePredictionLayout = tsneLayout;
         dispatch_group_leave(tsneGroup);
     });
 
@@ -1108,12 +1119,7 @@ static BOOL toggleAspect = false;
         
         TSNELayout* tsneLayout = [[TSNELayout alloc] initWithFeatures:allHybridFeatures initialSize:collectionViewInitialSize];
         tsneLayout.itemSize = NSMakeSize(300, 300);
-        
-//        DBScanLayout* dbScanLayout = [[DBScanLayout alloc] initWithData:allHybridFeatures];
-//        dbScanLayout.itemSize = NSMakeSize(400, 200);
-
         self.tsneHybridLayout = tsneLayout;
-//        self.dbscanHybridLayout = dbScanLayout;
 
         dispatch_group_leave(tsneGroup);
         
@@ -1123,6 +1129,7 @@ static BOOL toggleAspect = false;
         self.hybridTSNEMenu.enabled = YES;
         self.featureTSNEMenu.enabled = YES;
         self.histogramTSNEMenu.enabled = YES;
+        self.predictionTSNEMenu.enabled = YES;
     });
 }
 

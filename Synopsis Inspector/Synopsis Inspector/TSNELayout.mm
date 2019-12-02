@@ -212,9 +212,10 @@
 {
     NSRect clipBounds = [[self collectionView] frame];
 
-    initialSize = NSMakeSize(NSMaxY(clipBounds), NSMaxY(clipBounds) );
-//    initialSize = NSMakeSize(10000, 10000);
-//    initialSize = [super collectionViewContentSize];
+    CGFloat max = MAX(NSMaxX(clipBounds),  NSMaxY(clipBounds));
+    
+    initialSize = NSMakeSize( max, max );
+
     return initialSize;
 }
 
