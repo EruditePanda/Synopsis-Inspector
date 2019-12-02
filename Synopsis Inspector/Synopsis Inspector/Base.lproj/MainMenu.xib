@@ -695,11 +695,11 @@
             <rect key="contentRect" x="335" y="390" width="1629" height="619"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1177"/>
             <view key="contentView" focusRingType="none" misplaced="YES" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="2154" height="1110"/>
+                <rect key="frame" x="0.0" y="0.0" width="2154" height="1160"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <visualEffectView wantsLayer="YES" appearanceType="vibrantDark" blendingMode="withinWindow" material="appearanceBased" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="fGu-kV-DJW" customClass="CustomVisualEffectView">
-                        <rect key="frame" x="0.0" y="0.0" width="2154" height="1110"/>
+                        <rect key="frame" x="0.0" y="0.0" width="2154" height="1160"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pTe-hF-2BG">
                                 <rect key="frame" x="18" y="16" width="104" height="11"/>
@@ -746,7 +746,7 @@
                                 </connections>
                             </slider>
                             <stackView distribution="fill" orientation="horizontal" alignment="top" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OYr-iV-9Ux">
-                                <rect key="frame" x="0.0" y="0.0" width="2154" height="1110"/>
+                                <rect key="frame" x="0.0" y="50" width="2154" height="1110"/>
                                 <subviews>
                                     <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" maxMagnification="1" usesPredominantAxisScrolling="NO" findBarPosition="aboveHorizontalRuler" translatesAutoresizingMaskIntoConstraints="NO" id="fRo-0M-OuZ">
                                         <rect key="frame" x="0.0" y="0.0" width="1754" height="1110"/>
@@ -821,7 +821,7 @@
                                                                     <rect key="frame" x="17" y="486" width="360" height="170"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" controlSize="small" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="border" drawsBackground="YES" id="Ah9-E3-oOZ">
-                                                                        <font key="font" metaFont="palette"/>
+                                                                        <font key="font" metaFont="message" size="11"/>
                                                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
@@ -830,7 +830,7 @@
                                                                     <rect key="frame" x="15" y="661" width="65" height="14"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Descriptors" id="eWX-Kq-i2e">
-                                                                        <font key="font" metaFont="palette"/>
+                                                                        <font key="font" metaFont="message" size="11"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
@@ -843,7 +843,7 @@
                                                                     <rect key="frame" x="15" y="464" width="82" height="14"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Feature Vector" id="pQa-UH-JIT">
-                                                                        <font key="font" metaFont="palette"/>
+                                                                        <font key="font" metaFont="message" size="11"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
@@ -856,7 +856,7 @@
                                                                     <rect key="frame" x="15" y="409" width="69" height="14"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Probabilities" id="WbR-Vx-7bu">
-                                                                        <font key="font" metaFont="palette"/>
+                                                                        <font key="font" metaFont="message" size="11"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
@@ -865,7 +865,7 @@
                                                                     <rect key="frame" x="15" y="348" width="59" height="14"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Histogram" id="74X-81-9JC">
-                                                                        <font key="font" metaFont="palette"/>
+                                                                        <font key="font" metaFont="message" size="11"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
@@ -874,7 +874,7 @@
                                                                     <rect key="frame" x="15" y="241" width="96" height="14"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Metadata Version" id="FaH-BM-C5v">
-                                                                        <font key="font" metaFont="palette"/>
+                                                                        <font key="font" metaFont="message" size="11"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
@@ -899,7 +899,7 @@
                                                                     <rect key="frame" x="15" y="651" width="118" height="14"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Frame Feature Vector" id="GUo-9f-Pdr">
-                                                                        <font key="font" metaFont="palette"/>
+                                                                        <font key="font" metaFont="message" size="11"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
@@ -912,7 +912,7 @@
                                                                     <rect key="frame" x="15" y="597" width="69" height="14"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Probabilities" id="6xU-Gg-EBa">
-                                                                        <font key="font" metaFont="palette"/>
+                                                                        <font key="font" metaFont="message" size="11"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
@@ -925,7 +925,7 @@
                                                                     <rect key="frame" x="17" y="543" width="55" height="14"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Histogram" id="B3v-8y-R48">
-                                                                        <font key="font" metaFont="palette"/>
+                                                                        <font key="font" metaFont="message" size="11"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
@@ -942,7 +942,7 @@
                                                                     <rect key="frame" x="15" y="649" width="93" height="14"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Histogram Delta:" id="3Lo-zr-boo">
-                                                                        <font key="font" metaFont="palette"/>
+                                                                        <font key="font" metaFont="message" size="11"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
@@ -955,7 +955,7 @@
                                                                     <rect key="frame" x="15" y="569" width="116" height="14"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Feature Vector Delta:" id="2ds-r0-paH">
-                                                                        <font key="font" metaFont="palette"/>
+                                                                        <font key="font" metaFont="message" size="11"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
@@ -968,7 +968,7 @@
                                                                     <rect key="frame" x="351" y="644" width="63" height="19"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" title="0.0" id="vx4-PO-FXi">
-                                                                        <font key="font" metaFont="palette"/>
+                                                                        <font key="font" metaFont="message" size="11"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
@@ -977,7 +977,7 @@
                                                                     <rect key="frame" x="353" y="564" width="59" height="19"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" title="0.0" id="1Mf-zR-f8O">
-                                                                        <font key="font" metaFont="palette"/>
+                                                                        <font key="font" metaFont="message" size="11"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
@@ -1054,20 +1054,9 @@
                                     <real value="3.4028234663852886e+38"/>
                                 </customSpacing>
                             </stackView>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="G1l-f8-8ea">
-                                <rect key="frame" x="1999" y="7" width="50" height="29"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="TSNE" imagePosition="overlaps" alignment="center" controlSize="mini" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ZOf-vE-ERj">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="miniSystem"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="calculateLayouts:" target="Voe-Tx-rLC" id="YLz-jb-dam"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="OYr-iV-9Ux" firstAttribute="height" secondItem="fGu-kV-DJW" secondAttribute="height" id="9aC-gK-EmB"/>
+                            <constraint firstItem="OYr-iV-9Ux" firstAttribute="height" secondItem="fGu-kV-DJW" secondAttribute="height" constant="-50" id="9aC-gK-EmB"/>
                             <constraint firstItem="OYr-iV-9Ux" firstAttribute="top" secondItem="fGu-kV-DJW" secondAttribute="top" id="gdi-Yp-fpC"/>
                             <constraint firstItem="OYr-iV-9Ux" firstAttribute="width" secondItem="fGu-kV-DJW" secondAttribute="width" id="tOU-58-V8Z"/>
                             <constraint firstItem="OYr-iV-9Ux" firstAttribute="leading" secondItem="fGu-kV-DJW" secondAttribute="leading" id="vNN-r5-rRh"/>
@@ -1217,6 +1206,5 @@
         <image name="NSComputer" width="32" height="32"/>
         <image name="NSFolder" width="32" height="32"/>
         <image name="Smart" width="512" height="512"/>
-        <image name="TSNE" width="48" height="48"/>
     </resources>
 </document>
