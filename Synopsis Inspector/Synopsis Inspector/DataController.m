@@ -18,7 +18,7 @@
 #import "SynopsisCacheWithHap.h"
 #import "SynopsisCollectionViewItem.h"
 
-#define RELOAD_DATA 0
+#define RELOAD_DATA 1
 
 
 

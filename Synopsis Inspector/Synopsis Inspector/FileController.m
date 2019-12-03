@@ -14,7 +14,7 @@
 
 #import "DataController.h"
 
-#define RELOAD_DATA 0
+#define RELOAD_DATA 1
 
 
 
@@ -253,6 +253,12 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 #if RELOAD_DATA
 			//dispatch_async(dispatch_get_main_queue(), ^{
 				[[DataController global] reloadData];
+				DataController		*dc = [DataController global];
+				if (currentSortDescriptors != nil && currentSortDescriptors.count > 0 && dc.firstSelectedItem != nil)	{
+					[dc
+						setupSortUsingSortDescriptor:currentSortDescriptors[0]
+						selectedItem:dc.firstSelectedItem];
+				}
 			//});
 #else
 			[self.collectionView.animator performBatchUpdates:^{
@@ -353,6 +359,12 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 #if RELOAD_DATA
 			//dispatch_async(dispatch_get_main_queue(), ^{
 				[[DataController global] reloadData];
+				DataController		*dc = [DataController global];
+				if (currentSortDescriptors != nil && currentSortDescriptors.count > 0 && dc.firstSelectedItem != nil)	{
+					[dc
+						setupSortUsingSortDescriptor:currentSortDescriptors[0]
+						selectedItem:dc.firstSelectedItem];
+				}
 			//});
 #else
 			[self.collectionView.animator performBatchUpdates:^{
@@ -511,6 +523,12 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 	
 #if RELOAD_DATA
 	[self.collectionView reloadData];
+	DataController		*dc = [DataController global];
+	if (currentSortDescriptors != nil && currentSortDescriptors.count > 0 && dc.firstSelectedItem != nil)	{
+		[dc
+			setupSortUsingSortDescriptor:currentSortDescriptors[0]
+			selectedItem:dc.firstSelectedItem];
+	}
 #else
 	// Now Animate our Collection View with our changes
 	[self.collectionView performBatchUpdates:^{
