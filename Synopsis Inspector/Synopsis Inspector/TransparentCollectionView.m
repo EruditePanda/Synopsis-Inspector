@@ -36,20 +36,32 @@
 //}
 
 //
-//-(void)setFrameSize:(NSSize)newSize
-//{
-//    if (newSize.width != self.collectionViewLayout.collectionViewContentSize.width)
-//    {
-//        newSize.width = self.collectionViewLayout.collectionViewContentSize.width;
-//
-//        self.enclosingScrollView.autohidesScrollers = NO;
-//        self.enclosingScrollView.usesPredominantAxisScrolling = NO;
+-(void)setFrameSize:(NSSize)newSize
+{
+    if ( !CGSizeEqualToSize(newSize,  self.collectionViewLayout.collectionViewContentSize))
+    {
+        newSize = self.collectionViewLayout.collectionViewContentSize;
+
+        [self.enclosingScrollView.documentView setFrame: NSMakeRect(0,0,newSize.width, newSize.height) ];
+
+        self.enclosingScrollView.autohidesScrollers = NO;
+        self.enclosingScrollView.usesPredominantAxisScrolling = NO;
+
+        self.enclosingScrollView.hasVerticalScroller = newSize.height > self.enclosingScrollView.frame.size.height;
+        self.enclosingScrollView.verticalScroller.hidden = newSize.height <= self.enclosingScrollView.frame.size.height;
+
+        self.enclosingScrollView.hasHorizontalScroller = newSize.width > self.enclosingScrollView.frame.size.width;
+        self.enclosingScrollView.horizontalScroller.hidden = newSize.width <= self.enclosingScrollView.frame.size.width;
+
+        
 //        self.enclosingScrollView.horizontalScroller.hidden = NO;
 //        self.enclosingScrollView.hasHorizontalScroller = YES;
-//    }
-//
-//    [super setFrameSize:newSize];
-//}
+    }
+    else
+    {
+        [super setFrameSize:newSize];
+    }
+}
 //
 //- (void) setFrame:(NSRect)frame
 //{

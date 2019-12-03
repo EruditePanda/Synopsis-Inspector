@@ -168,6 +168,17 @@
     [self.dataController setupSortUsingSortDescriptor:perceptualHashSort selectedItem:item];
 }
 
+- (IBAction)probabilitySortUsingSelectedCell:(id)sender
+{
+    SynopsisMetadataItem* item = [[DataController global] firstSelectedItem];
+    
+    NSSortDescriptor* sortDescriptor = [NSSortDescriptor synopsisSortViaKey:kSynopsisStandardMetadataProbabilitiesDictKey relativeTo:item];
+    
+    self.sortStatus = @"Relative Best Match Sort";
+    
+    [self.dataController setupSortUsingSortDescriptor:sortDescriptor selectedItem:item];
+}
+
 - (IBAction)histogramSortUsingSelectingCell:(id)sender
 {
     SynopsisMetadataItem* item = [self.dataController firstSelectedItem];

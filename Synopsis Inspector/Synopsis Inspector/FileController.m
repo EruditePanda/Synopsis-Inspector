@@ -180,6 +180,10 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 		{
 	   		//	halt the MD query, we're not going to uses it while running files manually
 	   		[self.continuousMetadataSearch stopQuery];
+	   		
+	   		NSArray* currentSortDescriptors = self.resultsArrayController.sortDescriptors;
+    
+			self.resultsArrayController.sortDescriptors = @[];
 			
 	   		//[self.resultsArrayController removeObject:self.resultsArrayController.content];
 	   		//[[DataController global] reloadData];
@@ -241,6 +245,8 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 			
 			dispatch_group_wait(_globalMDLoadGroup, DISPATCH_TIME_FOREVER);
 			
+			self.resultsArrayController.sortDescriptors = currentSortDescriptors;
+			
 			//dispatch_async(dispatch_get_main_queue(), ^{
 				[[DataController global] reloadData];
 			//});
@@ -276,6 +282,10 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 		{
 			//	halt the MD query, we're not going to uses it while running files manually
 	   		[self.continuousMetadataSearch stopQuery];
+	   		
+	   		NSArray* currentSortDescriptors = self.resultsArrayController.sortDescriptors;
+    
+			self.resultsArrayController.sortDescriptors = @[];
 			
 			//	clear the results array controller, reload the collection view immediately
 	   		NSArray			*tmpArray = self.resultsArrayController.arrangedObjects;
@@ -310,6 +320,8 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 	   		[self.resultsArrayController addObjects:addedItems];
 	   		
 			dispatch_group_wait(_globalMDLoadGroup, DISPATCH_TIME_FOREVER);
+			
+			self.resultsArrayController.sortDescriptors = currentSortDescriptors;
 			
 			//dispatch_async(dispatch_get_main_queue(), ^{
 				[[DataController global] reloadData];

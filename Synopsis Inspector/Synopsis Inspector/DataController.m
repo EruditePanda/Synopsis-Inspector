@@ -281,6 +281,10 @@ static DataController			*_globalDataController = nil;
 	[self.bestFitSort setTarget:appDelegate];
 	[self.bestFitSort setAction:@selector(bestMatchSortUsingSelectedCell:)];
 	[self.bestFitSort validate];
+	
+	[self.hashSort setTarget:appDelegate];
+	[self.hashSort setAction:@selector(probabilitySortUsingSelectedCell:)];
+	[self.hashSort validate];
 
 	[self.histogramSort setTarget:appDelegate];
 	[self.histogramSort setAction:@selector(histogramSortUsingSelectingCell:)];
@@ -489,6 +493,11 @@ static BOOL toggleAspect = false;
 }
 */
 
+- (IBAction)calculateLayouts:(id)sender
+{
+    [self lazyCreateLayoutsWithContent:self.resultsArrayController.content];
+}
+
 - (IBAction)switchLayout:(id)sender
 {
 	self.zoomSlider.enabled = YES;
@@ -658,6 +667,7 @@ static BOOL toggleAspect = false;
 
 - (void) updateStatusLabel
 {
+	/*
 	if(self.collectionView.selectionIndexPaths.count == 1)
 	{
 		NSIndexPath* path1 = self.collectionView.selectionIndexPaths.allObjects[0];
@@ -683,8 +693,8 @@ static BOOL toggleAspect = false;
 		self.statusField.stringValue = value;
 
 	}
-	
-	else if(self.collectionView.selectionIndexPaths.count == 2)
+	*/
+	if(self.collectionView.selectionIndexPaths.count == 2)
 	{
 		NSIndexPath* path1 = self.collectionView.selectionIndexPaths.allObjects[0];
 		NSIndexPath* path2 = self.collectionView.selectionIndexPaths.allObjects[1];
@@ -695,15 +705,18 @@ static BOOL toggleAspect = false;
 		// Feature
 		float featureWeight = compareFeatureVector([item1 valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey],[item2 valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey]);
 		NSString* featureString = [NSString stringWithFormat:@" Features : %f", featureWeight];
+		
+		float probabiltyWeight = compareFeatureVector([item1 valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey],[item2 valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey]);
+        NSString* probabilityString = [NSString stringWithFormat:@" Probailities : %f", probabiltyWeight];
 
 		// Hash
-		float hashWeight = compareGlobalHashes([item1 valueForKey:kSynopsisStandardMetadataPerceptualHashDictKey],[item2 valueForKey:kSynopsisStandardMetadataPerceptualHashDictKey]);
-		NSString* hashString = [NSString stringWithFormat:@" Perceptual Hash : %f", hashWeight];
+		//float hashWeight = compareGlobalHashes([item1 valueForKey:kSynopsisStandardMetadataPerceptualHashDictKey],[item2 valueForKey:kSynopsisStandardMetadataPerceptualHashDictKey]);
+		//NSString* hashString = [NSString stringWithFormat:@" Perceptual Hash : %f", hashWeight];
 		
 		// Histogram
 		float histWeight = compareHistogtams([item1 valueForKey:kSynopsisStandardMetadataHistogramDictKey],[item2 valueForKey:kSynopsisStandardMetadataHistogramDictKey]);
 		NSString* histString = [NSString stringWithFormat:@" Histogram : %f", histWeight];
-
+		/*
 		float motionWeight = fabsf(compareFeatureVector([item1 valueForKey:kSynopsisStandardMetadataMotionVectorDictKey],[item2 valueForKey:kSynopsisStandardMetadataMotionVectorDictKey]));
 		NSString* motionString = [NSString stringWithFormat:@" MotionVector : %f", motionWeight];
 
@@ -726,17 +739,18 @@ static BOOL toggleAspect = false;
 		float briWeight2 = weightBrightnessDominantColors(domColors2);
 		float briWeight = 1.0 - fabsf(briWeight1 - briWeight2);
 		NSString* briString = [NSString stringWithFormat:@" Brightness : %f", briWeight];
-		
+		*/
 		NSMutableString* value = [NSMutableString new];
 		[value appendString:@"Metrics:"];
 		
 		[value appendString:featureString];
-		[value appendString:hashString];
+		[value appendString:probabilityString];
+		//[value appendString:hashString];
 		[value appendString:histString];
-		[value appendString:motionString];
-		[value appendString:hueString];
-		[value appendString:satString];
-		[value appendString:briString];
+		//[value appendString:motionString];
+		//[value appendString:hueString];
+		//[value appendString:satString];
+		//[value appendString:briString];
 		
 		self.statusField.stringValue = value;
 	}
@@ -751,31 +765,34 @@ static BOOL toggleAspect = false;
 
 - (void)metadataOutput:(AVPlayerItemMetadataOutput *)output didOutputTimedMetadataGroups:(NSArray *)groups fromPlayerItemTrack:(AVPlayerItemTrack *)track
 {
-	NSMutableDictionary* metadataDictionary = [NSMutableDictionary dictionary];
-	
-	for(AVTimedMetadataGroup* group in groups)
-	{
-		for(AVMetadataItem* metadataItem in group.items)
-		{
-			NSString* key = metadataItem.identifier;
-			
-			id decodedJSON = [self.metadataDecoder decodeSynopsisMetadata:metadataItem];
-			if(decodedJSON)
-			{
-				[metadataDictionary setObject:decodedJSON forKey:key];
-			}
-			else
-			{
-				id value = metadataItem.value;
-				[metadataDictionary setObject:value forKey:key];
-			}
-		}
-	}
-	
-	if(self.metadataInspector)
-	{
-		[self.metadataInspector setFrameMetadata:metadataDictionary];
-	}
+    NSMutableDictionary* metadataDictionary = [NSMutableDictionary dictionary];
+    
+    for(AVTimedMetadataGroup* group in groups)
+    {
+        for(AVMetadataItem* metadataItem in group.items)
+        {
+            NSString* key = metadataItem.identifier;
+            
+            if ([key isEqualToString:kSynopsisMetadataIdentifier])
+            {
+                id metadata = [self.metadataDecoder decodeSynopsisMetadata:metadataItem];
+                if(metadata)
+                {
+                    [metadataDictionary setObject:metadata forKey:key];
+                }
+            }
+            else
+            {
+                id value = metadataItem.value;
+                [metadataDictionary setObject:value forKey:key];
+            }
+        }
+    }
+    
+    if(self.metadataInspector && metadataDictionary)
+    {
+        [self.metadataInspector setFrameMetadata:metadataDictionary];
+    }
 }
 
 

@@ -1118,7 +1118,7 @@
                     <toolbarItem implicitItemIdentifier="9F5CF487-1E4E-444C-802D-94888B16F638" label="Hue" paletteLabel="Hue" toolTip="Sort by Hue" tag="-1" image="Hue" id="Zcg-Uc-HtM"/>
                     <toolbarItem implicitItemIdentifier="F8253122-EF2C-4C95-8A10-9676379185BD" label="Brightness" paletteLabel="Brightness" toolTip="Sort by Brightness" tag="-1" image="Brightness" id="f0F-zV-DYJ"/>
                     <toolbarItem implicitItemIdentifier="F2AB7FFF-9081-446D-8F90-453657E530A8" label="Histogram" paletteLabel="Histogram" toolTip="Sort by Histogram Similarity" tag="-1" image="Histogram" id="FSS-QP-a3O"/>
-                    <toolbarItem implicitItemIdentifier="5428B973-A39F-43D4-AB52-247B94D078A9" label="Hybrid" paletteLabel="Hybrid" toolTip="Sort by Perceptual Similarity (Features and Histogram)" tag="-1" image="Smart" id="rCf-te-0id"/>
+                    <toolbarItem implicitItemIdentifier="5428B973-A39F-43D4-AB52-247B94D078A9" label="All" paletteLabel="All" toolTip="Sort by Perceptual Similarity (Features and Histogram)" tag="-1" image="Smart" id="rCf-te-0id"/>
                     <toolbarItem implicitItemIdentifier="247CFAA9-C1FD-4660-BA4F-518616BC3250" label="All" paletteLabel="All" toolTip="Reset Color Filters" tag="-1" image="Clear" id="3i1-aR-eyB">
                         <connections>
                             <action selector="filterClear:" target="Voe-Tx-rLC" id="7Lv-VP-3am"/>
@@ -1202,9 +1202,15 @@
                             <action selector="motionSortUsingSelectingCell:" target="Voe-Tx-rLC" id="jVO-DN-XyU"/>
                         </connections>
                     </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="32262A17-62A0-40D7-B88D-18701E1B3FDB" label="Predictions" paletteLabel="Predictions" tag="-1" image="Hash" id="QKl-Qt-RnG">
+                        <size key="minSize" width="512" height="512"/>
+                        <size key="maxSize" width="512" height="512"/>
+                    </toolbarItem>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
                     <toolbarItem reference="rCf-te-0id"/>
+                    <toolbarItem reference="mSf-oc-9ma"/>
+                    <toolbarItem reference="QKl-Qt-RnG"/>
                     <toolbarItem reference="twC-4t-m0y"/>
                     <toolbarItem reference="FSS-QP-a3O"/>
                     <toolbarItem reference="K3I-ac-OeR"/>
@@ -1302,6 +1308,7 @@
                 <outlet property="collectionView" destination="Zca-Ua-Xm8" id="2gw-dY-T0a"/>
                 <outlet property="featureTSNEMenu" destination="HUo-Cz-CUA" id="RIb-Wk-rJu"/>
                 <outlet property="featureVectorSort" destination="twC-4t-m0y" id="jav-xB-FKM"/>
+                <outlet property="hashSort" destination="QKl-Qt-RnG" id="TQB-Dn-rL7"/>
                 <outlet property="histogramSort" destination="FSS-QP-a3O" id="zbb-mI-Qxq"/>
                 <outlet property="histogramTSNEMenu" destination="Rkg-G5-rTR" id="a5H-EK-HwD"/>
                 <outlet property="hueSort" destination="Zcg-Uc-HtM" id="eLP-0M-FZM"/>
@@ -1333,6 +1340,7 @@
         <image name="Cool" width="512" height="512"/>
         <image name="Dark" width="512" height="512"/>
         <image name="Feature" width="512" height="512"/>
+        <image name="Hash" width="512" height="512"/>
         <image name="Histogram" width="512" height="512"/>
         <image name="Hue" width="512" height="512"/>
         <image name="Light" width="512" height="512"/>
