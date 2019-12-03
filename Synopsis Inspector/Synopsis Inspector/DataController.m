@@ -18,6 +18,8 @@
 #import "SynopsisCacheWithHap.h"
 #import "SynopsisCollectionViewItem.h"
 
+#define RELOAD_DATA 0
+
 
 
 
@@ -66,6 +68,8 @@ static DataController			*_globalDataController = nil;
 @property (readwrite) SynopsisMetadataDecoder* metadataDecoder;
 @property (readwrite, strong) dispatch_queue_t metadataQueue;
 
+@property (strong,nullable) SynopsisMetadataItem * selectedItem;
+
 
 @property (weak) IBOutlet NSTextField* statusField;
 
@@ -102,7 +106,7 @@ static DataController			*_globalDataController = nil;
 	
 	//	  self.resultsArray = [NSMutableArray new];
 	//self.resultsArrayController = [[NSArrayController alloc] initWithContent:[NSMutableArray new]];
-	self.resultsArrayController.automaticallyRearrangesObjects = YES;
+	self.resultsArrayController.automaticallyRearrangesObjects = NO;
 	
 	NSNib* synopsisResultNib = [[NSNib alloc] initWithNibNamed:@"SynopsisCollectionViewItem" bundle:[NSBundle mainBundle]];
 	
@@ -158,6 +162,8 @@ static DataController			*_globalDataController = nil;
 
 - (SynopsisMetadataItem*) firstSelectedItem
 {
+	return self.selectedItem;
+	/*
 	NSIndexSet *path = [self.collectionView selectionIndexes];
 	if(path.firstIndex != NSNotFound)
 	{
@@ -165,56 +171,70 @@ static DataController			*_globalDataController = nil;
 		return item;
 	}
 	return nil;
+	*/
 }
 
 - (void) setupSortUsingSortDescriptor:(NSSortDescriptor*) sortDescriptor selectedItem:(SynopsisMetadataItem*)item
 {
+	NSLog(@"%s ... %@",__func__,item);
 	NSArray* before = [self.resultsArrayController.arrangedObjects copy];
 	
 	self.resultsArrayController.sortDescriptors = @[sortDescriptor];
 	
 	NSArray* after = [self.resultsArrayController.arrangedObjects copy];
 	
+#if RELOAD_DATA
+	[self.collectionView reloadData];
+#else
+	
 	[self.collectionView.animator performBatchUpdates:^{
 		
-		[before enumerateObjectsUsingBlock:^(id	 _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-			
-			NSIndexPath* beforePath = [NSIndexPath indexPathForItem:idx inSection:0];
-			
-			NSUInteger afterIdx = [after indexOfObject:obj];
-			NSIndexPath* afterPath = [NSIndexPath indexPathForItem:afterIdx inSection:0];
-			
-			if(idx != NSNotFound && afterIdx != NSNotFound)
-			{
-				[self.collectionView.animator moveItemAtIndexPath:beforePath toIndexPath:afterPath];
-			}
-		}];
-		
-		if(item != nil)
+		int				afterIdx = 0;
+		for (SynopsisMetadataItem *item in after)
 		{
-			NSUInteger index = [self.resultsArrayController.arrangedObjects indexOfObject:item];
-			if(index != NSNotFound)
+			NSIndexPath		*afterPath = [NSIndexPath indexPathForItem:afterIdx inSection:0];
+			
+			NSUInteger		beforeIdx = [before indexOfObjectIdenticalTo:item];
+			if (beforeIdx == NSNotFound)
+				beforeIdx = [before indexOfObject:item];
+			if (beforeIdx != NSNotFound)
 			{
-				NSIndexPath* newItem = [NSIndexPath indexPathForItem:index inSection:0];
+				if (afterIdx < 10)
+					NSLog(@"\tmoving %@ from %ld to %ld",item,beforeIdx,afterIdx);
 				
-				NSSet* newItemSet = [NSSet setWithCollectionViewIndexPath:newItem];
+				NSIndexPath		*beforePath = [NSIndexPath indexPathForItem:beforeIdx inSection:0];
+				[self.collectionView.animator moveItemAtIndexPath:beforePath toIndexPath:afterPath];
+				[self.collectionView.animator reloadItemsAtIndexPaths:[NSSet setWithCollectionViewIndexPath:afterPath]];
+			}
+			
+			++afterIdx;
+		}
+		if (self.selectedItem != nil)
+		{
+			NSUInteger		tmpIdx = [self.resultsArrayController.arrangedObjects indexOfObjectIdenticalTo:self.selectedItem];
+			if (tmpIdx != NSNotFound)
+			{
+				NSLog(@"\tselected item is at index %ld in the UI",tmpIdx);
+				NSIndexPath		*tmpPath = [NSIndexPath indexPathForItem:tmpIdx inSection:0];
+				NSSet			*tmpSet = [NSSet setWithCollectionViewIndexPath:tmpPath];
 				
-				[self.resultsArrayController setSelectionIndex:index];
-				
-				[self.collectionView.animator scrollToItemsAtIndexPaths:newItemSet scrollPosition:NSCollectionViewScrollPositionCenteredVertically];
+				[self.resultsArrayController setSelectionIndex:tmpIdx];
+				[self.collectionView.animator scrollToItemsAtIndexPaths:tmpSet scrollPosition:NSCollectionViewScrollPositionCenteredVertically];
 			}
 		}
-
+		
 		
 	} completionHandler:^(BOOL finished) {
-		
 		[self updateStatusLabel];
 
 	}];
+	
+#endif
 }
 
 - (void) setupFilterUsingPredicate:(NSPredicate*)predicate selectedItem:(SynopsisMetadataItem*)item
 {
+	NSLog(@"%s",__func__);
 //	  NSArray* before = [self.resultsArrayController.arrangedObjects copy];
 //	  NSMutableSet* beforeSet = [NSMutableSet setWithArray:before];
 //
@@ -275,7 +295,7 @@ static DataController			*_globalDataController = nil;
 
 - (void)collectionView:(NSCollectionView *)cv didSelectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
 {
-	//NSLog(@"%s ... %@",__func__,indexPaths);
+	NSLog(@"%s ... %@",__func__,indexPaths);
 //	  NSCollectionViewItem* item = [self.collectionView itemAtIndex]
 	
 	[self.bestFitSort setTarget:appDelegate];
@@ -316,7 +336,8 @@ static DataController			*_globalDataController = nil;
 	//NSLog(@"\tcollectionViewItem is %@",collectionViewItem);
 	SynopsisMetadataItem* metadataItem = (SynopsisMetadataItem*)collectionViewItem.representedObject;
 	//NSLog(@"\tmetdataItem is %@",metadataItem);
-	
+	self.selectedItem = metadataItem;
+	NSLog(@"\tselecing %@",self.selectedItem);
 	
 	[[SynopsisCacheWithHap sharedCache] cachedGlobalMetadataForItem:metadataItem completionHandler:^(id	 _Nullable cachedValue, NSError * _Nullable error) {
 		
