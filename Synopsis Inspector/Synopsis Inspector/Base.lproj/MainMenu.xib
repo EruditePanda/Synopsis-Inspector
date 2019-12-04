@@ -634,34 +634,6 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="View" id="HyV-fh-RgO">
                         <items>
-                            <menuItem title="View Mode" id="IBN-ET-Xtg">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <menu key="submenu" title="View Mode" id="ZrH-or-JaT">
-                                    <items>
-                                        <menuItem title="Grid" keyEquivalent="1" id="Kqf-hB-ZBq">
-                                            <connections>
-                                                <action selector="switchLayout:" target="UeJ-CV-63y" id="prn-GM-ycW"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Hybrid Similarity Map" tag="1" enabled="NO" keyEquivalent="2" id="Jgd-8c-YIH">
-                                            <connections>
-                                                <action selector="switchLayout:" target="UeJ-CV-63y" id="Bac-Za-pXk"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Feature Similarity Map" tag="2" enabled="NO" keyEquivalent="3" id="HUo-Cz-CUA">
-                                            <connections>
-                                                <action selector="switchLayout:" target="UeJ-CV-63y" id="B7f-nO-gdr"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Histogram Similarity Map" tag="3" enabled="NO" keyEquivalent="4" id="Rkg-G5-rTR">
-                                            <connections>
-                                                <action selector="switchLayout:" target="UeJ-CV-63y" id="cBS-jW-MtD"/>
-                                            </connections>
-                                        </menuItem>
-                                    </items>
-                                </menu>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="5Bl-ua-psh"/>
                             <menuItem title="Show Toolbar" keyEquivalent="t" id="snW-S8-Cw5">
                                 <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                 <connections>
@@ -995,93 +967,6 @@
                                                                 </subviews>
                                                             </view>
                                                         </tabViewItem>
-                                                        <tabViewItem label="Frame Delta" identifier="" id="MLf-wl-ny7">
-                                                            <view key="view" wantsLayer="YES" id="sNy-rc-xtg" customClass="TransparentView">
-                                                                <rect key="frame" x="10" y="25" width="394" height="462"/>
-                                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                                <subviews>
-                                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mIV-B7-3sY">
-                                                                        <rect key="frame" x="15" y="440" width="93" height="14"/>
-                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Histogram Delta:" id="3Lo-zr-boo">
-                                                                            <font key="font" metaFont="smallSystem"/>
-                                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                                        </textFieldCell>
-                                                                    </textField>
-                                                                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cbV-e1-SrL" customClass="MetadataSingleValueHistoryView">
-                                                                        <rect key="frame" x="17" y="384" width="360" height="48"/>
-                                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                                    </customView>
-                                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VAa-Ek-9ak">
-                                                                        <rect key="frame" x="15" y="360" width="116" height="14"/>
-                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Feature Vector Delta:" id="2ds-r0-paH">
-                                                                            <font key="font" metaFont="smallSystem"/>
-                                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                                        </textFieldCell>
-                                                                    </textField>
-                                                                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kSK-QL-84J" customClass="MetadataSingleValueHistoryView">
-                                                                        <rect key="frame" x="17" y="304" width="360" height="48"/>
-                                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                                    </customView>
-                                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YT5-nJ-rKb">
-                                                                        <rect key="frame" x="316" y="435" width="63" height="19"/>
-                                                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                                                                        <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="right" title="0.0" id="vx4-PO-FXi">
-                                                                            <font key="font" metaFont="smallSystem"/>
-                                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                                        </textFieldCell>
-                                                                    </textField>
-                                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Prp-XC-oPP">
-                                                                        <rect key="frame" x="320" y="355" width="59" height="19"/>
-                                                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                                                                        <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="right" title="0.0" id="1Mf-zR-f8O">
-                                                                            <font key="font" metaFont="smallSystem"/>
-                                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                                        </textFieldCell>
-                                                                    </textField>
-                                                                </subviews>
-                                                            </view>
-                                                        </tabViewItem>
-                                                        <tabViewItem label="Raw" identifier="" id="GtS-Wv-bur">
-                                                            <view key="view" wantsLayer="YES" id="4mY-su-o5V" customClass="TransparentTabView">
-                                                                <rect key="frame" x="10" y="25" width="394" height="462"/>
-                                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                                <subviews>
-                                                                    <scrollView fixedFrame="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M9R-K5-eMJ">
-                                                                        <rect key="frame" x="17" y="17" width="360" height="442"/>
-                                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                                        <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="0Yy-9y-cEj">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="360" height="442"/>
-                                                                            <autoresizingMask key="autoresizingMask"/>
-                                                                            <subviews>
-                                                                                <textView ambiguous="YES" editable="NO" selectable="NO" drawsBackground="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" findStyle="panel" spellingCorrection="YES" id="5a8-q9-2ol">
-                                                                                    <rect key="frame" x="0.0" y="0.0" width="360" height="442"/>
-                                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                                                    <size key="minSize" width="360" height="442"/>
-                                                                                    <size key="maxSize" width="463" height="10000000"/>
-                                                                                    <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                                </textView>
-                                                                            </subviews>
-                                                                        </clipView>
-                                                                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="QBD-yb-Wcc">
-                                                                            <rect key="frame" x="-100" y="-100" width="87" height="18"/>
-                                                                            <autoresizingMask key="autoresizingMask"/>
-                                                                        </scroller>
-                                                                        <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="p8J-eo-mQU">
-                                                                            <rect key="frame" x="302" y="0.0" width="16" height="341"/>
-                                                                            <autoresizingMask key="autoresizingMask"/>
-                                                                        </scroller>
-                                                                    </scrollView>
-                                                                </subviews>
-                                                            </view>
-                                                        </tabViewItem>
                                                     </tabViewItems>
                                                 </tabView>
                                             </subviews>
@@ -1100,7 +985,7 @@
                             <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q3u-1t-s43">
                                 <rect key="frame" x="913" y="14" width="380" height="15"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                <sliderCell key="cell" controlSize="mini" continuous="YES" state="on" alignment="left" minValue="3" maxValue="20" doubleValue="4" tickMarkPosition="above" numberOfTickMarks="18" allowsTickMarkValuesOnly="YES" sliderType="linear" id="D7m-sn-p1I"/>
+                                <sliderCell key="cell" controlSize="mini" continuous="YES" state="on" alignment="left" minValue="3" maxValue="10" doubleValue="4" tickMarkPosition="above" numberOfTickMarks="8" allowsTickMarkValuesOnly="YES" sliderType="linear" id="D7m-sn-p1I"/>
                                 <connections>
                                     <action selector="zoomSliderUsed:" target="UeJ-CV-63y" id="Wca-ls-EiX"/>
                                 </connections>
@@ -1243,9 +1128,8 @@
         </menu>
         <viewController id="SQA-q7-aFi" customClass="MetadataInspectorViewController">
             <connections>
+                <outlet property="collectionView" destination="Zca-Ua-Xm8" id="5Wd-QB-huc"/>
                 <outlet property="dominantColorView" destination="sOl-Qf-bCg" id="rzi-Ew-le8"/>
-                <outlet property="featureVectorHistory" destination="kSK-QL-84J" id="14d-ap-3iS"/>
-                <outlet property="featureVectorHistoryCurrentValue" destination="Prp-XC-oPP" id="1Qu-2n-xWo"/>
                 <outlet property="featureVectorView" destination="yxf-LG-Vod" id="sfE-XV-ynm"/>
                 <outlet property="frameDescriptors" destination="opY-Ys-WTw" id="6en-vs-U5g"/>
                 <outlet property="globalDescriptors" destination="i9O-83-aVG" id="jW5-Qy-s1J"/>
@@ -1253,9 +1137,9 @@
                 <outlet property="globalFeatureVectorView" destination="JlD-mq-ucA" id="0P4-wt-fjz"/>
                 <outlet property="globalHistogramView" destination="riF-Ez-oKq" id="bZr-0h-qHT"/>
                 <outlet property="globalProbabilityView" destination="gsF-oN-Y2Z" id="3b1-9A-bej"/>
-                <outlet property="histogramHistory" destination="cbV-e1-SrL" id="6DT-BW-Toh"/>
-                <outlet property="histogramHistoryCurrentValue" destination="YT5-nJ-rKb" id="qMo-XT-EYg"/>
                 <outlet property="histogramView" destination="BWC-Cy-Ofc" id="0Hn-P2-vYS"/>
+                <outlet property="playerView" destination="W0a-Il-fSH" id="lAs-Mz-RSB"/>
+                <outlet property="previewBox" destination="b3U-F2-yq9" id="f3G-s5-8rU"/>
                 <outlet property="probabilityView" destination="UhM-ix-cwG" id="6gr-z8-s16"/>
             </connections>
         </viewController>
@@ -1306,13 +1190,10 @@
                 <outlet property="bestFitSort" destination="rCf-te-0id" id="TZU-59-eba"/>
                 <outlet property="brightSort" destination="f0F-zV-DYJ" id="anQ-Nt-qcJ"/>
                 <outlet property="collectionView" destination="Zca-Ua-Xm8" id="2gw-dY-T0a"/>
-                <outlet property="featureTSNEMenu" destination="HUo-Cz-CUA" id="RIb-Wk-rJu"/>
                 <outlet property="featureVectorSort" destination="twC-4t-m0y" id="jav-xB-FKM"/>
                 <outlet property="hashSort" destination="QKl-Qt-RnG" id="TQB-Dn-rL7"/>
                 <outlet property="histogramSort" destination="FSS-QP-a3O" id="zbb-mI-Qxq"/>
-                <outlet property="histogramTSNEMenu" destination="Rkg-G5-rTR" id="a5H-EK-HwD"/>
                 <outlet property="hueSort" destination="Zcg-Uc-HtM" id="eLP-0M-FZM"/>
-                <outlet property="hybridTSNEMenu" destination="Jgd-8c-YIH" id="ZdH-re-acd"/>
                 <outlet property="metadataInspector" destination="SQA-q7-aFi" id="GFR-Rr-uW3"/>
                 <outlet property="playerView" destination="W0a-Il-fSH" id="GXs-f0-UOY"/>
                 <outlet property="resultsArrayController" destination="itd-B0-X5S" id="UHP-Rr-ndd"/>

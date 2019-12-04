@@ -431,6 +431,11 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 	// Temporary fix to get spotlight search working
 	//[self.resultsArrayController removeObjects:self.resultsArrayController.content];
 	NSArray			*tmpArray = self.resultsArrayController.content;
+	
+	NSArray* currentSortDescriptors = self.resultsArrayController.sortDescriptors;
+    
+	self.resultsArrayController.sortDescriptors = @[];
+	
 	[self.resultsArrayController
 		removeObjectsAtArrangedObjectIndexes:[NSIndexSet
 			indexSetWithIndexesInRange:NSMakeRange(0,tmpArray.count)]];
@@ -443,7 +448,7 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 //	  if(self.resultsArray.count == 0)
 	{
 		NSMutableArray		*tmpArray = [self.continuousMetadataSearch.results mutableCopy];
-		//NSLog(@"\tfound %ld items",tmpArray.count);
+		NSLog(@"\tfound %ld items",tmpArray.count);
 		
 		[self.resultsArrayController addObjects:tmpArray ];
 		
@@ -452,6 +457,13 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 		if([self.resultsArrayController.content count])
 		{
 //			  [self lazyCreateLayoutsWithContent:self.resultsArrayController.content];
+		}
+		
+		DataController		*dc = [DataController global];
+		if (currentSortDescriptors != nil && currentSortDescriptors.count > 0 && dc.firstSelectedItem != nil)	{
+			[dc
+				setupSortUsingSortDescriptor:currentSortDescriptors[0]
+				selectedItem:dc.firstSelectedItem];
 		}
 	}
 	

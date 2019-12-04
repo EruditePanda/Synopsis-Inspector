@@ -36,6 +36,7 @@
 //}
 
 //
+/*
 -(void)setFrameSize:(NSSize)newSize
 {
     if ( !CGSizeEqualToSize(newSize,  self.collectionViewLayout.collectionViewContentSize))
@@ -62,6 +63,7 @@
         [super setFrameSize:newSize];
     }
 }
+*/
 //
 //- (void) setFrame:(NSRect)frame
 //{

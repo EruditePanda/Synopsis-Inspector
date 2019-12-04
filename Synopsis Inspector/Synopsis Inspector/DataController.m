@@ -18,7 +18,7 @@
 #import "SynopsisCacheWithHap.h"
 #import "SynopsisCollectionViewItem.h"
 
-#define RELOAD_DATA 1
+#define RELOAD_DATA 0
 
 
 
@@ -62,12 +62,6 @@ static DataController			*_globalDataController = nil;
 
 @property (readwrite, strong) IBOutlet MetadataInspectorViewController* metadataInspector;
 
-@property (readwrite, strong) IBOutlet PlayerView* playerView;
-@property (strong,readwrite) NSLayoutConstraint * previewViewHeightConstraint;
-
-@property (readwrite) SynopsisMetadataDecoder* metadataDecoder;
-@property (readwrite, strong) dispatch_queue_t metadataQueue;
-
 @property (strong,nullable) SynopsisMetadataItem * selectedItem;
 
 
@@ -99,8 +93,6 @@ static DataController			*_globalDataController = nil;
 	return self;
 }
 - (void) awakeFromNib	{
-	self.metadataDecoder = [[SynopsisMetadataDecoder alloc] initWithVersion:kSynopsisMetadataVersionValue];
-	self.metadataQueue = dispatch_queue_create("metadataqueue", DISPATCH_QUEUE_SERIAL);
 	
 	self.collectionView.backgroundColors = @[[NSColor clearColor]];
 	
@@ -124,13 +116,6 @@ static DataController			*_globalDataController = nil;
 	
 	//	bang the zoom slider so our layout is consistent
 	[self pushZoomSliderValToLayout];
-	
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidFinishLaunching:) name:NSApplicationDidFinishLaunchingNotification object:nil];
-}
-- (void) applicationDidFinishLaunching:(NSNotification *)note	{
-	//	we need to add these constraints when the app finishes launching because if we add them before the app delegate sets up the other constraints on its UI items, we get an autolayout error.  because apparently the order of constraints matters.
-	self.previewViewHeightConstraint = [self.playerView.heightAnchor constraintEqualToAnchor:self.playerView.widthAnchor multiplier:0.25 constant:0];
-	self.previewViewHeightConstraint.active = true;
 	
 	//	register to receive KVO notifications of the scroll view's frame
 	[self.collectionView
@@ -197,10 +182,10 @@ static DataController			*_globalDataController = nil;
 			NSUInteger		beforeIdx = [before indexOfObjectIdenticalTo:item];
 			if (beforeIdx == NSNotFound)
 				beforeIdx = [before indexOfObject:item];
-			if (beforeIdx != NSNotFound)
+			if (beforeIdx != NSNotFound && beforeIdx != afterIdx)
 			{
-				if (afterIdx < 10)
-					NSLog(@"\tmoving %@ from %ld to %ld",item,beforeIdx,afterIdx);
+				//if (afterIdx < 10)
+				//	NSLog(@"\tmoving %@ from %ld to %ld",item,beforeIdx,afterIdx);
 				
 				NSIndexPath		*beforePath = [NSIndexPath indexPathForItem:beforeIdx inSection:0];
 				[self.collectionView.animator moveItemAtIndexPath:beforePath toIndexPath:afterPath];
@@ -214,7 +199,7 @@ static DataController			*_globalDataController = nil;
 			NSUInteger		tmpIdx = [self.resultsArrayController.arrangedObjects indexOfObjectIdenticalTo:self.selectedItem];
 			if (tmpIdx != NSNotFound)
 			{
-				NSLog(@"\tselected item is at index %ld in the UI",tmpIdx);
+				//NSLog(@"\tselected item is at index %ld in the UI",tmpIdx);
 				NSIndexPath		*tmpPath = [NSIndexPath indexPathForItem:tmpIdx inSection:0];
 				NSSet			*tmpSet = [NSSet setWithCollectionViewIndexPath:tmpPath];
 				
@@ -339,89 +324,7 @@ static DataController			*_globalDataController = nil;
 	self.selectedItem = metadataItem;
 	NSLog(@"\tselecing %@",self.selectedItem);
 	
-	[[SynopsisCacheWithHap sharedCache] cachedGlobalMetadataForItem:metadataItem completionHandler:^(id	 _Nullable cachedValue, NSError * _Nullable error) {
-		
-		NSDictionary* globalMetadata = (NSDictionary*)cachedValue;
-		dispatch_async(dispatch_get_main_queue(), ^{
-			self.metadataInspector.globalMetadata = globalMetadata;
-		});
-	}];
-	
-	// Set up our video player to the currently selected item
-	
-	//	DO NOT use this 'loadAsset' method- if you do, the UI won't update to display the metadata
-	//[self.playerView loadAsset:metadataItem.asset];
-	
-	NSArray				*vidTracks = [metadataItem.asset tracksWithMediaType:AVMediaTypeVideo];
-	AVAssetTrack		*vidTrack = (vidTracks==nil || vidTracks.count<1) ? nil : [vidTracks objectAtIndex:0];
-	CGSize				tmpSize = (vidTrack==nil) ? CGSizeMake(1,1) : [vidTrack naturalSize];
-	if (self.previewViewHeightConstraint != nil)	{
-		[self.playerView removeConstraint:self.previewViewHeightConstraint];
-		self.previewViewHeightConstraint = nil;
-		self.previewViewHeightConstraint = [self.playerView.heightAnchor constraintEqualToAnchor:self.playerView.widthAnchor multiplier:tmpSize.height/tmpSize.width constant:0];
-		self.previewViewHeightConstraint.active = true;
-	}
-	
-	
-	
-	if(self.playerView.playerLayer.player.currentItem.asset != metadataItem.asset)
-	{
-		BOOL containsHap = [metadataItem.asset containsHapVideoTrack];
-		
-		AVPlayerItem* item = [AVPlayerItem playerItemWithAsset:metadataItem.asset];
-		
-		AVPlayerItemMetadataOutput* metadataOut = [[AVPlayerItemMetadataOutput alloc] initWithIdentifiers:nil];
-		metadataOut.suppressesPlayerRendering = YES;
-		[item addOutput:metadataOut];
-		
-		if(!containsHap)
-		{
-			NSDictionary* videoOutputSettings = @{(NSString*)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_32BGRA),
-												  (NSString*)kCVPixelBufferIOSurfacePropertiesKey : @{},
-												  //											  (NSString*)kCVPixelBufferIOSurfaceOpenGLFBOCompatibilityKey :@(YES),
-												  //											  (NSString*)kCVPixelBufferIOSurfaceOpenGLTextureCompatibilityKey :@(YES),
-												  };
-			
-			AVPlayerItemVideoOutput* videoOutput = [[AVPlayerItemVideoOutput alloc] initWithPixelBufferAttributes:videoOutputSettings];
-			videoOutput.suppressesPlayerRendering = YES;
-			[item addOutput:videoOutput];
-		}
-		else
-		{
-			AVAssetTrack* hapAssetTrack = [[metadataItem.asset hapVideoTracks] firstObject];
-			AVPlayerItemHapDXTOutput* hapOutput = [[AVPlayerItemHapDXTOutput alloc] initWithHapAssetTrack:hapAssetTrack];
-			hapOutput.suppressesPlayerRendering = YES;
-			hapOutput.outputAsRGB = NO;
-			
-			[item addOutput:hapOutput];
-		}
-		
-		if(item)
-		{
-//			  dispatch_async(dispatch_get_main_queue(), ^{
-				if(item.outputs.count)
-				{
-					AVPlayerItemMetadataOutput* metadataOutput = (AVPlayerItemMetadataOutput*)[item.outputs firstObject];
-					[metadataOutput setDelegate:self queue:self.metadataQueue];
-				}
-				
-				if(containsHap)
-				{
-					[self.playerView.playerLayer replacePlayerItemWithHAPItem:item];
-				}
-				else
-				{
-					[self.playerView.playerLayer replacePlayerItemWithItem:item];
-				}
-				
-				[self.playerView seekToTime:kCMTimeZero];
-				
-//			  });
-		}
-   
-	}
-
-	
+	self.metadataInspector.metadataItem = metadataItem;
 }
 
 - (void)collectionView:(NSCollectionView *)collectionView didDeselectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
@@ -523,7 +426,7 @@ static BOOL toggleAspect = false;
 {
 	self.zoomSlider.enabled = YES;
 	self.zoomSlider.minValue = 3;
-	self.zoomSlider.maxValue = 20;
+	self.zoomSlider.maxValue = 10;
 	self.zoomSlider.allowsTickMarkValuesOnly = YES;
 	self.zoomSlider.numberOfTickMarks = self.zoomSlider.maxValue - self.zoomSlider.minValue + 1;
 
@@ -779,41 +682,6 @@ static BOOL toggleAspect = false;
 	{
 		self.statusField.stringValue = [NSString stringWithFormat:@"%@ : %@ : %@", appDelegate.sortStatus, appDelegate.filterStatus, appDelegate.correlationStatus];
 	}
-}
-
-
-#pragma mark - AVPlayerItemMetadataOutputPushDelegate
-
-- (void)metadataOutput:(AVPlayerItemMetadataOutput *)output didOutputTimedMetadataGroups:(NSArray *)groups fromPlayerItemTrack:(AVPlayerItemTrack *)track
-{
-    NSMutableDictionary* metadataDictionary = [NSMutableDictionary dictionary];
-    
-    for(AVTimedMetadataGroup* group in groups)
-    {
-        for(AVMetadataItem* metadataItem in group.items)
-        {
-            NSString* key = metadataItem.identifier;
-            
-            if ([key isEqualToString:kSynopsisMetadataIdentifier])
-            {
-                id metadata = [self.metadataDecoder decodeSynopsisMetadata:metadataItem];
-                if(metadata)
-                {
-                    [metadataDictionary setObject:metadata forKey:key];
-                }
-            }
-            else
-            {
-                id value = metadataItem.value;
-                [metadataDictionary setObject:value forKey:key];
-            }
-        }
-    }
-    
-    if(self.metadataInspector && metadataDictionary)
-    {
-        [self.metadataInspector setFrameMetadata:metadataDictionary];
-    }
 }
 
 
