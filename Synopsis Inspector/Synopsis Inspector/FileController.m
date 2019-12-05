@@ -14,7 +14,7 @@
 
 #import "DataController.h"
 
-#define RELOAD_DATA 1
+#define RELOAD_DATA 0
 
 
 
@@ -170,7 +170,7 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 - (IBAction) switchToLocalComputerPathSearchScope:(id)sender
 {
 	NSLog(@"%s",__func__);
-
+	
 	NSOpenPanel* openPanel = [NSOpenPanel openPanel];
 	openPanel.allowedFileTypes = nil;
 	openPanel.canChooseDirectories = TRUE;
@@ -178,34 +178,13 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 	openPanel.allowsMultipleSelection = NO;
 	
 	[openPanel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result) {
-		if(result == NSFileHandlingPanelOKButton)
-		{
+		if(result == NSFileHandlingPanelOKButton)	{
 	   		//	halt the MD query, we're not going to uses it while running files manually
 	   		[self.continuousMetadataSearch stopQuery];
 	   		
-	   		NSArray* currentSortDescriptors = self.resultsArrayController.sortDescriptors;
-    
-			self.resultsArrayController.sortDescriptors = @[];
-			
-	   		//[self.resultsArrayController removeObject:self.resultsArrayController.content];
-			
-	   		NSArray			*origArray = self.resultsArrayController.arrangedObjects;
+	   		NSArray			*toBeRemoved = [self.resultsArrayController.content copy];
 	   		
-#if RELOAD_DATA
-	   		[[DataController global] reloadData];
-#endif
-	   		
-	   		NSUInteger		tmpIndex = 0;
-	   		NSMutableSet	*setToRemove = [[NSMutableSet alloc] init];
-	   		NSMutableSet	*setToInsert = [[NSMutableSet alloc] init];
-	   		for (id tmpItem in origArray)	{
-	   			NSIndexPath		*tmpPath = [NSIndexPath indexPathForItem:tmpIndex inSection:0];
-	   			[setToRemove addObject:tmpPath];
-	   			++tmpIndex;
-	   		}
-	   		
-	   		[self.resultsArrayController
-	   			removeObjectsAtArrangedObjectIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,origArray.count)]];
+	   		NSMutableArray	*toBeAdded = [[NSMutableArray alloc] init];
 	   		
 	   		self.window.title = [@"Synopsis Inspector - " stringByAppendingString:openPanel.URL.lastPathComponent];
 	   		
@@ -218,7 +197,7 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 				options:iterOpts
 				errorHandler:nil];
 			
-			tmpIndex = 0;
+			NSUInteger		tmpIndex = 0;
 			for (NSURL *fileURL in dirIt)	{
 				NSError			*nsErr = nil;
 				NSNumber		*isDir = nil;
@@ -235,46 +214,22 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 							//	leave the group so anything that needs to wait until all MD items have loaded can do sso
 							dispatch_group_leave(_globalMDLoadGroup);
 						}];
-					//	if we were able to make a metadata item, add it to the results array controller
 					if (item == nil)
 						continue;
 					
-					[self.resultsArrayController addObject:item];
+					//	if we were able to make a metadata item, add it to the array of items to be added
+					[toBeAdded addObject:item];
 					
-					[setToInsert addObject:[NSIndexPath indexPathForItem:tmpIndex inSection:0]];
 					++tmpIndex;
 				}
 			}
 			
+			//	wait for all the metadata items to finish loading...
 			dispatch_group_wait(_globalMDLoadGroup, DISPATCH_TIME_FOREVER);
 			
-			//self.resultsArrayController.sortDescriptors = currentSortDescriptors;
+			//	insert/remove the items that were loaded from disk
+			[self somethingUpdatedItems:@[] addedItems:toBeAdded removedItems:toBeRemoved];
 			
-#if RELOAD_DATA
-			//dispatch_async(dispatch_get_main_queue(), ^{
-				[[DataController global] reloadData];
-				DataController		*dc = [DataController global];
-				if (currentSortDescriptors != nil && currentSortDescriptors.count > 0 && dc.firstSelectedItem != nil)	{
-					[dc
-						setupSortUsingSortDescriptor:currentSortDescriptors[0]
-						selectedItem:dc.firstSelectedItem];
-				}
-			//});
-#else
-			[self.collectionView.animator performBatchUpdates:^{
-				NSLog(@"\tshould be doing the updates...");
-				[self.collectionView.animator deleteItemsAtIndexPaths:setToRemove];
-				[self.collectionView.animator insertItemsAtIndexPaths:setToInsert];
-			} completionHandler:^(BOOL finished) {
-				NSLog(@"\tcompletion handler from %s running",__func__);
-				DataController		*dc = [DataController global];
-				if (currentSortDescriptors != nil && currentSortDescriptors.count > 0 && dc.firstSelectedItem != nil)	{
-					[dc
-						setupSortUsingSortDescriptor:currentSortDescriptors[0]
-						selectedItem:dc.firstSelectedItem];
-				}
-			}];
-#endif
 		}
 	}];
 	
@@ -291,34 +246,13 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 	openPanel.allowsMultipleSelection = true;
 	
 	[openPanel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result) {
-		if(result == NSFileHandlingPanelOKButton)
-		{
+		if(result == NSFileHandlingPanelOKButton)	{
 			//	halt the MD query, we're not going to uses it while running files manually
 	   		[self.continuousMetadataSearch stopQuery];
 	   		
-	   		NSArray* currentSortDescriptors = self.resultsArrayController.sortDescriptors;
-    
-			self.resultsArrayController.sortDescriptors = @[];
-			
-			//[self.resultsArrayController removeObject:self.resultsArrayController.content];
-			
-	   		NSArray			*origArray = self.resultsArrayController.arrangedObjects;
+	   		NSArray			*toBeRemoved = [self.resultsArrayController.content copy];
 	   		
-#if RELOAD_DATA
-	   		[[DataController global] reloadData];
-#endif
-	   		
-	   		NSUInteger		tmpIndex = 0;
-	   		NSMutableSet	*setToRemove = [[NSMutableSet alloc] init];
-	   		NSMutableSet	*setToInsert = [[NSMutableSet alloc] init];
-	   		for (id tmpItem in origArray)	{
-	   			NSIndexPath		*tmpPath = [NSIndexPath indexPathForItem:tmpIndex inSection:0];
-	   			[setToRemove addObject:tmpPath];
-	   			++tmpIndex;
-	   		}
-	   		
-	   		[self.resultsArrayController
-	   			removeObjectsAtArrangedObjectIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,origArray.count)]];
+	   		NSMutableArray	*toBeAdded = [[NSMutableArray alloc] init];
 	   		
 	   		NSArray			*urls = openPanel.URLs;
 	   		if (urls.count > 0)	{
@@ -327,8 +261,7 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 	   		}
 	   		
 	   		//	run through the array of selected URLs
-	   		NSMutableArray		*addedItems = [[NSMutableArray alloc] init];
-	   		tmpIndex = 0;
+	   		NSUInteger			tmpIndex = 0;
 	   		for (NSURL *fileURL in urls)	{
 	   			//	enter the metadata load group...
 				dispatch_group_enter(_globalMDLoadGroup);
@@ -344,45 +277,17 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 				if (item == nil)
 					continue;
 				
-				[addedItems addObject:item];
+				[toBeAdded addObject:item];
 				
-				[setToInsert addObject:[NSIndexPath indexPathForItem:tmpIndex inSection:0]];
 				++tmpIndex;
 	   		}
 	   		
-	   		[self.resultsArrayController addObjects:addedItems];
-	   		
+	   		//	wait for all the metadata items to finish loading...
 			dispatch_group_wait(_globalMDLoadGroup, DISPATCH_TIME_FOREVER);
 			
-			//self.resultsArrayController.sortDescriptors = currentSortDescriptors;
-			
-#if RELOAD_DATA
-			//dispatch_async(dispatch_get_main_queue(), ^{
-				[[DataController global] reloadData];
-				DataController		*dc = [DataController global];
-				if (currentSortDescriptors != nil && currentSortDescriptors.count > 0 && dc.firstSelectedItem != nil)	{
-					[dc
-						setupSortUsingSortDescriptor:currentSortDescriptors[0]
-						selectedItem:dc.firstSelectedItem];
-				}
-			//});
-#else
-			[self.collectionView.animator performBatchUpdates:^{
-				NSLog(@"\tshould be doing the updates...");
-				[self.collectionView.animator deleteItemsAtIndexPaths:setToRemove];
-				[self.collectionView.animator insertItemsAtIndexPaths:setToInsert];
-			} completionHandler:^(BOOL finished) {
-				NSLog(@"\tcompletion handler from %s running",__func__);
-				DataController		*dc = [DataController global];
-				if (currentSortDescriptors != nil && currentSortDescriptors.count > 0 && dc.firstSelectedItem != nil)	{
-					[dc
-						setupSortUsingSortDescriptor:currentSortDescriptors[0]
-						selectedItem:dc.firstSelectedItem];
-				}
-			}];
-#endif
+			//	insert/remove the items that were loaded from disk
+			[self somethingUpdatedItems:@[] addedItems:toBeAdded removedItems:toBeRemoved];
 		}
-		
 	}];
 	
 }
@@ -428,44 +333,16 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 
 - (void) handleInitialGatherComplete	{
 	NSLog(@"%s",__func__);
-	// Temporary fix to get spotlight search working
-	//[self.resultsArrayController removeObjects:self.resultsArrayController.content];
-	NSArray			*tmpArray = self.resultsArrayController.content;
 	
-	NSArray* currentSortDescriptors = self.resultsArrayController.sortDescriptors;
-    
-	self.resultsArrayController.sortDescriptors = @[];
+	[self.resultsArrayController.content removeAllObjects];
 	
-	[self.resultsArrayController
-		removeObjectsAtArrangedObjectIndexes:[NSIndexSet
-			indexSetWithIndexesInRange:NSMakeRange(0,tmpArray.count)]];
+	NSMutableArray		*tmpArray = [self.continuousMetadataSearch.results mutableCopy];
+	NSLog(@"\tfound %ld items",tmpArray.count);
 	
-	// Ideally, we want to run an initial populate pass
-	// And then animate things coming and going
-	// However we have problems comparing objects in sets
-	// since I dont know why.
+	[self.resultsArrayController addObjects:tmpArray];
+	[self.resultsArrayController rearrangeObjects];
 	
-//	  if(self.resultsArray.count == 0)
-	{
-		NSMutableArray		*tmpArray = [self.continuousMetadataSearch.results mutableCopy];
-		NSLog(@"\tfound %ld items",tmpArray.count);
-		
-		[self.resultsArrayController addObjects:tmpArray ];
-		
-		[[DataController global] reloadData];
-	
-		if([self.resultsArrayController.content count])
-		{
-//			  [self lazyCreateLayoutsWithContent:self.resultsArrayController.content];
-		}
-		
-		DataController		*dc = [DataController global];
-		if (currentSortDescriptors != nil && currentSortDescriptors.count > 0 && dc.firstSelectedItem != nil)	{
-			[dc
-				setupSortUsingSortDescriptor:currentSortDescriptors[0]
-				selectedItem:dc.firstSelectedItem];
-		}
-	}
+	[[DataController global] reloadData];
 	
 }
 
@@ -474,7 +351,15 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 	[self.continuousMetadataSearch disableUpdates];
 	
 	dispatch_async(dispatch_get_main_queue(), ^{
-		[self handleQueuryDidUpdate:notification.userInfo];
+		//[self handleQueuryDidUpdate:notification.userInfo];
+		NSArray			*addedItems = [notification.userInfo objectForKey:NSMetadataQueryUpdateAddedItemsKey];
+		NSArray			*updatedItems = [notification.userInfo objectForKey:NSMetadataQueryUpdateChangedItemsKey];
+		NSArray			*removedItems = [notification.userInfo objectForKey:NSMetadataQueryUpdateRemovedItemsKey];
+		
+		//	wait for the metadata items to finish creating themselves...
+		dispatch_group_wait(_globalMDLoadGroup, DISPATCH_TIME_FOREVER);
+		
+		[self somethingUpdatedItems:updatedItems addedItems:addedItems removedItems:removedItems];
 
 		[self.continuousMetadataSearch enableUpdates];
 		
@@ -483,85 +368,124 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 	});
 }
 
-- (void) handleQueuryDidUpdate:(NSDictionary*)userInfo	{
-	NSLog(@"%s",__func__);
 
-	NSArray* addedItems = [userInfo objectForKey:NSMetadataQueryUpdateAddedItemsKey];
-	NSArray* updatedItems = [userInfo objectForKey:NSMetadataQueryUpdateChangedItemsKey];
-	NSArray* removedItems = [userInfo objectForKey:NSMetadataQueryUpdateRemovedItemsKey];
+#pragma mark - array controller manipulation
+
+
+- (void) somethingUpdatedItems:(NSArray *)updatedItems addedItems:(NSArray *)addedItems removedItems:(NSArray *)removedItems	{
+	NSLog(@"%s",__func__);
+	
 	NSLog(@"\tadded %d items, updated %d items, removed %d items", addedItems.count, updatedItems.count, removedItems.count);
 	
-	NSArray* currentSortDescriptors = self.resultsArrayController.sortDescriptors;
-    
-	self.resultsArrayController.sortDescriptors = @[];
+	//	we have to do two different things with all these items- we have to insert them into the 
+	//	array controller's contents, and we also have to tell the collection view to reload/update 
+	//	the corresponding items (if they're visible with the current search predicates)
 	
-	// Cache updaed objects indices
-	NSMutableSet* updatedIndexPaths = [[NSMutableSet alloc] init];
-	NSMutableIndexSet* updatedIndexSet = [[NSMutableIndexSet alloc] init];
-	for(SynopsisMetadataItem* item in updatedItems)
-	{
-		NSIndexPath* updatedItemPath = [NSIndexPath indexPathForItem:[self.resultsArrayController.content indexOfObject:item] inSection:0];
-		[updatedIndexPaths addObject:updatedItemPath];
-		[updatedIndexSet addIndex:[updatedItemPath item]];
+	//	first we're going to modify the array controller's contents...
+	
+	NSArray				*origArrangedObjects = [[self.resultsArrayController arrangedObjects] copy];
+	
+	NSMutableArray		*actualItemsToUpdate = [[NSMutableArray alloc] init];
+	NSMutableIndexSet	*updateIndices = [[NSMutableIndexSet alloc] init];
+	for (SynopsisMetadataItem * item in updatedItems)	{
+		NSUInteger		tmpIdx = [self.resultsArrayController.content indexOfObject:item];
+		if (tmpIdx == NSNotFound)
+			continue;
+		
+		[actualItemsToUpdate addObject:item];
+		[updateIndices addIndex:tmpIdx];
 	}
-	// Actually update our backing
-	[self.resultsArrayController.content replaceObjectsAtIndexes:updatedIndexSet withObjects:updatedItems];
-
-	// Cache removed objects indices
-	NSMutableSet* removedIndexPaths = [[NSMutableSet alloc] init];
-	for(SynopsisMetadataItem* item in removedItems)
-	{
-		NSIndexPath* removedItemPath = [NSIndexPath indexPathForItem:[self.resultsArrayController.content indexOfObject:item] inSection:0];
-		[removedIndexPaths addObject:removedItemPath];
-	}
+	if (updateIndices.count > 0 && updateIndices.count == actualItemsToUpdate.count)
+		[self.resultsArrayController.content replaceObjectsAtIndexes:updateIndices withObjects:actualItemsToUpdate];
 	
-	// Actually remove object from our backing
-	[self.resultsArrayController removeObjects:removedItems];
+	if (removedItems.count > 0)
+		[self.resultsArrayController.content removeObjectsInArray:removedItems];
 	
-	// Add items to our array - We dont sort them yet - so we just append them at the end until the next sort.
-	NSUInteger indexOfLastItem = [self.resultsArrayController.content count];
-	[self.resultsArrayController addObjects:addedItems];
-
-	// Build an indexSet
-	NSMutableSet* addedIndexPaths = [[NSMutableSet alloc] init];
-	for(NSUInteger index = 0; index < addedItems.count; index++)
-	{
-		[addedIndexPaths addObject:[NSIndexPath indexPathForItem:(index + indexOfLastItem) inSection:0]];
-	}
+	if (addedItems.count > 0)
+		[self.resultsArrayController.content addObjectsFromArray:addedItems];
 	
 	
-	//self.resultsArrayController.sortDescriptors = currentSortDescriptors;
+	//	re-apply the sort descriptor and search predicates...
+	[self.resultsArrayController rearrangeObjects];
+	//	print the first 12 items in the array
+	//NSLog(@"\tfirst 12 arranged objects are:");
+	//for (int i=0; i<12; ++i)	{
+	//	if ([self.resultsArrayController.arrangedObjects count] <= i)
+	//		break;
+	//	NSLog(@"\t\t%d - %@",i,[self.resultsArrayController.arrangedObjects objectAtIndex:i]);
+	//}
 	
+	NSArray				*newArrangedObjects = [self.resultsArrayController arrangedObjects];
 	
 #if RELOAD_DATA
 	[self.collectionView reloadData];
-	DataController		*dc = [DataController global];
-	if (currentSortDescriptors != nil && currentSortDescriptors.count > 0 && dc.firstSelectedItem != nil)	{
-		[dc
-			setupSortUsingSortDescriptor:currentSortDescriptors[0]
-			selectedItem:dc.firstSelectedItem];
-	}
 #else
-	// Now Animate our Collection View with our changes
 	[self.collectionView performBatchUpdates:^{
-		NSLog(@"\tbatch update beginning...");
-		// Handle Updated objects
-		[self.collectionView reloadItemsAtIndexPaths:updatedIndexPaths];
-
-		// Handle RemovedItems
-		[self.collectionView deleteItemsAtIndexPaths:removedIndexPaths];
 		
-		// Handle Added items
-		[self.collectionView insertItemsAtIndexPaths:addedIndexPaths];
+		//NSMutableArray		*objectsThatWereMoved = [newArrangedObjects mutableCopy];
 		
-	} completionHandler:^(BOOL finished) {
-		NSLog(@"\tcompletion handler from %s running",__func__);
-		DataController		*dc = [DataController global];
-		if (currentSortDescriptors != nil && currentSortDescriptors.count > 0 && dc.firstSelectedItem != nil)	{
-			[dc
-				setupSortUsingSortDescriptor:currentSortDescriptors[0]
-				selectedItem:dc.firstSelectedItem];
+		NSMutableSet		*collectionUpdate = [[NSMutableSet alloc] init];
+		for (SynopsisMetadataItem * item in actualItemsToUpdate)	{
+			//[objectsThatWereMoved removeObject:item];
+			
+			NSUInteger		tmpIdx = [newArrangedObjects indexOfObject:item];
+			if (tmpIdx == NSNotFound)
+				continue;
+			[collectionUpdate addObject:[NSIndexPath indexPathForItem:tmpIdx inSection:0]];
 		}
+		if (collectionUpdate.count > 0)	{
+			[self.collectionView.animator reloadItemsAtIndexPaths:collectionUpdate];
+		}
+		//NSLog(@"\tcollectionUpdate is %@",collectionUpdate);
+		
+		
+		NSMutableSet		*collectionRemove = [[NSMutableSet alloc] init];
+		for (SynopsisMetadataItem * item in removedItems)	{
+			//[objectsThatWereMoved removeObject:item];
+			
+			NSUInteger		tmpIdx = [origArrangedObjects indexOfObject:item];
+			if (tmpIdx == NSNotFound)
+				continue;
+			[collectionRemove addObject:[NSIndexPath indexPathForItem:tmpIdx inSection:0]];
+		}
+		if (collectionRemove.count > 0)	{
+			[self.collectionView.animator deleteItemsAtIndexPaths:collectionRemove];
+		}
+		//NSLog(@"\tcollectionRemove is %@",collectionRemove);
+		
+		
+		NSMutableSet		*collectionInsert = [[NSMutableSet alloc] init];
+		for (SynopsisMetadataItem * item in addedItems)	{
+			//[objectsThatWereMoved removeObject:item];
+			
+			NSUInteger		tmpIdx = [newArrangedObjects indexOfObject:item];
+			if (tmpIdx == NSNotFound)
+				continue;
+			[collectionInsert addObject:[NSIndexPath indexPathForItem:tmpIdx inSection:0]];
+		}
+		if (collectionInsert.count > 0)	{
+			[self.collectionView.animator insertItemsAtIndexPaths:collectionInsert];
+		}
+		//NSLog(@"\tcollectionInsert is %@",collectionInsert);
+		
+		/*
+		//	now we want to make animations for the objects that we neither reloaded, removed, nor inserted- the objects that were just moved around...
+		//	strangely, this doesn't make a visible difference in the UI- that's why this is commented out...
+		NSMutableSet		*collectionMove = [[NSMutableSet alloc] init];
+		for (SynopsisMetadataItem * item in objectsThatWereMoved)	{
+			NSUInteger			oldIdx = [origArrangedObjects indexOfObject:item];
+			NSUInteger			newIdx = [newArrangedObjects indexOfObject:item];
+			
+			if (oldIdx != NSNotFound && newIdx != NSNotFound && oldIdx != newIdx)	{
+				//NSLog(@"\tmoved %ld to %ld",oldIdx,newIdx);
+				NSIndexPath		*oldPath = [NSIndexPath indexPathForItem:oldIdx inSection:0];
+				NSIndexPath		*newPath = [NSIndexPath indexPathForItem:newIdx inSection:0];
+				[self.collectionView.animator moveItemAtIndexPath:oldPath toIndexPath:newPath];
+			}
+		}
+		*/
+		
+	} completionHandler:^(BOOL finished)	{
 	}];
 #endif
 	

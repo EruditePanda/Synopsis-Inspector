@@ -162,43 +162,47 @@ static DataController			*_globalDataController = nil;
 - (void) setupSortUsingSortDescriptor:(NSSortDescriptor*) sortDescriptor selectedItem:(SynopsisMetadataItem*)item
 {
 	NSLog(@"%s ... %@",__func__,item);
-	NSArray* before = [self.resultsArrayController.arrangedObjects copy];
 	
-	self.resultsArrayController.sortDescriptors = @[sortDescriptor];
+	NSArray			*before = [self.resultsArrayController.arrangedObjects copy];
 	
-	NSArray* after = [self.resultsArrayController.arrangedObjects copy];
+	self.resultsArrayController.sortDescriptors = @[ sortDescriptor ];
+	[self.resultsArrayController rearrangeObjects];
+	//NSLog(@"\tfirst 12 arranged objects are:");
+	//for (int i=0; i<12; ++i)	{
+	//	if ([self.resultsArrayController.arrangedObjects count] <= i)
+	//		break;
+	//	NSLog(@"\t\t%d - %@",i,[self.resultsArrayController.arrangedObjects objectAtIndex:i]);
+	//}
+	
+	NSArray			*after = [self.resultsArrayController.arrangedObjects copy];
 	
 #if RELOAD_DATA
 	[self.collectionView reloadData];
+	[self updateStatusLabel];
 #else
-	
 	[self.collectionView.animator performBatchUpdates:^{
 		
 		int				afterIdx = 0;
-		for (SynopsisMetadataItem *item in after)
-		{
+		for (SynopsisMetadataItem *item in after)	{
 			NSIndexPath		*afterPath = [NSIndexPath indexPathForItem:afterIdx inSection:0];
 			
 			NSUInteger		beforeIdx = [before indexOfObjectIdenticalTo:item];
 			if (beforeIdx == NSNotFound)
 				beforeIdx = [before indexOfObject:item];
-			if (beforeIdx != NSNotFound && beforeIdx != afterIdx)
-			{
+			if (beforeIdx != NSNotFound && beforeIdx != afterIdx)	{
 				//if (afterIdx < 10)
 				//	NSLog(@"\tmoving %@ from %ld to %ld",item,beforeIdx,afterIdx);
 				
 				NSIndexPath		*beforePath = [NSIndexPath indexPathForItem:beforeIdx inSection:0];
 				[self.collectionView.animator moveItemAtIndexPath:beforePath toIndexPath:afterPath];
-				[self.collectionView.animator reloadItemsAtIndexPaths:[NSSet setWithCollectionViewIndexPath:afterPath]];
+				//[self.collectionView.animator reloadItemsAtIndexPaths:[NSSet setWithCollectionViewIndexPath:afterPath]];
 			}
 			
 			++afterIdx;
 		}
-		if (self.selectedItem != nil)
-		{
+		if (self.selectedItem != nil)	{
 			NSUInteger		tmpIdx = [self.resultsArrayController.arrangedObjects indexOfObjectIdenticalTo:self.selectedItem];
-			if (tmpIdx != NSNotFound)
-			{
+			if (tmpIdx != NSNotFound)	{
 				//NSLog(@"\tselected item is at index %ld in the UI",tmpIdx);
 				NSIndexPath		*tmpPath = [NSIndexPath indexPathForItem:tmpIdx inSection:0];
 				NSSet			*tmpSet = [NSSet setWithCollectionViewIndexPath:tmpPath];
@@ -213,8 +217,8 @@ static DataController			*_globalDataController = nil;
 		[self updateStatusLabel];
 
 	}];
-	
 #endif
+	
 }
 
 - (void) setupFilterUsingPredicate:(NSPredicate*)predicate selectedItem:(SynopsisMetadataItem*)item
@@ -267,6 +271,8 @@ static DataController			*_globalDataController = nil;
 - (NSCollectionViewItem *)collectionView:(NSCollectionView *)collectionView itemForRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath
 {
 	//NSLog(@"%s ... %@",__func__,indexPath);
+	if (indexPath == nil)
+		return nil;
 	SynopsisCollectionViewItem* item = (SynopsisCollectionViewItem*)[collectionView makeItemWithIdentifier:@"SynopsisCollectionViewItem" forIndexPath:indexPath];
 	
 	SynopsisMetadataItem* representedObject = [self.resultsArrayController.arrangedObjects objectAtIndex:indexPath.item];
