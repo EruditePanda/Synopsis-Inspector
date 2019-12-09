@@ -297,6 +297,9 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 
 - (id)metadataQuery:(NSMetadataQuery *)query replacementObjectForResultObject:(NSMetadataItem *)result
 {
+	//NSLog(@"%s",__func__);
+	//NSLog(@"\tval is %@",[result valueForAttribute:kSynopsisMetadataHFSAttributeDescriptorKey]);
+	
 	// Swap our metadata item for a SynopsisMetadataItem which has some Key Value updates
 	/*
 	SynopsisMetadataItem* item = [[SynopsisMetadataItem alloc] initWithURL:[NSURL fileURLWithPath:[result valueForAttribute:(NSString*)kMDItemPath]]];
@@ -630,7 +633,7 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 			finalSearchString = [predicateBase stringByAppendingString:newTerm];
 		}
 		
-		NSLog(@"Built Predicate is :%@", finalSearchString);
+		NSLog(@"Built Predicate is \"%@\"", finalSearchString);
 		
 		// reset to default search
 		NSPredicate *searchPredicate;

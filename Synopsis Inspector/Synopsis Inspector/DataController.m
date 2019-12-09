@@ -17,6 +17,7 @@
 #import "MetadataInspectorViewController.h"
 #import "SynopsisCacheWithHap.h"
 #import "SynopsisCollectionViewItem.h"
+#import "TokenObject.h"
 
 #define RELOAD_DATA 0
 
@@ -261,7 +262,46 @@ static DataController			*_globalDataController = nil;
 }
 
 
+#pragma mark - Search
+
+
+- (IBAction)search:(id)sender
+{
+	//NSLog(@"%s",__func__);
+	NSString		*rawSearchString = [sender stringValue];
+	//NSLog(@"\tsearch term is %@",rawSearchString);
+	
+	TokenObject		*obj = [TokenObject createTokenGroupFromString:rawSearchString];
+	if (obj == nil)	{
+		self.resultsArrayController.filterPredicate = nil;
+		[self.resultsArrayController rearrangeObjects];
+		[self.collectionView reloadData];
+		return;
+	}
+	else	{
+		NSPredicate		*descriptorPred = [obj createPredicateWithFormat:@"ANY SELF.Description CONTAINS %@"];
+		NSPredicate		*filenamePred = [obj createPredicateWithFormat:@"SELF.url.path CONTAINS %@"];
+		NSPredicate		*pred = nil;
+		
+		if (descriptorPred == nil && filenamePred != nil)
+			pred = filenamePred;
+		else if (descriptorPred != nil && filenamePred == nil)
+			pred = descriptorPred;
+		else if (descriptorPred != nil && filenamePred != nil)
+			pred = [NSCompoundPredicate orPredicateWithSubpredicates:@[ descriptorPred, filenamePred ]];
+		
+		//NSLog(@"\tpred is %@",pred);
+		self.resultsArrayController.filterPredicate = pred;
+		[self.resultsArrayController rearrangeObjects];
+		[self.collectionView reloadData];
+		return;
+	}
+	
+}
+
+
 #pragma mark - Collection View Datasource (Now using Bindings)
+
 
 - (NSInteger)collectionView:(NSCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {

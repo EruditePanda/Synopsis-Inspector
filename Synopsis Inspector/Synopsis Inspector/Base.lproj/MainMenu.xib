@@ -1054,7 +1054,7 @@
                             </connections>
                         </searchField>
                         <connections>
-                            <action selector="search:" target="m8K-Bw-pYg" id="GO4-bq-73G"/>
+                            <action selector="search:" target="UeJ-CV-63y" id="evP-7Y-hbO"/>
                         </connections>
                     </toolbarItem>
                     <toolbarItem implicitItemIdentifier="84F2B4E7-CF06-498B-83CD-C613AF780A12" label="Filter By" paletteLabel="Filter By" image="NSRevealFreestandingTemplate" id="P71-qX-gnu">
