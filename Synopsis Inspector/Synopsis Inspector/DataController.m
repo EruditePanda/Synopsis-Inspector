@@ -273,12 +273,18 @@ static DataController			*_globalDataController = nil;
 	
 	TokenObject		*obj = [TokenObject createTokenGroupFromString:rawSearchString];
 	if (obj == nil)	{
+		if (rawSearchString == nil || rawSearchString.length < 1)
+			[sender setTextColor:[NSColor textColor]];
+		else
+			[sender setTextColor:[NSColor redColor]];
 		self.resultsArrayController.filterPredicate = nil;
 		[self.resultsArrayController rearrangeObjects];
 		[self.collectionView reloadData];
 		return;
 	}
 	else	{
+		[sender setTextColor:[NSColor textColor]];
+		
 		NSPredicate		*descriptorPred = [obj createPredicateWithFormat:@"ANY SELF.Description CONTAINS %@"];
 		NSPredicate		*filenamePred = [obj createPredicateWithFormat:@"SELF.url.path CONTAINS %@"];
 		NSPredicate		*pred = nil;
