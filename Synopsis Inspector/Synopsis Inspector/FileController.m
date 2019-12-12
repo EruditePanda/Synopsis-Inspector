@@ -209,7 +209,7 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 					//	make a metadata item async
 					SynopsisMetadataItem		*item = [[SynopsisMetadataItem alloc]
 						initWithURL:fileURL
-						onQueue:_globalMDLoadQueue
+						loadMetadataAsyncOnQueue:_globalMDLoadQueue
 						completionHandler:^(SynopsisMetadataItem *completedItem)	{
 							//	leave the group so anything that needs to wait until all MD items have loaded can do sso
 							dispatch_group_leave(_globalMDLoadGroup);
@@ -268,7 +268,7 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 				//	make a metadata item async
 				SynopsisMetadataItem		*item = [[SynopsisMetadataItem alloc]
 					initWithURL:fileURL
-					onQueue:_globalMDLoadQueue
+					loadMetadataAsyncOnQueue:_globalMDLoadQueue
 					completionHandler:^(SynopsisMetadataItem *completedItem)	{
 						//	leave the group so anything that needs to wait until all MD items have loaded can do sso
 						dispatch_group_leave(_globalMDLoadGroup);
@@ -309,7 +309,7 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 	//	make a metadata item async
 	SynopsisMetadataItem		*item = [[SynopsisMetadataItem alloc]
 		initWithURL:[NSURL fileURLWithPath:[result valueForAttribute:(NSString *)kMDItemPath]]
-		onQueue:_globalMDLoadQueue
+		loadMetadataAsyncOnQueue:_globalMDLoadQueue
 		completionHandler:^(SynopsisMetadataItem *completedItem)	{
 			//	leave the group so anything that needs to wait until all MD items have loaded can do sso
 			dispatch_group_leave(_globalMDLoadGroup);
