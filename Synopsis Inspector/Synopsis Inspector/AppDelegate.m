@@ -359,8 +359,6 @@
     [self setupSortUsingSortDescriptor:sortDescriptor selectedItem:item];
 }
 
-
-
 - (IBAction)histogramSortUsingSelectingCell:(id)sender
 {
     SynopsisMetadataItem* item = [self firstSelectedItem];
@@ -372,28 +370,40 @@
     [self setupSortUsingSortDescriptor:histogtamSort selectedItem:item];
 }
 
-- (IBAction)motionVectorSortUsingSelectingCell:(id)sender
+
+- (IBAction)frameSimilarityFeatureSortUsingSelectingCell:(id)sender
 {
     SynopsisMetadataItem* item = [self firstSelectedItem];
     
-    NSSortDescriptor* motionVectorSort = [NSSortDescriptor synopsisMotionVectorSortDescriptorRelativeTo:[item valueForKey:kSynopsisStandardMetadataMotionVectorDictKey]];
+    NSSortDescriptor* sort = [NSSortDescriptor synopsisDynamicTimeWarpFeatureSortDescriptorRelativeTo:[item valueForKey:kSynopsisStandardMetadataSimilarityFeatureVectorDictKey]];
     
-    self.sortStatus = @"Relative Motion Vector Sort";
-    
-    [self setupSortUsingSortDescriptor:motionVectorSort selectedItem:item];
+    self.sortStatus = @"Frame Feature Similarity Sort";
+
+    [self setupSortUsingSortDescriptor:sort selectedItem:item];
 }
 
-
-- (IBAction)motionSortUsingSelectingCell:(id)sender
-{
-    SynopsisMetadataItem* item = [self firstSelectedItem];
-    
-    NSSortDescriptor* motionVectorSort = [NSSortDescriptor synopsisMotionSortDescriptorRelativeTo:[item valueForKey:kSynopsisStandardMetadataMotionDictKey]];
-    
-    self.sortStatus = @"Relative Motion Sort";
-    
-    [self setupSortUsingSortDescriptor:motionVectorSort selectedItem:item];
-}
+//- (IBAction)motionVectorSortUsingSelectingCell:(id)sender
+//{
+//    SynopsisMetadataItem* item = [self firstSelectedItem];
+//
+//    NSSortDescriptor* motionVectorSort = [NSSortDescriptor synopsisMotionVectorSortDescriptorRelativeTo:[item valueForKey:kSynopsisStandardMetadataMotionVectorDictKey]];
+//
+//    self.sortStatus = @"Relative Motion Vector Sort";
+//
+//    [self setupSortUsingSortDescriptor:motionVectorSort selectedItem:item];
+//}
+//
+//
+//- (IBAction)motionSortUsingSelectingCell:(id)sender
+//{
+//    SynopsisMetadataItem* item = [self firstSelectedItem];
+//
+//    NSSortDescriptor* motionVectorSort = [NSSortDescriptor synopsisMotionSortDescriptorRelativeTo:[item valueForKey:kSynopsisStandardMetadataMotionDictKey]];
+//
+//    self.sortStatus = @"Relative Motion Sort";
+//
+//    [self setupSortUsingSortDescriptor:motionVectorSort selectedItem:item];
+//}
 
 
 
@@ -1326,10 +1336,10 @@ static BOOL toggleAspect = false;
         SynopsisMetadataItem* item2 = [self.resultsArrayControler.arrangedObjects objectAtIndex:path2.item];
         
         // Feature
-        float featureWeight = compareFeatureVector([item1 valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey],[item2 valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey]);
+        float featureWeight = compareFeaturesCosineSimilarity([item1 valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey],[item2 valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey]);
         NSString* featureString = [NSString stringWithFormat:@" Features : %f", featureWeight];
 
-        float probabiltyWeight = compareFeatureVector([item1 valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey],[item2 valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey]);
+        float probabiltyWeight = compareFeaturesCosineSimilarity([item1 valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey],[item2 valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey]);
         NSString* probabilityString = [NSString stringWithFormat:@" Probailities : %f", probabiltyWeight];
 
         

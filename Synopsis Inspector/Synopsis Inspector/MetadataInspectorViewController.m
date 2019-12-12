@@ -21,6 +21,11 @@
 @property (weak) IBOutlet MetadataFeatureVectorView* globalFeatureVectorView;
 @property (weak) IBOutlet MetadataFeatureVectorView* globalProbabilityView;
 
+@property (weak) IBOutlet MetadataFeatureVectorView* globalSimilarDominantColorView;
+//@property (weak) IBOutlet MetadataFeatureVectorView* globalSimilarHistogramView;
+@property (weak) IBOutlet MetadataFeatureVectorView* globalSimilarFeatureVectorView;
+@property (weak) IBOutlet MetadataFeatureVectorView* globalSimilarProbabilityView;
+
 @property (weak) IBOutlet NSTextField* frameDescriptors;
 @property (weak) IBOutlet MetadataDominantColorsView* dominantColorView;
 @property (weak) IBOutlet MetadataHistogramView* histogramView;
@@ -89,7 +94,7 @@
     
     if(self.lastFeatureVector && [self.lastFeatureVector featureCount] && [feature featureCount] && ([self.lastFeatureVector featureCount] == [feature featureCount]))
     {
-        comparedFeatures = compareFeatureVector(self.lastFeatureVector, feature);
+        comparedFeatures = compareFeaturesCosineSimilarity(self.lastFeatureVector, feature);
     }
     
     if(self.lastHistogram && histogram)
@@ -146,6 +151,10 @@
     SynopsisDenseFeature* probability = [standard valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey];
     SynopsisDenseFeature* feature = [standard valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey];
     SynopsisDenseFeature* histogram = [standard valueForKey:kSynopsisStandardMetadataHistogramDictKey];
+
+    SynopsisDenseFeature* similarProbability = [standard valueForKey:kSynopsisStandardMetadataSimilarityProbabilitiesDictKey];
+    SynopsisDenseFeature* similarFeature = [standard valueForKey:kSynopsisStandardMetadataSimilarityFeatureVectorDictKey];
+    SynopsisDenseFeature* similarColor = [standard valueForKey:kSynopsisStandardMetadataSimilarityDominantColorValuesDictKey];
     
     NSMutableString* description = [NSMutableString new];
     
@@ -167,6 +176,10 @@
     self.globalFeatureVectorView.feature = feature;
     self.globalProbabilityView.feature = probability;
 
+    self.globalSimilarFeatureVectorView.feature = similarFeature;
+    self.globalSimilarProbabilityView.feature = similarProbability;
+    self.globalSimilarDominantColorView.feature = similarColor;
+
     dispatch_async(dispatch_get_main_queue(), ^{
         
         if(description)
@@ -178,7 +191,10 @@
         [self.globalHistogramView updateLayer];
         [self.globalFeatureVectorView updateLayer];
         [self.globalProbabilityView updateLayer];
-
+        
+        [self.globalSimilarFeatureVectorView updateLayer];
+        [self.globalSimilarProbabilityView updateLayer];
+        [self.globalSimilarDominantColorView updateLayer];
     });
 }
 
