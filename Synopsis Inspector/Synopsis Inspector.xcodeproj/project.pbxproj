@@ -15,6 +15,7 @@
 		1AF4D31B238F11F50047A22C /* FileController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF4D31A238F11F50047A22C /* FileController.m */; };
 		1AF7D1482395B3E400130BA6 /* Synopsis.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1BBB10ED1D5558C400C22439 /* Synopsis.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1AFB9634238DA67100ECAC06 /* FlippedClipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AFB9633238DA67100ECAC06 /* FlippedClipView.m */; };
+		1B0A1EE623A2C9BC00E68E08 /* TSNELayout.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1B5FE0281DF9F1F9009CF677 /* TSNELayout.mm */; };
 		1B0B634E1D641CC100AA5D0E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0B634D1D641CC100AA5D0E /* Cocoa.framework */; };
 		1B0B63501D641CC900AA5D0E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0B634F1D641CC900AA5D0E /* AVFoundation.framework */; };
 		1B0D64391D4FB21F00A1AB5D /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0D64381D4FB21F00A1AB5D /* libz.tbd */; };
@@ -26,7 +27,6 @@
 		1B5CDF631F438FD700D5D057 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B5CDF621F438FD700D5D057 /* VideoToolbox.framework */; };
 		1B5FE0331DF9F38E009CF677 /* sptree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1B5FE02D1DF9F38E009CF677 /* sptree.cpp */; };
 		1B5FE0341DF9F38E009CF677 /* tsne.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1B5FE02F1DF9F38E009CF677 /* tsne.cpp */; };
-		1B5FE0351DFA1044009CF677 /* TSNELayout.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1B5FE0281DF9F1F9009CF677 /* TSNELayout.mm */; };
 		1B7155C61EFC97EE00266150 /* MetadataFeatureVectorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B7155C51EFC97EE00266150 /* MetadataFeatureVectorView.m */; };
 		1B96FE7E1E08AD2000DE4BD3 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B96FE7D1E08AD2000DE4BD3 /* Quartz.framework */; };
 		1B96FE801E08AD2A00DE4BD3 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B96FE7F1E08AD2A00DE4BD3 /* CoreMedia.framework */; };
@@ -149,8 +149,6 @@
 		1B0D64381D4FB21F00A1AB5D /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		1B0D643A1D4FD48E00A1AB5D /* CustomVisualEffectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomVisualEffectView.h; sourceTree = "<group>"; };
 		1B0D643B1D4FD48E00A1AB5D /* CustomVisualEffectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomVisualEffectView.m; sourceTree = "<group>"; };
-		1B2781061F253CEC00658C0B /* SynopsisMediaCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynopsisMediaCache.h; sourceTree = "<group>"; };
-		1B2781071F253CEC00658C0B /* SynopsisMediaCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SynopsisMediaCache.m; sourceTree = "<group>"; };
 		1B27810E1F263EDE00658C0B /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		1B522FA31F26995000550454 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		1B5CDF5C1F438FD100D5D057 /* MediaToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaToolbox.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/MediaToolbox.framework; sourceTree = DEVELOPER_DIR; };
@@ -320,24 +318,22 @@
 			children = (
 				1B9873F41D47A5540015E54C /* AppDelegate.h */,
 				1B9873F51D47A5540015E54C /* AppDelegate.m */,
-				1B2781061F253CEC00658C0B /* SynopsisMediaCache.h */,
-				1B2781071F253CEC00658C0B /* SynopsisMediaCache.m */,
+				1ACF9365238EB78E00D5CC05 /* DataController.h */,
+				1ACF9366238EB78E00D5CC05 /* DataController.m */,
+				1AF4D319238F11F50047A22C /* FileController.h */,
+				1AF4D31A238F11F50047A22C /* FileController.m */,
 				1B972855217948C400C78FBF /* PlayerView.h */,
 				1B972856217948C400C78FBF /* PlayerView.m */,
+				1A348CAF238D5E5E0049878A /* SynopsisCacheWithHap.h */,
+				1A348CB0238D5E5E0049878A /* SynopsisCacheWithHap.m */,
 				1B5FE02A1DF9F1FE009CF677 /* CollectionView */,
 				1BDC34341D6AB02600D210E8 /* Inspector */,
 				1B9874161D48014C0015E54C /* SynopsisCollectionViewItem.xib */,
 				1B9873FA1D47A5540015E54C /* Assets.xcassets */,
 				1B9873FC1D47A5540015E54C /* MainMenu.xib */,
-				1ACF9365238EB78E00D5CC05 /* DataController.h */,
-				1ACF9366238EB78E00D5CC05 /* DataController.m */,
 				1B9873FF1D47A5540015E54C /* Info.plist */,
 				1B0B63511D641CD100AA5D0E /* Frameworks */,
 				1B9873F71D47A5540015E54C /* Supporting Files */,
-				1A348CAF238D5E5E0049878A /* SynopsisCacheWithHap.h */,
-				1A348CB0238D5E5E0049878A /* SynopsisCacheWithHap.m */,
-				1AF4D319238F11F50047A22C /* FileController.h */,
-				1AF4D31A238F11F50047A22C /* FileController.m */,
 			);
 			path = "Synopsis Inspector";
 			sourceTree = "<group>";
@@ -559,7 +555,7 @@
 				1B7155C61EFC97EE00266150 /* MetadataFeatureVectorView.m in Sources */,
 				1AF4D31B238F11F50047A22C /* FileController.m in Sources */,
 				1BDC34491D6F90FC00D210E8 /* TransparentTabView.m in Sources */,
-				1B5FE0351DFA1044009CF677 /* TSNELayout.mm in Sources */,
+				1B0A1EE623A2C9BC00E68E08 /* TSNELayout.mm in Sources */,
 				1BCFBEC31E1C41580008CB03 /* MetadataSingleValueHistoryView.m in Sources */,
 				1B0D643C1D4FD48E00A1AB5D /* CustomVisualEffectView.m in Sources */,
 				1B9873F91D47A5540015E54C /* main.m in Sources */,
