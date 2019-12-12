@@ -56,7 +56,7 @@ void TSNE::run(double* X, int N, int D, double* Y, int no_dims, double perplexit
           srand((unsigned int) rand_seed);
       } else {
           printf("Using current time as random seed...\n");
-          srand(time(NULL));
+          srand((unsigned int)time(NULL));
       }
     }
 

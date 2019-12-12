@@ -8,9 +8,11 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface MetadataInspectorViewController : NSViewController
+@interface MetadataInspectorViewController : NSViewController <AVPlayerItemMetadataOutputPushDelegate>
 
-@property (readwrite, strong) NSDictionary* globalMetadata;
-@property (readwrite, strong) NSDictionary* frameMetadata;
+@property (weak,readwrite,nullable) SynopsisMetadataItem * metadataItem;
+@property (nullable, readwrite, strong) NSDictionary* frameMetadata;
+
+- (void) refresh;
 
 @end

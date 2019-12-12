@@ -37,10 +37,10 @@
 
 @implementation TSNELayout
 
-//- (instancetype) init
-//{
-//    return [self initWithFeatures:nil];
-//}
+- (instancetype) init
+{
+    return [self initWithFeatures:nil initialSize:NSMakeSize(30,30)];
+}
 
 - (instancetype) initWithFeatures:(NSArray<SynopsisDenseFeature*>*)features initialSize:(NSSize)size
 {
@@ -184,7 +184,7 @@
 
 - (void)prepareLayout {
     [super prepareLayout];
-        
+    
     self.collectionView.enclosingScrollView.autohidesScrollers = NO;
     self.collectionView.enclosingScrollView.hasVerticalScroller = YES;
     self.collectionView.enclosingScrollView.hasHorizontalScroller = YES;
@@ -258,7 +258,7 @@
 //    CGFloat mag =  1.0 / self.collectionView.enclosingScrollView.minMagnification;
 
     subviewCenter.x *= initialSize.width / 2.0;
-    subviewCenter.y *= initialSize.height / 2.0 ;
+    subviewCenter.y *= initialSize.height / 2.0;
 //    subviewCenter.x += clipBounds.origin.x ;
 //    subviewCenter.y += clipBounds.origin.y ;
     

@@ -10,6 +10,10 @@
 #import "SynopsisCollectionViewItem.h"
 #import <AVFoundation/AVFoundation.h>
 #import "SynopsisCollectionViewItemView.h"
+#import "SynopsisCacheWithHap.h"
+
+
+
 
 @interface SynopsisCollectionViewItem ()
 {
@@ -19,7 +23,12 @@
 
 @end
 
+
+
+
 @implementation SynopsisCollectionViewItem
+
+
 
 - (void)viewDidLoad
 {
@@ -34,8 +43,8 @@
     [super prepareForReuse];
 
     SynopsisCollectionViewItemView* itemView = (SynopsisCollectionViewItemView*)self.view;
-    itemView.currentTimeFromStart.stringValue = @"";
-    itemView.currentTimeToEnd.stringValue = @"";
+    //itemView.currentTimeFromStart.stringValue = @"";
+    //itemView.currentTimeToEnd.stringValue = @"";
     [self setViewImage:nil];
 
     [itemView setSelected:NO];
@@ -93,31 +102,38 @@
         
         self.nameField.stringValue = representedName;
         
-        SynopsisCollectionViewItemView* itemView = (SynopsisCollectionViewItemView*)self.view;
-        itemView.currentTimeFromStart.stringValue = [NSString stringWithFormat:@"%02.f:%02.f:%02.f", 0.0, 0.0, 0.0];
-        
-        Float64 reminaingInSeconds = CMTimeGetSeconds(representedAsset.duration);
-        Float64 reminaingHours = floor(reminaingInSeconds / (60.0 * 60.0));
-        Float64 reminaingMinutes = floor(reminaingInSeconds / 60.0);
-        Float64 reminaingSeconds = fmod(reminaingInSeconds, 60.0);
-        
-        itemView.currentTimeToEnd.stringValue = [NSString stringWithFormat:@"-%02.f:%02.f:%02.f", reminaingHours, reminaingMinutes, reminaingSeconds];
+        //SynopsisCollectionViewItemView* itemView = (SynopsisCollectionViewItemView*)self.view;
+        //itemView.currentTimeFromStart.stringValue = [NSString stringWithFormat:@"%02.f:%02.f:%02.f", 0.0, 0.0, 0.0];
+        //Float64 reminaingInSeconds = CMTimeGetSeconds(representedAsset.duration);
+        //Float64 reminaingHours = floor(reminaingInSeconds / (60.0 * 60.0));
+        //Float64 reminaingMinutes = floor(reminaingInSeconds / 60.0);
+        //Float64 reminaingSeconds = fmod(reminaingInSeconds, 60.0);
+        //itemView.currentTimeToEnd.stringValue = [NSString stringWithFormat:@"-%02.f:%02.f:%02.f", reminaingHours, reminaingMinutes, reminaingSeconds];
     }
 }
 
 - (void) asyncSetImage
 {
-    [[SynopsisCache sharedCache] cachedImageForItem:self.representedObject atTime:kCMTimeZero completionHandler:^(CGImageRef _Nullable image, NSError * _Nullable error) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            if(image)
-                [self setViewImage:image];
-            else
-            {
-                NSLog(@"null image from cache");
-            }
-        });
-    }];
+	SynopsisMetadataItem		*repObj = self.representedObject;
+	
+    [[SynopsisCacheWithHap sharedCache]
+    	cachedImageForItem:repObj
+    	atTime:kCMTimeZero
+    	completionHandler:^(CGImageRef _Nullable image, NSError * _Nullable error) {
+			
+			dispatch_async(dispatch_get_main_queue(), ^{
+                //    if the represented object we're caching an image for is no longer this item's represented object (fast scrolling), bail
+                if (repObj != self.representedObject)
+                    return;
+
+				if(image)
+					[self setViewImage:image];
+				else
+				{
+					NSLog(@"null image from cache");
+				}
+			});
+		}];
 }
 
 - (void) setViewImage:(CGImageRef)image
@@ -125,13 +141,13 @@
     SynopsisCollectionViewItemView* view = (SynopsisCollectionViewItemView*)self.view;
     view.imageLayer.contents = (id) CFBridgingRelease(image);
 }
-
+/*
 - (void) setAspectRatio:(NSString*)aspect
 {
 //    SynopsisCollectionViewItemView* view = (SynopsisCollectionViewItemView*)self.view;
 //    [view setAspectRatio:aspect];
 }
-
+*/
 
 - (IBAction)revealInFinder:(id)sender
 {
@@ -149,7 +165,7 @@
     [NSGraphicsContext saveGraphicsState];
     NSGraphicsContext *oldContext = [NSGraphicsContext currentContext];
     
-    SynopsisMetadataItem* representedObject = self.representedObject;
+    //SynopsisMetadataItem* representedObject = self.representedObject;
 
     // Image itemRootView.
     NSView *itemRootView = self.view;

@@ -30,6 +30,7 @@
 - (void) updateLayer
 {
     self.histogramLayer.histogram = self.histogram;
+    self.histogramLayer.frame = self.layer.bounds;
     [self.histogramLayer setNeedsDisplay];
 }
 

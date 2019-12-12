@@ -28,6 +28,7 @@
 - (void) updateLayer
 {
     self.dominantColorLayer.dominantColorsArray = self.dominantColorsArray;
+    self.dominantColorLayer.frame = self.layer.bounds;
     [self.dominantColorLayer setNeedsDisplay];
 }
 
