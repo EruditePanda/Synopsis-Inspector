@@ -120,11 +120,12 @@
     	cachedImageForItem:repObj
     	atTime:kCMTimeZero
     	completionHandler:^(CGImageRef _Nullable image, NSError * _Nullable error) {
-			//	if the represented object we're caching an image for is no longer this item's represented object (fast scrolling), bail
-			if (repObj != self.representedObject)
-				return;
 			
 			dispatch_async(dispatch_get_main_queue(), ^{
+                //    if the represented object we're caching an image for is no longer this item's represented object (fast scrolling), bail
+                if (repObj != self.representedObject)
+                    return;
+
 				if(image)
 					[self setViewImage:image];
 				else
