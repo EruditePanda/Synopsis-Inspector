@@ -53,23 +53,16 @@
 
 - (void) awakeFromNib
 {
-
     MTRegisterProfessionalVideoWorkflowFormatReaders();
     VTRegisterProfessionalVideoWorkflowVideoDecoders();
     VTRegisterProfessionalVideoWorkflowVideoEncoders();
-
-    
     
     self.sortStatus = @"No Sort";
     self.filterStatus = @"No Filter";
     self.correlationStatus = @"";
     
-    
     //self.zoomSlider.enabled = NO;
 
-    
-
-    
     [self.dataController updateStatusLabel];
     
     //[[NSUserDefaults standardUserDefaults] setObject:@YES forKey:@"NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints"];
@@ -89,7 +82,7 @@
 	[clipView.leadingAnchor constraintEqualToAnchor:clipView.superview.leadingAnchor constant:0].active = true;
 	[clipView.topAnchor constraintEqualToAnchor:clipView.superview.topAnchor constant:0].active = true;
 	[clipView.trailingAnchor constraintEqualToAnchor:clipView.superview.trailingAnchor constant:-15].active = true;
-	
+
 	[previewBox.leadingAnchor constraintEqualToAnchor:previewBox.superview.leadingAnchor constant:8].active = true;
 	[previewBox.trailingAnchor constraintEqualToAnchor:previewBox.superview.trailingAnchor constant:-8].active = true;
 	[previewBox.topAnchor constraintEqualToAnchor:previewBox.superview.topAnchor constant:8].active = true;
@@ -98,7 +91,7 @@
 	[attribsTabView.leadingAnchor constraintEqualToAnchor:attribsTabView.superview.leadingAnchor constant:8].active = true;
 	[attribsTabView.trailingAnchor constraintEqualToAnchor:attribsTabView.superview.trailingAnchor constant:-8].active = true;
 	[attribsTabView.topAnchor constraintEqualToAnchor:previewBox.bottomAnchor constant:8].active = true;
-	
+    [attribsTabView.heightAnchor constraintEqualToConstant:500].active = true;
 	
 	[previewBox.bottomAnchor constraintEqualToAnchor:self.playerView.bottomAnchor constant:20].active = true;
 	[self.playerView.leadingAnchor constraintEqualToAnchor:self.playerView.superview.leadingAnchor constant:20].active = true;
