@@ -704,6 +704,7 @@
 					"\"$(PROJECT_DIR)/Synopsis Inspector/libboost\"",
 					/usr/local/include,
 				);
+				IBC_WARNINGS = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/Synopsis Inspector/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
@@ -734,6 +735,7 @@
 					"\"$(PROJECT_DIR)/Synopsis Inspector/libboost\"",
 					/usr/local/include,
 				);
+				IBC_WARNINGS = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/Synopsis Inspector/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;

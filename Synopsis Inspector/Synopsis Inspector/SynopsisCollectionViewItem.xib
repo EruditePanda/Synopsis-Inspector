@@ -46,7 +46,7 @@
             </items>
             <point key="canvasLocation" x="744.5" y="284.5"/>
         </menu>
-        <visualEffectView wantsLayer="YES" appearanceType="vibrantDark" blendingMode="behindWindow" material="appearanceBased" state="followsWindowActiveState" id="qjD-Hn-jMJ">
+        <visualEffectView wantsLayer="YES" appearanceType="vibrantDark" blendingMode="behindWindow" material="underWindowBackground" state="followsWindowActiveState" id="qjD-Hn-jMJ">
             <rect key="frame" x="0.0" y="0.0" width="377" height="419"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>

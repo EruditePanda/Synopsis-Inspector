@@ -190,7 +190,7 @@
     [self.dataController setupSortUsingSortDescriptor:histogtamSort selectedItem:item];
 }
 
-
+/*
 - (IBAction)motionVectorSortUsingSelectingCell:(id)sender
 {
     SynopsisMetadataItem* item = [self.dataController firstSelectedItem];
@@ -213,7 +213,7 @@
     
     [self.dataController setupSortUsingSortDescriptor:motionVectorSort selectedItem:item];
 }
-
+*/
 
 
 - (IBAction)sortDominantColorsRGBUsingSelectingCell:(id)sender

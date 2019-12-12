@@ -378,7 +378,7 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 - (void) somethingUpdatedItems:(NSArray *)updatedItems addedItems:(NSArray *)addedItems removedItems:(NSArray *)removedItems	{
 	NSLog(@"%s",__func__);
 	
-	NSLog(@"\tadded %d items, updated %d items, removed %d items", addedItems.count, updatedItems.count, removedItems.count);
+	NSLog(@"\tadded %ld items, updated %ld items, removed %ld items", (unsigned long)addedItems.count, (unsigned long)updatedItems.count, (unsigned long)removedItems.count);
 	
 	//	we have to do two different things with all these items- we have to insert them into the 
 	//	array controller's contents, and we also have to tell the collection view to reload/update 

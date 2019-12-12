@@ -19,5 +19,15 @@
 @property (strong) NSString* filterStatus;
 @property (strong) NSString* correlationStatus;
 
+- (IBAction)bestMatchSortUsingSelectedCell:(id)sender;
+- (IBAction)featureVectorSortUsingSelectedCell:(id)sender;
+- (IBAction)probabilitySortUsingSelectedCell:(id)sender;
+- (IBAction)histogramSortUsingSelectingCell:(id)sender;
+- (IBAction)sortDominantColorsRGBUsingSelectingCell:(id)sender;
+- (IBAction)sortDominantColorsHSBUsingSelectingCell:(id)sender;
+- (IBAction)saturationSortUsingSelectedCell:(id)sender;
+- (IBAction)hueSortUsingSelectedCell:(id)sender;
+- (IBAction)brightnessSortUsingSelectedCell:(id)sender;
+
 @end
 

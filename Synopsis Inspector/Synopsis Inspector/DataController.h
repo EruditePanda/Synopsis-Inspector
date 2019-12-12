@@ -26,8 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void) reloadData;
 - (void) updateStatusLabel;
-- (void) setupSortUsingSortDescriptor:(NSSortDescriptor*) sortDescriptor selectedItem:(SynopsisMetadataItem*)item;
-- (void) setupFilterUsingPredicate:(NSPredicate*)predicate selectedItem:(SynopsisMetadataItem*)item;
+- (void) setupSortUsingSortDescriptor:(nullable NSSortDescriptor*) sortDescriptor selectedItem:(nullable SynopsisMetadataItem*)item;
+- (void) setupFilterUsingPredicate:(nullable NSPredicate*)predicate selectedItem:(nullable SynopsisMetadataItem*)item;
 
 - (IBAction) zoomSliderUsed:(id)sender;
 

@@ -25,11 +25,11 @@ typedef NS_ENUM(NSUInteger, TokenType)	{
 @interface TokenObject : NSObject
 + (instancetype) createTokenGroupFromString:(NSString *)n;
 @property (assign,readwrite) TokenType type;
-@property (strong,readwrite) NSMutableArray<TokenObject*> * contents;
-@property (strong,readwrite) NSString * term;
-@property (weak,readwrite) TokenObject * parentGroup;
-@property (weak,readwrite) TokenObject * prevToken;
-@property (weak,readwrite) TokenObject * nextToken;
+@property (nullable,strong,readwrite) NSMutableArray<TokenObject*> * contents;
+@property (nullable,strong,readwrite) NSString * term;
+@property (nullable,weak,readwrite) TokenObject * parentGroup;
+@property (nullable,weak,readwrite) TokenObject * prevToken;
+@property (nullable,weak,readwrite) TokenObject * nextToken;
 - (NSPredicate *) createPredicateWithFormat:(NSString *)n;
 @end
 

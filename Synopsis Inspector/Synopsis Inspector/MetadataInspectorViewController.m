@@ -120,7 +120,8 @@
 	
 	if(self.lastFeatureVector && [self.lastFeatureVector featureCount] && [feature featureCount] && ([self.lastFeatureVector featureCount] == [feature featureCount]))
 	{
-		comparedFeatures = compareFeatureVector(self.lastFeatureVector, feature);
+		//comparedFeatures = compareFeatureVector(self.lastFeatureVector, feature);
+		comparedFeatures = compareFeaturesCosineSimilarity(self.lastFeatureVector, feature);
 	}
 	
 	if(self.lastHistogram && histogram)

@@ -18,6 +18,7 @@
 #import "SynopsisCacheWithHap.h"
 #import "SynopsisCollectionViewItem.h"
 #import "TokenObject.h"
+#import "AppDelegate.h"
 
 #define RELOAD_DATA 0
 
@@ -679,10 +680,12 @@ static BOOL toggleAspect = false;
 		SynopsisMetadataItem* item2 = [self.resultsArrayController.arrangedObjects objectAtIndex:path2.item];
 		
 		// Feature
-		float featureWeight = compareFeatureVector([item1 valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey],[item2 valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey]);
+		//float featureWeight = compareFeatureVector([item1 valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey],[item2 valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey]);
+		float featureWeight = compareFeaturesCosineSimilarity([item1 valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey],[item2 valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey]);
 		NSString* featureString = [NSString stringWithFormat:@" Features : %f", featureWeight];
 		
-		float probabiltyWeight = compareFeatureVector([item1 valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey],[item2 valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey]);
+		//float probabiltyWeight = compareFeatureVector([item1 valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey],[item2 valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey]);
+		float probabiltyWeight = compareFeaturesCosineSimilarity([item1 valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey],[item2 valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey]);
         NSString* probabilityString = [NSString stringWithFormat:@" Probailities : %f", probabiltyWeight];
 
 		// Hash

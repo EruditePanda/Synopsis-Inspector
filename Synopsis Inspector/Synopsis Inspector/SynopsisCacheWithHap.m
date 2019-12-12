@@ -136,7 +136,7 @@
 				[imageGenerator generateCGImagesAsynchronouslyForTimes:@[ [NSValue valueWithCMTime:kCMTimeZero]] completionHandler:^(CMTime requestedTime, CGImageRef  _Nullable image, CMTime actualTime, AVAssetImageGeneratorResult result, NSError * _Nullable error){
 
 					if(error == nil && image != NULL)	{
-						[self.cache setObject:(CGImageRetain(image)) forKey:key];
+						[self.cache setObject:(id __nonnull)(CGImageRetain(image)) forKey:key];
 
 						if(handler)
 							handler(image, nil);
@@ -159,7 +159,7 @@
 				[imageGenerator generateCGImagesAsynchronouslyForTimes:@[ [NSValue valueWithCMTime:kCMTimeZero]] completionHandler:^(CMTime requestedTime, CGImageRef  _Nullable image, CMTime actualTime, AVAssetImageGeneratorResult result, NSError * _Nullable error){
 
 					if(error == nil && image != NULL)	{
-						[self.cache setObject:(CGImageRetain(image)) forKey:key];
+						[self.cache setObject:(id __nonnull)(CGImageRetain(image)) forKey:key];
 
 						if(handler)
 							handler(image, nil);

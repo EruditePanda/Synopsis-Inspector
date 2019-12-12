@@ -37,10 +37,10 @@
 
 @implementation TSNELayout
 
-//- (instancetype) init
-//{
-//    return [self initWithFeatures:nil];
-//}
+- (instancetype) init
+{
+    return [self initWithFeatures:nil initialSize:NSMakeSize(30,30)];
+}
 
 - (instancetype) initWithFeatures:(NSArray<SynopsisDenseFeature*>*)features initialSize:(NSSize)size
 {

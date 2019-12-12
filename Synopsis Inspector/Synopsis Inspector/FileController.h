@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 
-@interface FileController : NSObject	{
+@interface FileController : NSObject <NSMetadataQueryDelegate>	{
 	IBOutlet AppDelegate		*appDelegate;
 }
 

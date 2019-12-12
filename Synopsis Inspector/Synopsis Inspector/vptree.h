@@ -117,7 +117,7 @@ public:
     void create(const std::vector<T>& items) {
         delete _root;
         _items = items;
-        _root = buildFromPoints(0, items.size());
+        _root = buildFromPoints(0, (int)items.size());
     }
     
     // Function that uses the tree to find the k nearest neighbors of target

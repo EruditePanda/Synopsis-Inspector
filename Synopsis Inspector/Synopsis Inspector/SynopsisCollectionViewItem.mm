@@ -102,7 +102,7 @@
         
         self.nameField.stringValue = representedName;
         
-        SynopsisCollectionViewItemView* itemView = (SynopsisCollectionViewItemView*)self.view;
+        //SynopsisCollectionViewItemView* itemView = (SynopsisCollectionViewItemView*)self.view;
         //itemView.currentTimeFromStart.stringValue = [NSString stringWithFormat:@"%02.f:%02.f:%02.f", 0.0, 0.0, 0.0];
         //Float64 reminaingInSeconds = CMTimeGetSeconds(representedAsset.duration);
         //Float64 reminaingHours = floor(reminaingInSeconds / (60.0 * 60.0));
@@ -164,7 +164,7 @@
     [NSGraphicsContext saveGraphicsState];
     NSGraphicsContext *oldContext = [NSGraphicsContext currentContext];
     
-    SynopsisMetadataItem* representedObject = self.representedObject;
+    //SynopsisMetadataItem* representedObject = self.representedObject;
 
     // Image itemRootView.
     NSView *itemRootView = self.view;
