@@ -40,17 +40,26 @@ static DataController			*_globalDataController = nil;
 @property (weak) IBOutlet NSArrayController * resultsArrayController;
 
 // Layout
-@property (atomic, readwrite, strong) AAPLWrappedLayout* wrappedLayout;
-@property (atomic, readwrite, strong) TSNELayout* tsneHybridLayout;
-@property (atomic, readwrite, strong) TSNELayout* tsneFeatureLayout;
-@property (atomic, readwrite, strong) TSNELayout* tsneHistogramLayout;
+@property (atomic, readwrite, strong) AAPLWrappedLayout* wrappedLayout; // Tag - 0
+@property (atomic, readwrite, strong) TSNELayout* tsneHybridLayout; // 1
+@property (atomic, readwrite, strong) TSNELayout* tsneFeatureLayout; // 2
+@property (atomic, readwrite, strong) TSNELayout* tsneProbabilityLayout; // 3
+@property (atomic, readwrite, strong) TSNELayout* tsneHistogramLayout; //4
+
+@property (atomic, readwrite, strong) TSNELayout* tsneDTWFeatureLayout; // 5
+@property (atomic, readwrite, strong) TSNELayout* tsneDTWProbabilityLayout; // 6
+
+
 //@property (atomic, readwrite, strong) DBScanLayout* dbscanHybridLayout;
 //@property (atomic, readwrite, strong) DBScanLayout* dbscanFeatureLayout;
 //@property (atomic, readwrite, strong) DBScanLayout* dbscanHistogramLayout;
 
 @property (weak) IBOutlet NSMenuItem* hybridTSNEMenu;
 @property (weak) IBOutlet NSMenuItem* featureTSNEMenu;
+@property (weak) IBOutlet NSMenuItem* probabilityTSNEMenu;
 @property (weak) IBOutlet NSMenuItem* histogramTSNEMenu;
+@property (weak) IBOutlet NSMenuItem* featureDTWTSNEMenu;
+@property (weak) IBOutlet NSMenuItem* probabilityDTWTSNEMenu;
 
 // Sorting that requires selection of an item to sort relative to:
 @property (weak) IBOutlet NSToolbarItem* bestFitSort;
@@ -96,6 +105,13 @@ static DataController			*_globalDataController = nil;
 }
 - (void) awakeFromNib	{
 	
+    self.hybridTSNEMenu.enabled = NO;
+    self.featureTSNEMenu.enabled = NO;
+    self.probabilityTSNEMenu.enabled = NO;
+    self.histogramTSNEMenu.enabled = NO;
+    self.featureDTWTSNEMenu.enabled = NO;
+    self.probabilityDTWTSNEMenu.enabled = NO;
+
 	self.collectionView.backgroundColors = @[[NSColor clearColor]];
 	
 	//	  self.resultsArray = [NSMutableArray new];
@@ -117,7 +133,7 @@ static DataController			*_globalDataController = nil;
 	[self.collectionView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
 	
 	//	bang the zoom slider so our layout is consistent
-	[self pushZoomSliderValToLayout];
+//	[self pushZoomSliderValToLayout];
 	
 	//	register to receive KVO notifications of the scroll view's frame
 	[self.collectionView
@@ -510,12 +526,33 @@ static BOOL toggleAspect = false;
 			[self configureScrollViewForTSNE];
 			break;
 		}
-		case 3:
+        case 3:
+        {
+            layout = self.tsneProbabilityLayout;
+            [self configureScrollViewForTSNE];
+            break;
+        }
+		case 4:
 		{
 			layout = self.tsneHistogramLayout;
 			[self configureScrollViewForTSNE];
 			break;
 		}
+            
+        case 5:
+        {
+            layout = self.tsneDTWFeatureLayout;
+            [self configureScrollViewForTSNE];
+            break;
+        }
+
+        case 6:
+        {
+            layout = self.tsneDTWProbabilityLayout;
+            [self configureScrollViewForTSNE];
+            break;
+        }
+
 	}
 	
 	NSAnimationContext.currentContext.allowsImplicitAnimation = YES;
@@ -533,7 +570,7 @@ static BOOL toggleAspect = false;
 
 - (void) configureScrollViewForFLow
 {
-	self.zoomSlider.enabled = NO;
+	//self.zoomSlider.enabled = NO;
 	
 	
 	self.collectionView.enclosingScrollView.autohidesScrollers = NO;
@@ -543,13 +580,13 @@ static BOOL toggleAspect = false;
 	self.collectionView.enclosingScrollView.verticalScroller.hidden = NO;
 	self.collectionView.enclosingScrollView.allowsMagnification = YES;
 	
-	self.zoomSlider.enabled = NO;
+	//self.zoomSlider.enabled = NO;
 //	  zoomAmount = 1.0;
 }
 
 - (void) configureScrollViewForTSNE
 {
-	self.zoomSlider.enabled = YES;
+	//self.zoomSlider.enabled = YES;
 	
 	self.collectionView.enclosingScrollView.autohidesScrollers = NO;
 	self.collectionView.enclosingScrollView.hasVerticalScroller = YES;
@@ -561,26 +598,36 @@ static BOOL toggleAspect = false;
 
 - (void) lazyCreateLayoutsWithContent:(NSArray*)content
 {
-	self.hybridTSNEMenu.enabled = NO;
-	self.featureTSNEMenu.enabled = NO;
-	self.histogramTSNEMenu.enabled = NO;
-
+	
 	NSSize collectionViewInitialSize = [self.collectionView frame].size;
 	
-	NSMutableArray<SynopsisDenseFeature*>* allFeatures = [NSMutableArray new];
+    NSMutableArray<SynopsisDenseFeature*>* allHybridFeatures = [NSMutableArray new];
+    NSMutableArray<SynopsisDenseFeature*>* allFeatures = [NSMutableArray new];
+    NSMutableArray<SynopsisDenseFeature*>* allProbabilities = [NSMutableArray new];
 	NSMutableArray<SynopsisDenseFeature*>* allHistograms = [NSMutableArray new];
-	NSMutableArray<SynopsisDenseFeature*>* allHybridFeatures = [NSMutableArray new];
+
+    NSMutableArray<SynopsisDenseFeature*>* allDTWFeatures = [NSMutableArray new];
+    NSMutableArray<SynopsisDenseFeature*>* allDTWProbabilities = [NSMutableArray new];
 
 	for(SynopsisMetadataItem* metadataItem in content)
 	{
 		SynopsisDenseFeature* feature = [metadataItem valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey];
+        SynopsisDenseFeature* probability = [metadataItem valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey];
 		SynopsisDenseFeature* histogram = [metadataItem valueForKey:kSynopsisStandardMetadataHistogramDictKey];
 
+        SynopsisDenseFeature* dtwFeature = [metadataItem valueForKey:kSynopsisStandardMetadataSimilarityFeatureVectorDictKey];
+        SynopsisDenseFeature* dtwProbabilities = [metadataItem valueForKey:kSynopsisStandardMetadataSimilarityFeatureVectorDictKey];
+
+        
 		// Add our Feature
 		[allFeatures addObject:feature];
-
+        [allProbabilities addObject:probability];
 		[allHistograms addObject:histogram];
-		
+
+        [allDTWFeatures addObject:dtwFeature];
+        [allDTWProbabilities addObject:dtwProbabilities];
+
+        // TODO: Check our all hybrid features
 		[allHybridFeatures addObject:[SynopsisDenseFeature denseFeatureByAppendingFeature:feature withFeature:histogram]];
 	}
 
@@ -593,15 +640,23 @@ static BOOL toggleAspect = false;
 		TSNELayout* tsneLayout = [[TSNELayout alloc] initWithFeatures:allFeatures initialSize:collectionViewInitialSize];
 		tsneLayout.itemSize = NSMakeSize(300, 300);
 		
-//		  DBScanLayout* dbScanLayout = [[DBScanLayout alloc] initWithData:allMetadataFeatures];
-//		  dbScanLayout.itemSize = NSMakeSize(400, 200);
-
 		self.tsneFeatureLayout = tsneLayout;
-//		  self.dbscanFeatureLayout = dbScanLayout;
 		
 		dispatch_group_leave(tsneGroup);
 		
 	});
+    
+    dispatch_group_enter(tsneGroup);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        
+        TSNELayout* tsneLayout = [[TSNELayout alloc] initWithFeatures:allProbabilities initialSize:collectionViewInitialSize];
+        tsneLayout.itemSize = NSMakeSize(300, 300);
+        
+        self.tsneProbabilityLayout = tsneLayout;
+        
+        dispatch_group_leave(tsneGroup);
+        
+    });
 	
 	dispatch_group_enter(tsneGroup);
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
@@ -609,11 +664,7 @@ static BOOL toggleAspect = false;
 		TSNELayout* tsneLayout = [[TSNELayout alloc] initWithFeatures:allHistograms initialSize:collectionViewInitialSize];
 		tsneLayout.itemSize = NSMakeSize(300, 300);
 		
-//		  DBScanLayout* dbScanLayout = [[DBScanLayout alloc] initWithData:allHistogramFeatures];
-//		  dbScanLayout.itemSize = NSMakeSize(400, 200);
-
 		self.tsneHistogramLayout = tsneLayout;
-//		  self.dbscanHistogramLayout = dbScanLayout;
 
 		dispatch_group_leave(tsneGroup);
 	});
@@ -624,15 +675,35 @@ static BOOL toggleAspect = false;
 		TSNELayout* tsneLayout = [[TSNELayout alloc] initWithFeatures:allHybridFeatures initialSize:collectionViewInitialSize];
 		tsneLayout.itemSize = NSMakeSize(300, 300);
 		
-//		  DBScanLayout* dbScanLayout = [[DBScanLayout alloc] initWithData:allHybridFeatures];
-//		  dbScanLayout.itemSize = NSMakeSize(400, 200);
-
 		self.tsneHybridLayout = tsneLayout;
-//		  self.dbscanHybridLayout = dbScanLayout;
 
 		dispatch_group_leave(tsneGroup);
 		
 	});
+    
+    dispatch_group_enter(tsneGroup);
+      dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+          
+          TSNELayout* tsneLayout = [[TSNELayout alloc] initWithFeatures:allDTWFeatures initialSize:collectionViewInitialSize];
+          tsneLayout.itemSize = NSMakeSize(300, 300);
+          
+          self.tsneDTWFeatureLayout = tsneLayout;
+          
+          dispatch_group_leave(tsneGroup);
+          
+      });
+    
+    dispatch_group_enter(tsneGroup);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        
+        TSNELayout* tsneLayout = [[TSNELayout alloc] initWithFeatures:allDTWFeatures initialSize:collectionViewInitialSize];
+        tsneLayout.itemSize = NSMakeSize(300, 300);
+        
+        self.tsneDTWProbabilityLayout = tsneLayout;
+        
+        dispatch_group_leave(tsneGroup);
+        
+    });
 
 	dispatch_group_notify(tsneGroup, dispatch_get_main_queue(), ^{
 		self.hybridTSNEMenu.enabled = YES;
