@@ -616,7 +616,7 @@ static BOOL toggleAspect = false;
 		SynopsisDenseFeature* histogram = [metadataItem valueForKey:kSynopsisStandardMetadataHistogramDictKey];
 
         SynopsisDenseFeature* dtwFeature = [metadataItem valueForKey:kSynopsisStandardMetadataSimilarityFeatureVectorDictKey];
-        SynopsisDenseFeature* dtwProbabilities = [metadataItem valueForKey:kSynopsisStandardMetadataSimilarityFeatureVectorDictKey];
+        SynopsisDenseFeature* dtwProbabilities = [metadataItem valueForKey:kSynopsisStandardMetadataSimilarityProbabilitiesDictKey];
 
         
 		// Add our Feature

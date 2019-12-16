@@ -176,12 +176,35 @@
 {
     SynopsisMetadataItem* item = [self.dataController firstSelectedItem];
     
-    NSSortDescriptor* histogtamSort = [NSSortDescriptor synopsisHistogramSortDescriptorRelativeTo:[item valueForKey:kSynopsisStandardMetadataHistogramDictKey]];
+    NSSortDescriptor* sort = [NSSortDescriptor synopsisHistogramSortDescriptorRelativeTo:[item valueForKey:kSynopsisStandardMetadataHistogramDictKey]];
     
     self.sortStatus = @"Relative Histogram Sort";
 
-    [self.dataController setupSortUsingSortDescriptor:histogtamSort selectedItem:item];
+    [self.dataController setupSortUsingSortDescriptor:sort selectedItem:item];
 }
+
+- (IBAction)dtwFeatureSortUsingSelectingCell:(id)sender
+{
+    SynopsisMetadataItem* item = [self.dataController firstSelectedItem];
+    
+    NSSortDescriptor* sort = [NSSortDescriptor synopsisDynamicTimeWarpFeatureSortDescriptorRelativeTo:[item valueForKey:kSynopsisStandardMetadataSimilarityFeatureVectorDictKey]];
+    
+    self.sortStatus = @"Relative DTW Feature Sort";
+
+    [self.dataController setupSortUsingSortDescriptor:sort selectedItem:item];
+}
+
+- (IBAction)dtwProbabilitySortUsingSelectingCell:(id)sender
+{
+    SynopsisMetadataItem* item = [self.dataController firstSelectedItem];
+    
+    NSSortDescriptor* sort = [NSSortDescriptor synopsisDynamicTimeWarpFeatureSortDescriptorRelativeTo:[item valueForKey:kSynopsisStandardMetadataSimilarityProbabilitiesDictKey]];
+    
+    self.sortStatus = @"Relative DTW Feature Sort";
+
+    [self.dataController setupSortUsingSortDescriptor:sort selectedItem:item];
+}
+
 
 /*
 - (IBAction)motionVectorSortUsingSelectingCell:(id)sender

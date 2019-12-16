@@ -38,6 +38,10 @@
 @property (weak) IBOutlet MetadataFeatureVectorView* globalFeatureVectorView;
 @property (weak) IBOutlet MetadataFeatureVectorView* globalProbabilityView;
 
+@property (weak) IBOutlet MetadataFeatureVectorView* globalDTWFeatureVectorView;
+@property (weak) IBOutlet MetadataFeatureVectorView* globalDTWProbabilityView;
+
+
 @property (weak) IBOutlet NSTextField* frameDescriptors;
 @property (weak) IBOutlet MetadataDominantColorsView* dominantColorView;
 @property (weak) IBOutlet MetadataHistogramView* histogramView;
@@ -273,7 +277,10 @@
 	SynopsisDenseFeature* probability = [standard valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey];
 	SynopsisDenseFeature* feature = [standard valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey];
 	SynopsisDenseFeature* histogram = [standard valueForKey:kSynopsisStandardMetadataHistogramDictKey];
-	
+
+    SynopsisDenseFeature* dtwFeature = [standard valueForKey:kSynopsisStandardMetadataSimilarityFeatureVectorDictKey];
+    SynopsisDenseFeature* dtwProbability = [standard valueForKey:kSynopsisStandardMetadataSimilarityProbabilitiesDictKey];
+
 	NSMutableString* description = [NSMutableString new];
 	
 	for(NSString* desc in descriptions)
@@ -294,6 +301,9 @@
 	self.globalFeatureVectorView.feature = feature;
 	self.globalProbabilityView.feature = probability;
 
+    self.globalDTWFeatureVectorView.feature = dtwFeature;
+    self.globalDTWProbabilityView.feature = dtwProbability;
+
 	dispatch_async(dispatch_get_main_queue(), ^{
 		
 		if(description)
@@ -305,7 +315,8 @@
 		[self.globalHistogramView updateLayer];
 		[self.globalFeatureVectorView updateLayer];
 		[self.globalProbabilityView updateLayer];
-
+        [self.globalDTWFeatureVectorView updateLayer];
+        [self.globalDTWProbabilityView updateLayer];
 	});
 }
 

@@ -116,23 +116,25 @@
 {
 	SynopsisMetadataItem		*repObj = self.representedObject;
 	
+    CMTime itemDuration = repObj.asset.duration;
+    
     [[SynopsisCacheWithHap sharedCache]
-    	cachedImageForItem:repObj
-    	atTime:kCMTimeZero
-    	completionHandler:^(CGImageRef _Nullable image, NSError * _Nullable error) {
-			
-			dispatch_async(dispatch_get_main_queue(), ^{
-                //    if the represented object we're caching an image for is no longer this item's represented object (fast scrolling), bail
-                if (repObj != self.representedObject)
-                    return;
-
-				if(image)
-					[self setViewImage:image];
-				else
-				{
-					NSLog(@"null image from cache");
-				}
-			});
+     cachedImageForItem:repObj
+     atTime: CMTimeMultiplyByFloat64(itemDuration, 0.1)
+     completionHandler:^(CGImageRef _Nullable image, NSError * _Nullable error) {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //    if the represented object we're caching an image for is no longer this item's represented object (fast scrolling), bail
+            if (repObj != self.representedObject)
+                return;
+            
+            if(image)
+                [self setViewImage:image];
+            else
+            {
+                NSLog(@"null image from cache");
+            }
+        });
 		}];
 }
 
