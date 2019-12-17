@@ -137,50 +137,39 @@
 
 #pragma mark - Sorting
 
-
-
-- (IBAction)bestMatchSortUsingSelectedCell:(id)sender
+- (void) setupSortForSynopsisMetadatIdentifier:(SynopsisMetadataIdentifier)identifier
 {
     SynopsisMetadataItem* item = [self.dataController firstSelectedItem];
     
-    NSSortDescriptor* bestMatchSortDescriptor = [NSSortDescriptor synopsisBestMatchSortDescriptorRelativeTo:[item valueForKey:kSynopsisStandardMetadataDictKey]];
-    
-    self.sortStatus = @"Relative Best Match Sort";
-    
-    [self.dataController setupSortUsingSortDescriptor:bestMatchSortDescriptor selectedItem:item];
-}
-
-- (IBAction)featureVectorSortUsingSelectedCell:(id)sender
-{
-    SynopsisMetadataItem* item = [self.dataController firstSelectedItem];
-    
-    NSSortDescriptor* perceptualHashSort = [NSSortDescriptor synopsisFeatureSortDescriptorRelativeTo:[item valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey]];
-    
-    self.sortStatus = @"Feature Vector Sort";
-    
-    [self.dataController setupSortUsingSortDescriptor:perceptualHashSort selectedItem:item];
-}
-
-- (IBAction)probabilitySortUsingSelectedCell:(id)sender
-{
-    SynopsisMetadataItem* item = [[DataController global] firstSelectedItem];
-    
-    NSSortDescriptor* sortDescriptor = [NSSortDescriptor synopsisSortViaKey:kSynopsisStandardMetadataProbabilitiesDictKey relativeTo:item];
-    
-    self.sortStatus = @"Relative Best Match Sort";
+    NSSortDescriptor* sortDescriptor = [NSSortDescriptor sortViaSynopsisGlobalMetadataUsingIdentifier:(identifier) relativeTo:item];
     
     [self.dataController setupSortUsingSortDescriptor:sortDescriptor selectedItem:item];
 }
 
+
+- (IBAction)bestMatchSortUsingSelectedCell:(id)sender
+{
+//    // TODO: Figure out "Hybrid" / best Match
+//    [self setupSortForSynopsisMetadatIdentifier:SynopsisMetadataIdentifierVisualEmbedding];
+//    self.sortStatus = @"Relative Best Match Sort";
+}
+
+- (IBAction)featureVectorSortUsingSelectedCell:(id)sender
+{
+    [self setupSortForSynopsisMetadatIdentifier:SynopsisMetadataIdentifierVisualEmbedding];
+    self.sortStatus = @"Relative Feature Vector Sort";
+}
+
+- (IBAction)probabilitySortUsingSelectedCell:(id)sender
+{
+    [self setupSortForSynopsisMetadatIdentifier:SynopsisMetadataIdentifierVisualProbabilities];
+    self.sortStatus = @"Relative Prediction Probability Sort";
+}
+
 - (IBAction)histogramSortUsingSelectingCell:(id)sender
 {
-    SynopsisMetadataItem* item = [self.dataController firstSelectedItem];
-    
-    NSSortDescriptor* histogtamSort = [NSSortDescriptor synopsisHistogramSortDescriptorRelativeTo:[item valueForKey:kSynopsisStandardMetadataHistogramDictKey]];
-    
+    [self setupSortForSynopsisMetadatIdentifier:SynopsisMetadataIdentifierVisualHistogram];
     self.sortStatus = @"Relative Histogram Sort";
-
-    [self.dataController setupSortUsingSortDescriptor:histogtamSort selectedItem:item];
 }
 
 /*
@@ -209,45 +198,45 @@
 */
 
 
-- (IBAction)sortDominantColorsRGBUsingSelectingCell:(id)sender
-{
-    SynopsisMetadataItem* item = [self.dataController firstSelectedItem];
-    
-    NSSortDescriptor* motionVectorSort = [NSSortDescriptor synopsisDominantRGBDescriptorRelativeTo:[item valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey]];
-    
-    self.sortStatus = @"Dominant Color RGB Sort";
-    
-    [self.dataController setupSortUsingSortDescriptor:motionVectorSort selectedItem:item];
-}
-
-- (IBAction)sortDominantColorsHSBUsingSelectingCell:(id)sender
-{
-    SynopsisMetadataItem* item = [self.dataController firstSelectedItem];
-    
-    NSSortDescriptor* motionVectorSort = [NSSortDescriptor synopsisDominantHSBDescriptorRelativeTo:[item valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey]];
-    
-    self.sortStatus = @"Dominant Color HSB Sort";
-    
-    [self.dataController setupSortUsingSortDescriptor:motionVectorSort selectedItem:item];
-}
-
-- (IBAction)saturationSortUsingSelectedCell:(id)sender
-{
-    self.sortStatus = @"Saturation Sort";
-    [self.dataController setupSortUsingSortDescriptor:[NSSortDescriptor synopsisColorSaturationSortDescriptor] selectedItem:[self.dataController firstSelectedItem]];
-}
-
-- (IBAction)hueSortUsingSelectedCell:(id)sender
-{
-    self.sortStatus = @"Hue Sort";
-    [self.dataController setupSortUsingSortDescriptor:[NSSortDescriptor synopsisColorHueSortDescriptor] selectedItem:[self.dataController firstSelectedItem]];
-}
-
-- (IBAction)brightnessSortUsingSelectedCell:(id)sender
-{
-    self.sortStatus = @"Brightness Sort";
-    [self.dataController setupSortUsingSortDescriptor:[NSSortDescriptor synopsisColorBrightnessSortDescriptor] selectedItem:[self.dataController firstSelectedItem]];
-}
+//- (IBAction)sortDominantColorsRGBUsingSelectingCell:(id)sender
+//{
+//    SynopsisMetadataItem* item = [self.dataController firstSelectedItem];
+//
+//    NSSortDescriptor* motionVectorSort = [NSSortDescriptor synopsisDominantRGBDescriptorRelativeTo:[item valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey]];
+//
+//    self.sortStatus = @"Dominant Color RGB Sort";
+//
+//    [self.dataController setupSortUsingSortDescriptor:motionVectorSort selectedItem:item];
+//}
+//
+//- (IBAction)sortDominantColorsHSBUsingSelectingCell:(id)sender
+//{
+//    SynopsisMetadataItem* item = [self.dataController firstSelectedItem];
+//
+//    NSSortDescriptor* motionVectorSort = [NSSortDescriptor synopsisDominantHSBDescriptorRelativeTo:[item valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey]];
+//
+//    self.sortStatus = @"Dominant Color HSB Sort";
+//
+//    [self.dataController setupSortUsingSortDescriptor:motionVectorSort selectedItem:item];
+//}
+//
+//- (IBAction)saturationSortUsingSelectedCell:(id)sender
+//{
+//    self.sortStatus = @"Saturation Sort";
+//    [self.dataController setupSortUsingSortDescriptor:[NSSortDescriptor synopsisColorSaturationSortDescriptor] selectedItem:[self.dataController firstSelectedItem]];
+//}
+//
+//- (IBAction)hueSortUsingSelectedCell:(id)sender
+//{
+//    self.sortStatus = @"Hue Sort";
+//    [self.dataController setupSortUsingSortDescriptor:[NSSortDescriptor synopsisColorHueSortDescriptor] selectedItem:[self.dataController firstSelectedItem]];
+//}
+//
+//- (IBAction)brightnessSortUsingSelectedCell:(id)sender
+//{
+//    self.sortStatus = @"Brightness Sort";
+//    [self.dataController setupSortUsingSortDescriptor:[NSSortDescriptor synopsisColorBrightnessSortDescriptor] selectedItem:[self.dataController firstSelectedItem]];
+//}
 
 
 
