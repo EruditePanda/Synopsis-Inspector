@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DataController : NSObject <NSCollectionViewDelegate, NSCollectionViewDelegateFlowLayout>	{
 	IBOutlet AppDelegate		*appDelegate;
+	IBOutlet NSTextField		*filenameTextField;
 }
 
 + (instancetype) global;

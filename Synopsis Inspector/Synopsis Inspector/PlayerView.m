@@ -7,6 +7,9 @@
 //
 
 #import "PlayerView.h"
+#import <HapInAVFoundation/VVSizingTool.h>
+#import <Synopsis/Synopsis.h>
+#import "DataController.h"
 
 #define CORNER_RADIUS	  6.0	  // corner radius of the shape in points
 #define BORDER_WIDTH	  1.0	  // thickness of border when shown, in points
@@ -18,7 +21,10 @@
 #define SELECTEDBORDERCOLOR 0.6
 
 
+
+
 @interface PlayerView ()
+
 @property (readwrite) AVPlayerHapLayer* playerLayer;
 @property (readwrite) CALayer* playheadLayer;
 
@@ -28,11 +34,14 @@
 @end
 
 
+
+
 @implementation PlayerView
 
 - (instancetype) initWithFrame:(NSRect)frameRect	{
 	self = [super initWithFrame:frameRect];
 	if(self)	{
+		self.resolution = NSMakeSize(16,9);
 	}
 	return self;
 }
@@ -89,6 +98,7 @@
 
 
 - (void) loadAsset:(AVAsset *)n {
+	NSLog(@"%s",__func__);
 	if (self.playerLayer.player.currentItem.asset != n)	{
 		BOOL		containsHap = [n containsHapVideoTrack];
 		
@@ -109,6 +119,7 @@
 			
 			AVAssetTrack		*vidTrack = [[n tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0];
 			vidTrackSize = (vidTrack == nil) ? CGSizeMake(16., 9.) : [vidTrack naturalSize];
+			self.resolution = NSMakeSize(vidTrackSize.width, vidTrackSize.height);
 			
 			AVPlayerItemVideoOutput		*videoOutput = [[AVPlayerItemVideoOutput alloc] initWithPixelBufferAttributes:videoOutputSettings];
 			videoOutput.suppressesPlayerRendering = YES;
@@ -117,6 +128,7 @@
 		else	{
 			AVAssetTrack		*hapAssetTrack = [[n hapVideoTracks] firstObject];
 			vidTrackSize = (hapAssetTrack == nil) ? CGSizeMake(16., 9.) : [hapAssetTrack naturalSize];
+			self.resolution = NSMakeSize(vidTrackSize.width, vidTrackSize.height);
 			
 			AVPlayerItemHapDXTOutput		*hapOutput = [[AVPlayerItemHapDXTOutput alloc] initWithHapAssetTrack:hapAssetTrack];
 			hapOutput.suppressesPlayerRendering = YES;
@@ -148,6 +160,8 @@
 		}
    
 	}
+	
+	[self updateLayer];
 }
 
 
@@ -285,12 +299,29 @@
 }
 
 
+- (void)setFrameSize:(NSSize)n	{
+	[super setFrameSize:n];
+	[self updateLayer];
+}
+
+
 - (void) updateLayer
 {
+	
 	[super updateLayer];
 	
+	NSRect		contentRect = NSMakeRect(0,0,self.resolution.width,self.resolution.height);
+	NSRect		boundsRect = self.bounds;
+	NSRect		targetRect = [VVSizingTool rectThatFitsRect:contentRect inRect:boundsRect sizingMode:VVSizingModeFit];
+	
+	[CATransaction begin];
+	[CATransaction setDisableActions:YES];
+	
 	self.layer.bounds = self.bounds;
-	self.playerLayer.frame = self.layer.bounds;
+	//self.playerLayer.frame = self.layer.bounds;
+	self.playerLayer.frame = targetRect;
+	
+	[CATransaction commit];
 	
 	//	  CALayer *layer = self.layer;
 	//	  layer.borderColor = self.borderColor.CGColor;
@@ -299,6 +330,21 @@
 	//	  layer.backgroundColor = (self.borderColor ? [NSColor colorWithWhite:0.05 alpha:1].CGColor : [NSColor colorWithWhite:0.15 alpha:1].CGColor);
 	[self updateTrackingAreas];
 	
+}
+
+- (IBAction)revealInFinder:(id)sender
+{
+	SynopsisMetadataItem		*selItem = [[DataController global] firstSelectedItem];
+	if (selItem == nil)
+		return;
+	
+    AVURLAsset* urlAsset = (AVURLAsset*)selItem.asset;
+    if (urlAsset == nil)
+    	return;
+    
+    NSURL* url = urlAsset.URL;
+
+    [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[url]];
 }
 
 @end

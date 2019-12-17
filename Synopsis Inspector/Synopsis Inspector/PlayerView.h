@@ -16,6 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void) loadAsset:(AVAsset *)n;
 @property (readonly) AVPlayerHapLayer* playerLayer;
 - (void) seekToTime:(CMTime)seekTime;
+@property (assign,readwrite) NSSize resolution;
+
+- (IBAction)revealInFinder:(id)sender;
 
 @end
 

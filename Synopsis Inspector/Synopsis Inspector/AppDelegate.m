@@ -65,42 +65,60 @@
 
     [self.dataController updateStatusLabel];
     
+    NSLayoutConstraint		*constr = nil;
+    
     //[[NSUserDefaults standardUserDefaults] setObject:@YES forKey:@"NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints"];
     
     //	set the positioning of the various UI items in the inspector
     [clipView setTranslatesAutoresizingMaskIntoConstraints:NO];
 	[containerView setTranslatesAutoresizingMaskIntoConstraints:NO];
-	[previewBox setTranslatesAutoresizingMaskIntoConstraints:NO];
+	//[previewBox setTranslatesAutoresizingMaskIntoConstraints:NO];
 	[self.playerView setTranslatesAutoresizingMaskIntoConstraints:NO];
 	[attribsTabView setTranslatesAutoresizingMaskIntoConstraints:NO];
 	
 	[containerView.leadingAnchor constraintEqualToAnchor:clipView.leadingAnchor constant:0].active = true;
 	[containerView.trailingAnchor constraintEqualToAnchor:clipView.trailingAnchor constant:0].active = true;
 	[containerView.topAnchor constraintEqualToAnchor:clipView.topAnchor constant:0].active = true;
-	[containerView.bottomAnchor constraintEqualToAnchor:attribsTabView.bottomAnchor constant:20].active = true;
+	constr = [containerView.bottomAnchor constraintEqualToAnchor:clipView.bottomAnchor constant:0];
+	constr.priority = NSLayoutPriorityDefaultLow;
+	constr.active = true;
+	constr = [containerView.heightAnchor constraintGreaterThanOrEqualToConstant:500];
+	constr.priority = NSLayoutPriorityDefaultHigh;
+	constr.active = true;
 	
 	[clipView.leadingAnchor constraintEqualToAnchor:clipView.superview.leadingAnchor constant:0].active = true;
 	[clipView.topAnchor constraintEqualToAnchor:clipView.superview.topAnchor constant:0].active = true;
 	[clipView.trailingAnchor constraintEqualToAnchor:clipView.superview.trailingAnchor constant:-15].active = true;
+	[clipView.bottomAnchor constraintEqualToAnchor:clipView.superview.bottomAnchor constant:0].active = true;
 
-	[previewBox.leadingAnchor constraintEqualToAnchor:previewBox.superview.leadingAnchor constant:8].active = true;
-	[previewBox.trailingAnchor constraintEqualToAnchor:previewBox.superview.trailingAnchor constant:-8].active = true;
-	[previewBox.topAnchor constraintEqualToAnchor:previewBox.superview.topAnchor constant:8].active = true;
-	[previewBox.heightAnchor constraintGreaterThanOrEqualToConstant:50].active = true;
+	//[previewBox.leadingAnchor constraintEqualToAnchor:previewBox.superview.leadingAnchor constant:8].active = true;
+	//[previewBox.trailingAnchor constraintEqualToAnchor:previewBox.superview.trailingAnchor constant:-8].active = true;
+	//[previewBox.topAnchor constraintEqualToAnchor:previewBox.superview.topAnchor constant:8].active = true;
+	//[previewBox.heightAnchor constraintGreaterThanOrEqualToConstant:50].active = true;
 	
 	[attribsTabView.leadingAnchor constraintEqualToAnchor:attribsTabView.superview.leadingAnchor constant:8].active = true;
 	[attribsTabView.trailingAnchor constraintEqualToAnchor:attribsTabView.superview.trailingAnchor constant:-8].active = true;
-	[attribsTabView.topAnchor constraintEqualToAnchor:previewBox.bottomAnchor constant:8].active = true;
-    [attribsTabView.heightAnchor constraintEqualToConstant:500].active = true;
+	//[attribsTabView.topAnchor constraintEqualToAnchor:previewBox.bottomAnchor constant:8].active = true;
+	[attribsTabView.topAnchor constraintEqualToAnchor:attribsTabView.superview.topAnchor constant:42].active = true;
+    constr = [attribsTabView.heightAnchor constraintGreaterThanOrEqualToConstant:500];
+    constr.priority = NSLayoutPriorityDefaultHigh;
+    constr.active = true;
+    constr = [attribsTabView.bottomAnchor constraintEqualToAnchor:attribsTabView.superview.bottomAnchor constant:-8];
+    constr.priority = NSLayoutPriorityDefaultLow;
+    constr.active = true;
 	
-	[previewBox.bottomAnchor constraintEqualToAnchor:self.playerView.bottomAnchor constant:20].active = true;
-	[self.playerView.leadingAnchor constraintEqualToAnchor:self.playerView.superview.leadingAnchor constant:20].active = true;
-	[self.playerView.trailingAnchor constraintEqualToAnchor:self.playerView.superview.trailingAnchor constant:-20].active = true;
-	[self.playerView.topAnchor constraintEqualToAnchor:self.playerView.superview.topAnchor constant:20].active = true;
+	//[previewBox.bottomAnchor constraintEqualToAnchor:self.playerView.bottomAnchor constant:20].active = true;
+	[self.playerView.leadingAnchor constraintEqualToAnchor:self.playerView.superview.leadingAnchor constant:8].active = true;
+	[self.playerView.trailingAnchor constraintEqualToAnchor:self.playerView.superview.trailingAnchor constant:-8].active = true;
+	[self.playerView.topAnchor constraintEqualToAnchor:self.playerView.superview.topAnchor constant:8].active = true;
+	[self.playerView.bottomAnchor constraintEqualToAnchor:self.playerView.superview.bottomAnchor constant:-8].active = true;
 	//[self.playerView.heightAnchor constraintEqualToAnchor:self.playerView.widthAnchor constant:0].active = true;
 	//[self.playerView.heightAnchor constraintGreaterThanOrEqualToConstant:50].active = true;
 	
 	
+	[self.playerView.widthAnchor constraintLessThanOrEqualToAnchor:self.window.contentView.widthAnchor multiplier:0.5 constant:0].active = true;
+	[self.playerView.heightAnchor constraintLessThanOrEqualToAnchor:self.window.contentView.heightAnchor multiplier:0.5 constant:0].active = true;
+	[self.playerView.heightAnchor constraintGreaterThanOrEqualToAnchor:self.window.contentView.heightAnchor multiplier:0.15 constant:0].active = true;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
@@ -249,9 +267,18 @@
     [self.dataController setupSortUsingSortDescriptor:[NSSortDescriptor synopsisColorBrightnessSortDescriptor] selectedItem:[self.dataController firstSelectedItem]];
 }
 
+- (IBAction) zoomInUsed:(id)sender	{
+	[zoomSlider setIntValue:[zoomSlider intValue] - 1];
+	[[DataController global] zoomSliderUsed:zoomSlider];
+}
+- (IBAction) zoomOutUsed:(id)sender	{
+	[zoomSlider setIntValue:[zoomSlider intValue] + 1];
+	[[DataController global] zoomSliderUsed:zoomSlider];
+}
 
 
 #pragma mark - Filtering
+
 
 - (IBAction)filterClear:(id)sender
 {

@@ -378,6 +378,10 @@ static DataController			*_globalDataController = nil;
 	NSLog(@"\tselecing %@",self.selectedItem);
 	
 	self.metadataInspector.metadataItem = metadataItem;
+	
+	//	update the filename text field
+	SynopsisMetadataItem		*selItem = [self firstSelectedItem];
+	[filenameTextField setStringValue:(selItem==nil) ? @"" : [[selItem url] lastPathComponent]];
 }
 
 - (void)collectionView:(NSCollectionView *)collectionView didDeselectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
@@ -750,7 +754,7 @@ static BOOL toggleAspect = false;
 #pragma mark - backend
 
 - (void) pushZoomSliderValToLayout	{
-	NSLog(@"%s",__func__);
+	//NSLog(@"%s",__func__);
 	NSSize			scrollViewSize = self.collectionView.frame.size;
 	scrollViewSize.width -= 22;
 	double			padding = self.wrappedLayout.minimumInteritemSpacing;
