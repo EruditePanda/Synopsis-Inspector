@@ -286,7 +286,7 @@ static DataController			*_globalDataController = nil;
 	else	{
 		[sender setTextColor:[NSColor textColor]];
 		
-		NSPredicate		*descriptorPred = [obj createPredicateWithFormat:@"ANY SELF.Description CONTAINS %@"];
+		NSPredicate		*descriptorPred = [obj createPredicateWithFormat:@"ANY SELF.GM.VD CONTAINS %@"];
 		NSPredicate		*filenamePred = [obj createPredicateWithFormat:@"SELF.url.path CONTAINS %@"];
 		NSPredicate		*pred = nil;
 		
