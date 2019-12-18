@@ -45,7 +45,7 @@
 		self.acceptNewOperations = YES;
 		// Metadata decoder isnt strictly thread safe
 		// Use a serial queue
-		self.metadataDecoder = [[SynopsisMetadataDecoder alloc] initWithVersion:kSynopsisMetadataVersionValue];
+		self.metadataDecoder = [[SynopsisMetadataDecoder alloc] initWithVersion:kSynopsisMetadataVersionCurrent];
 		self.cacheMetadataOperationQueue = [[NSOperationQueue alloc] init];
 		self.cacheMetadataOperationQueue.maxConcurrentOperationCount = 1;
 		self.cacheMetadataOperationQueue.qualityOfService = NSQualityOfServiceBackground;

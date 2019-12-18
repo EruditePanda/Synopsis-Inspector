@@ -338,7 +338,7 @@
         {
             NSString* key = metadataItem.identifier;
             
-            if ([key isEqualToString:kSynopsisMetadataIdentifier] || [key isEqualToString:kSynopsisMetadataIdentifierLegacy])
+            if ([key isEqualToString:kSynopsisMetadataIdentifier])
             {
                 id metadata = [myMetadataItem.decoder decodeSynopsisMetadata:metadataItem];
                 if(metadata)
