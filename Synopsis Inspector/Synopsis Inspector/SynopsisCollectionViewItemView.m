@@ -140,4 +140,13 @@
     return YES;
 }
 
+- (void)setFrameSize:(NSSize)n	{
+	[super setFrameSize:n];
+	
+	[CATransaction begin];
+	[CATransaction setDisableActions:YES];
+	self.imageLayer.frame = self.layer.bounds;
+	[CATransaction commit];
+}
+
 @end

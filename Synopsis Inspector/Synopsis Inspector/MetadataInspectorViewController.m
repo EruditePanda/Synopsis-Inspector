@@ -26,7 +26,7 @@
 
 @property (weak) IBOutlet NSBox * previewBox;
 @property (weak) IBOutlet PlayerView * playerView;
-@property (strong,readwrite) NSLayoutConstraint * previewViewHeightConstraint;
+//@property (strong,readwrite) NSLayoutConstraint * previewViewHeightConstraint;
 
 @property (weak) IBOutlet NSTextField* globalDescriptors;
 @property (weak) IBOutlet MetadataDominantColorsView* globalDominantColorView;
@@ -68,8 +68,8 @@
 }
 - (void) applicationDidFinishLaunching:(NSNotification *)note	{
 	//	we need to add these constraints when the app finishes launching because if we add them before the app delegate sets up the other constraints on its UI items, we get an autolayout error.  because apparently the order of constraints matters.
-	self.previewViewHeightConstraint = [self.playerView.heightAnchor constraintEqualToAnchor:self.playerView.widthAnchor multiplier:0.25 constant:0];
-	self.previewViewHeightConstraint.active = true;
+	//self.previewViewHeightConstraint = [self.playerView.heightAnchor constraintEqualToAnchor:self.playerView.widthAnchor multiplier:0.25 constant:0];
+	//self.previewViewHeightConstraint.active = true;
 }
 
 @synthesize frameMetadata;
@@ -185,15 +185,15 @@
 			//	DO NOT use this 'loadAsset' method- if you do, the UI won't update to display the metadata
 			//[self.playerView loadAsset:n.asset];
 	
-			NSArray				*vidTracks = [n.asset tracksWithMediaType:AVMediaTypeVideo];
-			AVAssetTrack		*vidTrack = (vidTracks==nil || vidTracks.count<1) ? nil : [vidTracks objectAtIndex:0];
-			CGSize				tmpSize = (vidTrack==nil) ? CGSizeMake(1,1) : [vidTrack naturalSize];
-			if (self.previewViewHeightConstraint != nil)	{
-				[self.playerView removeConstraint:self.previewViewHeightConstraint];
-				self.previewViewHeightConstraint = nil;
-				self.previewViewHeightConstraint = [self.playerView.heightAnchor constraintEqualToAnchor:self.playerView.widthAnchor multiplier:tmpSize.height/tmpSize.width constant:0];
-				self.previewViewHeightConstraint.active = true;
-			}
+			//NSArray				*vidTracks = [n.asset tracksWithMediaType:AVMediaTypeVideo];
+			//AVAssetTrack		*vidTrack = (vidTracks==nil || vidTracks.count<1) ? nil : [vidTracks objectAtIndex:0];
+			//CGSize				tmpSize = (vidTrack==nil) ? CGSizeMake(1,1) : [vidTrack naturalSize];
+			//if (self.previewViewHeightConstraint != nil)	{
+			//	[self.playerView removeConstraint:self.previewViewHeightConstraint];
+			//	self.previewViewHeightConstraint = nil;
+			//	self.previewViewHeightConstraint = [self.playerView.heightAnchor constraintEqualToAnchor:self.playerView.widthAnchor multiplier:tmpSize.height/tmpSize.width constant:0];
+			//	self.previewViewHeightConstraint.active = true;
+			//}
 	
 	
 	
@@ -218,6 +218,9 @@
 					AVPlayerItemVideoOutput* videoOutput = [[AVPlayerItemVideoOutput alloc] initWithPixelBufferAttributes:videoOutputSettings];
 					videoOutput.suppressesPlayerRendering = YES;
 					[item addOutput:videoOutput];
+					
+					AVAssetTrack		*vidTrack = [[n.asset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0];
+					self.playerView.resolution = (vidTrack==nil) ? NSMakeSize(16.,9.) : NSSizeFromCGSize([vidTrack naturalSize]);
 				}
 				else
 				{
@@ -227,7 +230,10 @@
 					hapOutput.outputAsRGB = NO;
 			
 					[item addOutput:hapOutput];
+					
+					self.playerView.resolution = (hapAssetTrack==nil) ? NSMakeSize(16.,9.) : NSSizeFromCGSize([hapAssetTrack naturalSize]);
 				}
+				[self.playerView updateLayer];
 		
 				if(item)
 				{

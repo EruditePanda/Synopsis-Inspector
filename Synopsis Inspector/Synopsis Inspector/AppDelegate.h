@@ -13,6 +13,7 @@
 	IBOutlet NSView			*containerView;
 	IBOutlet NSBox			*previewBox;
 	IBOutlet NSTabView		*attribsTabView;
+	IBOutlet NSSlider		*zoomSlider;
 }
 
 @property (strong) NSString* sortStatus;
@@ -28,6 +29,9 @@
 - (IBAction)saturationSortUsingSelectedCell:(id)sender;
 - (IBAction)hueSortUsingSelectedCell:(id)sender;
 - (IBAction)brightnessSortUsingSelectedCell:(id)sender;
+
+- (IBAction) zoomInUsed:(id)sender;
+- (IBAction) zoomOutUsed:(id)sender;
 
 @end
 
