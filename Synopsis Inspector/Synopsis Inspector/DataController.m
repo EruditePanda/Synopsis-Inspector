@@ -565,84 +565,84 @@ static BOOL toggleAspect = false;
 
 - (void) lazyCreateLayoutsWithContent:(NSArray*)content
 {
-	self.hybridTSNEMenu.enabled = NO;
-	self.featureTSNEMenu.enabled = NO;
-	self.histogramTSNEMenu.enabled = NO;
-
-	NSSize collectionViewInitialSize = [self.collectionView frame].size;
-	
-	NSMutableArray<SynopsisDenseFeature*>* allFeatures = [NSMutableArray new];
-	NSMutableArray<SynopsisDenseFeature*>* allHistograms = [NSMutableArray new];
-	NSMutableArray<SynopsisDenseFeature*>* allHybridFeatures = [NSMutableArray new];
-
-	for(SynopsisMetadataItem* metadataItem in content)
-	{
-		SynopsisDenseFeature* feature = [metadataItem valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey];
-		SynopsisDenseFeature* histogram = [metadataItem valueForKey:kSynopsisStandardMetadataHistogramDictKey];
-
-		// Add our Feature
-		[allFeatures addObject:feature];
-
-		[allHistograms addObject:histogram];
-		
-		[allHybridFeatures addObject:[SynopsisDenseFeature denseFeatureByAppendingFeature:feature withFeature:histogram]];
-	}
-
-	
-	dispatch_group_t tsneGroup = dispatch_group_create();
-	
-	dispatch_group_enter(tsneGroup);
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-		
-		TSNELayout* tsneLayout = [[TSNELayout alloc] initWithFeatures:allFeatures initialSize:collectionViewInitialSize];
-		tsneLayout.itemSize = NSMakeSize(300, 300);
-		
-//		  DBScanLayout* dbScanLayout = [[DBScanLayout alloc] initWithData:allMetadataFeatures];
-//		  dbScanLayout.itemSize = NSMakeSize(400, 200);
-
-		self.tsneFeatureLayout = tsneLayout;
-//		  self.dbscanFeatureLayout = dbScanLayout;
-		
-		dispatch_group_leave(tsneGroup);
-		
-	});
-	
-	dispatch_group_enter(tsneGroup);
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-		
-		TSNELayout* tsneLayout = [[TSNELayout alloc] initWithFeatures:allHistograms initialSize:collectionViewInitialSize];
-		tsneLayout.itemSize = NSMakeSize(300, 300);
-		
-//		  DBScanLayout* dbScanLayout = [[DBScanLayout alloc] initWithData:allHistogramFeatures];
-//		  dbScanLayout.itemSize = NSMakeSize(400, 200);
-
-		self.tsneHistogramLayout = tsneLayout;
-//		  self.dbscanHistogramLayout = dbScanLayout;
-
-		dispatch_group_leave(tsneGroup);
-	});
-
-	dispatch_group_enter(tsneGroup);
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-		
-		TSNELayout* tsneLayout = [[TSNELayout alloc] initWithFeatures:allHybridFeatures initialSize:collectionViewInitialSize];
-		tsneLayout.itemSize = NSMakeSize(300, 300);
-		
-//		  DBScanLayout* dbScanLayout = [[DBScanLayout alloc] initWithData:allHybridFeatures];
-//		  dbScanLayout.itemSize = NSMakeSize(400, 200);
-
-		self.tsneHybridLayout = tsneLayout;
-//		  self.dbscanHybridLayout = dbScanLayout;
-
-		dispatch_group_leave(tsneGroup);
-		
-	});
-
-	dispatch_group_notify(tsneGroup, dispatch_get_main_queue(), ^{
-		self.hybridTSNEMenu.enabled = YES;
-		self.featureTSNEMenu.enabled = YES;
-		self.histogramTSNEMenu.enabled = YES;
-	});
+//	self.hybridTSNEMenu.enabled = NO;
+//	self.featureTSNEMenu.enabled = NO;
+//	self.histogramTSNEMenu.enabled = NO;
+//
+//	NSSize collectionViewInitialSize = [self.collectionView frame].size;
+//
+//	NSMutableArray<SynopsisDenseFeature*>* allFeatures = [NSMutableArray new];
+//	NSMutableArray<SynopsisDenseFeature*>* allHistograms = [NSMutableArray new];
+//	NSMutableArray<SynopsisDenseFeature*>* allHybridFeatures = [NSMutableArray new];
+//
+//	for(SynopsisMetadataItem* metadataItem in content)
+//	{
+//		SynopsisDenseFeature* feature = [metadataItem valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey];
+//		SynopsisDenseFeature* histogram = [metadataItem valueForKey:kSynopsisStandardMetadataHistogramDictKey];
+//
+//		// Add our Feature
+//		[allFeatures addObject:feature];
+//
+//		[allHistograms addObject:histogram];
+//
+//		[allHybridFeatures addObject:[SynopsisDenseFeature denseFeatureByAppendingFeature:feature withFeature:histogram]];
+//	}
+//
+//
+//	dispatch_group_t tsneGroup = dispatch_group_create();
+//
+//	dispatch_group_enter(tsneGroup);
+//	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+//
+//		TSNELayout* tsneLayout = [[TSNELayout alloc] initWithFeatures:allFeatures initialSize:collectionViewInitialSize];
+//		tsneLayout.itemSize = NSMakeSize(300, 300);
+//
+////		  DBScanLayout* dbScanLayout = [[DBScanLayout alloc] initWithData:allMetadataFeatures];
+////		  dbScanLayout.itemSize = NSMakeSize(400, 200);
+//
+//		self.tsneFeatureLayout = tsneLayout;
+////		  self.dbscanFeatureLayout = dbScanLayout;
+//
+//		dispatch_group_leave(tsneGroup);
+//
+//	});
+//
+//	dispatch_group_enter(tsneGroup);
+//	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+//
+//		TSNELayout* tsneLayout = [[TSNELayout alloc] initWithFeatures:allHistograms initialSize:collectionViewInitialSize];
+//		tsneLayout.itemSize = NSMakeSize(300, 300);
+//
+////		  DBScanLayout* dbScanLayout = [[DBScanLayout alloc] initWithData:allHistogramFeatures];
+////		  dbScanLayout.itemSize = NSMakeSize(400, 200);
+//
+//		self.tsneHistogramLayout = tsneLayout;
+////		  self.dbscanHistogramLayout = dbScanLayout;
+//
+//		dispatch_group_leave(tsneGroup);
+//	});
+//
+//	dispatch_group_enter(tsneGroup);
+//	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+//
+//		TSNELayout* tsneLayout = [[TSNELayout alloc] initWithFeatures:allHybridFeatures initialSize:collectionViewInitialSize];
+//		tsneLayout.itemSize = NSMakeSize(300, 300);
+//
+////		  DBScanLayout* dbScanLayout = [[DBScanLayout alloc] initWithData:allHybridFeatures];
+////		  dbScanLayout.itemSize = NSMakeSize(400, 200);
+//
+//		self.tsneHybridLayout = tsneLayout;
+////		  self.dbscanHybridLayout = dbScanLayout;
+//
+//		dispatch_group_leave(tsneGroup);
+//
+//	});
+//
+//	dispatch_group_notify(tsneGroup, dispatch_get_main_queue(), ^{
+//		self.hybridTSNEMenu.enabled = YES;
+//		self.featureTSNEMenu.enabled = YES;
+//		self.histogramTSNEMenu.enabled = YES;
+//	});
 }
 
 
@@ -675,69 +675,69 @@ static BOOL toggleAspect = false;
 
 	}
 	*/
-	if(self.collectionView.selectionIndexPaths.count == 2)
-	{
-		NSIndexPath* path1 = self.collectionView.selectionIndexPaths.allObjects[0];
-		NSIndexPath* path2 = self.collectionView.selectionIndexPaths.allObjects[1];
+//	if(self.collectionView.selectionIndexPaths.count == 2)
+//	{
+//		NSIndexPath* path1 = self.collectionView.selectionIndexPaths.allObjects[0];
+//		NSIndexPath* path2 = self.collectionView.selectionIndexPaths.allObjects[1];
+//
+//		SynopsisMetadataItem* item1 = [self.resultsArrayController.arrangedObjects objectAtIndex:path1.item];
+//		SynopsisMetadataItem* item2 = [self.resultsArrayController.arrangedObjects objectAtIndex:path2.item];
+//
+//		// Feature
+//		//float featureWeight = compareFeatureVector([item1 valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey],[item2 valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey]);
+//		float featureWeight = compareFeaturesCosineSimilarity([item1 valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey],[item2 valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey]);
+//		NSString* featureString = [NSString stringWithFormat:@" Features : %f", featureWeight];
+//
+//		//float probabiltyWeight = compareFeatureVector([item1 valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey],[item2 valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey]);
+//		float probabiltyWeight = compareFeaturesCosineSimilarity([item1 valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey],[item2 valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey]);
+//        NSString* probabilityString = [NSString stringWithFormat:@" Probailities : %f", probabiltyWeight];
+//
+//		// Hash
+//		//float hashWeight = compareGlobalHashes([item1 valueForKey:kSynopsisStandardMetadataPerceptualHashDictKey],[item2 valueForKey:kSynopsisStandardMetadataPerceptualHashDictKey]);
+//		//NSString* hashString = [NSString stringWithFormat:@" Perceptual Hash : %f", hashWeight];
+//
+//		// Histogram
+//		float histWeight = compareHistogtams([item1 valueForKey:kSynopsisStandardMetadataHistogramDictKey],[item2 valueForKey:kSynopsisStandardMetadataHistogramDictKey]);
+//		NSString* histString = [NSString stringWithFormat:@" Histogram : %f", histWeight];
+//		/*
+//		float motionWeight = fabsf(compareFeatureVector([item1 valueForKey:kSynopsisStandardMetadataMotionVectorDictKey],[item2 valueForKey:kSynopsisStandardMetadataMotionVectorDictKey]));
+//		NSString* motionString = [NSString stringWithFormat:@" MotionVector : %f", motionWeight];
+//
+//		// Dom Colors
+//		NSArray* domColors1 = [item1 valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey];
+//		NSArray* domColors2 = [item2 valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey];
+//
+//		// Color Components
+//		float hueWeight1 = weightHueDominantColors(domColors1);
+//		float hueWeight2 = weightHueDominantColors(domColors2);
+//		float hueWeight = 1.0 - fabsf(hueWeight1 - hueWeight2);
+//		NSString* hueString = [NSString stringWithFormat:@" Hue : %f", hueWeight];
+//
+//		float satWeight1 = weightSaturationDominantColors(domColors1);
+//		float satWeight2 = weightSaturationDominantColors(domColors2);
+//		float satWeight = 1.0 - fabsf(satWeight1 - satWeight2);
+//		NSString* satString = [NSString stringWithFormat:@" Saturation : %f", satWeight];
+//
+//		float briWeight1 = weightBrightnessDominantColors(domColors1);
+//		float briWeight2 = weightBrightnessDominantColors(domColors2);
+//		float briWeight = 1.0 - fabsf(briWeight1 - briWeight2);
+//		NSString* briString = [NSString stringWithFormat:@" Brightness : %f", briWeight];
+//		*/
+//		NSMutableString* value = [NSMutableString new];
+//		[value appendString:@"Metrics:"];
+//
+//		[value appendString:featureString];
+//		[value appendString:probabilityString];
+//		//[value appendString:hashString];
+//		[value appendString:histString];
+//		//[value appendString:motionString];
+//		//[value appendString:hueString];
+//		//[value appendString:satString];
+//		//[value appendString:briString];
 		
-		SynopsisMetadataItem* item1 = [self.resultsArrayController.arrangedObjects objectAtIndex:path1.item];
-		SynopsisMetadataItem* item2 = [self.resultsArrayController.arrangedObjects objectAtIndex:path2.item];
-		
-		// Feature
-		//float featureWeight = compareFeatureVector([item1 valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey],[item2 valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey]);
-		float featureWeight = compareFeaturesCosineSimilarity([item1 valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey],[item2 valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey]);
-		NSString* featureString = [NSString stringWithFormat:@" Features : %f", featureWeight];
-		
-		//float probabiltyWeight = compareFeatureVector([item1 valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey],[item2 valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey]);
-		float probabiltyWeight = compareFeaturesCosineSimilarity([item1 valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey],[item2 valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey]);
-        NSString* probabilityString = [NSString stringWithFormat:@" Probailities : %f", probabiltyWeight];
-
-		// Hash
-		//float hashWeight = compareGlobalHashes([item1 valueForKey:kSynopsisStandardMetadataPerceptualHashDictKey],[item2 valueForKey:kSynopsisStandardMetadataPerceptualHashDictKey]);
-		//NSString* hashString = [NSString stringWithFormat:@" Perceptual Hash : %f", hashWeight];
-		
-		// Histogram
-		float histWeight = compareHistogtams([item1 valueForKey:kSynopsisStandardMetadataHistogramDictKey],[item2 valueForKey:kSynopsisStandardMetadataHistogramDictKey]);
-		NSString* histString = [NSString stringWithFormat:@" Histogram : %f", histWeight];
-		/*
-		float motionWeight = fabsf(compareFeatureVector([item1 valueForKey:kSynopsisStandardMetadataMotionVectorDictKey],[item2 valueForKey:kSynopsisStandardMetadataMotionVectorDictKey]));
-		NSString* motionString = [NSString stringWithFormat:@" MotionVector : %f", motionWeight];
-
-		// Dom Colors
-		NSArray* domColors1 = [item1 valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey];
-		NSArray* domColors2 = [item2 valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey];
-		
-		// Color Components
-		float hueWeight1 = weightHueDominantColors(domColors1);
-		float hueWeight2 = weightHueDominantColors(domColors2);
-		float hueWeight = 1.0 - fabsf(hueWeight1 - hueWeight2);
-		NSString* hueString = [NSString stringWithFormat:@" Hue : %f", hueWeight];
-
-		float satWeight1 = weightSaturationDominantColors(domColors1);
-		float satWeight2 = weightSaturationDominantColors(domColors2);
-		float satWeight = 1.0 - fabsf(satWeight1 - satWeight2);
-		NSString* satString = [NSString stringWithFormat:@" Saturation : %f", satWeight];
-
-		float briWeight1 = weightBrightnessDominantColors(domColors1);
-		float briWeight2 = weightBrightnessDominantColors(domColors2);
-		float briWeight = 1.0 - fabsf(briWeight1 - briWeight2);
-		NSString* briString = [NSString stringWithFormat:@" Brightness : %f", briWeight];
-		*/
-		NSMutableString* value = [NSMutableString new];
-		[value appendString:@"Metrics:"];
-		
-		[value appendString:featureString];
-		[value appendString:probabilityString];
-		//[value appendString:hashString];
-		[value appendString:histString];
-		//[value appendString:motionString];
-		//[value appendString:hueString];
-		//[value appendString:satString];
-		//[value appendString:briString];
-		
-		self.statusField.stringValue = value;
-	}
-	else
+//		self.statusField.stringValue = value;
+//	}
+//	else
 	{
 		self.statusField.stringValue = [NSString stringWithFormat:@"%@ : %@ : %@", appDelegate.sortStatus, appDelegate.filterStatus, appDelegate.correlationStatus];
 	}

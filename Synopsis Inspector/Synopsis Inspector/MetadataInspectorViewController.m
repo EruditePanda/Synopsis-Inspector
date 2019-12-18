@@ -14,16 +14,12 @@
 #import "MetadataFeatureVectorView.h"
 #import "PlayerView.h"
 #import "SynopsisCacheWithHap.h"
-#import <Synopsis/Synopsis.h>
-
-
 
 
 @interface MetadataInspectorViewController ()
 
 @property (readwrite, strong) NSDictionary* globalMetadata;
 
-@property (readwrite) SynopsisMetadataDecoder* metadataDecoder;
 @property (readwrite, strong) dispatch_queue_t metadataQueue;
 
 @property (weak) IBOutlet NSCollectionView* collectionView;
@@ -67,7 +63,6 @@
 
 
 - (void) awakeFromNib	{
-	self.metadataDecoder = [[SynopsisMetadataDecoder alloc] initWithVersion:kSynopsisMetadataVersionValue];
 	self.metadataQueue = dispatch_queue_create("metadataqueue", DISPATCH_QUEUE_SERIAL);
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidFinishLaunching:) name:NSApplicationDidFinishLaunchingNotification object:nil];
 }
@@ -88,31 +83,42 @@
 {
 	frameMetadata = dictionary;
 	
-	NSDictionary* synopsisData = [frameMetadata valueForKey:kSynopsisMetadataIdentifier];
-	NSDictionary* standard = [synopsisData valueForKey:kSynopsisStandardMetadataDictKey];
-	NSArray* domColors = [standard valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey];
-	NSArray* descriptions = [standard valueForKey:kSynopsisStandardMetadataDescriptionDictKey];
+    NSUInteger metadataVersion = myMetadataItem.metadataVersion;
 
-	NSMutableString* description = [NSMutableString new];
-	
-	for(NSString* desc in descriptions)
-	{
-		// Hack to make the description 'key' not have a comma
-		if([desc hasSuffix:@":"])
-		{
-			[description appendString:[desc stringByAppendingString:@" "]];
-		}
-		else
-		{
-			[description appendString:[desc stringByAppendingString:@", "]];
-		}
-	}
+    // Because Per Frame Metadata is vended by our AVPlayerItemMetadataOutput - which outouts all timed metadata
+    // method call - we aggregate all metadata into a single dictionary with keys for each metadata identifier
+    // This if we may want to support other timed metadata in the future that isnt synopsis metadata
+    // Therefore there is an 'additional' key we need to fetch, the kSynopsisMetadataIdentifier
+    
+    NSDictionary* synopsisMetadata = frameMetadata[kSynopsisMetadataIdentifier];
 
-	SynopsisDenseFeature* histogram = [standard valueForKey:kSynopsisStandardMetadataHistogramDictKey];
+    NSString* sampleKey = SynopsisKeyForMetadataTypeVersion(SynopsisMetadataTypeSample, metadataVersion);
 
-	SynopsisDenseFeature* feature = [standard valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey];
+    NSDictionary* sampleMetadata = [synopsisMetadata valueForKey:sampleKey];
+    
+	NSArray* domColors = [sampleMetadata valueForKey: SynopsisKeyForMetadataIdentifierVersion(SynopsisMetadataIdentifierVisualDominantColors, metadataVersion)];
+//	NSArray* descriptions = [sampleMetadata valueForKey:SynopsisKeyForMetadataIdentifierVersion(SynopsisMetadataIdentifierGlobalVisualDescription, metadataVersion)];
 
-	SynopsisDenseFeature* probability = [standard valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey];
+//	NSMutableString* description = [NSMutableString new];
+//
+//	for(NSString* desc in descriptions)
+//	{
+//		// Hack to make the description 'key' not have a comma
+//		if([desc hasSuffix:@":"])
+//		{
+//			[description appendString:[desc stringByAppendingString:@" "]];
+//		}
+//		else
+//		{
+//			[description appendString:[desc stringByAppendingString:@", "]];
+//		}
+//	}
+
+	SynopsisDenseFeature* histogram = [sampleMetadata valueForKey: SynopsisKeyForMetadataIdentifierVersion(SynopsisMetadataIdentifierVisualHistogram, metadataVersion) ];
+
+	SynopsisDenseFeature* feature = [sampleMetadata valueForKey: SynopsisKeyForMetadataIdentifierVersion(SynopsisMetadataIdentifierVisualEmbedding, metadataVersion) ];
+
+	SynopsisDenseFeature* probability = [sampleMetadata valueForKey: SynopsisKeyForMetadataIdentifierVersion(SynopsisMetadataIdentifierVisualProbabilities, metadataVersion) ];
 
 	
 	float comparedHistograms = 0.0;
@@ -150,8 +156,8 @@
 			//[self.histogramHistory appendValue:@(comparedHistograms)];
 			//[self.histogramHistory updateLayer];
 			
-			if(description)
-				self.frameDescriptors.stringValue = description;
+//			if(description)
+//				self.frameDescriptors.stringValue = description;
 
 		}
 		//self.featureVectorHistoryCurrentValue.floatValue = comparedFeatures;
@@ -272,13 +278,17 @@
 
 - (void) refresh	{
 	
-	NSUInteger metadataVersion = [[self.globalMetadata valueForKey:kSynopsisMetadataVersionKey] unsignedIntegerValue];
-	NSDictionary* standard = [self.globalMetadata valueForKey:kSynopsisStandardMetadataDictKey];
-	NSArray* domColors = [standard valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey];
-	NSArray* descriptions = [standard valueForKey:kSynopsisStandardMetadataDescriptionDictKey];
-	SynopsisDenseFeature* probability = [standard valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey];
-	SynopsisDenseFeature* feature = [standard valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey];
-	SynopsisDenseFeature* histogram = [standard valueForKey:kSynopsisStandardMetadataHistogramDictKey];
+	NSUInteger metadataVersion = myMetadataItem.metadataVersion;
+    
+    NSString* globalKey = SynopsisKeyForMetadataTypeVersion(SynopsisMetadataTypeGlobal, metadataVersion);
+    
+    NSDictionary* global = [self.globalMetadata valueForKey:globalKey];
+    
+    NSArray* domColors = [global valueForKey: SynopsisKeyForMetadataIdentifierVersion(SynopsisMetadataIdentifierVisualDominantColors, metadataVersion)  ];
+    NSArray* descriptions = [global valueForKey: SynopsisKeyForMetadataIdentifierVersion(SynopsisMetadataIdentifierGlobalVisualDescription, metadataVersion) ];
+	SynopsisDenseFeature* probability = [global valueForKey:SynopsisKeyForMetadataIdentifierVersion(SynopsisMetadataIdentifierVisualProbabilities, metadataVersion)];
+	SynopsisDenseFeature* feature = [global valueForKey:SynopsisKeyForMetadataIdentifierVersion(SynopsisMetadataIdentifierVisualEmbedding, metadataVersion)];
+	SynopsisDenseFeature* histogram = [global valueForKey:SynopsisKeyForMetadataIdentifierVersion(SynopsisMetadataIdentifierVisualHistogram, metadataVersion)];
 	
 	NSMutableString* description = [NSMutableString new];
 	
@@ -321,19 +331,20 @@
 - (void)metadataOutput:(AVPlayerItemMetadataOutput *)output didOutputTimedMetadataGroups:(NSArray *)groups fromPlayerItemTrack:(AVPlayerItemTrack *)track
 {
     NSMutableDictionary* metadataDictionary = [NSMutableDictionary dictionary];
-    
+        
     for(AVTimedMetadataGroup* group in groups)
     {
         for(AVMetadataItem* metadataItem in group.items)
         {
             NSString* key = metadataItem.identifier;
             
-            if ([key isEqualToString:kSynopsisMetadataIdentifier])
+            if ([key isEqualToString:kSynopsisMetadataIdentifier] || [key isEqualToString:kSynopsisMetadataIdentifierLegacy])
             {
-                id metadata = [self.metadataDecoder decodeSynopsisMetadata:metadataItem];
+                id metadata = [myMetadataItem.decoder decodeSynopsisMetadata:metadataItem];
                 if(metadata)
                 {
-                    [metadataDictionary setObject:metadata forKey:key];
+                    // Force the key to be kSynopsisMetadataIdentifier since version info handles variants
+                    [metadataDictionary setObject:metadata forKey:kSynopsisMetadataIdentifier];
                 }
             }
             else
@@ -343,6 +354,8 @@
             }
         }
     }
+    
+    
     
     if(self && metadataDictionary)
     {

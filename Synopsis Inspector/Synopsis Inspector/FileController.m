@@ -515,7 +515,9 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 	{
 		// reset to default search
 		NSPredicate *searchPredicate;
-		searchPredicate = [NSPredicate predicateWithFormat:@"info_synopsis_version >= 0 || info_synopsis_descriptors LIKE '*'"];
+        
+        // Should have this link off of some Framework predicate maybe?
+		searchPredicate = [NSPredicate predicateWithFormat:@"info_synopsis_version >= 0 || info_synopsis_descriptors LIKE '*' || video_synopsis_version >= 0 || video_synopsis_descriptors LIKE '*'"];
 		self.continuousMetadataSearch.predicate = searchPredicate;
 	}
 	else
