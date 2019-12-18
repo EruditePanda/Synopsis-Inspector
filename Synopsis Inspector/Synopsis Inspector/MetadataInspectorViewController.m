@@ -97,22 +97,22 @@
     NSDictionary* sampleMetadata = [synopsisMetadata valueForKey:sampleKey];
     
 	NSArray* domColors = [sampleMetadata valueForKey: SynopsisKeyForMetadataIdentifierVersion(SynopsisMetadataIdentifierVisualDominantColors, metadataVersion)];
-	NSArray* descriptions = [sampleMetadata valueForKey:SynopsisKeyForMetadataIdentifierVersion(SynopsisMetadataIdentifierGlobalVisualDescription, metadataVersion)];
+//	NSArray* descriptions = [sampleMetadata valueForKey:SynopsisKeyForMetadataIdentifierVersion(SynopsisMetadataIdentifierGlobalVisualDescription, metadataVersion)];
 
-	NSMutableString* description = [NSMutableString new];
-	
-	for(NSString* desc in descriptions)
-	{
-		// Hack to make the description 'key' not have a comma
-		if([desc hasSuffix:@":"])
-		{
-			[description appendString:[desc stringByAppendingString:@" "]];
-		}
-		else
-		{
-			[description appendString:[desc stringByAppendingString:@", "]];
-		}
-	}
+//	NSMutableString* description = [NSMutableString new];
+//
+//	for(NSString* desc in descriptions)
+//	{
+//		// Hack to make the description 'key' not have a comma
+//		if([desc hasSuffix:@":"])
+//		{
+//			[description appendString:[desc stringByAppendingString:@" "]];
+//		}
+//		else
+//		{
+//			[description appendString:[desc stringByAppendingString:@", "]];
+//		}
+//	}
 
 	SynopsisDenseFeature* histogram = [sampleMetadata valueForKey: SynopsisKeyForMetadataIdentifierVersion(SynopsisMetadataIdentifierVisualHistogram, metadataVersion) ];
 
@@ -156,8 +156,8 @@
 			//[self.histogramHistory appendValue:@(comparedHistograms)];
 			//[self.histogramHistory updateLayer];
 			
-			if(description)
-				self.frameDescriptors.stringValue = description;
+//			if(description)
+//				self.frameDescriptors.stringValue = description;
 
 		}
 		//self.featureVectorHistoryCurrentValue.floatValue = comparedFeatures;
@@ -325,7 +325,7 @@
 - (void)metadataOutput:(AVPlayerItemMetadataOutput *)output didOutputTimedMetadataGroups:(NSArray *)groups fromPlayerItemTrack:(AVPlayerItemTrack *)track
 {
     NSMutableDictionary* metadataDictionary = [NSMutableDictionary dictionary];
-    
+        
     for(AVTimedMetadataGroup* group in groups)
     {
         for(AVMetadataItem* metadataItem in group.items)
@@ -348,6 +348,8 @@
             }
         }
     }
+    
+    
     
     if(self && metadataDictionary)
     {
