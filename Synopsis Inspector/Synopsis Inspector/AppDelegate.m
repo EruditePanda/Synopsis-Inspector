@@ -168,8 +168,13 @@
 - (IBAction)bestMatchSortUsingSelectedCell:(id)sender
 {
 //    // TODO: Figure out "Hybrid" / best Match
-//    [self setupSortForSynopsisMetadatIdentifier:SynopsisMetadataIdentifierVisualEmbedding];
-//    self.sortStatus = @"Relative Best Match Sort";
+    SynopsisMetadataItem* item = [self.dataController firstSelectedItem];
+    
+    NSSortDescriptor* sortDescriptor = [NSSortDescriptor sortViaSynopsisGlobalMetadataRelativeTo:item];
+
+    [self.dataController setupSortUsingSortDescriptor:sortDescriptor selectedItem:item];
+
+    self.sortStatus = @"Relative Best Match Sort";
 }
 
 - (IBAction)featureVectorSortUsingSelectedCell:(id)sender
