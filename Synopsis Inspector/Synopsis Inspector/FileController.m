@@ -149,7 +149,10 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 {
 	NSLog(@"%s",__func__);
 	NSPredicate *searchPredicate;
-	searchPredicate = [NSPredicate predicateWithFormat:@"info_synopsis_version >= 0 || info_synopsis_descriptors like '*'"];
+	NSString		*predStr = [NSString stringWithFormat:@"%@ >= 0 || %@ like '*'",kSynopsisMetadataHFSAttributeVersionKey,kSynopsisMetadataHFSAttributeDescriptorKey];
+	searchPredicate = [NSPredicate predicateWithFormat:predStr];
+	//searchPredicate = [NSPredicate predicateWithFormat:@"info_synopsis_version >= 0 || info_synopsis_descriptors like '*'"];
+	
 	
 	[self.continuousMetadataSearch setPredicate:searchPredicate];
 	
@@ -315,7 +318,7 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 			dispatch_group_leave(_globalMDLoadGroup);
 		}];
 	
-	return item;
+	return (item==nil) ? [NSNull null] : item;
 }
 
 #pragma mark - Metadata Results
@@ -339,7 +342,13 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 	
 	[self.resultsArrayController.content removeAllObjects];
 	
-	NSMutableArray		*tmpArray = [self.continuousMetadataSearch.results mutableCopy];
+	NSArray				*rawArray = [self.continuousMetadataSearch.results copy];
+	NSMutableArray		*tmpArray = [[NSMutableArray alloc] init];
+	for (id item in rawArray)	{
+		if ([item isKindOfClass:[SynopsisMetadataItem class]])	{
+			[tmpArray addObject:item];
+		}
+	}
 	NSLog(@"\tfound %ld items",tmpArray.count);
 	
 	[self.resultsArrayController addObjects:tmpArray];
@@ -404,8 +413,15 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 	if (removedItems.count > 0)
 		[self.resultsArrayController.content removeObjectsInArray:removedItems];
 	
-	if (addedItems.count > 0)
-		[self.resultsArrayController.content addObjectsFromArray:addedItems];
+	if (addedItems.count > 0)	{
+		NSMutableArray		*tmpArray = [[NSMutableArray alloc] init];
+		for (id item in addedItems)	{
+			if ([item isKindOfClass:[SynopsisMetadataItem class]])	{
+				[tmpArray addObject:item];
+			}
+		}
+		[self.resultsArrayController.content addObjectsFromArray:tmpArray];
+	}
 	
 	
 	//	re-apply the sort descriptor and search predicates...
