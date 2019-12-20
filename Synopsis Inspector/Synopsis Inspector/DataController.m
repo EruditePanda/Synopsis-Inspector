@@ -179,6 +179,9 @@ static DataController			*_globalDataController = nil;
 
 - (void) setupSortUsingSortDescriptor:(NSSortDescriptor*) sortDescriptor selectedItem:(SynopsisMetadataItem*)item
 {
+    if (sortDescriptor == nil)
+        return;
+    
 	NSLog(@"%s ... %@",__func__,item);
 	
 	NSArray			*before = [self.resultsArrayController.arrangedObjects copy];
@@ -302,7 +305,7 @@ static DataController			*_globalDataController = nil;
 	else	{
 		[sender setTextColor:[NSColor textColor]];
 		
-		NSPredicate		*descriptorPred = [obj createPredicateWithFormat:@"ANY SELF.Description CONTAINS %@"];
+		NSPredicate		*descriptorPred = [obj createPredicateWithFormat:@"ANY SELF.GM.VD CONTAINS %@"];
 		NSPredicate		*filenamePred = [obj createPredicateWithFormat:@"SELF.url.path CONTAINS %@"];
 		NSPredicate		*pred = nil;
 		
@@ -394,6 +397,10 @@ static DataController			*_globalDataController = nil;
 	NSLog(@"\tselecing %@",self.selectedItem);
 	
 	self.metadataInspector.metadataItem = metadataItem;
+	
+	//	update the filename text field
+	SynopsisMetadataItem		*selItem = [self firstSelectedItem];
+	[filenameTextField setStringValue:(selItem==nil) ? @"" : [[selItem url] lastPathComponent]];
 }
 
 - (void)collectionView:(NSCollectionView *)collectionView didDeselectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
@@ -598,7 +605,6 @@ static BOOL toggleAspect = false;
 
 - (void) lazyCreateLayoutsWithContent:(NSArray*)content
 {
-	
 	NSSize collectionViewInitialSize = [self.collectionView frame].size;
 	
     NSMutableArray<SynopsisDenseFeature*>* allHybridFeatures = [NSMutableArray new];
@@ -609,15 +615,19 @@ static BOOL toggleAspect = false;
     NSMutableArray<SynopsisDenseFeature*>* allDTWFeatures = [NSMutableArray new];
     NSMutableArray<SynopsisDenseFeature*>* allDTWProbabilities = [NSMutableArray new];
 
+    NSString* probabilityKey = SynopsisKeyForMetadataIdentifierVersion(SynopsisMetadataIdentifierVisualProbabilities, kSynopsisMetadataVersionCurrent);
+    NSString* embeddingKey = SynopsisKeyForMetadataIdentifierVersion(SynopsisMetadataIdentifierVisualEmbedding, kSynopsisMetadataVersionCurrent);
+    NSString* histogramKey = SynopsisKeyForMetadataIdentifierVersion(SynopsisMetadataIdentifierVisualHistogram, kSynopsisMetadataVersionCurrent);
+    NSString* dtwEmbeddingKey = SynopsisKeyForMetadataIdentifierVersion(SynopsisMetadataIdentifierTimeSeriesVisualEmbedding, kSynopsisMetadataVersionCurrent);
+    NSString* dtwProbabilitiesKey = SynopsisKeyForMetadataIdentifierVersion(SynopsisMetadataIdentifierTimeSeriesVisualProbabilities, kSynopsisMetadataVersionCurrent);
+    
 	for(SynopsisMetadataItem* metadataItem in content)
 	{
-		SynopsisDenseFeature* feature = [metadataItem valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey];
-        SynopsisDenseFeature* probability = [metadataItem valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey];
-		SynopsisDenseFeature* histogram = [metadataItem valueForKey:kSynopsisStandardMetadataHistogramDictKey];
-
-        SynopsisDenseFeature* dtwFeature = [metadataItem valueForKey:kSynopsisStandardMetadataSimilarityFeatureVectorDictKey];
-        SynopsisDenseFeature* dtwProbabilities = [metadataItem valueForKey:kSynopsisStandardMetadataSimilarityProbabilitiesDictKey];
-
+		SynopsisDenseFeature* feature = [metadataItem valueForKey:embeddingKey];
+        SynopsisDenseFeature* probability = [metadataItem valueForKey:probabilityKey];
+		SynopsisDenseFeature* histogram = [metadataItem valueForKey:histogramKey];
+        SynopsisDenseFeature* dtwFeature = [metadataItem valueForKey:dtwEmbeddingKey];
+        SynopsisDenseFeature* dtwProbabilities = [metadataItem valueForKey:dtwProbabilitiesKey];
         
 		// Add our Feature
 		[allFeatures addObject:feature];
@@ -746,62 +756,44 @@ static BOOL toggleAspect = false;
 	{
 		NSIndexPath* path1 = self.collectionView.selectionIndexPaths.allObjects[0];
 		NSIndexPath* path2 = self.collectionView.selectionIndexPaths.allObjects[1];
-		
+
 		SynopsisMetadataItem* item1 = [self.resultsArrayController.arrangedObjects objectAtIndex:path1.item];
 		SynopsisMetadataItem* item2 = [self.resultsArrayController.arrangedObjects objectAtIndex:path2.item];
-		
+
 		// Feature
-		//float featureWeight = compareFeatureVector([item1 valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey],[item2 valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey]);
-		float featureWeight = compareFeaturesCosineSimilarity([item1 valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey],[item2 valueForKey:kSynopsisStandardMetadataFeatureVectorDictKey]);
-		NSString* featureString = [NSString stringWithFormat:@" Features : %f", featureWeight];
-		
-		//float probabiltyWeight = compareFeatureVector([item1 valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey],[item2 valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey]);
-		float probabiltyWeight = compareFeaturesCosineSimilarity([item1 valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey],[item2 valueForKey:kSynopsisStandardMetadataProbabilitiesDictKey]);
-        NSString* probabilityString = [NSString stringWithFormat:@" Probailities : %f", probabiltyWeight];
+        NSString* embeddingKey = SynopsisKeyForMetadataIdentifierVersion(SynopsisMetadataIdentifierVisualEmbedding, kSynopsisMetadataVersionCurrent);
+        float embeddingSimilarity = compareFeaturesCosineSimilarity([item1 valueForKey:embeddingKey],[item2 valueForKey:embeddingKey]);
+		NSString* embeddingString = [NSString stringWithFormat:@" Embedding : %f", embeddingSimilarity];
 
-		// Hash
-		//float hashWeight = compareGlobalHashes([item1 valueForKey:kSynopsisStandardMetadataPerceptualHashDictKey],[item2 valueForKey:kSynopsisStandardMetadataPerceptualHashDictKey]);
-		//NSString* hashString = [NSString stringWithFormat:@" Perceptual Hash : %f", hashWeight];
-		
+        NSString* probabilityKey = SynopsisKeyForMetadataIdentifierVersion(SynopsisMetadataIdentifierVisualProbabilities, kSynopsisMetadataVersionCurrent);
+		float probabiltySimilarity = compareFeaturesCosineSimilarity([item1 valueForKey:probabilityKey],[item2 valueForKey:probabilityKey]);
+        NSString* probabilityString = [NSString stringWithFormat:@" Probailities : %f", probabiltySimilarity];
+
 		// Histogram
-		float histWeight = compareHistogtams([item1 valueForKey:kSynopsisStandardMetadataHistogramDictKey],[item2 valueForKey:kSynopsisStandardMetadataHistogramDictKey]);
+        NSString* histogramKey = SynopsisKeyForMetadataIdentifierVersion(SynopsisMetadataIdentifierVisualHistogram, kSynopsisMetadataVersionCurrent);
+		float histWeight = compareHistogtams([item1 valueForKey:histogramKey],[item2 valueForKey:histogramKey]);
 		NSString* histString = [NSString stringWithFormat:@" Histogram : %f", histWeight];
-		/*
-		float motionWeight = fabsf(compareFeatureVector([item1 valueForKey:kSynopsisStandardMetadataMotionVectorDictKey],[item2 valueForKey:kSynopsisStandardMetadataMotionVectorDictKey]));
-		NSString* motionString = [NSString stringWithFormat:@" MotionVector : %f", motionWeight];
 
-		// Dom Colors
-		NSArray* domColors1 = [item1 valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey];
-		NSArray* domColors2 = [item2 valueForKey:kSynopsisStandardMetadataDominantColorValuesDictKey];
-		
-		// Color Components
-		float hueWeight1 = weightHueDominantColors(domColors1);
-		float hueWeight2 = weightHueDominantColors(domColors2);
-		float hueWeight = 1.0 - fabsf(hueWeight1 - hueWeight2);
-		NSString* hueString = [NSString stringWithFormat:@" Hue : %f", hueWeight];
+        NSString* dtwEmbeddingKey = SynopsisKeyForMetadataIdentifierVersion(SynopsisMetadataIdentifierTimeSeriesVisualEmbedding, kSynopsisMetadataVersionCurrent);
+        DTWFilterWrapper* dtwEmbeddingWrapper = [[DTWFilterWrapper alloc] initWithFeature:[item1 valueForKey:dtwEmbeddingKey]];
+        float dtwEmbeddingWeight = compareFeatureVectorDTW(dtwEmbeddingWrapper,  [item2 valueForKey:dtwEmbeddingKey]);
+        NSString* dtwEmbeddingString = [NSString stringWithFormat:@" Time Series Embedding : %f", dtwEmbeddingWeight];
 
-		float satWeight1 = weightSaturationDominantColors(domColors1);
-		float satWeight2 = weightSaturationDominantColors(domColors2);
-		float satWeight = 1.0 - fabsf(satWeight1 - satWeight2);
-		NSString* satString = [NSString stringWithFormat:@" Saturation : %f", satWeight];
+        NSString* dtwProbabilitiesKey = SynopsisKeyForMetadataIdentifierVersion(SynopsisMetadataIdentifierTimeSeriesVisualProbabilities, kSynopsisMetadataVersionCurrent);
+        DTWFilterWrapper* dtwProbabilityWrapper = [[DTWFilterWrapper alloc] initWithFeature:[item1 valueForKey:dtwProbabilitiesKey]];
+        float dtwProbabilitiesWeight = compareFeatureVectorDTW(dtwProbabilityWrapper,  [item2 valueForKey:dtwProbabilitiesKey]);
+        NSString* dtwProbabilitiesString = [NSString stringWithFormat:@" Time Series Probabilties : %f", dtwProbabilitiesWeight];
 
-		float briWeight1 = weightBrightnessDominantColors(domColors1);
-		float briWeight2 = weightBrightnessDominantColors(domColors2);
-		float briWeight = 1.0 - fabsf(briWeight1 - briWeight2);
-		NSString* briString = [NSString stringWithFormat:@" Brightness : %f", briWeight];
-		*/
+        
 		NSMutableString* value = [NSMutableString new];
-		[value appendString:@"Metrics:"];
-		
-		[value appendString:featureString];
+		[value appendString:@"Metrics :"];
+
+		[value appendString:embeddingString];
 		[value appendString:probabilityString];
-		//[value appendString:hashString];
 		[value appendString:histString];
-		//[value appendString:motionString];
-		//[value appendString:hueString];
-		//[value appendString:satString];
-		//[value appendString:briString];
-		
+        [value appendString:dtwEmbeddingString];
+        [value appendString:dtwProbabilitiesString];
+
 		self.statusField.stringValue = value;
 	}
 	else
@@ -821,7 +813,7 @@ static BOOL toggleAspect = false;
 #pragma mark - backend
 
 - (void) pushZoomSliderValToLayout	{
-	NSLog(@"%s",__func__);
+	//NSLog(@"%s",__func__);
 	NSSize			scrollViewSize = self.collectionView.frame.size;
 	scrollViewSize.width -= 22;
 	double			padding = self.wrappedLayout.minimumInteritemSpacing;
