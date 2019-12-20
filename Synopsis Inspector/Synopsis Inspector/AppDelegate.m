@@ -20,6 +20,7 @@
 #import "PlayerView.h"
 #import "DataController.h"
 #import "FileController.h"
+#import "VVLogger.h"
 
 
 
@@ -51,6 +52,12 @@
 
 @implementation AppDelegate
 
++ (void) initialize	{
+#if !DEBUG
+	[[VVLogger alloc] initWithFolderName:nil maxNumLogs:20];
+	[[VVLogger globalLogger] redirectLogs];
+#endif
+}
 - (void) awakeFromNib
 {
     MTRegisterProfessionalVideoWorkflowFormatReaders();

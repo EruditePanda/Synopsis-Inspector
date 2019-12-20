@@ -14,6 +14,7 @@
 		1ACF9367238EB78E00D5CC05 /* DataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ACF9366238EB78E00D5CC05 /* DataController.m */; };
 		1ADC949D23AA71C800FAA622 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1ADC949C23AA71C800FAA622 /* Sparkle.framework */; };
 		1ADC949F23AA71EE00FAA622 /* Sparkle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1ADC949C23AA71C800FAA622 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1AF006FF23ABF2BD00D87440 /* VVLogger.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1AF006F823ABF2BD00D87440 /* VVLogger.mm */; };
 		1AF4D31B238F11F50047A22C /* FileController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF4D31A238F11F50047A22C /* FileController.m */; };
 		1AF7D1482395B3E400130BA6 /* Synopsis.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1BBB10ED1D5558C400C22439 /* Synopsis.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1AFB9634238DA67100ECAC06 /* FlippedClipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AFB9633238DA67100ECAC06 /* FlippedClipView.m */; };
@@ -145,6 +146,8 @@
 		1ACF9365238EB78E00D5CC05 /* DataController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataController.h; sourceTree = "<group>"; };
 		1ACF9366238EB78E00D5CC05 /* DataController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DataController.m; sourceTree = "<group>"; };
 		1ADC949C23AA71C800FAA622 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Sparkle/Sparkle.framework; sourceTree = "<group>"; };
+		1AF006F823ABF2BD00D87440 /* VVLogger.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VVLogger.mm; sourceTree = "<group>"; };
+		1AF006FE23ABF2BD00D87440 /* VVLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VVLogger.h; sourceTree = "<group>"; };
 		1AF4D319238F11F50047A22C /* FileController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileController.h; sourceTree = "<group>"; };
 		1AF4D31A238F11F50047A22C /* FileController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileController.m; sourceTree = "<group>"; };
 		1AFB962C238DA67000ECAC06 /* FlippedClipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlippedClipView.h; sourceTree = "<group>"; };
@@ -333,6 +336,8 @@
 				1B972856217948C400C78FBF /* PlayerView.m */,
 				1A348CAF238D5E5E0049878A /* SynopsisCacheWithHap.h */,
 				1A348CB0238D5E5E0049878A /* SynopsisCacheWithHap.m */,
+				1AF006FE23ABF2BD00D87440 /* VVLogger.h */,
+				1AF006F823ABF2BD00D87440 /* VVLogger.mm */,
 				1B5FE02A1DF9F1FE009CF677 /* CollectionView */,
 				1BDC34341D6AB02600D210E8 /* Inspector */,
 				1B9874161D48014C0015E54C /* SynopsisCollectionViewItem.xib */,
@@ -579,6 +584,7 @@
 				1B972857217948C400C78FBF /* PlayerView.m in Sources */,
 				1BDC34431D6CE38C00D210E8 /* MetadataLayerBackedView.m in Sources */,
 				1B7155C61EFC97EE00266150 /* MetadataFeatureVectorView.m in Sources */,
+				1AF006FF23ABF2BD00D87440 /* VVLogger.mm in Sources */,
 				1AF4D31B238F11F50047A22C /* FileController.m in Sources */,
 				1BDC34491D6F90FC00D210E8 /* TransparentTabView.m in Sources */,
 				1B0A1EE623A2C9BC00E68E08 /* TSNELayout.mm in Sources */,

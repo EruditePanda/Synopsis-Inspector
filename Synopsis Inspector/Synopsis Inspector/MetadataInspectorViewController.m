@@ -34,7 +34,7 @@
 @property (weak) IBOutlet MetadataFeatureVectorView* globalFeatureVectorView;
 @property (weak) IBOutlet MetadataFeatureVectorView* globalProbabilityView;
 
-@property (weak) IBOutlet NSTextField* frameDescriptors;
+//@property (weak) IBOutlet NSTextField* frameDescriptors;
 @property (weak) IBOutlet MetadataDominantColorsView* dominantColorView;
 @property (weak) IBOutlet MetadataHistogramView* histogramView;
 @property (weak) IBOutlet MetadataMotionView* motionView;
