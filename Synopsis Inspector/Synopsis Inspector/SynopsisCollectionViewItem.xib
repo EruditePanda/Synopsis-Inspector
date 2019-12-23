@@ -43,8 +43,33 @@
                         <action selector="revealInFinder:" target="M2Q-8K-Ovt" id="LEE-Ae-75H"/>
                     </connections>
                 </menuItem>
+                <menuItem isSeparatorItem="YES" id="rvZ-bE-jnV"/>
+                <menuItem title="Best Fit Sort" id="lAG-mr-mSb">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="contextualBestFitSort:" target="M2Q-8K-Ovt" id="F7Y-LJ-o9g"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Predictions Sort" id="96P-mj-qqk">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="contextualPredictionSort:" target="M2Q-8K-Ovt" id="W4m-iI-Xnv"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Feature Sort" id="xSY-Sj-Zd6">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="contextualFeatureSort:" target="M2Q-8K-Ovt" id="C7t-fb-BwA"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Histogram Sort" id="NzM-bL-fRy">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="contextualHistogramSort:" target="M2Q-8K-Ovt" id="NXC-2q-vKH"/>
+                    </connections>
+                </menuItem>
             </items>
-            <point key="canvasLocation" x="744.5" y="284.5"/>
+            <point key="canvasLocation" x="658" y="384"/>
         </menu>
         <visualEffectView wantsLayer="YES" appearanceType="vibrantDark" blendingMode="behindWindow" material="underWindowBackground" state="followsWindowActiveState" id="qjD-Hn-jMJ">
             <rect key="frame" x="0.0" y="0.0" width="377" height="419"/>

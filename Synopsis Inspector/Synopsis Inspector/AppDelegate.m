@@ -50,6 +50,11 @@
 
 
 
+static AppDelegate		*_globalAppDelegate = nil;
+
+
+
+
 @implementation AppDelegate
 
 + (void) initialize	{
@@ -57,6 +62,21 @@
 	[[VVLogger alloc] initWithFolderName:nil maxNumLogs:20];
 	[[VVLogger globalLogger] redirectLogs];
 #endif
+}
++ (id) global	{
+	return _globalAppDelegate;
+}
+- (id) init	{
+	self = [super init];
+	if (self != nil)	{
+		if (_globalAppDelegate == nil)	{
+			static dispatch_once_t		onceToken;
+			dispatch_once(&onceToken, ^{
+				_globalAppDelegate = self;
+			});
+		}
+	}
+	return self;
 }
 - (void) awakeFromNib
 {
@@ -275,6 +295,19 @@
 - (IBAction) zoomOutUsed:(id)sender	{
 	[zoomSlider setIntValue:[zoomSlider intValue] + 1];
 	[[DataController global] zoomSliderUsed:zoomSlider];
+}
+
+- (IBAction) helpSlackChannel:(id)sender	{
+	NSURL			*tmpURL = [NSURL URLWithString:@"https://synopsis-discuss.slack.com/"];
+	[[NSWorkspace sharedWorkspace] openURL:tmpURL];
+}
+- (IBAction) helpReportABug:(id)sender	{
+	NSURL			*tmpURL = [NSURL URLWithString:@"https://github.com/Synopsis/Synopsis-Inspector/issues/new"];
+	[[NSWorkspace sharedWorkspace] openURL:tmpURL];
+}
+- (IBAction) helpFAQ:(id)sender	{
+	NSURL			*tmpURL = [NSURL URLWithString:@"https://synopsis.video/inspector/FAQ"];
+	[[NSWorkspace sharedWorkspace] openURL:tmpURL];
 }
 
 

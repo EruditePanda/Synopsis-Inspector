@@ -13,4 +13,9 @@
 
 //- (void) setAspectRatio:(NSString*)aspect;
 
+- (IBAction) contextualBestFitSort:(id)sender;
+- (IBAction) contextualPredictionSort:(id)sender;
+- (IBAction) contextualFeatureSort:(id)sender;
+- (IBAction) contextualHistogramSort:(id)sender;
+
 @end

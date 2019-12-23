@@ -34,4 +34,15 @@
     [self.histogramLayer setNeedsDisplay];
 }
 
+- (void)setFrameSize:(NSSize)n	{
+	[super setFrameSize:n];
+	
+	[CATransaction begin];
+	[CATransaction setDisableActions:YES];
+	
+	[self updateLayer];
+	
+	[CATransaction commit];
+}
+
 @end

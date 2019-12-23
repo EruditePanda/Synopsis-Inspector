@@ -749,6 +749,7 @@
 				OTHER_TAPI_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "info.Synopsis.Synopsis-Inspector";
 				PRODUCT_NAME = "Synopsis Inspector";
+				REMOVE_HEADERS_FROM_EMBEDDED_BUNDLES = NO;
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -787,6 +788,7 @@
 				OTHER_TAPI_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "info.Synopsis.Synopsis-Inspector";
 				PRODUCT_NAME = "Synopsis Inspector";
+				REMOVE_HEADERS_FROM_EMBEDDED_BUNDLES = NO;
 				SDKROOT = macosx;
 			};
 			name = Release;
