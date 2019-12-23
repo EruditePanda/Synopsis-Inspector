@@ -171,10 +171,8 @@
     [self.dataController setupSortUsingSortDescriptor:sortDescriptor selectedItem:item];
 }
 
-
 - (IBAction)bestMatchSortUsingSelectedCell:(id)sender
 {
-//    // TODO: Figure out "Hybrid" / best Match
     SynopsisMetadataItem* item = [self.dataController firstSelectedItem];
     
     NSSortDescriptor* sortDescriptor = [NSSortDescriptor sortViaSynopsisGlobalMetadataRelativeTo:item];
@@ -214,6 +212,31 @@
     self.sortStatus = @"Relative DTW Feature Sort";
 }
 
+- (IBAction)sortUsingCinemaNetGroupUsingSelectedCell:(id)sender
+{
+    SynopsisMetadataItem* item = [self.dataController firstSelectedItem];
+    
+    CinemaNetClassGroup classGroup = (CinemaNetClassGroup)[sender tag];
+    
+    NSSortDescriptor* sortDescriptor = [NSSortDescriptor sortViaSynopsisGlobalMetadataUsingCinemaNetClassGroup:classGroup relativeTo:item];
+
+    [self.dataController setupSortUsingSortDescriptor:sortDescriptor selectedItem:item];
+
+    self.sortStatus = @"CinemaNet Class Group Match Sort";
+}
+
+- (IBAction)sortUsingCinemaNetConceptGroupUsingSelectedCell:(id)sender
+{
+    SynopsisMetadataItem* item = [self.dataController firstSelectedItem];
+    
+    CinemaNetConceptGroup conceptGroup = (CinemaNetConceptGroup)[sender tag];
+    
+    NSSortDescriptor* sortDescriptor = [NSSortDescriptor sortViaSynopsisGlobalMetadataUsingCinemaNetConceptGroup:conceptGroup relativeTo:item];
+
+    [self.dataController setupSortUsingSortDescriptor:sortDescriptor selectedItem:item];
+
+    self.sortStatus = @"CinemaNet Concept Match Sort";
+}
 
 /*
 - (IBAction)motionVectorSortUsingSelectingCell:(id)sender

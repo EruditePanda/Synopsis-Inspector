@@ -1188,6 +1188,121 @@
                         <size key="minSize" width="512" height="512"/>
                         <size key="maxSize" width="512" height="512"/>
                     </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="108E2123-D839-40F6-8359-22DD073DCEF0" label="CinemaNet Concept Group" paletteLabel="CinemaNet Concept Group" sizingBehavior="auto" id="DIt-NO-YCH">
+                        <nil key="toolTip"/>
+                        <popUpButton key="view" verticalHuggingPriority="750" id="Kho-Zo-Rwj">
+                            <rect key="frame" x="24" y="14" width="100" height="24"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <popUpButtonCell key="cell" type="roundTextured" title="Color Key" bezelStyle="texturedRounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="KCr-Sa-1EJ" id="9JL-Q2-qpt">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                                <menu key="menu" id="khw-SB-M8b">
+                                    <items>
+                                        <menuItem title="Color Key" state="on" id="KCr-Sa-1EJ">
+                                            <connections>
+                                                <action selector="sortUsingCinemaNetGroupUsingSelectedCell:" target="Voe-Tx-rLC" id="lFL-ey-wjp"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Color Saturation" tag="1" id="7Fp-Yx-qOJ">
+                                            <connections>
+                                                <action selector="sortUsingCinemaNetGroupUsingSelectedCell:" target="Voe-Tx-rLC" id="d49-Nr-OpR"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Color Theory" tag="2" id="33R-hr-pg6">
+                                            <connections>
+                                                <action selector="sortUsingCinemaNetGroupUsingSelectedCell:" target="Voe-Tx-rLC" id="SbA-Op-wue"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Color Tone" tag="3" id="As4-vi-GcG">
+                                            <connections>
+                                                <action selector="sortUsingCinemaNetGroupUsingSelectedCell:" target="Voe-Tx-rLC" id="O6W-25-bEq"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Shot Angle" tag="4" id="A9L-kU-xu2">
+                                            <connections>
+                                                <action selector="sortUsingCinemaNetGroupUsingSelectedCell:" target="Voe-Tx-rLC" id="Qgr-sg-Lzb"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Shot Focus" tag="5" id="Gdd-Ao-c4r">
+                                            <connections>
+                                                <action selector="sortUsingCinemaNetGroupUsingSelectedCell:" target="Voe-Tx-rLC" id="oEb-by-35K"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Shot Framing" tag="6" id="a0F-5k-QHY">
+                                            <connections>
+                                                <action selector="sortUsingCinemaNetGroupUsingSelectedCell:" target="Voe-Tx-rLC" id="s2U-qK-1CU"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Shot Level" tag="7" id="UcB-Ip-Apa">
+                                            <connections>
+                                                <action selector="sortUsingCinemaNetGroupUsingSelectedCell:" target="Voe-Tx-rLC" id="xbW-CS-WnE"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Shot Lighting" tag="8" id="PsK-lD-kKJ">
+                                            <connections>
+                                                <action selector="sortUsingCinemaNetGroupUsingSelectedCell:" target="Voe-Tx-rLC" id="0cv-Ug-K9O"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Shot Location" tag="9" id="fJz-qS-4Dq">
+                                            <connections>
+                                                <action selector="sortUsingCinemaNetGroupUsingSelectedCell:" target="Voe-Tx-rLC" id="HvD-CX-QqI"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Shot Subject" tag="10" id="R5h-tZ-znV">
+                                            <connections>
+                                                <action selector="sortUsingCinemaNetGroupUsingSelectedCell:" target="Voe-Tx-rLC" id="R1J-C1-moQ"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Shot Time of Day" tag="11" id="hv9-UP-TMw">
+                                            <connections>
+                                                <action selector="sortUsingCinemaNetGroupUsingSelectedCell:" target="Voe-Tx-rLC" id="hhS-Pn-gQt"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Shot Type" tag="12" id="GkY-cE-uSS">
+                                            <connections>
+                                                <action selector="sortUsingCinemaNetGroupUsingSelectedCell:" target="Voe-Tx-rLC" id="RdS-UI-aqT"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Texture" tag="13" id="lgG-6P-BnZ">
+                                            <connections>
+                                                <action selector="sortUsingCinemaNetGroupUsingSelectedCell:" target="Voe-Tx-rLC" id="8a9-iQ-XH9"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </popUpButtonCell>
+                        </popUpButton>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="308C0EDD-EC4A-4FF7-961B-F1FE0CC89B5D" label="CinemaNet Class Group" paletteLabel="CinemaNet Class Group" sizingBehavior="auto" id="6Mm-Nd-Wi9">
+                        <nil key="toolTip"/>
+                        <popUpButton key="view" verticalHuggingPriority="750" id="gyo-aq-MR2">
+                            <rect key="frame" x="16" y="14" width="100" height="24"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <popUpButtonCell key="cell" type="roundTextured" title="Color" bezelStyle="texturedRounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="3fU-0f-3vd" id="dA7-4Y-IsF">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                                <menu key="menu" id="2ag-Cr-C5K">
+                                    <items>
+                                        <menuItem title="Color" state="on" id="3fU-0f-3vd">
+                                            <connections>
+                                                <action selector="sortUsingCinemaNetConceptGroupUsingSelectedCell:" target="Voe-Tx-rLC" id="Vti-KI-R95"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Shot" tag="1" id="DOQ-fU-i8T">
+                                            <connections>
+                                                <action selector="sortUsingCinemaNetConceptGroupUsingSelectedCell:" target="Voe-Tx-rLC" id="bFC-xy-n3Z"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Texture" tag="2" id="TaR-gx-GWG">
+                                            <connections>
+                                                <action selector="sortUsingCinemaNetConceptGroupUsingSelectedCell:" target="Voe-Tx-rLC" id="gvg-4o-D1H"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </popUpButtonCell>
+                        </popUpButton>
+                    </toolbarItem>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
                     <toolbarItem reference="rCf-te-0id"/>
@@ -1196,6 +1311,8 @@
                     <toolbarItem reference="twC-4t-m0y"/>
                     <toolbarItem reference="FSS-QP-a3O"/>
                     <toolbarItem reference="mSf-oc-9ma"/>
+                    <toolbarItem reference="6Mm-Nd-Wi9"/>
+                    <toolbarItem reference="DIt-NO-YCH"/>
                     <toolbarItem reference="dt9-d3-hPj"/>
                     <toolbarItem reference="PYa-wD-oYD"/>
                     <toolbarItem reference="K3I-ac-OeR"/>
