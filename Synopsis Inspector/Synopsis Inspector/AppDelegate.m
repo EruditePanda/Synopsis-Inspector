@@ -298,7 +298,7 @@ static AppDelegate		*_globalAppDelegate = nil;
 }
 
 - (IBAction) helpSlackChannel:(id)sender	{
-	NSURL			*tmpURL = [NSURL URLWithString:@"https://synopsis-discuss.slack.com/"];
+	NSURL			*tmpURL = [NSURL URLWithString:@"https://join.slack.com/t/synopsis-discuss/shared_invite/enQtODIzNjg5MzA1MDYwLTg4OGM5ZGMzZTQ3OTBjYTQzZDMyNDY0ZWM3NzFkN2YxZTE5NWI5NWQyMmZjMGE1OGYyZmExMWFlZWVkMDE4ZWQ"];
 	[[NSWorkspace sharedWorkspace] openURL:tmpURL];
 }
 - (IBAction) helpReportABug:(id)sender	{
