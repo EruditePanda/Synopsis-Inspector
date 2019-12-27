@@ -11,6 +11,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "SynopsisCollectionViewItemView.h"
 #import "SynopsisCacheWithHap.h"
+#import "AppDelegate.h"
 
 
 
@@ -160,6 +161,43 @@
     NSURL* url = urlAsset.URL;
 
     [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[url]];
+}
+
+- (IBAction) contextualBestFitSort:(id)sender	{
+	NSCollectionView	*parentView = [self collectionView];
+	NSIndexPath			*tmpPath = [parentView indexPathForItem:self];
+	[parentView deselectAll:nil];
+	NSSet				*tmpSet = [NSSet setWithObject:tmpPath];
+	[parentView selectItemsAtIndexPaths:tmpSet scrollPosition:NSCollectionViewScrollPositionTop];
+	[[parentView delegate] collectionView:parentView didSelectItemsAtIndexPaths:tmpSet];
+	[[AppDelegate global] bestMatchSortUsingSelectedCell:nil];
+}
+- (IBAction) contextualPredictionSort:(id)sender	{
+	NSCollectionView	*parentView = [self collectionView];
+	NSIndexPath			*tmpPath = [parentView indexPathForItem:self];
+	[parentView deselectAll:nil];
+	NSSet				*tmpSet = [NSSet setWithObject:tmpPath];
+	[parentView selectItemsAtIndexPaths:tmpSet scrollPosition:NSCollectionViewScrollPositionTop];
+	[[parentView delegate] collectionView:parentView didSelectItemsAtIndexPaths:tmpSet];
+	[[AppDelegate global] probabilitySortUsingSelectedCell:nil];
+}
+- (IBAction) contextualFeatureSort:(id)sender	{
+	NSCollectionView	*parentView = [self collectionView];
+	NSIndexPath			*tmpPath = [parentView indexPathForItem:self];
+	[parentView deselectAll:nil];
+	NSSet				*tmpSet = [NSSet setWithObject:tmpPath];
+	[parentView selectItemsAtIndexPaths:tmpSet scrollPosition:NSCollectionViewScrollPositionTop];
+	[[parentView delegate] collectionView:parentView didSelectItemsAtIndexPaths:tmpSet];
+	[[AppDelegate global] featureVectorSortUsingSelectedCell:nil];
+}
+- (IBAction) contextualHistogramSort:(id)sender	{
+	NSCollectionView	*parentView = [self collectionView];
+	NSIndexPath			*tmpPath = [parentView indexPathForItem:self];
+	[parentView deselectAll:nil];
+	NSSet				*tmpSet = [NSSet setWithObject:tmpPath];
+	[parentView selectItemsAtIndexPaths:tmpSet scrollPosition:NSCollectionViewScrollPositionTop];
+	[[parentView delegate] collectionView:parentView didSelectItemsAtIndexPaths:tmpSet];
+	[[AppDelegate global] histogramSortUsingSelectingCell:nil];
 }
 
 - (NSArray *)draggingImageComponents

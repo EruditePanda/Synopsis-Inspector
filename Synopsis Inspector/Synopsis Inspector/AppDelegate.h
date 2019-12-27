@@ -16,6 +16,8 @@
 	IBOutlet NSSlider		*zoomSlider;
 }
 
++ (id) global;
+
 @property (strong) NSString* sortStatus;
 @property (strong) NSString* filterStatus;
 @property (strong) NSString* correlationStatus;
@@ -32,6 +34,10 @@
 
 - (IBAction) zoomInUsed:(id)sender;
 - (IBAction) zoomOutUsed:(id)sender;
+
+- (IBAction) helpSlackChannel:(id)sender;
+- (IBAction) helpReportABug:(id)sender;
+- (IBAction) helpFAQ:(id)sender;
 
 @end
 
