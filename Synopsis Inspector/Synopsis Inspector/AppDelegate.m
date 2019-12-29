@@ -302,7 +302,7 @@ static AppDelegate		*_globalAppDelegate = nil;
 	[[NSWorkspace sharedWorkspace] openURL:tmpURL];
 }
 - (IBAction) helpReportABug:(id)sender	{
-	NSURL			*tmpURL = [NSURL URLWithString:@"https://github.com/Synopsis/Synopsis-Inspector/issues/new"];
+	NSURL			*tmpURL = [NSURL URLWithString:@"https://github.com/Synopsis/Synopsis-Inspector/issues/new/choose"];
 	[[NSWorkspace sharedWorkspace] openURL:tmpURL];
 }
 - (IBAction) helpFAQ:(id)sender	{
