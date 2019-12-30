@@ -152,7 +152,7 @@ static AppDelegate		*_globalAppDelegate = nil;
 {    
     
 
-
+	[self initSpotlight];
     
     
     
