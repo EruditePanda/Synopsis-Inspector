@@ -11,6 +11,7 @@
 		1A1E31C1237DF965009DE35C /* HapInAVFoundation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1A1E31B9237DF94C009DE35C /* HapInAVFoundation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1A348CB1238D5E5E0049878A /* SynopsisCacheWithHap.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A348CB0238D5E5E0049878A /* SynopsisCacheWithHap.m */; };
 		1A6101A0239AD392007006BF /* TokenObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A61019F239AD392007006BF /* TokenObject.m */; };
+		1ACF4F5323BA50BF00381FAD /* SynopsisImporter.mdimporter in Embed Spotlight Importer */ = {isa = PBXBuildFile; fileRef = 1ACF4F4A23BA508D00381FAD /* SynopsisImporter.mdimporter */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1ACF9367238EB78E00D5CC05 /* DataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ACF9366238EB78E00D5CC05 /* DataController.m */; };
 		1ADC949D23AA71C800FAA622 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1ADC949C23AA71C800FAA622 /* Sparkle.framework */; };
 		1ADC949F23AA71EE00FAA622 /* Sparkle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1ADC949C23AA71C800FAA622 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -97,6 +98,20 @@
 			remoteGlobalIDString = 1AABDE8A207E544000D8F504;
 			remoteInfo = AVFtoHap;
 		};
+		1ACF4F4923BA508D00381FAD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1ACF4F3F23BA508D00381FAD /* Synopsis-SpotlightImporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1AC680D823A846D1001AD139;
+			remoteInfo = SynopsisImporter;
+		};
+		1ACF4F4B23BA509900381FAD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1ACF4F3F23BA508D00381FAD /* Synopsis-SpotlightImporter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 1AC680D723A846D1001AD139;
+			remoteInfo = SynopsisImporter;
+		};
 		1AF7D1492395B41000130BA6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1BBB10E81D5558C400C22439 /* Synopsis-Framework.xcodeproj */;
@@ -121,6 +136,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		1ACF4F4D23BA50A200381FAD /* Embed Spotlight Importer */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = ../Library/Spotlight;
+			dstSubfolderSpec = 7;
+			files = (
+				1ACF4F5323BA50BF00381FAD /* SynopsisImporter.mdimporter in Embed Spotlight Importer */,
+			);
+			name = "Embed Spotlight Importer";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1BBB10F81D555DD400C22439 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -143,6 +169,7 @@
 		1A61019E239AD392007006BF /* TokenObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TokenObject.h; sourceTree = "<group>"; };
 		1A61019F239AD392007006BF /* TokenObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TokenObject.m; sourceTree = "<group>"; };
 		1AA37A01238C8C600090520B /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		1ACF4F3F23BA508D00381FAD /* Synopsis-SpotlightImporter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "Synopsis-SpotlightImporter.xcodeproj"; path = "Synopsis-SpotlightImporter/Synopsis-SpotlightImporter.xcodeproj"; sourceTree = "<group>"; };
 		1ACF9365238EB78E00D5CC05 /* DataController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataController.h; sourceTree = "<group>"; };
 		1ACF9366238EB78E00D5CC05 /* DataController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DataController.m; sourceTree = "<group>"; };
 		1ADC949C23AA71C800FAA622 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Sparkle/Sparkle.framework; sourceTree = "<group>"; };
@@ -248,6 +275,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		1ACF4F4023BA508D00381FAD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1ACF4F4A23BA508D00381FAD /* SynopsisImporter.mdimporter */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		1B0B63511D641CD100AA5D0E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -311,6 +346,7 @@
 				1B9873F21D47A5540015E54C /* Products */,
 				1B96FE7C1E08AD2000DE4BD3 /* Frameworks */,
 				1A1E31B0237DF94C009DE35C /* HapInAVFoundation.xcodeproj */,
+				1ACF4F3F23BA508D00381FAD /* Synopsis-SpotlightImporter.xcodeproj */,
 				1BBB10E81D5558C400C22439 /* Synopsis-Framework.xcodeproj */,
 			);
 			sourceTree = "<group>";
@@ -414,11 +450,13 @@
 				1B9873EF1D47A5540015E54C /* Resources */,
 				1BBB10F81D555DD400C22439 /* Embed Frameworks */,
 				1B96FE7B1E08A43100DE4BD3 /* ShellScript */,
+				1ACF4F4D23BA50A200381FAD /* Embed Spotlight Importer */,
 				1ADC94A123AA72C200FAA622 /* Sign Sparkle */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				1ACF4F4C23BA509900381FAD /* PBXTargetDependency */,
 				1AF7D14A2395B41000130BA6 /* PBXTargetDependency */,
 				1A1E31BF237DF953009DE35C /* PBXTargetDependency */,
 			);
@@ -464,6 +502,10 @@
 					ProductGroup = 1BBB10E91D5558C400C22439 /* Products */;
 					ProjectRef = 1BBB10E81D5558C400C22439 /* Synopsis-Framework.xcodeproj */;
 				},
+				{
+					ProductGroup = 1ACF4F4023BA508D00381FAD /* Products */;
+					ProjectRef = 1ACF4F3F23BA508D00381FAD /* Synopsis-SpotlightImporter.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -506,6 +548,13 @@
 			fileType = "compiled.mach-o.executable";
 			path = AVFtoHap;
 			remoteRef = 1AA37A08238C8C610090520B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1ACF4F4A23BA508D00381FAD /* SynopsisImporter.mdimporter */ = {
+			isa = PBXReferenceProxy;
+			fileType = "wrapper.spotlight-importer";
+			path = SynopsisImporter.mdimporter;
+			remoteRef = 1ACF4F4923BA508D00381FAD /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		1B7155C91EFC97F000266150 /* Synopsis.framework */ = {
@@ -613,6 +662,11 @@
 			isa = PBXTargetDependency;
 			name = HapInAVFoundation;
 			targetProxy = 1A1E31BE237DF953009DE35C /* PBXContainerItemProxy */;
+		};
+		1ACF4F4C23BA509900381FAD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SynopsisImporter;
+			targetProxy = 1ACF4F4B23BA509900381FAD /* PBXContainerItemProxy */;
 		};
 		1AF7D14A2395B41000130BA6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

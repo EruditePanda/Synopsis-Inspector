@@ -152,7 +152,7 @@ static AppDelegate		*_globalAppDelegate = nil;
 {    
     
 
-
+	[self initSpotlight];
     
     
     
@@ -176,6 +176,21 @@ static AppDelegate		*_globalAppDelegate = nil;
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     // Insert code here to tear down your application
+}
+- (void) initSpotlight
+{
+	//	we have to 'touch' the directory containing the spotlight importer to get the OS to recognize that it exists and start using it
+	NSBundle	*mb = [NSBundle mainBundle];
+	NSURL		*bundleURL = [mb bundleURL];
+	bundleURL = [bundleURL URLByAppendingPathComponent:@"Contents"];
+	bundleURL = [bundleURL URLByAppendingPathComponent:@"Library"];
+	bundleURL = [bundleURL URLByAppendingPathComponent:@"Spotlight"];
+	
+	NSTask		*touchTask = [[NSTask alloc] init];
+	NSError		*nsErr = nil;
+	[touchTask setExecutableURL:[NSURL fileURLWithPath:@"/usr/bin/touch" isDirectory:NO]];
+	[touchTask setArguments:@[ [NSString stringWithFormat:@"%@",bundleURL.path] ]];
+	[touchTask launchAndReturnError:&nsErr];
 }
 
 
