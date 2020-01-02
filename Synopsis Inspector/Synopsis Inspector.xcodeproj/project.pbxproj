@@ -476,7 +476,7 @@
 				TargetAttributes = {
 					1B9873F01D47A5540015E54C = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = KH97KZU7A7;
+						DevelopmentTeam = SHG3AW6YV7;
 						ProvisioningStyle = Manual;
 					};
 				};
@@ -779,7 +779,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = KH97KZU7A7;
+				DEVELOPMENT_TEAM = SHG3AW6YV7;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -818,7 +818,7 @@
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = KH97KZU7A7;
+				DEVELOPMENT_TEAM = SHG3AW6YV7;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
