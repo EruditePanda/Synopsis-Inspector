@@ -301,15 +301,17 @@
 	
 	for(NSString* desc in descriptions)
 	{
+        CinemaNetClassLabel label = CinemanetClassLabelForLabelKey(desc);
+        NSString* readableString = CinemaNetLabelDescriptorForClassLabel(label);
 		// Hack to make the description 'key' not have a comma
-		if([desc hasSuffix:@":"])
+        if (readableString)
 		{
-			[description appendString:[desc stringByAppendingString:@" "]];
+			[description appendString:[readableString stringByAppendingString:@", "]];
 		}
-		else
-		{
-			[description appendString:[desc stringByAppendingString:@", "]];
-		}
+        else
+        {
+            [description appendString:[desc stringByAppendingString:@", "]];
+        }
 	}
 
 	self.globalDominantColorView.dominantColorsArray = domColors;

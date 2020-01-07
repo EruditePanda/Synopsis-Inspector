@@ -4,3 +4,6 @@
 [submodule "Synopsis Inspector/hap-in-avfoundation"]
 	path = Synopsis Inspector/hap-in-avfoundation
 	url = https://github.com/Synopsis/hap-in-avfoundation
+[submodule "Synopsis Inspector/Synopsis-SpotlightImporter"]
+	path = Synopsis Inspector/Synopsis-SpotlightImporter
+	url = https://github.com/Synopsis/Synopsis-SpotlightImporter.git

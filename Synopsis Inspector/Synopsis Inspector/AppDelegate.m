@@ -152,7 +152,7 @@ static AppDelegate		*_globalAppDelegate = nil;
 {    
     
 
-
+	[self initSpotlight];
     
     
     
@@ -176,6 +176,21 @@ static AppDelegate		*_globalAppDelegate = nil;
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     // Insert code here to tear down your application
+}
+- (void) initSpotlight
+{
+	//	we have to 'touch' the directory containing the spotlight importer to get the OS to recognize that it exists and start using it
+	NSBundle	*mb = [NSBundle mainBundle];
+	NSURL		*bundleURL = [mb bundleURL];
+	bundleURL = [bundleURL URLByAppendingPathComponent:@"Contents"];
+	bundleURL = [bundleURL URLByAppendingPathComponent:@"Library"];
+	bundleURL = [bundleURL URLByAppendingPathComponent:@"Spotlight"];
+	
+	NSTask		*touchTask = [[NSTask alloc] init];
+	NSError		*nsErr = nil;
+	[touchTask setExecutableURL:[NSURL fileURLWithPath:@"/usr/bin/touch" isDirectory:NO]];
+	[touchTask setArguments:@[ [NSString stringWithFormat:@"%@",bundleURL.path] ]];
+	[touchTask launchAndReturnError:&nsErr];
 }
 
 
@@ -334,11 +349,11 @@ static AppDelegate		*_globalAppDelegate = nil;
 }
 
 - (IBAction) helpSlackChannel:(id)sender	{
-	NSURL			*tmpURL = [NSURL URLWithString:@"https://synopsis-discuss.slack.com/"];
+	NSURL			*tmpURL = [NSURL URLWithString:@"https://join.slack.com/t/synopsis-discuss/shared_invite/enQtODIzNjg5MzA1MDYwLTg4OGM5ZGMzZTQ3OTBjYTQzZDMyNDY0ZWM3NzFkN2YxZTE5NWI5NWQyMmZjMGE1OGYyZmExMWFlZWVkMDE4ZWQ"];
 	[[NSWorkspace sharedWorkspace] openURL:tmpURL];
 }
 - (IBAction) helpReportABug:(id)sender	{
-	NSURL			*tmpURL = [NSURL URLWithString:@"https://github.com/Synopsis/Synopsis-Inspector/issues/new"];
+	NSURL			*tmpURL = [NSURL URLWithString:@"https://github.com/Synopsis/Synopsis-Inspector/issues/new/choose"];
 	[[NSWorkspace sharedWorkspace] openURL:tmpURL];
 }
 - (IBAction) helpFAQ:(id)sender	{
