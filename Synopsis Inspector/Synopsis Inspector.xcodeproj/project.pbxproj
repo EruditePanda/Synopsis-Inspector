@@ -796,7 +796,7 @@
 				IBC_WARNINGS = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/Synopsis Inspector/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MARKETING_VERSION = "Public Beta 1";
 				OTHER_CFLAGS = "";
 				OTHER_CODE_SIGN_FLAGS = "--deep";
@@ -837,7 +837,7 @@
 				IBC_WARNINGS = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/Synopsis Inspector/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MARKETING_VERSION = "Public Beta 1";
 				OTHER_CFLAGS = "";
 				OTHER_CODE_SIGN_FLAGS = "--deep";
