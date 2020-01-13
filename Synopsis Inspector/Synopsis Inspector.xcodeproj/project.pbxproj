@@ -786,8 +786,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Sparkle",
 				);
-				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
-				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = DECODER_ONLY;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					DECODER_ONLY,
+				);
 				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = (
 					"\"$(PROJECT_DIR)/Synopsis Inspector/libboost\"",
@@ -827,8 +829,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Sparkle",
 				);
-				GCC_PREPROCESSOR_DEFINITIONS = "";
-				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = DECODER_ONLY;
+				GCC_PREPROCESSOR_DEFINITIONS = DECODER_ONLY;
 				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = (
 					"\"$(PROJECT_DIR)/Synopsis Inspector/libboost\"",
