@@ -11,7 +11,11 @@
 #import "SynopsisCollectionViewItem.h"
 #import <HapInAVFoundation/HapInAVFoundation.h>
 
+@class PlayerView;
+
 @interface SynopsisCollectionViewItemView : NSView
+
+@property (strong,readwrite) PlayerView * scrubView;
 @property (readwrite) NSColor* borderColor;
 @property (readonly) CALayer* imageLayer;
 

@@ -19,6 +19,7 @@
 #import "SynopsisCollectionViewItem.h"
 #import "TokenObject.h"
 #import "AppDelegate.h"
+#import "SynopsisCollectionViewItemView.h"
 
 #define RELOAD_DATA 0
 
@@ -66,6 +67,7 @@ static DataController			*_globalDataController = nil;
 
 @property (strong,nullable) SynopsisMetadataItem * selectedItem;
 
+@property (strong, readwrite) PlayerView * scrubView;
 
 @property (weak) IBOutlet NSTextField* statusField;
 
@@ -91,6 +93,12 @@ static DataController			*_globalDataController = nil;
 				_globalDataController = self;
 			});
 		}
+		self.scrubView = [[PlayerView alloc] initWithFrame:NSMakeRect(0,0,320,240)];
+		self.scrubView.layer.borderWidth = 0.0;
+		self.scrubView.layer.cornerRadius = 0.0;
+		self.scrubView.layer.backgroundColor = [NSColor clearColor].CGColor;
+		
+		self.scrubView.alphaValue = 0.0;
 	}
 	return self;
 }
@@ -128,10 +136,9 @@ static DataController			*_globalDataController = nil;
 }
 
 - (void) reloadData {
-	NSLog(@"%s",__func__);
+	//NSLog(@"%s",__func__);
 	[self.collectionView reloadData];
 }
-
 
 #pragma mark - KVO
 
