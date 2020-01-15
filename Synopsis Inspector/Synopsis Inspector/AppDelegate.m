@@ -16,7 +16,7 @@
 
 #import "SynopsisCollectionViewItem.h"
 
-
+#import "PrefsController.h"
 #import "PlayerView.h"
 #import "DataController.h"
 #import "FileController.h"
@@ -74,6 +74,7 @@ static AppDelegate		*_globalAppDelegate = nil;
 			dispatch_once(&onceToken, ^{
 				_globalAppDelegate = self;
 			});
+			[PrefsController global];
 		}
 	}
 	return self;
@@ -156,7 +157,17 @@ static AppDelegate		*_globalAppDelegate = nil;
     
     
     
-    
+    if (![[PrefsController global].prefsViewController.preferencesFileViewController defaultFolderEnabled])	{
+		[self.fileController switchToLocalComputerSearchScope:nil];
+    }
+    else	{
+    	NSString		*defaultFolder = [[PrefsController global].prefsViewController.preferencesFileViewController defaultFolder];
+    	NSFileManager	*fm = [NSFileManager defaultManager];
+    	if (defaultFolder!=nil && [fm fileExistsAtPath:defaultFolder])	{
+			NSURL			*defaultURL = [NSURL fileURLWithPath:defaultFolder];
+			[self.fileController loadFilesInDirectory:defaultURL];
+    	}
+    }
     
     // Notifcations to help optimize scrolling
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willScroll:) name:NSScrollViewWillStartLiveScrollNotification object:nil];
@@ -194,8 +205,13 @@ static AppDelegate		*_globalAppDelegate = nil;
 }
 
 
+- (IBAction) openPreferences:(id)sender	{
+	[[[PrefsController global] window] makeKeyAndOrderFront:nil];
+}
+
 
 #pragma mark - Sorting
+
 
 - (void) setupSortForSynopsisMetadatIdentifier:(SynopsisMetadataIdentifier)identifier
 {

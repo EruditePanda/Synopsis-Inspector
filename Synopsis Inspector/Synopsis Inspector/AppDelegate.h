@@ -22,6 +22,8 @@
 @property (strong) NSString* filterStatus;
 @property (strong) NSString* correlationStatus;
 
+- (IBAction) openPreferences:(id)sender;
+
 - (IBAction)bestMatchSortUsingSelectedCell:(id)sender;
 - (IBAction)featureVectorSortUsingSelectedCell:(id)sender;
 - (IBAction)probabilitySortUsingSelectedCell:(id)sender;
