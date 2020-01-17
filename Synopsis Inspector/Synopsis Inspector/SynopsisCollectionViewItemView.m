@@ -25,6 +25,13 @@
 
 
 
+static NSOperationQueue		*_scrubViewFadeOutQueue;
+static NSOperationQueue		*_scrubViewFadeInQueue;
+static SynopsisCollectionViewItemView		*_scrubViewTarget = nil;
+
+
+
+
 @interface SynopsisCollectionViewItemView ()	{
 }
 
@@ -45,6 +52,15 @@
 
 @synthesize borderColor = borderColor;
 
++ (void) initialize	{
+	static dispatch_once_t		onceToken;
+	dispatch_once(&onceToken, ^{
+		_scrubViewFadeOutQueue = [[NSOperationQueue alloc] init];
+		_scrubViewFadeOutQueue.suspended = YES;
+		_scrubViewFadeInQueue = [[NSOperationQueue alloc] init];
+		_scrubViewFadeInQueue.suspended = YES;
+	});
+}
 + (id)defaultAnimationForKey:(NSString *)key
 {
     static CABasicAnimation *basicAnimation = nil;
@@ -61,6 +77,89 @@
     {
         return [super defaultAnimationForKey:key];
     }
+}
+
++ (void) fadeScrubViewIntoView:(SynopsisCollectionViewItemView *)n	{
+	if (n == nil)
+		return;
+	
+	//	lock- we want to manage all this fade out/fade in stuff tightly to prevent double-runs or overwriting
+	@synchronized (self)	{
+		//NSLog(@"%s ... %@",__func__,n.item.representedObject);
+		//	if we're already targeting the passed view, bail
+		if (_scrubViewTarget == n)
+			return;
+		
+		//	immediately cancel any ops in the fade out/fade in queues
+		_scrubViewFadeOutQueue.suspended = YES;
+		_scrubViewFadeInQueue.suspended = YES;
+		[_scrubViewFadeOutQueue cancelAllOperations];
+		[_scrubViewFadeInQueue cancelAllOperations];
+		
+		//	update the scrub view target
+		_scrubViewTarget = n;
+		
+		//	fetch some vars we'll need
+		PlayerView		*globalScrubView = [[DataController global] scrubView];
+		SynopsisMetadataItem		*viewMDItem = n.item.representedObject;
+		AVAsset			*asset = viewMDItem.asset;
+		
+		//	queue up an animation that fades the view out of its current superview
+		[_scrubViewFadeOutQueue addOperationWithBlock:^	{
+			//NSLog(@"\tfade out queue executing for request on %@",viewMDItem);
+			[NSAnimationContext
+				runAnimationGroup:^(NSAnimationContext *context)	{
+					context.duration = 0.5;
+					globalScrubView.animator.alphaValue = 0.0;
+				}
+				completionHandler:^{
+					//NSLog(@"\tfade out complete for request on %@",viewMDItem);
+					//	if this completion handler is executing after aonther mouseover has occurred, bail
+					if ([globalScrubView superview] == _scrubViewTarget)
+						return;
+					//	remove the scrub view from the superview
+					[(SynopsisCollectionViewItemView *)[globalScrubView superview] setScrubView:nil];
+					[globalScrubView removeFromSuperview];
+				
+					//	run the "scrub view fade in" queue
+					_scrubViewFadeInQueue.suspended = NO;
+				}];
+		}];
+		
+		//	queue up an animation that fades the view in
+		[_scrubViewFadeInQueue addOperationWithBlock:^{
+			//NSLog(@"\tfade in queue executing on %@",viewMDItem);
+			
+			dispatch_async(dispatch_get_main_queue(), ^{
+				//	tell the scrub view to load the new view's asset
+				[globalScrubView loadAsset:asset];
+				//	add the scrub view to the new target view
+				[n addSubview:globalScrubView];
+				n.scrubView = globalScrubView;
+				//	position the scrub view in the new target view
+				NSRect			videoRect = NSZeroRect;
+				videoRect.size = [globalScrubView resolution];
+				NSRect			scrubViewFrame = [VVSizingTool
+					rectThatFitsRect:videoRect
+					inRect:n.bounds
+					sizingMode:VVSizingModeFit];
+				[globalScrubView setFrame:scrubViewFrame];
+				
+				//	fade the scrub view in
+				[NSAnimationContext
+					runAnimationGroup:^(NSAnimationContext *context)	{
+						context.duration = 0.5;
+						globalScrubView.animator.alphaValue = 1.0;
+					}
+					completionHandler:^{
+					}];
+			});
+		}];
+		
+		//	start the "scrub view fade out" queue (or just fade in if we don't need to fade out)
+		//NSLog(@"\tbeginning process for request %@",viewMDItem);
+		_scrubViewFadeOutQueue.suspended = NO;
+	}
 }
 
 - (BOOL) allowsVibrancy
@@ -155,7 +254,7 @@
 	[super updateTrackingAreas];
 }
 - (void) mouseEntered:(NSEvent *)event	{
-	//NSLog(@"%s",__func__);
+	NSLog(@"%s ... %@",__func__,self.item.representedObject);
 	
 	@synchronized (self)	{
 	
@@ -164,56 +263,7 @@
 			return;
 		}
 		
-		PlayerView					*theScrubView = [[DataController global] scrubView];
-		SynopsisMetadataItem		*myRepObj = self.item.representedObject;
-		AVAsset						*myAsset = myRepObj.asset;
-		
-		//	this block will be executed when the "fade out" has completed
-		void (^fadeOutCompletionHandler)(void) = ^(){
-			//	when the fade-out has completed, remove the scrub view from the superview
-			[(SynopsisCollectionViewItemView *)[theScrubView superview] setScrubView:nil];
-			[theScrubView removeFromSuperview];
-			//	tell the scrub view to load my asset
-			[theScrubView loadAsset:myAsset];
-			//	add the scrub view to me
-			[self addSubview:theScrubView];
-			self.scrubView = theScrubView;
-			//	position the scrub view appropriately
-			NSRect			videoRect = NSZeroRect;
-			videoRect.size = [self.scrubView resolution];
-			NSRect			scrubViewFrame = [VVSizingTool rectThatFitsRect:videoRect inRect:self.bounds sizingMode:VVSizingModeFit];
-			[theScrubView setFrame:scrubViewFrame];
-			
-			//	fade the scrub view in...
-			[NSAnimationContext
-				runAnimationGroup:^(NSAnimationContext *context)	{
-					//NSLog(@"\tfading the scrub view in...");
-					context.duration = 0.5;
-					theScrubView.animator.alphaValue = 1.0;
-				}
-				completionHandler:^{
-					//NSLog(@"\tfinished fading the scrub view in...");
-				}];
-		};
-		
-		
-		//	if the scrub view already has a superview, we have to fade it out before we can transfer it...
-		if ([theScrubView superview] != nil)	{
-			//	start an animation that fades out the scrub view
-			[NSAnimationContext
-				runAnimationGroup:^(NSAnimationContext *context)	{
-					//NSLog(@"\tfading the scrub view out...");
-					context.duration = 0.25;
-					theScrubView.animator.alphaValue = 0.0;
-				}
-				completionHandler:^{
-					fadeOutCompletionHandler();
-				}];
-		}
-		//	else the scrub view doesn't have a superview yet- just run the completion handler, which fades it in...
-		else	{
-			fadeOutCompletionHandler();
-		}
+		[SynopsisCollectionViewItemView fadeScrubViewIntoView:self];
 		
 	}
 }
