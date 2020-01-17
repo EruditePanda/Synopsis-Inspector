@@ -39,6 +39,7 @@
 
 - (IBAction) helpSlackChannel:(id)sender;
 - (IBAction) helpReportABug:(id)sender;
+- (IBAction) helpShowConsoleLog:(id)sender;
 - (IBAction) helpFAQ:(id)sender;
 
 @end

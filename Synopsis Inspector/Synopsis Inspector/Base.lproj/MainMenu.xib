@@ -688,22 +688,29 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Help" systemMenu="help" id="F2S-fz-NVQ">
                         <items>
+                            <menuItem title="FAQ" id="pZz-4k-KAw">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="helpFAQ:" target="Voe-Tx-rLC" id="EVK-fL-8V3"/>
+                                </connections>
+                            </menuItem>
                             <menuItem title="Slack Channel" id="MSe-LI-JLw">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="helpSlackChannel:" target="Voe-Tx-rLC" id="Ldp-RE-djf"/>
                                 </connections>
                             </menuItem>
+                            <menuItem isSeparatorItem="YES" id="aBf-mH-Aag"/>
                             <menuItem title="Report a Bug" id="8Ko-IF-ONg">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="helpReportABug:" target="Voe-Tx-rLC" id="K4y-N6-jPn"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="FAQ" id="pZz-4k-KAw">
+                            <menuItem title="Show Console Log" id="Wm5-dY-SS2">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="helpFAQ:" target="Voe-Tx-rLC" id="EVK-fL-8V3"/>
+                                    <action selector="helpShowConsoleLog:" target="Voe-Tx-rLC" id="85m-nj-b7d"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="T3b-0t-1nx"/>
