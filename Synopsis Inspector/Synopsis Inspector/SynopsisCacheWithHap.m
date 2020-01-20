@@ -132,7 +132,9 @@
 				AVAssetHapImageGenerator	*imageGenerator = [AVAssetHapImageGenerator assetHapImageGeneratorWithAsset:metadataItem.asset];
 				
 				imageGenerator.maximumSize = CGSizeMake(300,300);
-				
+                imageGenerator.requestedTimeToleranceAfter = kCMTimeZero;
+                imageGenerator.requestedTimeToleranceBefore = kCMTimeZero;
+
 				[imageGenerator generateCGImagesAsynchronouslyForTimes:@[ [NSValue valueWithCMTime:kCMTimeZero]] completionHandler:^(CMTime requestedTime, CGImageRef  _Nullable image, CMTime actualTime, AVAssetImageGeneratorResult result, NSError * _Nullable error){
 
 					if(error == nil && image != NULL)	{
@@ -155,6 +157,8 @@
 				imageGenerator.apertureMode = AVAssetImageGeneratorApertureModeCleanAperture;
 				imageGenerator.maximumSize = CGSizeMake(300, 300);
 				imageGenerator.appliesPreferredTrackTransform = YES;
+                imageGenerator.requestedTimeToleranceAfter = kCMTimeZero;
+                imageGenerator.requestedTimeToleranceBefore = kCMTimeZero;
 
 				[imageGenerator generateCGImagesAsynchronouslyForTimes:@[ [NSValue valueWithCMTime:kCMTimeZero]] completionHandler:^(CMTime requestedTime, CGImageRef  _Nullable image, CMTime actualTime, AVAssetImageGeneratorResult result, NSError * _Nullable error){
 
