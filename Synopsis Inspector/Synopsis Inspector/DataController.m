@@ -723,7 +723,6 @@ static BOOL toggleAspect = false;
 #pragma mark - UI item actions
 
 - (IBAction) zoomSliderUsed:(id)sender	{
-	NSLog(@"%s",__func__);
 	[self pushZoomSliderValToLayout];
 }
 

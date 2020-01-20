@@ -13,7 +13,12 @@
 
 @class PlayerView;
 
+
+
+
 @interface SynopsisCollectionViewItemView : NSView
+
++ (void) fadeScrubViewIntoView:(SynopsisCollectionViewItemView *)n;
 
 @property (strong,readwrite) PlayerView * scrubView;
 @property (readwrite) NSColor* borderColor;

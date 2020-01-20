@@ -21,6 +21,9 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (IBAction)chooseInitialSearchMode:(id)sender;
+- (IBAction) switchToLocalComputerSearchScope:(id)sender;
+
+- (void) loadFilesInDirectory:(NSURL *)n;
 
 @end
 

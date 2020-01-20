@@ -110,7 +110,7 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 	
 	self.continuousMetadataSearch.delegate = self;
 	
-	[self switchToLocalComputerSearchScope:nil];
+	//[self switchToLocalComputerSearchScope:nil];
 
 //	  [self.window beginSheet:self.chooseSearchModeSheet completionHandler:^(NSModalResponse returnCode) {
 //		 
@@ -182,57 +182,7 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 	
 	[openPanel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result) {
 		if(result == NSFileHandlingPanelOKButton)	{
-	   		//	halt the MD query, we're not going to uses it while running files manually
-	   		[self.continuousMetadataSearch stopQuery];
-	   		
-	   		NSArray			*toBeRemoved = [self.resultsArrayController.content copy];
-	   		
-	   		NSMutableArray	*toBeAdded = [[NSMutableArray alloc] init];
-	   		
-	   		self.window.title = [@"Synopsis Inspector - " stringByAppendingString:openPanel.URL.lastPathComponent];
-	   		
-	   		//	now we want to run through the contents of the directory recursively...
-	   		NSFileManager			*fm = [NSFileManager defaultManager];
-			NSDirectoryEnumerationOptions		iterOpts = NSDirectoryEnumerationSkipsPackageDescendants | NSDirectoryEnumerationSkipsHiddenFiles;
-			NSDirectoryEnumerator				*dirIt = [fm
-				enumeratorAtURL:openPanel.URL
-				includingPropertiesForKeys:@[ NSURLIsDirectoryKey ]
-				options:iterOpts
-				errorHandler:nil];
-			
-			NSUInteger		tmpIndex = 0;
-			for (NSURL *fileURL in dirIt)	{
-				NSError			*nsErr = nil;
-				NSNumber		*isDir = nil;
-				if (![fileURL getResourceValue:&isDir forKey:NSURLIsDirectoryKey error:&nsErr])	{
-				}
-				else if (![isDir boolValue])	{
-					//	enter the metadata load group...
-					dispatch_group_enter(_globalMDLoadGroup);
-					//	make a metadata item async
-					SynopsisMetadataItem		*item = [[SynopsisMetadataItem alloc]
-						initWithURL:fileURL
-						loadMetadataAsyncOnQueue:_globalMDLoadQueue
-						completionHandler:^(SynopsisMetadataItem *completedItem)	{
-							//	leave the group so anything that needs to wait until all MD items have loaded can do sso
-							dispatch_group_leave(_globalMDLoadGroup);
-						}];
-					if (item == nil)
-						continue;
-					
-					//	if we were able to make a metadata item, add it to the array of items to be added
-					[toBeAdded addObject:item];
-					
-					++tmpIndex;
-				}
-			}
-			
-			//	wait for all the metadata items to finish loading...
-			dispatch_group_wait(_globalMDLoadGroup, DISPATCH_TIME_FOREVER);
-			
-			//	insert/remove the items that were loaded from disk
-			[self somethingUpdatedItems:@[] addedItems:toBeAdded removedItems:toBeRemoved];
-			
+			[self loadFilesInDirectory:openPanel.URL];
 		}
 	}];
 	
@@ -293,6 +243,59 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 		}
 	}];
 	
+}
+
+- (void) loadFilesInDirectory:(NSURL *)n	{
+	//	halt the MD query, we're not going to uses it while running files manually
+	[self.continuousMetadataSearch stopQuery];
+	
+	NSArray			*toBeRemoved = [self.resultsArrayController.content copy];
+	
+	NSMutableArray	*toBeAdded = [[NSMutableArray alloc] init];
+	
+	self.window.title = [@"Synopsis Inspector - " stringByAppendingString:n.lastPathComponent];
+	
+	//	now we want to run through the contents of the directory recursively...
+	NSFileManager			*fm = [NSFileManager defaultManager];
+	NSDirectoryEnumerationOptions		iterOpts = NSDirectoryEnumerationSkipsPackageDescendants | NSDirectoryEnumerationSkipsHiddenFiles;
+	NSDirectoryEnumerator				*dirIt = [fm
+		enumeratorAtURL:n
+		includingPropertiesForKeys:@[ NSURLIsDirectoryKey ]
+		options:iterOpts
+		errorHandler:nil];
+	
+	NSUInteger		tmpIndex = 0;
+	for (NSURL *fileURL in dirIt)	{
+		NSError			*nsErr = nil;
+		NSNumber		*isDir = nil;
+		if (![fileURL getResourceValue:&isDir forKey:NSURLIsDirectoryKey error:&nsErr])	{
+		}
+		else if (![isDir boolValue])	{
+			//	enter the metadata load group...
+			dispatch_group_enter(_globalMDLoadGroup);
+			//	make a metadata item async
+			SynopsisMetadataItem		*item = [[SynopsisMetadataItem alloc]
+				initWithURL:fileURL
+				loadMetadataAsyncOnQueue:_globalMDLoadQueue
+				completionHandler:^(SynopsisMetadataItem *completedItem)	{
+					//	leave the group so anything that needs to wait until all MD items have loaded can do sso
+					dispatch_group_leave(_globalMDLoadGroup);
+				}];
+			if (item == nil)
+				continue;
+			
+			//	if we were able to make a metadata item, add it to the array of items to be added
+			[toBeAdded addObject:item];
+			
+			++tmpIndex;
+		}
+	}
+	
+	//	wait for all the metadata items to finish loading...
+	dispatch_group_wait(_globalMDLoadGroup, DISPATCH_TIME_FOREVER);
+	
+	//	insert/remove the items that were loaded from disk
+	[self somethingUpdatedItems:@[] addedItems:toBeAdded removedItems:toBeRemoved];
 }
 
 
