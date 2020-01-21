@@ -254,7 +254,7 @@ static SynopsisCollectionViewItemView		*_scrubViewTarget = nil;
 	[super updateTrackingAreas];
 }
 - (void) mouseEntered:(NSEvent *)event	{
-	NSLog(@"%s ... %@",__func__,self.item.representedObject);
+//	NSLog(@"%s ... %@",__func__,self.item.representedObject);
 	
 	@synchronized (self)	{
 	

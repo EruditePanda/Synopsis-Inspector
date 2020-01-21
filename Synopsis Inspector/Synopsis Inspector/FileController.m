@@ -193,7 +193,6 @@
 			[self loadFilesInDirectory:openPanel.URL];
 		}
 	}];
-	
 }
 
 - (IBAction)switchForcedFiles:(id)sender
@@ -218,10 +217,8 @@
 	   		}
 	   		
             [self loadFilesFromURLs:urls];
-        
         }
 	}];
-	
 }
 
 - (void) loadFilesInDirectory:(NSURL *)n	{

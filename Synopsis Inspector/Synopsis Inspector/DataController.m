@@ -172,6 +172,8 @@ static DataController			*_globalDataController = nil;
 {
 	NSLog(@"%s ... %@",__func__,item);
 	
+    NSTimeInterval start = [[NSDate date] timeIntervalSince1970];
+    
 	NSArray			*before = [self.resultsArrayController.arrangedObjects copy];
 	
 	self.resultsArrayController.sortDescriptors = @[ sortDescriptor ];
@@ -225,6 +227,12 @@ static DataController			*_globalDataController = nil;
 	} completionHandler:^(BOOL finished) {
 		[self updateStatusLabel];
 
+        NSTimeInterval end = [[NSDate date] timeIntervalSince1970];
+
+        NSTimeInterval delta = end - start;
+        
+        NSLog(@"Sorting took %f", delta);
+
 	}];
 #endif
 	
@@ -236,6 +244,8 @@ static DataController			*_globalDataController = nil;
 //	  NSArray* before = [self.resultsArrayController.arrangedObjects copy];
 //	  NSMutableSet* beforeSet = [NSMutableSet setWithArray:before];
 //
+    NSTimeInterval start = [[NSDate date] timeIntervalSince1970];
+
 	self.resultsArrayController.filterPredicate = predicate;
 //
 //	  
@@ -265,6 +275,11 @@ static DataController			*_globalDataController = nil;
 		
 		[self updateStatusLabel];
 
+        NSTimeInterval end = [[NSDate date] timeIntervalSince1970];
+
+        NSTimeInterval delta = end - start;
+        
+        NSLog(@"Sorting took %f", delta);
 	}];
 	
 }
