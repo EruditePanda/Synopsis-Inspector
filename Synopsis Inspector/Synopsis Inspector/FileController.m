@@ -36,7 +36,7 @@
 - (void) awakeFromNib	{
     
     self.fileLoadingOperationQueue = [[NSOperationQueue alloc] init];
-    self.fileLoadingOperationQueue.maxConcurrentOperationCount = 8;
+    self.fileLoadingOperationQueue.maxConcurrentOperationCount = [[NSProcessInfo processInfo] activeProcessorCount];
     
 	// For Token Filtering logic:
 	self.tokenField.tokenStyle = NSTokenStyleSquared;
@@ -234,6 +234,10 @@
     NSMutableArray *toBeAdded = [[NSMutableArray alloc] init];
     NSArray *toBeRemoved = [self.resultsArrayController.content copy];
 
+    // Cancel any inflight loads that have yet to finish
+    
+    [self.fileLoadingOperationQueue cancelAllOperations];
+    
     for ( NSURL* url in urls ) {
 
         NSBlockOperation* fileLoad = [NSBlockOperation blockOperationWithBlock:^{
@@ -371,7 +375,6 @@
                         if (item != nil)
                             [removedItems addObject:item];
                     }
-                    
                 }];
                 
                 [self.fileLoadingOperationQueue addOperation:fileLoad];
