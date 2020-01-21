@@ -12,15 +12,18 @@
 #import <Synopsis/Synopsis.h>
 #import "DataController.h"
 
-#define RELOAD_DATA 0
+#define RELOAD_DATA 1
 
 @interface FileController ()
 
-@property (weak) IBOutlet NSWindow *window;
-@property (weak) IBOutlet NSWindow *chooseSearchModeSheet;
-@property (weak) IBOutlet NSCollectionView* collectionView;
-@property (weak) IBOutlet NSArrayController * resultsArrayController;
-@property (weak) IBOutlet DataController * dataController;
+@property (strong) IBOutlet NSWindow *window;
+@property (strong) IBOutlet NSWindow *fileLoadingWindow;
+@property (strong) IBOutlet NSProgressIndicator *fileLoadingProgress;
+@property (strong) NSArray* fileLoadingTopLevelObjects;
+@property (strong) IBOutlet NSWindow *chooseSearchModeSheet;
+@property (strong) IBOutlet NSCollectionView* collectionView;
+@property (strong) IBOutlet NSArrayController * resultsArrayController;
+@property (strong) IBOutlet DataController * dataController;
 @property (strong) NSOperationQueue* fileLoadingOperationQueue;
 
 // Tokens
@@ -32,8 +35,32 @@
 
 @implementation FileController
 
+- (instancetype) init
+{
+    self = [super init];
+    if (self)
+    {
+        NSArray* topLevel = nil;
+        NSNib* fileLoadingProgressNIB = [[NSNib alloc] initWithNibNamed:@"FileLoadingProgress" bundle:[NSBundle bundleForClass:[self class]]];
+        
+        BOOL loaded = [fileLoadingProgressNIB instantiateWithOwner:self topLevelObjects:&topLevel];
+        if ( loaded )
+        {
+            self.fileLoadingTopLevelObjects = topLevel;
+        }
+        else
+        {
+            NSLog(@"Unable to load FileLoadingProgress nib");
+            return nil;
+        }
+        
+    }
+    return self;
+}
 
-- (void) awakeFromNib	{
+- (void) awakeFromNib
+{
+    [super awakeFromNib];
     
     self.fileLoadingOperationQueue = [[NSOperationQueue alloc] init];
     self.fileLoadingOperationQueue.maxConcurrentOperationCount = [[NSProcessInfo processInfo] activeProcessorCount];
@@ -231,12 +258,30 @@
 
 - (void) loadFilesFromURLs:(NSArray<NSURL*>*)urls
 {
+    
     NSMutableArray *toBeAdded = [[NSMutableArray alloc] init];
     NSArray *toBeRemoved = [self.resultsArrayController.content copy];
 
     // Cancel any inflight loads that have yet to finish
-    
     [self.fileLoadingOperationQueue cancelAllOperations];
+    
+    self.fileLoadingProgress.doubleValue = 0.0;
+    self.fileLoadingProgress.minValue = 0.0;
+    self.fileLoadingProgress.maxValue = (double) urls.count;
+    
+    // Our completion block
+    NSBlockOperation* everythingCompleted = [NSBlockOperation  blockOperationWithBlock:^{
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+
+            NSLog(@"Finished Loading");
+            
+            [self.window endSheet:self.fileLoadingWindow];
+            
+            [self somethingUpdatedItems:@[] addedItems:toBeAdded removedItems:toBeRemoved];
+
+        });
+    }];
     
     for ( NSURL* url in urls ) {
 
@@ -249,15 +294,35 @@
                     [toBeAdded addObject:item];
             }
             
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.fileLoadingProgress incrementBy:1.0];
+            });
+            
         }];
+        
+        [everythingCompleted addDependency:fileLoad];
         
         [self.fileLoadingOperationQueue addOperation:fileLoad];
     }
     
-    [self.fileLoadingOperationQueue waitUntilAllOperationsAreFinished];
-    
-    [self somethingUpdatedItems:@[] addedItems:toBeAdded removedItems:toBeRemoved];
+    [self.fileLoadingOperationQueue addOperation:everythingCompleted];
 
+    
+    [self.window beginSheet:self.fileLoadingWindow completionHandler:^(NSModalResponse returnCode) {
+        
+    }];
+
+    
+//    [self.fileLoadingOperationQueue waitUntilAllOperationsAreFinished];
+    
+
+}
+
+- (IBAction)cancelFileLoading:(id)sender
+{
+    [self.window endSheet:self.fileLoadingWindow];
+    
+    [self.fileLoadingOperationQueue cancelAllOperations];
 }
 
 
@@ -319,6 +384,28 @@
         NSMutableArray *updatedItems = [[NSMutableArray alloc] init];
         NSMutableArray *removedItems = [[NSMutableArray alloc] init];
 
+        self.fileLoadingProgress.doubleValue = 0.0;
+        self.fileLoadingProgress.minValue = 0.0;
+        self.fileLoadingProgress.maxValue = (double) (addedMDItems.count + updatedMDItems.count + removedItems.count);
+        
+        
+        // Our completion block
+        NSBlockOperation* everythingCompleted = [NSBlockOperation  blockOperationWithBlock:^{
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+
+                NSLog(@"Finished Loading");
+                
+                [self.window endSheet:self.fileLoadingWindow];
+                
+                [self somethingUpdatedItems:updatedItems addedItems:addedItems removedItems:removedItems];
+                
+                [self.continuousMetadataSearch enableUpdates];
+
+            });
+        }];
+
+        
         for (id item in addedMDItems)
         {
             if ([item isKindOfClass:[NSMetadataItem class]]) {
@@ -333,9 +420,14 @@
                         if (item != nil)
                             [addedItems addObject:item];
                     }
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.fileLoadingProgress incrementBy:1.0];
+                    });
                     
                 }];
                 
+                [everythingCompleted addDependency:fileLoad];
+
                 [self.fileLoadingOperationQueue addOperation:fileLoad];
             }
         }
@@ -354,9 +446,13 @@
                         if (item != nil)
                             [updatedItems addObject:item];
                     }
-                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.fileLoadingProgress incrementBy:1.0];
+                    });
+
                 }];
                 
+                [everythingCompleted addDependency:fileLoad];
                 [self.fileLoadingOperationQueue addOperation:fileLoad];
             }
         }
@@ -375,17 +471,24 @@
                         if (item != nil)
                             [removedItems addObject:item];
                     }
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.fileLoadingProgress incrementBy:1.0];
+                    });
+
                 }];
                 
+                [everythingCompleted addDependency:fileLoad];
                 [self.fileLoadingOperationQueue addOperation:fileLoad];
             }
         }
         
-        [self.fileLoadingOperationQueue waitUntilAllOperationsAreFinished];
-        		
-		[self somethingUpdatedItems:updatedItems addedItems:addedItems removedItems:removedItems];
+        [self.fileLoadingOperationQueue addOperation:everythingCompleted];
 
-		[self.continuousMetadataSearch enableUpdates];
+//        [self.fileLoadingOperationQueue waitUntilAllOperationsAreFinished];
+                [self.window beginSheet:self.fileLoadingWindow completionHandler:^(NSModalResponse returnCode) {
+                    
+                }];
+
 		
 		// Once we are finished, we
 		//[self lazyCreateLayoutsWithContent:self.resultsArrayController.content];
