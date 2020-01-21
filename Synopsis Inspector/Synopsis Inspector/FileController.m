@@ -7,25 +7,12 @@
 //
 
 #import "FileController.h"
-
 #import "AppDelegate.h"
 #import "DataController.h"
 #import <Synopsis/Synopsis.h>
-
 #import "DataController.h"
 
 #define RELOAD_DATA 0
-
-
-
-
-//	this queue is used to asynchronously load SynopsisMetadataItem instances
-static dispatch_queue_t				_globalMDLoadQueue = nil;
-//	this group is entered when we begin async loading of a metadata instance, and left when loading has completed
-static dispatch_group_t				_globalMDLoadGroup = nil;
-
-
-
 
 @interface FileController ()
 
@@ -34,29 +21,23 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 @property (weak) IBOutlet NSCollectionView* collectionView;
 @property (weak) IBOutlet NSArrayController * resultsArrayController;
 @property (weak) IBOutlet DataController * dataController;
+@property (strong) NSOperationQueue* fileLoadingOperationQueue;
 
 // Tokens
 @property (strong) NSDictionary* tokenDictionary;
 @property (weak) IBOutlet NSTokenField* tokenField;
-
 @property (strong) NSMetadataQuery* continuousMetadataSearch;
 
 @end
 
-
-
-
 @implementation FileController
 
 
-+ (void) initialize	{
-	static dispatch_once_t		onceToken;
-	dispatch_once(&onceToken, ^{
-		_globalMDLoadQueue = dispatch_queue_create("MDLoadQueue", dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_CONCURRENT, DISPATCH_QUEUE_PRIORITY_HIGH, -1));
-		_globalMDLoadGroup = dispatch_group_create();
-	});
-}
 - (void) awakeFromNib	{
+    
+    self.fileLoadingOperationQueue = [[NSOperationQueue alloc] init];
+    self.fileLoadingOperationQueue.maxConcurrentOperationCount = 8;
+    
 	// For Token Filtering logic:
 	self.tokenField.tokenStyle = NSTokenStyleSquared;
 	
@@ -108,7 +89,7 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 		name:NSMetadataQueryDidFinishGatheringNotification
 		object:self.continuousMetadataSearch];
 	
-	self.continuousMetadataSearch.delegate = self;
+//	self.continuousMetadataSearch.delegate = self;
 	
 	//[self switchToLocalComputerSearchScope:nil];
 
@@ -202,45 +183,16 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 		if(result == NSFileHandlingPanelOKButton)	{
 			//	halt the MD query, we're not going to uses it while running files manually
 	   		[self.continuousMetadataSearch stopQuery];
-	   		
-	   		NSArray			*toBeRemoved = [self.resultsArrayController.content copy];
-	   		
-	   		NSMutableArray	*toBeAdded = [[NSMutableArray alloc] init];
-	   		
+	   			   		
 	   		NSArray			*urls = openPanel.URLs;
 	   		if (urls.count > 0)	{
 	   			NSURL			*firstURL = urls[0];
 	   			self.window.title = [@"Synopsis Inspector - " stringByAppendingString:firstURL.lastPathComponent];
 	   		}
 	   		
-	   		//	run through the array of selected URLs
-	   		NSUInteger			tmpIndex = 0;
-	   		for (NSURL *fileURL in urls)	{
-	   			//	enter the metadata load group...
-				dispatch_group_enter(_globalMDLoadGroup);
-				//	make a metadata item async
-				SynopsisMetadataItem		*item = [[SynopsisMetadataItem alloc]
-					initWithURL:fileURL
-					loadMetadataAsyncOnQueue:_globalMDLoadQueue
-					completionHandler:^(SynopsisMetadataItem *completedItem)	{
-						//	leave the group so anything that needs to wait until all MD items have loaded can do sso
-						dispatch_group_leave(_globalMDLoadGroup);
-					}];
-				//	if we were able to make a metadata item, add it to the results array controller
-				if (item == nil)
-					continue;
-				
-				[toBeAdded addObject:item];
-				
-				++tmpIndex;
-	   		}
-	   		
-	   		//	wait for all the metadata items to finish loading...
-			dispatch_group_wait(_globalMDLoadGroup, DISPATCH_TIME_FOREVER);
-			
-			//	insert/remove the items that were loaded from disk
-			[self somethingUpdatedItems:@[] addedItems:toBeAdded removedItems:toBeRemoved];
-		}
+            [self loadFilesFromURLs:urls];
+        
+        }
 	}];
 	
 }
@@ -248,11 +200,7 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 - (void) loadFilesInDirectory:(NSURL *)n	{
 	//	halt the MD query, we're not going to uses it while running files manually
 	[self.continuousMetadataSearch stopQuery];
-	
-	NSArray			*toBeRemoved = [self.resultsArrayController.content copy];
-	
-	NSMutableArray	*toBeAdded = [[NSMutableArray alloc] init];
-	
+		
 	self.window.title = [@"Synopsis Inspector - " stringByAppendingString:n.lastPathComponent];
 	
 	//	now we want to run through the contents of the directory recursively...
@@ -264,65 +212,50 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 		options:iterOpts
 		errorHandler:nil];
 	
-	NSUInteger		tmpIndex = 0;
+    NSMutableArray* urls = [NSMutableArray new];
+    
 	for (NSURL *fileURL in dirIt)	{
 		NSError			*nsErr = nil;
 		NSNumber		*isDir = nil;
 		if (![fileURL getResourceValue:&isDir forKey:NSURLIsDirectoryKey error:&nsErr])	{
 		}
-		else if (![isDir boolValue])	{
-			//	enter the metadata load group...
-			dispatch_group_enter(_globalMDLoadGroup);
-			//	make a metadata item async
-			SynopsisMetadataItem		*item = [[SynopsisMetadataItem alloc]
-				initWithURL:fileURL
-				loadMetadataAsyncOnQueue:_globalMDLoadQueue
-				completionHandler:^(SynopsisMetadataItem *completedItem)	{
-					//	leave the group so anything that needs to wait until all MD items have loaded can do sso
-					dispatch_group_leave(_globalMDLoadGroup);
-				}];
-			if (item == nil)
-				continue;
-			
-			//	if we were able to make a metadata item, add it to the array of items to be added
-			[toBeAdded addObject:item];
-			
-			++tmpIndex;
+		else if (![isDir boolValue]) {
+		
+            [urls addObject:fileURL];
 		}
 	}
-	
-	//	wait for all the metadata items to finish loading...
-	dispatch_group_wait(_globalMDLoadGroup, DISPATCH_TIME_FOREVER);
-	
-	//	insert/remove the items that were loaded from disk
-	[self somethingUpdatedItems:@[] addedItems:toBeAdded removedItems:toBeRemoved];
+    
+    [self loadFilesFromURLs:urls];
 }
 
 
-#pragma mark -	Metadata Query Delegate
-
-- (id)metadataQuery:(NSMetadataQuery *)query replacementObjectForResultObject:(NSMetadataItem *)result
+- (void) loadFilesFromURLs:(NSArray<NSURL*>*)urls
 {
-	//NSLog(@"%s",__func__);
-	//NSLog(@"\tval is %@",[result valueForAttribute:kSynopsisMetadataHFSAttributeDescriptorKey]);
-	
-	// Swap our metadata item for a SynopsisMetadataItem which has some Key Value updates
-	/*
-	SynopsisMetadataItem* item = [[SynopsisMetadataItem alloc] initWithURL:[NSURL fileURLWithPath:[result valueForAttribute:(NSString*)kMDItemPath]]];
-	*/
-	
-	dispatch_group_enter(_globalMDLoadGroup);
-	//	make a metadata item async
-	SynopsisMetadataItem		*item = [[SynopsisMetadataItem alloc]
-		initWithURL:[NSURL fileURLWithPath:[result valueForAttribute:(NSString *)kMDItemPath]]
-		loadMetadataAsyncOnQueue:_globalMDLoadQueue
-		completionHandler:^(SynopsisMetadataItem *completedItem)	{
-			//	leave the group so anything that needs to wait until all MD items have loaded can do sso
-			dispatch_group_leave(_globalMDLoadGroup);
-		}];
-	
-	return (item==nil) ? [NSNull null] : item;
+    NSMutableArray *toBeAdded = [[NSMutableArray alloc] init];
+    NSArray *toBeRemoved = [self.resultsArrayController.content copy];
+
+    for ( NSURL* url in urls ) {
+
+        NSBlockOperation* fileLoad = [NSBlockOperation blockOperationWithBlock:^{
+        
+            SynopsisMetadataItem *item = [[SynopsisMetadataItem alloc] initWithURL:url];
+                                                 
+            @synchronized(self) {
+                if (item != nil)
+                    [toBeAdded addObject:item];
+            }
+            
+        }];
+        
+        [self.fileLoadingOperationQueue addOperation:fileLoad];
+    }
+    
+    [self.fileLoadingOperationQueue waitUntilAllOperationsAreFinished];
+    
+    [self somethingUpdatedItems:@[] addedItems:toBeAdded removedItems:toBeRemoved];
+
 }
+
 
 #pragma mark - Metadata Results
 
@@ -348,14 +281,20 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 	NSArray				*rawArray = [self.continuousMetadataSearch.results copy];
 	NSMutableArray		*tmpArray = [[NSMutableArray alloc] init];
 	for (id item in rawArray)	{
-		if ([item isKindOfClass:[SynopsisMetadataItem class]])	{
-			[tmpArray addObject:item];
+		if ([item isKindOfClass:[NSMetadataItem class]]) {
+            
+            NSURL* urlOfItem = [NSURL fileURLWithPath: [item valueForAttribute:NSMetadataItemPathKey] ];
+            
+			[tmpArray addObject:urlOfItem];
 		}
 	}
+    
+    [self loadFilesFromURLs:tmpArray];
+    
 	NSLog(@"\tfound %ld items",tmpArray.count);
 	
-	[self.resultsArrayController addObjects:tmpArray];
-	[self.resultsArrayController rearrangeObjects];
+//	[self.resultsArrayController addObjects:tmpArray];
+//	[self.resultsArrayController rearrangeObjects];
 	
 	[[DataController global] reloadData];
 	
@@ -367,13 +306,80 @@ static dispatch_group_t				_globalMDLoadGroup = nil;
 	
 	dispatch_async(dispatch_get_main_queue(), ^{
 		//[self handleQueuryDidUpdate:notification.userInfo];
-		NSArray			*addedItems = [notification.userInfo objectForKey:NSMetadataQueryUpdateAddedItemsKey];
-		NSArray			*updatedItems = [notification.userInfo objectForKey:NSMetadataQueryUpdateChangedItemsKey];
-		NSArray			*removedItems = [notification.userInfo objectForKey:NSMetadataQueryUpdateRemovedItemsKey];
+		NSArray *addedMDItems = [notification.userInfo objectForKey:NSMetadataQueryUpdateAddedItemsKey];
+		NSArray *updatedMDItems = [notification.userInfo objectForKey:NSMetadataQueryUpdateChangedItemsKey];
+		NSArray *removedMDItems = [notification.userInfo objectForKey:NSMetadataQueryUpdateRemovedItemsKey];
 		
-		//	wait for the metadata items to finish creating themselves...
-		dispatch_group_wait(_globalMDLoadGroup, DISPATCH_TIME_FOREVER);
-		
+        // make an array of urls for added, updated and removed
+        NSMutableArray *addedItems = [[NSMutableArray alloc] init];
+        NSMutableArray *updatedItems = [[NSMutableArray alloc] init];
+        NSMutableArray *removedItems = [[NSMutableArray alloc] init];
+
+        for (id item in addedMDItems)
+        {
+            if ([item isKindOfClass:[NSMetadataItem class]]) {
+                
+                NSBlockOperation* fileLoad = [NSBlockOperation blockOperationWithBlock:^{
+                           
+                    NSURL* urlOfItem = [NSURL fileURLWithPath: [item valueForAttribute:NSMetadataItemPathKey] ];
+                    
+                    SynopsisMetadataItem *item = [[SynopsisMetadataItem alloc] initWithURL:urlOfItem];
+                    
+                    @synchronized(self) {
+                        if (item != nil)
+                            [addedItems addObject:item];
+                    }
+                    
+                }];
+                
+                [self.fileLoadingOperationQueue addOperation:fileLoad];
+            }
+        }
+        
+        for (id item in updatedMDItems)
+        {
+            if ([item isKindOfClass:[NSMetadataItem class]]) {
+                
+                NSBlockOperation* fileLoad = [NSBlockOperation blockOperationWithBlock:^{
+                    
+                    NSURL* urlOfItem = [NSURL fileURLWithPath: [item valueForAttribute:NSMetadataItemPathKey] ];
+                    
+                    SynopsisMetadataItem *item = [[SynopsisMetadataItem alloc] initWithURL:urlOfItem];
+                    
+                    @synchronized(self) {
+                        if (item != nil)
+                            [updatedItems addObject:item];
+                    }
+                    
+                }];
+                
+                [self.fileLoadingOperationQueue addOperation:fileLoad];
+            }
+        }
+        
+        for (id item in removedMDItems)
+        {
+            if ([item isKindOfClass:[NSMetadataItem class]]) {
+                
+                NSBlockOperation* fileLoad = [NSBlockOperation blockOperationWithBlock:^{
+                    
+                    NSURL* urlOfItem = [NSURL fileURLWithPath: [item valueForAttribute:NSMetadataItemPathKey] ];
+                    
+                    SynopsisMetadataItem *item = [[SynopsisMetadataItem alloc] initWithURL:urlOfItem];
+                    
+                    @synchronized(self) {
+                        if (item != nil)
+                            [removedItems addObject:item];
+                    }
+                    
+                }];
+                
+                [self.fileLoadingOperationQueue addOperation:fileLoad];
+            }
+        }
+        
+        [self.fileLoadingOperationQueue waitUntilAllOperationsAreFinished];
+        		
 		[self somethingUpdatedItems:updatedItems addedItems:addedItems removedItems:removedItems];
 
 		[self.continuousMetadataSearch enableUpdates];
