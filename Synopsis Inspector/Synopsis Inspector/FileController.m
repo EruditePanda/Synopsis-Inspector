@@ -551,6 +551,10 @@
 #if RELOAD_DATA
 	[self.collectionView reloadData];
 #else
+    
+    
+    precalculate loops outside of the batch?
+    
 	[self.collectionView performBatchUpdates:^{
 		
 		//NSMutableArray		*objectsThatWereMoved = [newArrangedObjects mutableCopy];
