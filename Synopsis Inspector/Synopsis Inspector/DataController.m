@@ -178,6 +178,14 @@ static DataController			*_globalDataController = nil;
 	
 	self.resultsArrayController.sortDescriptors = @[ sortDescriptor ];
 	[self.resultsArrayController rearrangeObjects];
+    
+    NSTimeInterval end = [[NSDate date] timeIntervalSince1970];
+
+    NSTimeInterval delta = end - start;
+    
+    NSLog(@"Sorting took %f", delta);
+
+    
 	//NSLog(@"\tfirst 12 arranged objects are:");
 	//for (int i=0; i<12; ++i)	{
 	//	if ([self.resultsArrayController.arrangedObjects count] <= i)
@@ -191,26 +199,48 @@ static DataController			*_globalDataController = nil;
 	[self.collectionView reloadData];
 	[self updateStatusLabel];
 #else
+    
+    int afterIdx = 0;
+    
+    NSMutableArray* beforeIndexPaths = [NSMutableArray new];
+    NSMutableArray* afterIndexPaths = [NSMutableArray new];
+    for (SynopsisMetadataItem *item in after)
+    {
+        NSIndexPath *afterPath = [NSIndexPath indexPathForItem:afterIdx inSection:0];
+        
+        [afterIndexPaths addObject:afterPath];
+        
+        NSUInteger beforeIdx = [before indexOfObjectIdenticalTo:item];
+        if (beforeIdx == NSNotFound)
+        {
+            beforeIdx = [before indexOfObject:item];
+        }
+        if (beforeIdx != NSNotFound && beforeIdx != afterIdx)
+        {
+            //if (afterIdx < 10)
+            //    NSLog(@"\tmoving %@ from %ld to %ld",item,beforeIdx,afterIdx);
+            
+            NSIndexPath *beforePath = [NSIndexPath indexPathForItem:beforeIdx inSection:0];
+           
+            [beforeIndexPaths addObject:beforePath];
+        }
+    
+        ++afterIdx;
+    }
+    
 	[self.collectionView.animator performBatchUpdates:^{
 		
-		int				afterIdx = 0;
-		for (SynopsisMetadataItem *item in after)	{
-			NSIndexPath		*afterPath = [NSIndexPath indexPathForItem:afterIdx inSection:0];
-			
-			NSUInteger		beforeIdx = [before indexOfObjectIdenticalTo:item];
-			if (beforeIdx == NSNotFound)
-				beforeIdx = [before indexOfObject:item];
-			if (beforeIdx != NSNotFound && beforeIdx != afterIdx)	{
-				//if (afterIdx < 10)
-				//	NSLog(@"\tmoving %@ from %ld to %ld",item,beforeIdx,afterIdx);
-				
-				NSIndexPath		*beforePath = [NSIndexPath indexPathForItem:beforeIdx inSection:0];
-				[self.collectionView.animator moveItemAtIndexPath:beforePath toIndexPath:afterPath];
-				//[self.collectionView.animator reloadItemsAtIndexPaths:[NSSet setWithCollectionViewIndexPath:afterPath]];
-			}
-			
-			++afterIdx;
-		}
+        NSLog(@"Perform Batch Updates");
+        
+        [beforeIndexPaths enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+            NSIndexPath* beforePath = (NSIndexPath*) obj;
+            NSIndexPath* afterPath = afterIndexPaths[idx];
+            
+            [self.collectionView.animator moveItemAtIndexPath:beforePath toIndexPath:afterPath];
+            //[self.collectionView.animator reloadItemsAtIndexPaths:[NSSet setWithCollectionViewIndexPath:afterPath]];
+        }];
+
 		if (self.selectedItem != nil)	{
 			NSUInteger		tmpIdx = [self.resultsArrayController.arrangedObjects indexOfObjectIdenticalTo:self.selectedItem];
 			if (tmpIdx != NSNotFound)	{
@@ -227,12 +257,11 @@ static DataController			*_globalDataController = nil;
 	} completionHandler:^(BOOL finished) {
 		[self updateStatusLabel];
 
-        NSTimeInterval end = [[NSDate date] timeIntervalSince1970];
+        NSTimeInterval animationEnd = [[NSDate date] timeIntervalSince1970];
 
-        NSTimeInterval delta = end - start;
+        NSTimeInterval delta = animationEnd - start;
         
-        NSLog(@"Sorting took %f", delta);
-
+        NSLog(@"Animating and sorting took %f", delta);
 	}];
 #endif
 	
