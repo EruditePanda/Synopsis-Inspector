@@ -151,11 +151,7 @@ static AppDelegate		*_globalAppDelegate = nil;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {    
-    
-
 	[self initSpotlight];
-    
-    
     
     if (![[PrefsController global].prefsViewController.preferencesFileViewController defaultFolderEnabled])	{
 		[self.fileController switchToLocalComputerSearchScope:nil];
@@ -168,26 +164,12 @@ static AppDelegate		*_globalAppDelegate = nil;
 			[self.fileController loadFilesInDirectory:defaultURL];
     	}
     }
-    
-    // Notifcations to help optimize scrolling
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willScroll:) name:NSScrollViewWillStartLiveScrollNotification object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didScroll:) name:NSScrollViewDidEndLiveScrollNotification object:nil];
-//
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willScroll:) name:NSScrollViewWillStartLiveMagnifyNotification object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didScroll:) name:NSScrollViewDidEndLiveMagnifyNotification object:nil];
-    
-    
-    
-    
-    
-    
 }
-
-
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     // Insert code here to tear down your application
 }
+
 - (void) initSpotlight
 {
 	//	we have to 'touch' the directory containing the spotlight importer to get the OS to recognize that it exists and start using it
@@ -204,14 +186,11 @@ static AppDelegate		*_globalAppDelegate = nil;
 	[touchTask launchAndReturnError:&nsErr];
 }
 
-
 - (IBAction) openPreferences:(id)sender	{
 	[[[PrefsController global] window] makeKeyAndOrderFront:nil];
 }
 
-
 #pragma mark - Sorting
-
 
 - (void) setupSortForSynopsisMetadatIdentifier:(SynopsisMetadataIdentifier)identifier
 {
