@@ -64,6 +64,7 @@
     
     self.fileLoadingOperationQueue = [[NSOperationQueue alloc] init];
     self.fileLoadingOperationQueue.maxConcurrentOperationCount = [[NSProcessInfo processInfo] processorCount];
+    self.fileLoadingOperationQueue.qualityOfService = NSQualityOfServiceUserInitiated;
     
 	// For Token Filtering logic:
 	self.tokenField.tokenStyle = NSTokenStyleSquared;
@@ -153,32 +154,56 @@
 
 #pragma mark - Metadata Search
 
+- (void) setupSynopsisMetadataSearchWithScopes:(NSArray*)scopes
+{
+    NSLog(@"%s",__func__);
+    NSPredicate *searchPredicate;
+    NSString        *predStr = [NSString stringWithFormat:@"%@ >= 0 || %@ like '*'",kSynopsisMetadataHFSAttributeVersionKey,kSynopsisMetadataHFSAttributeDescriptorKey];
+    searchPredicate = [NSPredicate predicateWithFormat:predStr];
+    //searchPredicate = [NSPredicate predicateWithFormat:@"info_synopsis_version >= 0 || info_synopsis_descriptors like '*'"];
+    
+    
+    [self.continuousMetadataSearch setPredicate:searchPredicate];
+    
+    NSArray* searchScopes;
+    searchScopes = @[NSMetadataQueryIndexedLocalComputerScope];
+    
+    [self.continuousMetadataSearch setSearchScopes:scopes];
+
+    [self.continuousMetadataSearch startQuery];
+}
+
 - (IBAction) switchToLocalComputerSearchScope:(id)sender
 {
-	NSLog(@"%s",__func__);
-	NSPredicate *searchPredicate;
-	NSString		*predStr = [NSString stringWithFormat:@"%@ >= 0 || %@ like '*'",kSynopsisMetadataHFSAttributeVersionKey,kSynopsisMetadataHFSAttributeDescriptorKey];
-	searchPredicate = [NSPredicate predicateWithFormat:predStr];
-	//searchPredicate = [NSPredicate predicateWithFormat:@"info_synopsis_version >= 0 || info_synopsis_descriptors like '*'"];
-	
-	
-	[self.continuousMetadataSearch setPredicate:searchPredicate];
-	
-	NSArray* searchScopes;
-	searchScopes = @[NSMetadataQueryIndexedLocalComputerScope];
-	
-	[self.continuousMetadataSearch setSearchScopes:searchScopes];
-
-	[self.continuousMetadataSearch startQuery];
+    [self setupSynopsisMetadataSearchWithScopes:@[NSMetadataQueryLocalComputerScope]];
 	
 	self.window.title = @"Synopsis Inspector - All Local Media";
 }
 
+- (IBAction) switchToLocalComputerPathSearchScope:(id)sender
+{
+    NSLog(@"%s",__func__);
+    
+    NSOpenPanel* openPanel = [NSOpenPanel openPanel];
+    openPanel.allowedFileTypes = nil;
+    openPanel.canChooseDirectories = TRUE;
+    openPanel.canChooseFiles = NO;
+    openPanel.allowsMultipleSelection = NO;
+    
+    [openPanel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result) {
+        if(result == NSFileHandlingPanelOKButton)    {
+//            [self loadFilesInDirectory:openPanel.URL];
+            
+            [self setupSynopsisMetadataSearchWithScopes:@[openPanel.URL]];
+
+            self.window.title = [@"Synopsis Inspector - " stringByAppendingString:openPanel.URL.lastPathComponent];
+        }
+    }];
+}
 
 #pragma mark - Force Specific Files
 
-
-- (IBAction) switchToLocalComputerPathSearchScope:(id)sender
+- (IBAction) switchForcedDirectoryPath:(id)sender
 {
 	NSLog(@"%s",__func__);
 	
@@ -482,11 +507,11 @@
         [self.fileLoadingOperationQueue addOperation:everythingCompleted];
 
 //        [self.fileLoadingOperationQueue waitUntilAllOperationsAreFinished];
-                [self.window beginSheet:self.fileLoadingWindow completionHandler:^(NSModalResponse returnCode) {
-                    
-                }];
-
-		
+        [self.window beginSheet:self.fileLoadingWindow completionHandler:^(NSModalResponse returnCode) {
+            
+        }];
+        
+        
 		// Once we are finished, we
 		//[self lazyCreateLayoutsWithContent:self.resultsArrayController.content];
 	});
