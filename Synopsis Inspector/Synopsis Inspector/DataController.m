@@ -21,6 +21,7 @@
 #import "AppDelegate.h"
 #import "SynopsisCollectionViewItemView.h"
 
+#import "Constants.h"
 #define RELOAD_DATA 0
 
 
@@ -133,6 +134,13 @@ static DataController			*_globalDataController = nil;
 		forKeyPath:@"superview.frame"
 		options:NSKeyValueObservingOptionNew
 		context:NULL];
+    
+        // Notifcations to help optimize scrolling
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willScroll:) name:NSScrollViewWillStartLiveScrollNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didScroll:) name:NSScrollViewDidEndLiveScrollNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willScroll:) name:NSScrollViewWillStartLiveMagnifyNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didScroll:) name:NSScrollViewDidEndLiveMagnifyNotification object:nil];
 }
 
 - (void) reloadData {
@@ -763,6 +771,22 @@ static BOOL toggleAspect = false;
 	}
 }
 
+#pragma mark - Scrolling Optimization
+
+- (void) willScroll:(NSNotification*)notification
+{
+    [[SynopsisCacheWithHap sharedCache]  returnOnlyCachedResults];
+}
+
+- (void) didScroll:(NSNotification*)notification
+{
+    [[SynopsisCacheWithHap sharedCache]  returnCachedAndUncachedResults];
+    // fire off a notification to trigger re-loading of thumbnails
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSynopsisInspectorThumnailImageChangeName
+                                                        object:nil
+                                                      userInfo:nil];
+}
 
 #pragma mark - UI item actions
 
