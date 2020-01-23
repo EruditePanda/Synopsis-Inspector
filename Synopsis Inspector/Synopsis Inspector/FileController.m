@@ -291,6 +291,8 @@
     self.fileLoadingProgress.minValue = 0.0;
     self.fileLoadingProgress.maxValue = (double) urls.count;
     
+    id activityToken = [[NSProcessInfo processInfo] beginActivityWithOptions:(NSActivityUserInitiated) reason:@"File Loading"];
+    
     // Our completion block
     NSBlockOperation* everythingCompleted = [NSBlockOperation  blockOperationWithBlock:^{
 
@@ -302,6 +304,7 @@
             
             [self somethingUpdatedItems:@[] addedItems:toBeAdded removedItems:toBeRemoved];
 
+            [[NSProcessInfo processInfo] endActivity:activityToken];
         });
     }];
     
@@ -410,6 +413,7 @@
         self.fileLoadingProgress.minValue = 0.0;
         self.fileLoadingProgress.maxValue = (double) (addedMDItems.count + updatedMDItems.count + removedItems.count);
         
+        id activityToken = [[NSProcessInfo processInfo] beginActivityWithOptions:(NSActivityUserInitiated) reason:@"File Loading"];
         
         // Our completion block
         NSBlockOperation* everythingCompleted = [NSBlockOperation  blockOperationWithBlock:^{
@@ -423,6 +427,8 @@
                 [self somethingUpdatedItems:updatedItems addedItems:addedItems removedItems:removedItems];
                 
                 [self.continuousMetadataSearch enableUpdates];
+                
+                [[NSProcessInfo processInfo] endActivity:activityToken];
 
             });
         }];
