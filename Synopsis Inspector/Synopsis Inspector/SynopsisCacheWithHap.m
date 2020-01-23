@@ -60,7 +60,7 @@
 }
 
 - (void) returnOnlyCachedResults	{
-	NSLog(@"%s",__func__);
+//	NSLog(@"%s",__func__);
 	self.acceptNewOperations = NO;
     
     self.cacheMediaOperationQueue.suspended = YES;
@@ -70,7 +70,7 @@
 }
 
 - (void) returnCachedAndUncachedResults	{
-	NSLog(@"%s",__func__);
+//	NSLog(@"%s",__func__);
     
     self.acceptNewOperations = YES;
     self.cacheMediaOperationQueue.suspended = NO;
