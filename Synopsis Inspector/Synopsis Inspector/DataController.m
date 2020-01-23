@@ -232,7 +232,7 @@ static DataController			*_globalDataController = nil;
 
 - (void) setupFilterUsingPredicate:(NSPredicate*)predicate selectedItem:(SynopsisMetadataItem*)item
 {
-	NSLog(@"%s",__func__);
+	//NSLog(@"%s",__func__);
 //	  NSArray* before = [self.resultsArrayController.arrangedObjects copy];
 //	  NSMutableSet* beforeSet = [NSMutableSet setWithArray:before];
 //

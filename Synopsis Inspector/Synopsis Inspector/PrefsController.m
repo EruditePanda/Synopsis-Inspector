@@ -50,7 +50,7 @@ PrefsController			*globalPrefsController = nil;
 	[self window];
 }
 - (void) dealloc	{
-	NSLog(@"%s",__func__);
+	//NSLog(@"%s",__func__);
 }
 - (void)windowDidLoad {
     [super windowDidLoad];

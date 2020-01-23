@@ -33,7 +33,7 @@
 
 - (void) awakeFromNib
 {
-	NSLog(@"%s",__func__);
+	//NSLog(@"%s",__func__);
 	__weak PrefsFileViewController		*bss = self;
 	[defaultFolderAbs setUserDefaultsKey:kSynopsisInspectorDefaultFolderPathKey];
 	[defaultFolderAbs setDisabledLabelString:@"Discover All Local Media"];

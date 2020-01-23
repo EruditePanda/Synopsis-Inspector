@@ -23,11 +23,11 @@
 
 
 - (void) awakeFromNib	{
-	NSLog(@"%s",__func__);
+	//NSLog(@"%s",__func__);
 	[self _populateThumbnailButtons];
 }
 - (IBAction) thumbnailButtonUsed:(id)sender	{
-	NSLog(@"%s",__func__);
+	//NSLog(@"%s",__func__);
 	NSUserDefaults		*def = [NSUserDefaults standardUserDefaults];
 	NSNumber			*tmpNum = nil;
 	if (sender == firstFrameButton)	{
@@ -60,7 +60,7 @@
 
 
 - (void) _populateThumbnailButtons	{
-	NSLog(@"%s",__func__);
+	//NSLog(@"%s",__func__);
 	NSUserDefaults		*def = [NSUserDefaults standardUserDefaults];
 	NSNumber			*tmpNum = [def objectForKey:kSynopsisInspectorThumbnailImageKey];
 	if (tmpNum == nil || [tmpNum intValue]==ThumbnailFrame_First)	{
