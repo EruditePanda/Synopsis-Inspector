@@ -63,7 +63,7 @@
     [super awakeFromNib];
     
     self.fileLoadingOperationQueue = [[NSOperationQueue alloc] init];
-    self.fileLoadingOperationQueue.maxConcurrentOperationCount = [[NSProcessInfo processInfo] activeProcessorCount];
+    self.fileLoadingOperationQueue.maxConcurrentOperationCount = [[NSProcessInfo processInfo] processorCount];
     
 	// For Token Filtering logic:
 	self.tokenField.tokenStyle = NSTokenStyleSquared;
