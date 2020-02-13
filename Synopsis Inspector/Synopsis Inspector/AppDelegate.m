@@ -16,7 +16,7 @@
 
 #import "SynopsisCollectionViewItem.h"
 
-
+#import "PrefsController.h"
 #import "PlayerView.h"
 #import "DataController.h"
 #import "FileController.h"
@@ -74,6 +74,7 @@ static AppDelegate		*_globalAppDelegate = nil;
 			dispatch_once(&onceToken, ^{
 				_globalAppDelegate = self;
 			});
+			[PrefsController global];
 		}
 	}
 	return self;
@@ -150,33 +151,25 @@ static AppDelegate		*_globalAppDelegate = nil;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {    
-    
-
 	[self initSpotlight];
     
-    
-    
-    
-    
-    // Notifcations to help optimize scrolling
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willScroll:) name:NSScrollViewWillStartLiveScrollNotification object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didScroll:) name:NSScrollViewDidEndLiveScrollNotification object:nil];
-//
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willScroll:) name:NSScrollViewWillStartLiveMagnifyNotification object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didScroll:) name:NSScrollViewDidEndLiveMagnifyNotification object:nil];
-    
-    
-    
-    
-    
-    
+    if (![[PrefsController global].prefsViewController.preferencesFileViewController defaultFolderEnabled])	{
+		[self.fileController switchToLocalComputerSearchScope:nil];
+    }
+    else	{
+    	NSString		*defaultFolder = [[PrefsController global].prefsViewController.preferencesFileViewController defaultFolder];
+    	NSFileManager	*fm = [NSFileManager defaultManager];
+    	if (defaultFolder!=nil && [fm fileExistsAtPath:defaultFolder])	{
+			NSURL			*defaultURL = [NSURL fileURLWithPath:defaultFolder];
+			[self.fileController loadFilesInDirectory:defaultURL];
+    	}
+    }
 }
-
-
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     // Insert code here to tear down your application
 }
+
 - (void) initSpotlight
 {
 	//	we have to 'touch' the directory containing the spotlight importer to get the OS to recognize that it exists and start using it
@@ -193,7 +186,9 @@ static AppDelegate		*_globalAppDelegate = nil;
 	[touchTask launchAndReturnError:&nsErr];
 }
 
-
+- (IBAction) openPreferences:(id)sender	{
+	[[[PrefsController global] window] makeKeyAndOrderFront:nil];
+}
 
 #pragma mark - Sorting
 
@@ -317,8 +312,47 @@ static AppDelegate		*_globalAppDelegate = nil;
 	[[NSWorkspace sharedWorkspace] openURL:tmpURL];
 }
 - (IBAction) helpReportABug:(id)sender	{
+	VVLogger			*gl = [VVLogger globalLogger];
+	NSString			*logPath = (gl==nil) ? nil : [gl pathForCurrentLogFile];
+	if (logPath != nil)	{
+		//	local the current console log, copy it to the clipboard
+		NSError			*nsErr = nil;
+		NSString		*logString = [NSString stringWithContentsOfFile:logPath encoding:NSUTF8StringEncoding error:&nsErr];
+		logString = [NSString stringWithFormat:@"```%@```",logString];
+		if (logString != nil && nsErr == nil)	{
+			[[NSPasteboard generalPasteboard] declareTypes:[NSArray arrayWithObject:NSPasteboardTypeString] owner:nil];
+			[[NSPasteboard generalPasteboard] setString:logString forType:NSPasteboardTypeString];
+	
+			//	open an alert informing the user that the console log has been copied to the clipboard
+			NSUserDefaults		*def = [NSUserDefaults standardUserDefaults];
+			NSNumber			*tmpNum = [def objectForKey:@"suppressBugReportClipboardInfo"];
+			if (tmpNum==nil || ![tmpNum boolValue])	{
+				NSAlert		*alert = [[NSAlert alloc] init];
+				alert.messageText = @"For your convenience, the console log has been copied to the clipboard- please paste it into the bug report you're filing.";
+				[alert addButtonWithTitle:@"OK"];
+				alert.showsSuppressionButton = YES;
+			
+				NSModalResponse		response = [alert runModal];
+				BOOL				suppressAlert = ([[alert suppressionButton] intValue]==NSOnState) ? YES : NO;
+				if (suppressAlert)	{
+					[def setBool:suppressAlert forKey:@"suppressBugReportClipboardInfo"];
+					[def synchronize];
+				}
+			}
+		}
+	}
+	
+	//	open the github bug reporter URL in a browser window
 	NSURL			*tmpURL = [NSURL URLWithString:@"https://github.com/Synopsis/Synopsis-Inspector/issues/new/choose"];
 	[[NSWorkspace sharedWorkspace] openURL:tmpURL];
+}
+- (IBAction) helpShowConsoleLog:(id)sender	{
+	VVLogger		*gl = [VVLogger globalLogger];
+	NSString		*logPath = (gl==nil) ? nil : [gl pathForCurrentLogFile];
+	if (logPath == nil)
+		return;
+	NSURL			*tmpURL = [NSURL fileURLWithPath:logPath];
+	[[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[ tmpURL ]];
 }
 - (IBAction) helpFAQ:(id)sender	{
 	NSURL			*tmpURL = [NSURL URLWithString:@"https://synopsis.video/inspector/FAQ"];

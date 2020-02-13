@@ -22,6 +22,8 @@
 @property (strong) NSString* filterStatus;
 @property (strong) NSString* correlationStatus;
 
+- (IBAction) openPreferences:(id)sender;
+
 - (IBAction)bestMatchSortUsingSelectedCell:(id)sender;
 - (IBAction)featureVectorSortUsingSelectedCell:(id)sender;
 - (IBAction)probabilitySortUsingSelectedCell:(id)sender;
@@ -37,6 +39,7 @@
 
 - (IBAction) helpSlackChannel:(id)sender;
 - (IBAction) helpReportABug:(id)sender;
+- (IBAction) helpShowConsoleLog:(id)sender;
 - (IBAction) helpFAQ:(id)sender;
 
 @end

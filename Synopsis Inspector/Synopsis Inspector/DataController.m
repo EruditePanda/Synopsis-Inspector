@@ -19,7 +19,9 @@
 #import "SynopsisCollectionViewItem.h"
 #import "TokenObject.h"
 #import "AppDelegate.h"
+#import "SynopsisCollectionViewItemView.h"
 
+#import "Constants.h"
 #define RELOAD_DATA 0
 
 
@@ -66,6 +68,7 @@ static DataController			*_globalDataController = nil;
 
 @property (strong,nullable) SynopsisMetadataItem * selectedItem;
 
+@property (strong, readwrite) PlayerView * scrubView;
 
 @property (weak) IBOutlet NSTextField* statusField;
 
@@ -91,6 +94,12 @@ static DataController			*_globalDataController = nil;
 				_globalDataController = self;
 			});
 		}
+		self.scrubView = [[PlayerView alloc] initWithFrame:NSMakeRect(0,0,320,240)];
+		self.scrubView.layer.borderWidth = 0.0;
+		self.scrubView.layer.cornerRadius = 0.0;
+		self.scrubView.layer.backgroundColor = [NSColor clearColor].CGColor;
+		
+		self.scrubView.alphaValue = 0.0;
 	}
 	return self;
 }
@@ -125,13 +134,19 @@ static DataController			*_globalDataController = nil;
 		forKeyPath:@"superview.frame"
 		options:NSKeyValueObservingOptionNew
 		context:NULL];
+    
+        // Notifcations to help optimize scrolling
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willScroll:) name:NSScrollViewWillStartLiveScrollNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didScroll:) name:NSScrollViewDidEndLiveScrollNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willScroll:) name:NSScrollViewWillStartLiveMagnifyNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didScroll:) name:NSScrollViewDidEndLiveMagnifyNotification object:nil];
 }
 
 - (void) reloadData {
-	NSLog(@"%s",__func__);
+	//NSLog(@"%s",__func__);
 	[self.collectionView reloadData];
 }
-
 
 #pragma mark - KVO
 
@@ -165,10 +180,20 @@ static DataController			*_globalDataController = nil;
 {
 	NSLog(@"%s ... %@",__func__,item);
 	
+    NSTimeInterval start = [[NSDate date] timeIntervalSince1970];
+    
 	NSArray			*before = [self.resultsArrayController.arrangedObjects copy];
 	
 	self.resultsArrayController.sortDescriptors = @[ sortDescriptor ];
 	[self.resultsArrayController rearrangeObjects];
+    
+    NSTimeInterval end = [[NSDate date] timeIntervalSince1970];
+
+    NSTimeInterval delta = end - start;
+    
+    NSLog(@"Sorting took %f", delta);
+
+    
 	//NSLog(@"\tfirst 12 arranged objects are:");
 	//for (int i=0; i<12; ++i)	{
 	//	if ([self.resultsArrayController.arrangedObjects count] <= i)
@@ -182,26 +207,48 @@ static DataController			*_globalDataController = nil;
 	[self.collectionView reloadData];
 	[self updateStatusLabel];
 #else
+    
+    int afterIdx = 0;
+    
+    NSMutableArray* beforeIndexPaths = [NSMutableArray new];
+    NSMutableArray* afterIndexPaths = [NSMutableArray new];
+    for (SynopsisMetadataItem *item in after)
+    {
+        NSIndexPath *afterPath = [NSIndexPath indexPathForItem:afterIdx inSection:0];
+        
+        [afterIndexPaths addObject:afterPath];
+        
+        NSUInteger beforeIdx = [before indexOfObjectIdenticalTo:item];
+        if (beforeIdx == NSNotFound)
+        {
+            beforeIdx = [before indexOfObject:item];
+        }
+        if (beforeIdx != NSNotFound && beforeIdx != afterIdx)
+        {
+            //if (afterIdx < 10)
+            //    NSLog(@"\tmoving %@ from %ld to %ld",item,beforeIdx,afterIdx);
+            
+            NSIndexPath *beforePath = [NSIndexPath indexPathForItem:beforeIdx inSection:0];
+           
+            [beforeIndexPaths addObject:beforePath];
+        }
+    
+        ++afterIdx;
+    }
+    
 	[self.collectionView.animator performBatchUpdates:^{
 		
-		int				afterIdx = 0;
-		for (SynopsisMetadataItem *item in after)	{
-			NSIndexPath		*afterPath = [NSIndexPath indexPathForItem:afterIdx inSection:0];
-			
-			NSUInteger		beforeIdx = [before indexOfObjectIdenticalTo:item];
-			if (beforeIdx == NSNotFound)
-				beforeIdx = [before indexOfObject:item];
-			if (beforeIdx != NSNotFound && beforeIdx != afterIdx)	{
-				//if (afterIdx < 10)
-				//	NSLog(@"\tmoving %@ from %ld to %ld",item,beforeIdx,afterIdx);
-				
-				NSIndexPath		*beforePath = [NSIndexPath indexPathForItem:beforeIdx inSection:0];
-				[self.collectionView.animator moveItemAtIndexPath:beforePath toIndexPath:afterPath];
-				//[self.collectionView.animator reloadItemsAtIndexPaths:[NSSet setWithCollectionViewIndexPath:afterPath]];
-			}
-			
-			++afterIdx;
-		}
+        NSLog(@"Perform Batch Updates");
+        
+        [beforeIndexPaths enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+            NSIndexPath* beforePath = (NSIndexPath*) obj;
+            NSIndexPath* afterPath = afterIndexPaths[idx];
+            
+            [self.collectionView.animator moveItemAtIndexPath:beforePath toIndexPath:afterPath];
+            //[self.collectionView.animator reloadItemsAtIndexPaths:[NSSet setWithCollectionViewIndexPath:afterPath]];
+        }];
+
 		if (self.selectedItem != nil)	{
 			NSUInteger		tmpIdx = [self.resultsArrayController.arrangedObjects indexOfObjectIdenticalTo:self.selectedItem];
 			if (tmpIdx != NSNotFound)	{
@@ -218,6 +265,11 @@ static DataController			*_globalDataController = nil;
 	} completionHandler:^(BOOL finished) {
 		[self updateStatusLabel];
 
+        NSTimeInterval animationEnd = [[NSDate date] timeIntervalSince1970];
+
+        NSTimeInterval delta = animationEnd - start;
+        
+        NSLog(@"Animating and sorting took %f", delta);
 	}];
 #endif
 	
@@ -229,6 +281,8 @@ static DataController			*_globalDataController = nil;
 //	  NSArray* before = [self.resultsArrayController.arrangedObjects copy];
 //	  NSMutableSet* beforeSet = [NSMutableSet setWithArray:before];
 //
+    NSTimeInterval start = [[NSDate date] timeIntervalSince1970];
+
 	self.resultsArrayController.filterPredicate = predicate;
 //
 //	  
@@ -258,6 +312,11 @@ static DataController			*_globalDataController = nil;
 		
 		[self updateStatusLabel];
 
+        NSTimeInterval end = [[NSDate date] timeIntervalSince1970];
+
+        NSTimeInterval delta = end - start;
+        
+        NSLog(@"Sorting took %f", delta);
 	}];
 	
 }
@@ -712,11 +771,26 @@ static BOOL toggleAspect = false;
 	}
 }
 
+#pragma mark - Scrolling Optimization
+
+- (void) willScroll:(NSNotification*)notification
+{
+    [[SynopsisCacheWithHap sharedCache]  returnOnlyCachedResults];
+}
+
+- (void) didScroll:(NSNotification*)notification
+{
+    [[SynopsisCacheWithHap sharedCache]  returnCachedAndUncachedResults];
+    // fire off a notification to trigger re-loading of thumbnails
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSynopsisInspectorThumnailImageChangeName
+                                                        object:nil
+                                                      userInfo:nil];
+}
 
 #pragma mark - UI item actions
 
 - (IBAction) zoomSliderUsed:(id)sender	{
-	NSLog(@"%s",__func__);
 	[self pushZoomSliderValToLayout];
 }
 
