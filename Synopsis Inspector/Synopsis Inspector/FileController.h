@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 	IBOutlet AppDelegate		*appDelegate;
 }
 
-- (IBAction)chooseInitialSearchMode:(id)sender;
+- (IBAction) chooseInitialSearchMode:(id)sender;
 - (IBAction) switchToLocalComputerSearchScope:(id)sender;
 
 - (void) loadFilesInDirectory:(NSURL *)n;
