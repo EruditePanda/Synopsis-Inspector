@@ -10,7 +10,6 @@
 #import <Synopsis/Synopsis.h>
 
 @class AppDelegate;
-@class PlayerView;
 
 
 
@@ -30,8 +29,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void) updateStatusLabel;
 - (void) setupSortUsingSortDescriptor:(nullable NSSortDescriptor*) sortDescriptor selectedItem:(nullable SynopsisMetadataItem*)item;
 - (void) setupFilterUsingPredicate:(nullable NSPredicate*)predicate selectedItem:(nullable SynopsisMetadataItem*)item;
-
-@property (readonly) PlayerView * scrubView;
 
 - (IBAction) zoomSliderUsed:(id)sender;
 
