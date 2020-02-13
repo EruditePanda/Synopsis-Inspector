@@ -25,8 +25,6 @@
 
 @interface PlayerView ()
 
-- (void) commonInit;
-
 @property (readwrite) AVPlayerHapLayer* playerLayer;
 @property (readwrite) CALayer* playheadLayer;
 
@@ -41,24 +39,14 @@
 @implementation PlayerView
 
 - (instancetype) initWithFrame:(NSRect)frameRect	{
-	//NSLog(@"%s",__func__);
 	self = [super initWithFrame:frameRect];
 	if(self)	{
-		[self commonInit];
+		self.resolution = NSMakeSize(16,9);
 	}
 	return self;
 }
-- (instancetype) initWithCoder:(NSCoder *)c	{
-	self = [super initWithCoder:c];
-	if (self != nil)	{
-		[self commonInit];
-	}
-	return self;
-}
-- (void) commonInit	{
-	self.resolution = NSMakeSize(16,9);
-	self.wantsLayer = YES;
-	
+
+- (void) awakeFromNib	{
 	[self.currentTimeFromStart setTranslatesAutoresizingMaskIntoConstraints:NO];
 	[self.currentTimeToEnd setTranslatesAutoresizingMaskIntoConstraints:NO];
 	
@@ -102,12 +90,6 @@
  
 	[self.playerLayer addObserver:self forKeyPath:@"readyForDisplay" options:NSKeyValueObservingOptionNew context:NULL];
 }
-- (void) awakeFromNib	{
-	
-}
-- (BOOL) isOpaque	{
-	return NO;
-}
 
 - (void) dealloc
 {
@@ -116,7 +98,7 @@
 
 
 - (void) loadAsset:(AVAsset *)n {
-	//NSLog(@"%s",__func__);
+	NSLog(@"%s",__func__);
 	if (self.playerLayer.player.currentItem.asset != n)	{
 		BOOL		containsHap = [n containsHapVideoTrack];
 		
@@ -212,14 +194,12 @@
 
 - (void) mouseEntered:(NSEvent *)theEvent
 {
-	//NSLog(@"%s",__func__);
 	//	  [self.playerLayer play];
 	[self scrubViaEvent:theEvent];
 }
 
 - (void) scrubViaEvent:(NSEvent*)theEvent
 {
-	//NSLog(@"%s",__func__);
 	self.playheadLayer.opacity = 1.0;
 	//	  self.label.layer.opacity = 1.0;
 	self.currentTimeToEnd.layer.opacity = 1.0;
@@ -242,7 +222,6 @@
 }
 
 - (void) seekToTime:(CMTime)n	{
-	//NSLog(@"%s ... %0.2f",__func__,CMTimeGetSeconds(n));
 	CMTime			tolerance = kCMTimeZero;
 	//CGFloat			playheadPosition = CMTimeGetSeconds(n) / CMTimeGetSeconds(self.playerLayer.player.currentItem.duration) * self.bounds.size.width;
 	CGFloat			seekTime = (CMTIME_IS_INVALID(n) || CMTIME_IS_INDEFINITE(n)) ? 0.0 : CMTimeGetSeconds(n);
@@ -255,7 +234,6 @@
 		toleranceBefore:tolerance
 		toleranceAfter:tolerance
 		completionHandler:^(BOOL finished) {
-			//NSLog(@"\tplayerLayer finished seeking to time %0.2f",CMTimeGetSeconds(n));
 			dispatch_async(dispatch_get_main_queue(), ^{
 				CGFloat			height = fmax(self.playerLayer.videoRect.size.height,1);
 				CGRect			tmpRect = CGRectMake( playheadPosition	 , (self.bounds.size.height - height) * 0.5, 1, height);
@@ -286,7 +264,6 @@
 
 - (void) mouseExited:(NSEvent *)theEvent
 {
-	//NSLog(@"%s",__func__);
 	self.playheadLayer.opacity = 0.0;
 	self.currentTimeToEnd.layer.opacity = 0.0;
 	self.currentTimeFromStart.layer.opacity = 0.0;
@@ -294,7 +271,6 @@
 
 - (void) updateTrackingAreas
 {
-	//NSLog(@"%s",__func__);
 	for(NSTrackingArea* trackingArea in self.trackingAreas)
 	{
 		[self removeTrackingArea:trackingArea];
@@ -311,12 +287,12 @@
 	
 	[super updateTrackingAreas];
 }
-/*
+
 - (BOOL) wantsLayer
 {
 	return YES;
 }
-*/
+
 - (BOOL) wantsUpdateLayer
 {
 	return YES;
@@ -331,7 +307,6 @@
 
 - (void) updateLayer
 {
-	//NSLog(@"%s",__func__);
 	
 	[super updateLayer];
 	

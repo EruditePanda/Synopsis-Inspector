@@ -11,14 +11,6 @@
 		1A1E31C1237DF965009DE35C /* HapInAVFoundation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1A1E31B9237DF94C009DE35C /* HapInAVFoundation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1A348CB1238D5E5E0049878A /* SynopsisCacheWithHap.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A348CB0238D5E5E0049878A /* SynopsisCacheWithHap.m */; };
 		1A6101A0239AD392007006BF /* TokenObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A61019F239AD392007006BF /* TokenObject.m */; };
-		1A6C196E23CE87AE007B7006 /* PrefsPathPickerAbstraction.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A6C196D23CE87AE007B7006 /* PrefsPathPickerAbstraction.m */; };
-		1A9E4A2E23CE75D9006D0DA7 /* PrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9E4A2C23CE75D9006D0DA7 /* PrefsController.m */; };
-		1A9E4A2F23CE75D9006D0DA7 /* PrefsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A9E4A2D23CE75D9006D0DA7 /* PrefsController.xib */; };
-		1A9E4A3423CE80AB006D0DA7 /* PrefsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9E4A3323CE80AB006D0DA7 /* PrefsViewController.m */; };
-		1A9E4A3823CE80CB006D0DA7 /* PrefsGeneralViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9E4A3623CE80CB006D0DA7 /* PrefsGeneralViewController.m */; };
-		1A9E4A3923CE80CB006D0DA7 /* PrefsGeneralViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A9E4A3723CE80CB006D0DA7 /* PrefsGeneralViewController.xib */; };
-		1A9E4A3D23CE80D4006D0DA7 /* PrefsFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A9E4A3B23CE80D4006D0DA7 /* PrefsFileViewController.m */; };
-		1A9E4A3E23CE80D4006D0DA7 /* PrefsFileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A9E4A3C23CE80D4006D0DA7 /* PrefsFileViewController.xib */; };
 		1ACF4F5323BA50BF00381FAD /* SynopsisImporter.mdimporter in Embed Spotlight Importer */ = {isa = PBXBuildFile; fileRef = 1ACF4F4A23BA508D00381FAD /* SynopsisImporter.mdimporter */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1ACF9367238EB78E00D5CC05 /* DataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ACF9366238EB78E00D5CC05 /* DataController.m */; };
 		1ADC949D23AA71C800FAA622 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1ADC949C23AA71C800FAA622 /* Sparkle.framework */; };
@@ -61,7 +53,6 @@
 		1BDC34431D6CE38C00D210E8 /* MetadataLayerBackedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC34421D6CE38C00D210E8 /* MetadataLayerBackedView.m */; };
 		1BDC34461D6F8FFE00D210E8 /* TransparentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC34451D6F8FFE00D210E8 /* TransparentView.m */; };
 		1BDC34491D6F90FC00D210E8 /* TransparentTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC34481D6F90FC00D210E8 /* TransparentTabView.m */; };
-		1BF09D2823D7579200B31239 /* FileLoadingProgress.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BF09D2723D7579200B31239 /* FileLoadingProgress.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -177,20 +168,6 @@
 		1A348CB0238D5E5E0049878A /* SynopsisCacheWithHap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SynopsisCacheWithHap.m; sourceTree = "<group>"; };
 		1A61019E239AD392007006BF /* TokenObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TokenObject.h; sourceTree = "<group>"; };
 		1A61019F239AD392007006BF /* TokenObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TokenObject.m; sourceTree = "<group>"; };
-		1A6C196623CE87AE007B7006 /* PrefsPathPickerAbstraction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefsPathPickerAbstraction.h; sourceTree = "<group>"; };
-		1A6C196D23CE87AE007B7006 /* PrefsPathPickerAbstraction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrefsPathPickerAbstraction.m; sourceTree = "<group>"; };
-		1A6C196F23CE8938007B7006 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
-		1A9E4A2B23CE75D9006D0DA7 /* PrefsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefsController.h; sourceTree = "<group>"; };
-		1A9E4A2C23CE75D9006D0DA7 /* PrefsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PrefsController.m; sourceTree = "<group>"; };
-		1A9E4A2D23CE75D9006D0DA7 /* PrefsController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PrefsController.xib; sourceTree = "<group>"; };
-		1A9E4A3223CE80AB006D0DA7 /* PrefsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefsViewController.h; sourceTree = "<group>"; };
-		1A9E4A3323CE80AB006D0DA7 /* PrefsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PrefsViewController.m; sourceTree = "<group>"; };
-		1A9E4A3523CE80CB006D0DA7 /* PrefsGeneralViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefsGeneralViewController.h; sourceTree = "<group>"; };
-		1A9E4A3623CE80CB006D0DA7 /* PrefsGeneralViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PrefsGeneralViewController.m; sourceTree = "<group>"; };
-		1A9E4A3723CE80CB006D0DA7 /* PrefsGeneralViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PrefsGeneralViewController.xib; sourceTree = "<group>"; };
-		1A9E4A3A23CE80D4006D0DA7 /* PrefsFileViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefsFileViewController.h; sourceTree = "<group>"; };
-		1A9E4A3B23CE80D4006D0DA7 /* PrefsFileViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PrefsFileViewController.m; sourceTree = "<group>"; };
-		1A9E4A3C23CE80D4006D0DA7 /* PrefsFileViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PrefsFileViewController.xib; sourceTree = "<group>"; };
 		1AA37A01238C8C600090520B /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		1ACF4F3F23BA508D00381FAD /* Synopsis-SpotlightImporter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "Synopsis-SpotlightImporter.xcodeproj"; path = "Synopsis-SpotlightImporter/Synopsis-SpotlightImporter.xcodeproj"; sourceTree = "<group>"; };
 		1ACF9365238EB78E00D5CC05 /* DataController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataController.h; sourceTree = "<group>"; };
@@ -261,7 +238,6 @@
 		1BDC34451D6F8FFE00D210E8 /* TransparentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransparentView.m; sourceTree = "<group>"; };
 		1BDC34471D6F90FC00D210E8 /* TransparentTabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransparentTabView.h; sourceTree = "<group>"; };
 		1BDC34481D6F90FC00D210E8 /* TransparentTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransparentTabView.m; sourceTree = "<group>"; };
-		1BF09D2723D7579200B31239 /* FileLoadingProgress.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FileLoadingProgress.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -297,24 +273,6 @@
 				1AA37A09238C8C610090520B /* AVFtoHap */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		1A6C197023CF54E8007B7006 /* Preferences */ = {
-			isa = PBXGroup;
-			children = (
-				1A9E4A2B23CE75D9006D0DA7 /* PrefsController.h */,
-				1A9E4A2C23CE75D9006D0DA7 /* PrefsController.m */,
-				1A9E4A2D23CE75D9006D0DA7 /* PrefsController.xib */,
-				1A9E4A3223CE80AB006D0DA7 /* PrefsViewController.h */,
-				1A9E4A3323CE80AB006D0DA7 /* PrefsViewController.m */,
-				1A9E4A3523CE80CB006D0DA7 /* PrefsGeneralViewController.h */,
-				1A9E4A3623CE80CB006D0DA7 /* PrefsGeneralViewController.m */,
-				1A9E4A3723CE80CB006D0DA7 /* PrefsGeneralViewController.xib */,
-				1A9E4A3A23CE80D4006D0DA7 /* PrefsFileViewController.h */,
-				1A9E4A3B23CE80D4006D0DA7 /* PrefsFileViewController.m */,
-				1A9E4A3C23CE80D4006D0DA7 /* PrefsFileViewController.xib */,
-			);
-			name = Preferences;
 			sourceTree = "<group>";
 		};
 		1ACF4F4023BA508D00381FAD /* Products */ = {
@@ -421,12 +379,9 @@
 				1B9874161D48014C0015E54C /* SynopsisCollectionViewItem.xib */,
 				1B9873FA1D47A5540015E54C /* Assets.xcassets */,
 				1B9873FC1D47A5540015E54C /* MainMenu.xib */,
-				1BF09D2723D7579200B31239 /* FileLoadingProgress.xib */,
 				1B9873FF1D47A5540015E54C /* Info.plist */,
 				1B0B63511D641CD100AA5D0E /* Frameworks */,
 				1B9873F71D47A5540015E54C /* Supporting Files */,
-				1A6C197023CF54E8007B7006 /* Preferences */,
-				1A6C196F23CE8938007B7006 /* Constants.h */,
 			);
 			path = "Synopsis Inspector";
 			sourceTree = "<group>";
@@ -447,8 +402,6 @@
 				1BC71D411F1504CB006DD7DC /* Credits.rtf */,
 				1A61019E239AD392007006BF /* TokenObject.h */,
 				1A61019F239AD392007006BF /* TokenObject.m */,
-				1A6C196623CE87AE007B7006 /* PrefsPathPickerAbstraction.h */,
-				1A6C196D23CE87AE007B7006 /* PrefsPathPickerAbstraction.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -626,12 +579,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B9873FB1D47A5540015E54C /* Assets.xcassets in Resources */,
-				1A9E4A2F23CE75D9006D0DA7 /* PrefsController.xib in Resources */,
 				1B9874181D48014C0015E54C /* SynopsisCollectionViewItem.xib in Resources */,
-				1BF09D2823D7579200B31239 /* FileLoadingProgress.xib in Resources */,
-				1A9E4A3E23CE80D4006D0DA7 /* PrefsFileViewController.xib in Resources */,
 				1BC71D421F1504CB006DD7DC /* Credits.rtf in Resources */,
-				1A9E4A3923CE80CB006D0DA7 /* PrefsGeneralViewController.xib in Resources */,
 				1B9873FE1D47A5540015E54C /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -684,11 +633,9 @@
 				1B972857217948C400C78FBF /* PlayerView.m in Sources */,
 				1BDC34431D6CE38C00D210E8 /* MetadataLayerBackedView.m in Sources */,
 				1B7155C61EFC97EE00266150 /* MetadataFeatureVectorView.m in Sources */,
-				1A9E4A3D23CE80D4006D0DA7 /* PrefsFileViewController.m in Sources */,
 				1AF006FF23ABF2BD00D87440 /* VVLogger.mm in Sources */,
 				1AF4D31B238F11F50047A22C /* FileController.m in Sources */,
 				1BDC34491D6F90FC00D210E8 /* TransparentTabView.m in Sources */,
-				1A9E4A3823CE80CB006D0DA7 /* PrefsGeneralViewController.m in Sources */,
 				1B0A1EE623A2C9BC00E68E08 /* TSNELayout.mm in Sources */,
 				1BCFBEC31E1C41580008CB03 /* MetadataSingleValueHistoryView.m in Sources */,
 				1B0D643C1D4FD48E00A1AB5D /* CustomVisualEffectView.m in Sources */,
@@ -696,13 +643,10 @@
 				1BDC34331D6AB02100D210E8 /* MetadataDominantColorsView.m in Sources */,
 				1A348CB1238D5E5E0049878A /* SynopsisCacheWithHap.m in Sources */,
 				1BDC343A1D6AB30800D210E8 /* MetadataInspectorViewController.m in Sources */,
-				1A9E4A2E23CE75D9006D0DA7 /* PrefsController.m in Sources */,
 				1B5FE0341DF9F38E009CF677 /* tsne.cpp in Sources */,
-				1A9E4A3423CE80AB006D0DA7 /* PrefsViewController.m in Sources */,
 				1BD710B11D620AC8007D61B9 /* AAPLWrappedLayout.m in Sources */,
 				1AFB9634238DA67100ECAC06 /* FlippedClipView.m in Sources */,
 				1BDC343D1D6B64BD00D210E8 /* MetadataHistogramView.m in Sources */,
-				1A6C196E23CE87AE007B7006 /* PrefsPathPickerAbstraction.m in Sources */,
 				1ACF9367238EB78E00D5CC05 /* DataController.m in Sources */,
 				1B9873F61D47A5540015E54C /* AppDelegate.m in Sources */,
 				1BDC34401D6CE2B900D210E8 /* MetadataMotionView.m in Sources */,
@@ -842,10 +786,8 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Sparkle",
 				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					DECODER_ONLY,
-				);
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
+				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = DECODER_ONLY;
 				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = (
 					"\"$(PROJECT_DIR)/Synopsis Inspector/libboost\"",
@@ -854,7 +796,7 @@
 				IBC_WARNINGS = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/Synopsis Inspector/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MARKETING_VERSION = "Public Beta 1";
 				OTHER_CFLAGS = "";
 				OTHER_CODE_SIGN_FLAGS = "--deep";
@@ -885,7 +827,8 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Sparkle",
 				);
-				GCC_PREPROCESSOR_DEFINITIONS = DECODER_ONLY;
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = DECODER_ONLY;
 				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = (
 					"\"$(PROJECT_DIR)/Synopsis Inspector/libboost\"",
@@ -894,7 +837,7 @@
 				IBC_WARNINGS = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/Synopsis Inspector/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MARKETING_VERSION = "Public Beta 1";
 				OTHER_CFLAGS = "";
 				OTHER_CODE_SIGN_FLAGS = "--deep";

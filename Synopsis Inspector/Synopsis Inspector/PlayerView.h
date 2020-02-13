@@ -18,8 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void) seekToTime:(CMTime)seekTime;
 @property (assign,readwrite) NSSize resolution;
 
-- (void) scrubViaEvent:(NSEvent*)theEvent;
-
 - (IBAction)revealInFinder:(id)sender;
 
 @end

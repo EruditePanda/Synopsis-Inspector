@@ -12,8 +12,6 @@
 #import "SynopsisCollectionViewItemView.h"
 #import "SynopsisCacheWithHap.h"
 #import "AppDelegate.h"
-#import "Constants.h"
-#import "PrefsController.h"
 
 
 
@@ -32,31 +30,7 @@
 @implementation SynopsisCollectionViewItem
 
 
-- (id) initWithCoder:(NSCoder *)c	{
-	self = [super initWithCoder:c];
-	if (self != nil)	{
-		[[NSNotificationCenter defaultCenter]
-			addObserver:self
-			selector:@selector(thumbnailTimeChanged:)
-			name:kSynopsisInspectorThumnailImageChangeName
-			object:nil];
-	}
-	return self;
-}
-- (id) initWithNibName:(NSString *)n bundle:(NSBundle *)b	{
-	self = [super initWithNibName:n bundle:b];
-	if (self != nil)	{
-		[[NSNotificationCenter defaultCenter]
-			addObserver:self
-			selector:@selector(thumbnailTimeChanged:)
-			name:kSynopsisInspectorThumnailImageChangeName
-			object:nil];
-	}
-	return self;
-}
-- (void) dealloc	{
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -65,10 +39,6 @@
     self.nameField.layer.zPosition = 1.0;    
 }
 
-
-- (void) thumbnailTimeChanged:(NSNotification *)note	{
-	[self asyncSetImage];
-}
 - (void) prepareForReuse
 {
     [super prepareForReuse];
@@ -145,33 +115,20 @@
 
 - (void) asyncSetImage
 {
-	//NSLog(@"%s ... %@",__func__,self.representedObject);
 	SynopsisMetadataItem		*repObj = self.representedObject;
-	CMTime				thumbnailTime = kCMTimeZero;
-	ThumbnailFrame		thumbFrame = [PrefsController global].prefsViewController.preferencesGeneralViewController.thumbnailFrame;
-	if (thumbFrame != ThumbnailFrame_First)	{
-		AVAsset				*asset = repObj.asset;
-		CMTime				duration = asset.duration;
-		if (thumbFrame == ThumbnailFrame_Ten)	{
-			thumbnailTime = CMTimeMakeWithSeconds(CMTimeGetSeconds(duration) * 0.10, duration.timescale);
-		}
-		else if (thumbFrame == ThumbnailFrame_Fifty)	{
-			thumbnailTime = CMTimeMakeWithSeconds(CMTimeGetSeconds(duration) * 0.50, duration.timescale);
-		}
-	}
 	
     [[SynopsisCacheWithHap sharedCache]
     	cachedImageForItem:repObj
-    	atTime:thumbnailTime
+    	atTime:kCMTimeZero
     	completionHandler:^(CGImageRef _Nullable image, NSError * _Nullable error) {
+			
 			dispatch_async(dispatch_get_main_queue(), ^{
                 //    if the represented object we're caching an image for is no longer this item's represented object (fast scrolling), bail
                 if (repObj != self.representedObject)
                     return;
 
-				if(image)	{
+				if(image)
 					[self setViewImage:image];
-				}
 				else
 				{
 					NSLog(@"null image from cache");
@@ -184,7 +141,6 @@
 {
     SynopsisCollectionViewItemView* view = (SynopsisCollectionViewItemView*)self.view;
     view.imageLayer.contents = (id) CFBridgingRelease(image);
-    [view setNeedsDisplay:YES];
 }
 /*
 - (void) setAspectRatio:(NSString*)aspect
