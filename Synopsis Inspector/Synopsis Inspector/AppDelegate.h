@@ -28,11 +28,11 @@
 - (IBAction)featureVectorSortUsingSelectedCell:(id)sender;
 - (IBAction)probabilitySortUsingSelectedCell:(id)sender;
 - (IBAction)histogramSortUsingSelectingCell:(id)sender;
-- (IBAction)sortDominantColorsRGBUsingSelectingCell:(id)sender;
-- (IBAction)sortDominantColorsHSBUsingSelectingCell:(id)sender;
-- (IBAction)saturationSortUsingSelectedCell:(id)sender;
-- (IBAction)hueSortUsingSelectedCell:(id)sender;
-- (IBAction)brightnessSortUsingSelectedCell:(id)sender;
+//- (IBAction)sortDominantColorsRGBUsingSelectingCell:(id)sender;
+//- (IBAction)sortDominantColorsHSBUsingSelectingCell:(id)sender;
+//- (IBAction)saturationSortUsingSelectedCell:(id)sender;
+//- (IBAction)hueSortUsingSelectedCell:(id)sender;
+//- (IBAction)brightnessSortUsingSelectedCell:(id)sender;
 
 - (IBAction) zoomInUsed:(id)sender;
 - (IBAction) zoomOutUsed:(id)sender;

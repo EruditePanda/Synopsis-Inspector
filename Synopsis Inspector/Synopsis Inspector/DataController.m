@@ -409,14 +409,14 @@ static DataController			*_globalDataController = nil;
 	[self.featureVectorSort setTarget:appDelegate];
 	[self.featureVectorSort setAction:@selector(featureVectorSortUsingSelectedCell:)];
 
-	[self.satSort setTarget:appDelegate];
-	[self.satSort setAction:@selector(saturationSortUsingSelectedCell:)];
-
-	[self.hueSort setTarget:appDelegate];
-	[self.hueSort setAction:@selector(hueSortUsingSelectedCell:)];
-
-	[self.brightSort setTarget:appDelegate];
-	[self.brightSort setAction:@selector(brightnessSortUsingSelectedCell:)];
+//	[self.satSort setTarget:appDelegate];
+//	[self.satSort setAction:@selector(saturationSortUsingSelectedCell:)];
+//
+//	[self.hueSort setTarget:appDelegate];
+//	[self.hueSort setAction:@selector(hueSortUsingSelectedCell:)];
+//
+//	[self.brightSort setTarget:appDelegate];
+//	[self.brightSort setAction:@selector(brightnessSortUsingSelectedCell:)];
 	
 	[self updateStatusLabel];
 

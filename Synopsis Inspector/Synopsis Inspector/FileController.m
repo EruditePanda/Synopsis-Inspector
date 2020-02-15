@@ -191,7 +191,7 @@
     openPanel.allowsMultipleSelection = NO;
     
     [openPanel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result) {
-        if(result == NSFileHandlingPanelOKButton)    {
+        if(result == NSModalResponseOK)    {
 //            [self loadFilesInDirectory:openPanel.URL];
             
             [self setupSynopsisMetadataSearchWithScopes:@[openPanel.URL]];
@@ -214,7 +214,7 @@
 	openPanel.allowsMultipleSelection = NO;
 	
 	[openPanel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result) {
-		if(result == NSFileHandlingPanelOKButton)	{
+		if(result == NSModalResponseOK)	{
 			[self loadFilesInDirectory:openPanel.URL];
 		}
 	}];
@@ -231,7 +231,7 @@
 	openPanel.allowsMultipleSelection = true;
 	
 	[openPanel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result) {
-		if(result == NSFileHandlingPanelOKButton)	{
+		if(result == NSModalResponseOK)	{
 			//	halt the MD query, we're not going to uses it while running files manually
 	   		[self.continuousMetadataSearch stopQuery];
 	   			   		
@@ -577,13 +577,13 @@
 	//	NSLog(@"\t\t%d - %@",i,[self.resultsArrayController.arrangedObjects objectAtIndex:i]);
 	//}
 	
-	NSArray				*newArrangedObjects = [self.resultsArrayController arrangedObjects];
 	
 #if RELOAD_DATA
 	[self.collectionView reloadData];
 #else
     
-    
+    NSArray                *newArrangedObjects = [self.resultsArrayController arrangedObjects];
+
     precalculate loops outside of the batch?
     
 	[self.collectionView performBatchUpdates:^{
