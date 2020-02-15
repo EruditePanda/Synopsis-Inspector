@@ -225,7 +225,7 @@ static DataController			*_globalDataController = nil;
 
 - (void) setupFilterUsingPredicate:(NSPredicate*)predicate selectedItem:(SynopsisMetadataItem*)item
 {
-	NSLog(@"%s",__func__);
+	//NSLog(@"%s",__func__);
 //	  NSArray* before = [self.resultsArrayController.arrangedObjects copy];
 //	  NSMutableSet* beforeSet = [NSMutableSet setWithArray:before];
 //
@@ -286,8 +286,8 @@ static DataController			*_globalDataController = nil;
 	else	{
 		[sender setTextColor:[NSColor textColor]];
 		
-		NSPredicate		*descriptorPred = [obj createPredicateWithFormat:@"ANY SELF.GM.VD CONTAINS %@"];
-		NSPredicate		*filenamePred = [obj createPredicateWithFormat:@"SELF.url.path CONTAINS %@"];
+		NSPredicate		*descriptorPred = [obj createPredicateWithFormat:@"ANY SELF.GM.VD CONTAINS[c] %@"];
+		NSPredicate		*filenamePred = [obj createPredicateWithFormat:@"SELF.url.path CONTAINS[c] %@"];
 		NSPredicate		*pred = nil;
 		
 		if (descriptorPred == nil && filenamePred != nil)
@@ -350,14 +350,14 @@ static DataController			*_globalDataController = nil;
 	[self.featureVectorSort setTarget:appDelegate];
 	[self.featureVectorSort setAction:@selector(featureVectorSortUsingSelectedCell:)];
 
-	[self.satSort setTarget:appDelegate];
-	[self.satSort setAction:@selector(saturationSortUsingSelectedCell:)];
-
-	[self.hueSort setTarget:appDelegate];
-	[self.hueSort setAction:@selector(hueSortUsingSelectedCell:)];
-
-	[self.brightSort setTarget:appDelegate];
-	[self.brightSort setAction:@selector(brightnessSortUsingSelectedCell:)];
+//	[self.satSort setTarget:appDelegate];
+//	[self.satSort setAction:@selector(saturationSortUsingSelectedCell:)];
+//
+//	[self.hueSort setTarget:appDelegate];
+//	[self.hueSort setAction:@selector(hueSortUsingSelectedCell:)];
+//
+//	[self.brightSort setTarget:appDelegate];
+//	[self.brightSort setAction:@selector(brightnessSortUsingSelectedCell:)];
 	
 	[self updateStatusLabel];
 
